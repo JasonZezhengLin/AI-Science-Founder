@@ -485,7 +485,7 @@ class FounderShell:
             papers = self.literature_db.search(
                 query,
                 top_k=top_k,
-                include_unpublished=False,
+                include_unpublished=True,
                 exclude_founder=self.founder_id,
             )
         except Exception as e:
