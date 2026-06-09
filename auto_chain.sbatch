@@ -21,7 +21,7 @@ echo "PDFLATEX=$(which pdflatex)"
 kpsewhich pdflatex.fmt || "$HOME/.TinyTeX/bin/x86_64-linux/fmtutil-sys" --byfmt pdflatex
 which pdflatex
 set -a; [ -f .env ] && . ./.env; set +a
-export PYTHONPATH=.
+export PYTHONPATH="$HOME/.local/lib/python3.10/site-packages:."
 export LITERATURE_DB_PATH="ai_system/literature_store/db.json"
 CYCLES_PER_JOB="${CYCLES_PER_JOB:-30}"
 NUM_FOUNDERS="${NUM_FOUNDERS:-2}"
