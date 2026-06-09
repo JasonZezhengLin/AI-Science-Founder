@@ -1,0 +1,16 @@
+{
+  "call_params": {
+    "model": "qwen3.6-plus",
+    "temperature": 0.7,
+    "max_tokens": 16384,
+    "system_message": "You are a disciplined research fund manager. Output only valid JSON.",
+    "prompt_msg_count": 1,
+    "prompt_last_msg_preview": "{'role': 'user', 'content': 'You are managing a research fund.\\n\\nRole:\\n- You are not a startup investor. You are a fund manager allocating limited research grant budget.\\n- Your goal is to choose the strongest proposals for this round.\\n- You may approve at most 1 proposals this round.\\n- Your total remaining budget is $2000.00.\\n- Each approved proposal receives a fixed tranche of $30.00.\\n- Your preferred direction is: Machine learning theory and methods\\n- This round is an exploratory micro"
+  },
+  "result": {
+    "success": true,
+    "response_content_len": 1754,
+    "response_content_preview": "{\n  \"selected_founder_ids\": [\"founder_1\"],\n  \"gpu_allocations\": {\n    \"founder_1\": [0]\n  },\n  \"reasoning\": \"This round's selection prioritizes proposals that rigorously bridge machine learning theory with system-scale deployment constraints, specifically those leveraging geometric or probabilistic bounds to replace heuristic routing. Given the strict limit of one approval per round and a single available GPU, the chosen proposal must demonstrate exceptional coherence, clear experimental feasibility, and strong alignment with the fund's focus on ML theory and methods. The selected proposal edges out the alternative by offering a more comprehensive framework for training-free dynamic precision routing, explicitly connecting activation subspace conditioning to quantization sensitivity via PAC-Bayes bounds, and detailing a robust evaluation pipeline covering distribution shifts, perturbation-cost accounting, and standardized compute proxies.\",\n  \"per_founder_reason\": {\n    \"founder_1\": \"Ap",
+    "finish_reason": "stop"
+  }
+}

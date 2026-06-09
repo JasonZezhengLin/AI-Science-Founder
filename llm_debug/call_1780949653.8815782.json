@@ -1,0 +1,16 @@
+{
+  "call_params": {
+    "model": "qwen3.6-plus",
+    "temperature": 0.7,
+    "max_tokens": 16384,
+    "system_message": "You are a disciplined research fund manager. Output only valid JSON.",
+    "prompt_msg_count": 1,
+    "prompt_last_msg_preview": "{'role': 'user', 'content': 'You are managing a research fund.\\n\\nRole:\\n- You are not a startup investor. You are a fund manager allocating limited research grant budget.\\n- Your goal is to choose the strongest proposals for this round.\\n- You may approve at most 1 proposals this round.\\n- Your total remaining budget is $2000.00.\\n- Each approved proposal receives a fixed tranche of $30.00.\\n- Your preferred direction is: Machine learning theory and methods\\n- This round is an exploratory micro"
+  },
+  "result": {
+    "success": true,
+    "response_content_len": 1165,
+    "response_content_preview": "{\n  \"selected_founder_ids\": [\"founder_1\"],\n  \"gpu_allocations\": {\n    \"founder_1\": [0]\n  },\n  \"reasoning\": \"Given the constraint of a single allocation, selection prioritized the proposal with the most rigorous coupling of machine learning theory and concrete system-scale implementation. The chosen submission explicitly maps spectral diagnostics and PAC-Bayes bounds to a hardware-aware dispatch mechanism (vLLM/TensorRT precision routing), offering clear feasibility, measurable latency-accuracy tradeoffs, and immediate empirical validation within the micro-grant scope.\",\n  \"per_founder_reason\": {\n    \"founder_1\": \"Highly coherent and directionally aligned; successfully bridges representation geometry theory with explicit, hardware-aware dynamic precision routing. The experimental pipeline is rigorous, reproducible, and directly targets system-scale deployment metrics.\",\n    \"founder_2\": \"Strong theoretical grounding in PAC-Bayes and test-time optimization, but the implicit optimization ",
+    "finish_reason": "stop"
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "founder_id": "founder_1",
+  "history": [
+    {
+      "timestamp": "2026-06-07T14:38:58.407866",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Activation Subspace Filtering for Robust In-Context Learning",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 1
+    },
+    {
+      "timestamp": "2026-06-07T15:00:37.409338",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Silencing the Distraction: Training-Free Activation Subspace Filtering for Robust In-Context Learning",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 1
+    },
+    {
+      "timestamp": "2026-06-07T15:37:11.064144",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Task Manifold Projection: Training-Free Geometric Filtering for Robust In-Context Learning and Dynamic Compute Allocation",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 1
+    },
+    {
+      "timestamp": "2026-06-07T18:04:28.316990",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Signal-Subspace Isolation: Training-Free Geometric Filtering for Robust In-Context Learning",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 1
+    },
+    {
+      "timestamp": "2026-06-07T18:14:51.896150",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Geometric Signal Separation: Training-Free PCA Filtering for Robust In-Context Learning",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 1
+    },
+    {
+      "timestamp": "2026-06-07T20:34:00.727320",
+      "event_type": "paper_completed",
+      "investor_id": "fund_1",
+      "paper_title": "Geometric Signal Separation: Training-Free PCA Filtering for Robust In-Context Learning",
+      "accepted": false,
+      "cycle_count": 1,
+      "paper_id": "eco_1"
+    },
+    {
+      "timestamp": "2026-06-07T22:06:31.574813",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Training-Free Geometric Interference Cancellation for Latency-Bounded In-Context Learning",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 3
+    },
+    {
+      "timestamp": "2026-06-07T23:22:31.697218",
+      "event_type": "paper_completed",
+      "investor_id": "fund_1",
+      "paper_title": "Training-Free Geometric Interference Cancellation for Latency-Bounded In-Context Learning",
+      "accepted": false,
+      "cycle_count": 3,
+      "paper_id": "eco_3"
+    },
+    {
+      "timestamp": "2026-06-07T23:27:44.111501",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Spectral Precision Routing: Training-Free Geometric Diagnostics for Dynamic Mixed-Precision Inference",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 1
+    },
+    {
+      "timestamp": "2026-06-08T10:42:25.164596",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Spectral Geometry-Guided Mixed-Precision Routing for Zero-Training Inference Acceleration",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 1
+    },
+    {
+      "timestamp": "2026-06-08T14:14:55.716728",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Spectral Condition Routing: Training-Free Geometric Diagnostics for Hardware-Aware Mixed-Precision Inference",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 1
+    },
+    {
+      "timestamp": "2026-06-08T15:14:13.889001",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "GeoPrecision: Training-Free Geometric Routing for Dynamic Precision Allocation in LLMs",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 1
+    },
+    {
+      "timestamp": "2026-06-08T19:28:31.408306",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Geometric Stability Radii for Training-Free Dynamic Precision Routing",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 1
+    }
+  ]
+}

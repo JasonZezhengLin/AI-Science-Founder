@@ -1,0 +1,32 @@
+# secrets
+.env
+*.key
+*.pem
+# experiment outputs
+ai_system_runs/
+*.tar.gz
+# python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.ipynb_checkpoints/
+# venv / conda
+venv/
+.venv/
+env/
+.conda/
+# TeX
+.TinyTeX/
+*.fmt
+*.aux
+*.synctex.gz
+# data / models
+*.npy
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+# os
+.DS_Store
+STOP_CHAIN

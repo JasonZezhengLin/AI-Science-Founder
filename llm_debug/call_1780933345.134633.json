@@ -1,0 +1,16 @@
+{
+  "call_params": {
+    "model": "qwen3.6-plus",
+    "temperature": 0.7,
+    "max_tokens": 16384,
+    "system_message": "You are a disciplined research fund manager. Output only valid JSON.",
+    "prompt_msg_count": 1,
+    "prompt_last_msg_preview": "{'role': 'user', 'content': 'You are managing a research fund.\\n\\nRole:\\n- You are not a startup investor. You are a fund manager allocating limited research grant budget.\\n- Your goal is to choose the strongest proposals for this round.\\n- You may approve at most 1 proposals this round.\\n- Your total remaining budget is $2000.00.\\n- Each approved proposal receives a fixed tranche of $30.00.\\n- Your preferred direction is: Machine learning theory and methods\\n- This round is an exploratory micro"
+  },
+  "result": {
+    "success": true,
+    "response_content_len": 1411,
+    "response_content_preview": "{\n  \"selected_founder_ids\": [\n    \"founder_1\"\n  ],\n  \"gpu_allocations\": {\n    \"founder_1\": [\n      0\n    ]\n  },\n  \"reasoning\": \"This round strictly allocates a single micro-grant to the proposal that best bridges machine learning theory with system-scale empirical validation. Both submissions were highly coherent, mathematically grounded, and aligned with the fund's focus on spectral geometry and quantization stability. The selection favored the proposal with the most comprehensive experimental pipeline, explicit ablation design, and direct applicability to zero-training inference acceleration. It demonstrates clear feasibility within a $30 tranche, maintains rigorous theoretical bounds, and efficiently utilizes the available GPU for system-scale testing.\",\n  \"per_founder_reason\": {\n    \"founder_1\": \"Approved for strong theoretical alignment, well-scoped training-free routing methodology, and a rigorous experimental plan covering diagnostic profiling, latency-accuracy Pareto evaluation",
+    "finish_reason": "stop"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "founder_id": "founder_2",
+  "history": [
+    {
+      "timestamp": "2026-06-07T15:20:10.560348",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Trajectory Convergence as a Compute Controller: Grounding Test-Time Scaling in Latent Optimization Dynamics",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 1
+    },
+    {
+      "timestamp": "2026-06-07T15:32:38.822476",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Gradient Flow in the Residual Stream: Implicit Latent Optimization for Zero-Training Test-Time Scaling",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 1
+    },
+    {
+      "timestamp": "2026-06-07T20:38:53.941599",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Spectral Latent Steering: Zero-Training Test-Time Optimization via Norm-Preserving Subspace Projection",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 2
+    },
+    {
+      "timestamp": "2026-06-07T22:03:04.305191",
+      "event_type": "paper_completed",
+      "investor_id": "fund_1",
+      "paper_title": "Spectral Latent Steering: Zero-Training Test-Time Optimization via Norm-Preserving Subspace Projection",
+      "accepted": false,
+      "cycle_count": 2,
+      "paper_id": "eco_2"
+    },
+    {
+      "timestamp": "2026-06-08T12:51:02.273056",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Geometry-Aware Dynamic Mixed-Precision Routing for Latency-Bounded Zero-Training Inference",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 1
+    },
+    {
+      "timestamp": "2026-06-08T15:51:23.842400",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Stability-Gated Compute Routing: PAC-Bayes Calibrated Latency-Aware Inference via Activation Geometry",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 1
+    }
+  ]
+}

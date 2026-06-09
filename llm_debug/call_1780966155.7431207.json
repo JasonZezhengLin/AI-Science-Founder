@@ -1,0 +1,16 @@
+{
+  "call_params": {
+    "model": "qwen3.6-plus",
+    "temperature": 0.7,
+    "max_tokens": 16384,
+    "system_message": "You are an ambitious AI researcher who is looking to publish a paper to a workshop at ICLR 2025 that explores real-world pitfalls, failures, and challenges in deep learning.\nYou have already completed the experiments and now you are looking to collect citations to related papers.\nThis phase focuses on collecting references and annotating them to be integrated later.\nCollected citations will be added to a references.bib file.\n\nReasons to reference papers include:\n1. Summarizing Research: Cite sou",
+    "prompt_msg_count": 3,
+    "prompt_last_msg_preview": "{'role': 'user', 'content': 'Search has recovered the following articles:\\n\\n0: Shortcut learning in deep neural networks. [{\\'authorId\\': \\'1949747\\', \\'name\\': \\'Robert Geirhos\\'}, {\\'authorId\\': \\'51919565\\', \\'name\\': \\'J. Jacobsen\\'}, {\\'authorId\\': \\'40899528\\', \\'name\\': \\'Claudio Michaelis\\'}, {\\'authorId\\': \\'1804104\\', \\'name\\': \\'R. Zemel\\'}, {\\'authorId\\': \\'40634590\\', \\'name\\': \\'Wieland Brendel\\'}, {\\'authorId\\': \\'1731199\\', \\'name\\': \\'M. Bethge\\'}, {\\'authorId\\': \\'1924112\\', \\"
+  },
+  "result": {
+    "success": true,
+    "response_content_len": 1514,
+    "response_content_preview": "THOUGHT:\nResult 0 is the seminal Nature Machine Intelligence perspective paper by Geirhos et al. (2020) that formally introduces and defines \"shortcut learning\" as a fundamental failure mode in deep neural networks. It perfectly aligns with the workshop's focus on real-world pitfalls by explaining how models exploit spurious dataset correlations that perform well on benchmarks but fail catastrophically in deployment. This paper will be cited to introduce a core theoretical concept, support arguments about the brittleness of accuracy-centric training, and highlight the research gap regarding robust, causally-aligned learning paradigms. The other results are either domain-specific applications or focused on narrow mitigation techniques, making 0 the ideal foundational citation.\n\nRESPONSE:\n```json\n{\n  \"Selected\": [0],\n  \"Description\": \"A foundational perspective paper that formally defines 'shortcut learning' as a core failure mode in deep neural networks, where models exploit spurious co",
+    "finish_reason": "stop"
+  }
+}

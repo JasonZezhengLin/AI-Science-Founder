@@ -1,0 +1,16 @@
+{
+  "call_params": {
+    "model": "qwen3.6-plus",
+    "temperature": 0.7,
+    "max_tokens": 16384,
+    "system_message": "You are a disciplined research fund manager. Output only valid JSON.",
+    "prompt_msg_count": 1,
+    "prompt_last_msg_preview": "{'role': 'user', 'content': 'You are managing a research fund.\\n\\nRole:\\n- You are not a startup investor. You are a fund manager allocating limited research grant budget.\\n- Your goal is to choose the strongest proposals for this round.\\n- You may approve at most 1 proposals this round.\\n- Your total remaining budget is $2000.00.\\n- Each approved proposal receives a fixed tranche of $30.00.\\n- Your preferred direction is: Machine learning theory and methods\\n- This round is an exploratory micro"
+  },
+  "result": {
+    "success": true,
+    "response_content_len": 1180,
+    "response_content_preview": "{\n  \"selected_founder_ids\": [\n    \"founder_1\"\n  ],\n  \"gpu_allocations\": {\n    \"founder_1\": [\n      0\n    ]\n  },\n  \"reasoning\": \"This round prioritizes proposals that rigorously bridge machine learning theory with system-scale feasibility under strict resource constraints. Both submissions demonstrate exceptional mathematical grounding and clear experimental designs, but the selected proposal stands out for its direct, quantifiable approach to a critical systems bottleneck: memory-bandwidth and latency via dynamic mixed-precision routing. Its explicit computational overhead bounds, zero-training diagnostic framework, and tight coupling of PAC-Bayes stability theory to practical quantization sensitivity make it an ideal candidate for an exploratory micro-grant. The proposal is highly coherent, directionally aligned, and fully executable within the single-GPU constraint.\",\n  \"per_founder_reason\": {\n    \"founder_1\": \"Exceptional alignment with ML theory and system-scale methods; provides a",
+    "finish_reason": "stop"
+  }
+}

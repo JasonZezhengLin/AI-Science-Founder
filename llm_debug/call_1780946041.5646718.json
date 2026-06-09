@@ -1,0 +1,16 @@
+{
+  "call_params": {
+    "model": "qwen3.6-plus",
+    "temperature": 0.7,
+    "max_tokens": 16384,
+    "system_message": "You are a disciplined research fund manager. Output only valid JSON.",
+    "prompt_msg_count": 1,
+    "prompt_last_msg_preview": "{'role': 'user', 'content': 'You are managing a research fund.\\n\\nRole:\\n- You are not a startup investor. You are a fund manager allocating limited research grant budget.\\n- Your goal is to choose the strongest proposals for this round.\\n- You may approve at most 1 proposals this round.\\n- Your total remaining budget is $2000.00.\\n- Each approved proposal receives a fixed tranche of $30.00.\\n- Your preferred direction is: Machine learning theory and methods\\n- This round is an exploratory micro"
+  },
+  "result": {
+    "success": true,
+    "response_content_len": 906,
+    "response_content_preview": "{\n  \"selected_founder_ids\": [\"founder_1\"],\n  \"gpu_allocations\": {\n    \"founder_1\": [0]\n  },\n  \"reasoning\": \"This round's selection prioritizes proposals that tightly integrate machine learning theory with practical, system-scale implementation. Both submissions are highly aligned and theoretically rigorous, but the selected proposal offers a more concrete hardware-aware dispatch strategy alongside robust PAC-Bayes formalization. Given the single-slot constraint, it best balances theoretical depth with feasible system-level testing under the exploratory micro-grant framework.\",\n  \"per_founder_reason\": {\n    \"founder_1\": \"Strong alignment with ML theory and methods, featuring a highly feasible system-scale implementation plan. The explicit hardware dispatch profiling, use of efficient spectral estimators, and rigorous PAC-Bayes risk bounds make it the most robust candidate for this round.\"\n  }\n}",
+    "finish_reason": "stop"
+  }
+}

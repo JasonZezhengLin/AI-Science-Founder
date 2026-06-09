@@ -1,0 +1,16 @@
+{
+  "call_params": {
+    "model": "qwen3.6-plus",
+    "temperature": 0.7,
+    "max_tokens": 16384,
+    "system_message": "You are a disciplined research fund manager. Output only valid JSON.",
+    "prompt_msg_count": 1,
+    "prompt_last_msg_preview": "{'role': 'user', 'content': 'You are managing a research fund.\\n\\nRole:\\n- You are not a startup investor. You are a fund manager allocating limited research grant budget.\\n- Your goal is to choose the strongest proposals for this round.\\n- You may approve at most 1 proposals this round.\\n- Your total remaining budget is $2000.00.\\n- Each approved proposal receives a fixed tranche of $30.00.\\n- Your preferred direction is: Machine learning theory and methods\\n- This round is an exploratory micro"
+  },
+  "result": {
+    "success": true,
+    "response_content_len": 1367,
+    "response_content_preview": "{\n  \"selected_founder_ids\": [\n    \"founder_2\"\n  ],\n  \"gpu_allocations\": {\n    \"founder_2\": [\n      0\n    ]\n  },\n  \"reasoning\": \"This round prioritizes proposals that tightly integrate rigorous machine learning theory with reproducible, system-scale validation within the constraints of an exploratory micro-grant. Selection favors clear theoretical grounding, explicit experimental pipelines, and feasible scope for single-GPU deployment. Proposals must demonstrate how theoretical constructs (e.g., PAC-Bayes bounds, activation geometry) directly inform practical system behavior (latency, routing, precision) without requiring extensive custom engineering overhead.\",\n  \"per_founder_reason\": {\n    \"founder_2\": \"Strong alignment with ML theory and methods; clearly links PAC-Bayes generalization bounds to activation geometry for latency-aware routing. Experimental design is well-scoped for a micro-grant, with explicit fallbacks, manageable compute overhead, and single-GPU feasibility.\",\n    \"fo",
+    "finish_reason": "stop"
+  }
+}
