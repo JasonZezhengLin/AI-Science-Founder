@@ -216,7 +216,7 @@ class LiteratureDB:
         self._persist()
         return True
 
-    def search(self, query: str, top_k: int = 5, include_unpublished: bool = True) -> List[dict]:
+    def search(self, query: str, top_k: int = 5, include_unpublished: bool = True, exclude_founder: Optional[str] = None) -> List[dict]:
         """
         语义检索（embedding 优先，分词兜底）。
 
@@ -226,7 +226,8 @@ class LiteratureDB:
         """
         candidates = [
             p for p in self._papers.values()
-            if include_unpublished or p.status == "published"
+            if (include_unpublished or p.status == "published")
+            and (exclude_founder is None or p.founder_id != exclude_founder)
         ]
         if not candidates:
             return []

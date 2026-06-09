@@ -158,7 +158,7 @@ print(json.dumps({
 def _make_mock_idea_generator():
     """创建 mock idea 生成器（debug 用，跳过真实 LLM ideation）。"""
 
-    def mock_generate(skill_text: str, model: str) -> dict:
+    def mock_generate(skill_text: str, model: str, peer_brief: str = "") -> dict:
         import random
         idea_id = random.randint(1000, 9999)
         return {
@@ -950,17 +950,19 @@ class MessageDrivenOrchestrator(Orchestrator):
 def _make_real_idea_generator():
     """创建真实的 idea 生成器，调用原始 perform_ideation_temp_free。"""
 
-    def real_generate(skill_text: str, model: str) -> Optional[dict]:
+    def real_generate(skill_text: str, model: str, peer_brief: str = "") -> Optional[dict]:
         import tempfile
         from ai_scientist.llm import create_client
         from ai_scientist.perform_ideation_temp_free import generate_temp_free_idea
 
         # 将 skill 注入到 workshop description 中
+        peer_section = f"\n\n{peer_brief}\n" if peer_brief else ""
         workshop_desc = (
             f"# Research Context\n\n"
             f"As a researcher, you have the following methodological preferences:\n\n"
-            f"{skill_text}\n\n"
-            f"# Task\n\n"
+            f"{skill_text}\n"
+            f"{peer_section}"
+            f"\n# Task\n\n"
             f"Propose a novel machine learning research idea. "
             f"Focus on areas aligned with your methodological preferences."
         )

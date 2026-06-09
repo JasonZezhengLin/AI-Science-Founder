@@ -470,13 +470,55 @@ class FounderShell:
             )
         self.gpu_ids = []
 
+    def _peer_papers_brief(self, top_k: int = 3) -> str:
+        """ideation 前检索同行（排除自己）已发表论文，返回中性呈现的摘要文本。
+
+        受环境变量 CROSS_FOUNDER_VISIBILITY 控制：未开启（默认）时返回空串，
+        即 baseline 行为，founder ideation 时看不到任何同行成果。
+        开启时做语义检索（top_k），只取已发表、排除自己，拼成中性 brief。
+        """
+        import os
+        if os.environ.get("CROSS_FOUNDER_VISIBILITY", "0") in ("0", "false", "False", ""):
+            return ""
+        try:
+            query = self.skill_manager.load()[:2000]
+            papers = self.literature_db.search(
+                query,
+                top_k=top_k,
+                include_unpublished=False,
+                exclude_founder=self.founder_id,
+            )
+        except Exception as e:
+            logger.warning(f"[{self.founder_id}] 同行论文检索失败，按无同行处理: {e}")
+            return ""
+        if not papers:
+            return ""
+        blocks = []
+        for i, p in enumerate(papers, 1):
+            title = p.get("title", "Untitled")
+            abstract = (p.get("abstract", "") or "")[:600]
+            blocks.append(f"[{i}] {title}\n{abstract}")
+        joined = "\n\n".join(blocks)
+        logger.info(f"[{self.founder_id}] ideation 前看到 {len(papers)} 篇同行论文（CROSS_FOUNDER_VISIBILITY 开启）")
+        return (
+            "# Recent Related Work in the Field\n\n"
+            "The following are recent related works in this field:\n\n"
+            f"{joined}"
+        )
+
     def _run_ideation(self, max_attempts: int = 3) -> Optional[dict]:
         skill_text = self.skill_manager.load()
-        logger.info(f"[{self.founder_id}] 开始 ideation（skill 长度: {len(skill_text)}）")
+        peer_brief = self._peer_papers_brief()
+        logger.info(f"[{self.founder_id}] 开始 ideation（skill 长度: {len(skill_text)}，同行 brief 长度: {len(peer_brief)}）")
         last_err = None
         for attempt in range(1, max_attempts + 1):
             try:
-                idea = self._idea_generator(skill_text, self.model)
+                import inspect as _inspect
+                _params = _inspect.signature(self._idea_generator).parameters
+                if "peer_brief" in _params or len(_params) >= 3:
+                    idea = self._idea_generator(skill_text, self.model, peer_brief)
+                else:
+                    idea = self._idea_generator(skill_text, self.model)
                 if idea is None:
                     logger.warning(
                         f"[{self.founder_id}] Ideation 返回 None"
