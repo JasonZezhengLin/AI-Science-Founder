@@ -1,0 +1,14 @@
+{
+  "https://yunwu.ai/v1": {
+    "gpt-4o-mini": {
+      "ok": false,
+      "err": "AuthenticationError: Error code: 401 - {'error': {'message': '\u8be5\u4ee4\u724c\u72b6\u6001\u4e0d\u53ef\u7528 (request id: 20260706070641379326179gfZkmTnL)', 'type': 'new_api_error'}}"
+    }
+  },
+  "https://api.yunwu.ai/v1": {
+    "gpt-4o-mini": {
+      "ok": false,
+      "err": "AuthenticationError: Error code: 401 - {'error': {'message': '\u8be5\u4ee4\u724c\u72b6\u6001\u4e0d\u53ef\u7528 (request id: 202607060706414802401784P5TU2S2)', 'type': 'new_api_error'}}"
+    }
+  }
+}

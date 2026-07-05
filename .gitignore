@@ -30,3 +30,6 @@ env/
 # os
 .DS_Store
 STOP_CHAIN
+# extra secret backups
+.env.*_backup
+.env.yunwu_backup
