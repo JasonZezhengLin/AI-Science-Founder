@@ -1,0 +1,46 @@
+{
+  "Name": "jacobian_layer_skipping",
+  "Title": "Jacobian-Guided Layer Skipping for Efficient Transformer Inference",
+  "Short Hypothesis": "Transformer inference efficiency can be significantly improved by dynamically skipping layers based on Jacobian-based similarity metrics, without requiring additional training or fine-tuning.",
+  "Related Work": "Existing approaches to layer skipping often rely on heuristic methods or require additional training (e.g., SAINT, FlashU). While some training-free methods exist, they typically use static thresholds or fail to adapt dynamically across layers. This proposal distinguishes itself by leveraging Jacobian-based similarity metrics to dynamically determine layer skipping, offering a more principled and adaptive approach.",
+  "Abstract": "Transformer models have achieved remarkable success across various tasks but suffer from high computational costs during inference. This paper introduces Jacobian-Guided Layer Skipping (JLS), a novel framework that dynamically skips layers in transformer models based on Jacobian-based similarity metrics. By analyzing the Jacobian of the model's output with respect to its hidden states, JLS identifies redundant computations and skips layers when the change in output is negligible. This approach is entirely training-free and adapts dynamically to the input, ensuring efficiency without sacrificing performance. We evaluate JLS on a range of transformer models and tasks, demonstrating significant reductions in inference latency while maintaining competitive accuracy. Our results suggest that Jacobian-based metrics offer a principled and effective approach to layer skipping, enabling more efficient transformer inference.",
+  "Experiments": [
+    {
+      "Description": "Evaluate JLS on Vision Transformers (ViTs) for image classification tasks using ImageNet.",
+      "Metrics": [
+        "Inference latency",
+        "Top-1 accuracy",
+        "FLOPs reduction"
+      ]
+    },
+    {
+      "Description": "Apply JLS to Language Models (LLMs) for text generation tasks using the GPT-2 model.",
+      "Metrics": [
+        "Inference latency",
+        "Perplexity",
+        "FLOPs reduction"
+      ]
+    },
+    {
+      "Description": "Compare JLS against existing layer-skipping methods (e.g., SAINT, FlashU) on a range of transformer models.",
+      "Metrics": [
+        "Inference latency",
+        "Accuracy",
+        "FLOPs reduction"
+      ]
+    },
+    {
+      "Description": "Analyze the impact of different Jacobian-based similarity thresholds on performance and efficiency.",
+      "Metrics": [
+        "Inference latency",
+        "Accuracy",
+        "FLOPs reduction"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of JLS may vary across different transformer architectures and tasks.",
+    "Computing Jacobians during inference introduces additional overhead, which could offset some of the efficiency gains.",
+    "The method relies on the assumption that small changes in hidden states correspond to negligible changes in output, which may not hold for all inputs or tasks."
+  ]
+}

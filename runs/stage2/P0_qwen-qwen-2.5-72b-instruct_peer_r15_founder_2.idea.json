@@ -1,0 +1,20 @@
+{
+  "Name": "LatencyAwareInferenceThroughAdaptiveLayerSkipping",
+  "Title": "Latency-Aware Inference Through Adaptive Layer Skipping in Dynamic Environments",
+  "Short Hypothesis": "In dynamic environments, the computational overhead of deep neural networks can be significantly reduced by adaptively skipping layers based on real-time activation geometry, while maintaining high accuracy and enforcing strict latency budgets.",
+  "Related Work": "Several works have explored methods to reduce inference latency, such as KIS-S for GPU-aware Kubernetes autoscaling (Zhang et al., 2025), TIC-VLA for latency-aware VLA models (Huang et al., 2026), and DELTA for efficient long-context reasoning (Entezari Zarch et al., 2025). However, these methods often rely on heuristic or pre-training approaches and do not dynamically adapt to changing input distributions. Our proposal introduces a training-free, adaptive layer-skipping framework that leverages real-time activation geometry to enforce strict latency budgets while maintaining high accuracy.",
+  "Abstract": "Dynamic environments pose significant challenges for deep neural network inference, where computational overhead must be minimized to meet strict latency requirements. We propose a training-free, latency-aware inference framework that adaptively skips layers based on real-time activation geometry. By computing the local covariance condition number and spectral decay rate of hidden states, we identify tokens that are robust to low-precision computation and dynamically skip layers to enforce strict latency budgets. We theoretically ground this approach using PAC-Bayes bounds that link spectral conditioning to generalization stability. Empirical evaluations on single-GPU setups across adversarial benchmarks and natural domain shifts demonstrate that our method achieves a superior throughput-accuracy Pareto frontier while maintaining low inference latency.",
+  "Experiments": [
+    "Evaluate the effectiveness of the adaptive layer-skipping framework on a variety of neural network architectures, including ResNet and Transformer models, under different input distributions.",
+    "Compare the proposed method against static layer-skipping and full-inference baselines on latency and accuracy metrics using synthetic and real-world datasets.",
+    "Conduct ablation studies to analyze the impact of different spectral diagnostics (e.g., covariance condition number, spectral decay rate) on inference performance and latency.",
+    "Test the robustness of the framework under adversarial attacks and distributional shifts, ensuring that the adaptive layer-skipping mechanism maintains high accuracy and low latency.",
+    "Measure the wall-clock latency and FLOPs reduction achieved by the adaptive layer-skipping framework across different hardware platforms (e.g., single-GPU, edge devices)."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of the adaptive layer-skipping framework may vary across different architectures and input distributions, requiring careful calibration of spectral diagnostics.",
+    "The computational overhead of real-time spectral diagnostics may introduce additional latency, which needs to be carefully managed to ensure strict latency budgets are met.",
+    "The framework's reliance on spectral diagnostics may not capture all forms of input distribution shifts, limiting its generalizability in highly dynamic environments.",
+    "The theoretical bounds linking spectral conditioning to generalization stability may not fully account for all sources of model uncertainty, requiring further validation."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "Name": "curvature_aware_mixed_precision",
+  "Title": "Curvature-Aware Mixed Precision Quantization via Hessian-Guided Bit-Width Allocation",
+  "Short Hypothesis": "The curvature of the loss landscape, quantified by Hessian eigenvalues, can serve as a robust proxy for determining optimal bit-width allocations in mixed-precision quantization, enabling training-free quantization with minimal performance degradation.",
+  "Related Work": "Recent works like EMQ and AMP-ViT have explored training-free proxies for mixed-precision quantization, but they rely on heuristic metrics that lack theoretical grounding. SNIP introduces adaptive precision frameworks but requires training data. Our proposal distinguishes itself by leveraging Hessian curvature as a theoretically grounded, training-free proxy for bit-width allocation, addressing the gap in existing literature by providing a deterministic, curvature-aware approach.",
+  "Abstract": "Mixed-precision quantization (MPQ) is a key technique for deploying deep neural networks on resource-constrained devices. However, existing methods often rely on heuristic proxies or require costly training data, limiting their applicability and theoretical transparency. In this work, we propose a novel curvature-aware MPQ framework that leverages the Hessian matrix to guide bit-width allocation. By analyzing the curvature of the loss landscape, we derive a deterministic proxy for layer-wise quantization sensitivity, enabling efficient bit-width allocation without training. Our method integrates spectral decomposition of the Hessian to identify layers with high curvature, which are allocated higher precision to minimize quantization error. Experiments on ImageNet with ResNet and MobileNet architectures demonstrate that our approach achieves superior accuracy-complexity trade-offs compared to state-of-the-art methods, while maintaining theoretical transparency and computational efficiency.",
+  "Experiments": [
+    "Evaluate Hessian-guided bit-width allocation on ResNet-18, ResNet-50, and MobileNetV2 models using ImageNet.",
+    "Compare quantization accuracy and computational efficiency against state-of-the-art methods (EMQ, AMP-ViT, SNIP).",
+    "Analyze the correlation between Hessian eigenvalues and quantization sensitivity across different layers.",
+    "Conduct ablation studies to assess the impact of Hessian approximation methods (e.g., Fisher Information Matrix vs. exact Hessian).",
+    "Measure inference latency and memory footprint on a single GPU to validate practical feasibility."
+  ],
+  "Risk Factors and Limitations": [
+    "Hessian computation can be computationally expensive for very large models, though approximations like Fisher Information Matrix can mitigate this.",
+    "The method assumes a smooth loss landscape, which may not hold for all architectures or tasks.",
+    "Bit-width allocation is sensitive to Hessian estimation accuracy, which could be affected by noise or numerical instability."
+  ]
+}

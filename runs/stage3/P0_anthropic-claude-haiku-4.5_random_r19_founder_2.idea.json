@@ -1,0 +1,88 @@
+{
+  "Name": "spectral_bounded_layer_routing",
+  "Title": "Spectral PAC-Bayes Bounds for Uncertainty-Calibrated Layer Routing: Training-Free, Latency-Guaranteed Adaptive Inference",
+  "Short Hypothesis": "Test-time layer selection can be cast as implicit optimization over a latency-regularized loss, admitting PAC-Bayes generalization bounds derived from spectral Lipschitz properties of layer Jacobians. Single-pass, amortized computation of these bounds—via lightweight activation-based uncertainty proxies—enables theoretically-grounded, latency-guaranteed routing decisions without the computational overhead that invalidates existing bounds. This setting is essential because (1) prior early-exit methods use heuristic confidence without formal guarantees, (2) existing PAC-Bayes analyses ignore the cost of computing bounds, and (3) spectral layer composition properties directly characterize robustness to routing perturbations, enabling tight, implementable latency budgets.",
+  "Related Work": "Early-exit networks (Teledahl et al., Huang et al.) and layer-skipping methods (Schuster et al., Bolya et al.) lack formal latency-accuracy trade-off guarantees; confidence thresholds are tuned heuristically. PAC-Bayes frameworks (Bartlett & Mendelson, Neyshabur et al.) provide generalization bounds but do not address test-time routing or amortize bound-computation costs. Spectral robustness (Gouk et al., Tsuzuku et al.) characterizes Lipschitz constants but is decoupled from inference-time decisions. Mixed-precision and layer-skipping work (SNIP, EMQ, AMP-ViT) focuses on training-free search but lacks PAC-Bayes grounding or explicit latency accounting. This proposal uniquely integrates: (a) PAC-Bayes theory with spectral layer Jacobian bounds, (b) amortized bound computation within latency budgets, (c) uncertainty-calibrated online routing via activation proxies, and (d) explicit perturbation-cost accounting. It is not a trivial extension because it requires novel derivation of spectral stability under layer-skipping (non-standard composition), proof that amortization preserves PAC-Bayes guarantees, and empirical validation that single-pass Jacobian diagnostics remain tight.",
+  "Abstract": "Adaptive inference via layer skipping promises efficiency gains, yet existing methods lack formal latency-accuracy guarantees. We propose a theoretically-grounded framework for uncertainty-calibrated layer routing derived from PAC-Bayes generalization bounds parameterized by spectral Lipschitz properties of layer Jacobians. Our key contribution is showing that test-time layer selection can be framed as implicit optimization of a latency-regularized loss, and that single-pass, amortized computation of spectral stability metrics—via lightweight activation-based proxies—yields valid PAC-Bayes bounds while remaining strictly within latency budgets. We derive explicit bounds on the generalization gap of layer-skipping decisions as a function of layer Jacobian spectral norms, activation perturbation magnitudes, and latency overhead. Critically, we account for the computational cost of bound computation itself, replacing vacuous \"zero-overhead\" claims with rigorous overhead quantification and amortization schedules. We instantiate this framework via a training-free, single-pass routing algorithm that (1) estimates layer Jacobian spectral norms via power iteration on mini-batch activations, (2) computes uncertainty-calibrated skip thresholds from PAC-Bayes bounds, and (3) enforces strict wall-clock latency constraints via deterministic threshold adaptation. Experiments on ImageNet-scale vision transformers and language models demonstrate that our spectral-bounded approach achieves tighter accuracy-latency Pareto frontiers than heuristic early-exit and layer-skipping baselines, with formal robustness to structured perturbations. We provide detailed latency telemetry, multi-seed variance quantification, and reproducible artifacts.",
+  "Experiments": [
+    {
+      "name": "Spectral Bound Tightness on Synthetic Data",
+      "description": "Construct a controlled 4-layer feedforward network with known Lipschitz constants. Vary layer Jacobian spectral norms systematically (via controlled weight initialization). For each configuration, compute: (i) empirical generalization gap on held-out data when applying layer-skipping routing based on our PAC-Bayes bounds, (ii) theoretical bound prediction from our framework, (iii) comparison to loose baseline bounds ignoring spectral structure. Measure gap between empirical and theoretical curves; target <10% slack on tightly-structured networks.",
+      "metrics": [
+        "Bound slack ratio (empirical gap / predicted bound)",
+        "Spectral norm estimation error via power iteration vs. ground truth",
+        "Tightness improvement vs. uniform PAC-Bayes bound"
+      ]
+    },
+    {
+      "name": "Amortized Jacobian Diagnostics Overhead Quantification",
+      "description": "Implement single-pass power iteration on activations (1-2 iterations per layer per batch) to estimate layer Jacobian spectral norms. Measure wall-clock overhead on a single GPU (e.g., V100) for ResNet-50 and ViT-B/32 inference on ImageNet. Log: (i) per-layer power iteration time, (ii) total amortized overhead per inference pass, (iii) memory footprint of activation buffers. Vary batch sizes (1, 32, 128) and number of power iterations (1, 2, 4). Target: <5% latency overhead for 1-2 iterations.",
+      "metrics": [
+        "Wall-clock latency overhead (ms)",
+        "Memory overhead (MB)",
+        "Spectral norm estimation variance across batches",
+        "FLOPs per layer for diagnostics"
+      ]
+    },
+    {
+      "name": "Layer Routing Accuracy-Latency Pareto Frontier",
+      "description": "Implement three routing policies: (A) Baseline heuristic early-exit (confidence threshold tuned on validation set), (B) our spectral PAC-Bayes routing (thresholds computed from bounds), (C) oracle routing (skips layers to achieve target latency while minimizing accuracy loss, computed offline). Apply to ResNet-50, ViT-B/32, and BERT-base on ImageNet, ImageNet-21k, and GLUE tasks. For each policy, sweep latency budgets (e.g., 25%, 50%, 75% of full inference time). Report: (i) accuracy at each latency budget, (ii) Pareto frontier comparison, (iii) distance to oracle.",
+      "metrics": [
+        "Top-1 accuracy at fixed latency targets",
+        "Pareto frontier area under curve (AUC)",
+        "Accuracy gap vs. oracle at matched latency",
+        "Variance across 5 random seeds"
+      ]
+    },
+    {
+      "name": "Perturbation Robustness of Routing Decisions",
+      "description": "Add structured perturbations to activations (Gaussian noise, adversarial perturbations scaled to match empirical activation magnitudes) and evaluate routing stability. For each perturbation level (ε ∈ [0.01, 0.2] × activation std), measure: (i) fraction of routing decisions that flip (layer skipped → not skipped or vice versa), (ii) resulting accuracy drop, (iii) predicted robustness radius from our spectral bounds. Validate that empirical stability radius matches theoretical predictions.",
+      "metrics": [
+        "Routing decision flip rate vs. perturbation magnitude",
+        "Accuracy drop under bounded perturbations",
+        "Empirical stability radius (max ε before >5% accuracy drop)",
+        "Tightness of stability radius prediction from spectral bounds"
+      ]
+    },
+    {
+      "name": "Uncertainty Proxy Calibration",
+      "description": "Compare three uncertainty proxies for layer-skip decisions: (i) activation variance (baseline), (ii) estimated Jacobian spectral norm (proposed), (iii) full covariance-based uncertainty (expensive, offline reference). For each proxy, measure calibration on held-out validation set: (i) Expected Calibration Error (ECE), (ii) correlation with actual prediction error, (iii) computational cost. Validate that spectral proxy achieves calibration comparable to full covariance at negligible cost.",
+      "metrics": [
+        "Expected Calibration Error (ECE)",
+        "Spearman correlation with true prediction error",
+        "Proxy computation time (ms per layer)",
+        "Variance of proxy estimates across batches"
+      ]
+    },
+    {
+      "name": "Multi-Seed Reproducibility and Variance Quantification",
+      "description": "Run all main experiments (Pareto frontier, perturbation robustness) across 5 random seeds with different weight initializations and data orderings. Log: (i) per-seed accuracy, latency, and routing patterns, (ii) mean and 95% confidence intervals, (iii) seed-to-seed variance in routing decisions. Validate that variance is negligible relative to accuracy improvements.",
+      "metrics": [
+        "Mean accuracy and latency across seeds",
+        "95% confidence interval width",
+        "Coefficient of variation (std / mean) for accuracy and latency",
+        "Fraction of routing decisions consistent across seeds"
+      ]
+    },
+    {
+      "name": "Scaling Analysis: Latency Budget Enforcement",
+      "description": "Implement adaptive threshold adjustment to enforce strict latency budgets. For a target latency T (e.g., 50ms), dynamically adjust routing thresholds via binary search to achieve latency ≤ T while maximizing accuracy. Measure: (i) how often target latency is met (should be 100%), (ii) threshold convergence speed (iterations to meet budget), (iii) accuracy achieved relative to unconstrained routing. Vary T across a range (25ms to 200ms) and report latency-accuracy frontier.",
+      "metrics": [
+        "Fraction of inferences meeting latency budget",
+        "Threshold convergence iterations",
+        "Accuracy at each latency budget",
+        "Wall-clock latency vs. target (should be ≤T)"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "**Spectral Norm Estimation Variance**: Power iteration convergence on mini-batch activations may be noisy, especially early in training or for small batches. Mitigation: use multiple iterations and amortize over multiple batches; empirically validate variance bounds.",
+    "**Theoretical-Practical Gap**: PAC-Bayes bounds may be loose in practice, reducing utility of threshold predictions. Mitigation: derive tighter bounds via spectral concentration inequalities; empirically validate tightness on controlled experiments before scaling to large models.",
+    "**Latency Overhead Dominance**: On very fast hardware or small models, amortized Jacobian diagnostics may consume significant fraction of budget. Mitigation: implement incremental diagnostics (update spectral estimates every N batches rather than per-batch); validate on micro-GPU constraints.",
+    "**Layer Correlation and Composition**: Spectral bounds assume layer independence; in practice, layer outputs are correlated. Full covariance estimation is prohibitively expensive. Mitigation: use diagonal approximation or block-wise covariance; empirically validate that independence assumption does not severely degrade bounds.",
+    "**Domain Shift Sensitivity**: Routing thresholds optimized on one domain may not transfer. Mitigation: test on out-of-distribution data (e.g., ImageNet-C, GLUE domain transfer); quantify robustness radius under domain shift.",
+    "**Comparison Fairness**: Early-exit baselines may be underoptimized; need careful tuning to ensure fair comparison. Mitigation: use published early-exit implementations and tune on same validation set; report oracle performance as upper bound.",
+    "**Generalization to Architectures**: Framework assumes standard feedforward composition; may not apply to skip connections, attention, or other complex patterns. Mitigation: focus on residual networks and transformers; document assumptions explicitly.",
+    "**Reproducibility Burden**: Spectral estimation and routing logic introduce many hyperparameters (power iterations, amortization schedule, threshold adaptation rate). Mitigation: provide exact pseudocode, fixed hyperparameter values, and open-source reference implementation with hardware specifications."
+  ]
+}

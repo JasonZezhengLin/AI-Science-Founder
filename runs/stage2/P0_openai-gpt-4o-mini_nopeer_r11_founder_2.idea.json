@@ -1,0 +1,18 @@
+{
+  "Name": "adaptive_layer_skipping",
+  "Title": "Adaptive Layer Skipping for Latency-Aware Inference in Neural Networks",
+  "Short Hypothesis": "Implementing a structured adaptive layer-skipping mechanism based on Jacobian evaluations can significantly reduce inference latency without compromising accuracy, thereby addressing the needs of latency-critical applications.",
+  "Related Work": "Existing literature focuses on layer skipping or network pruning but often lacks a systematic approach to adaptively skip layers in real-time based on the input characteristics. This proposal uniquely combines Jacobian evaluations with a PAC-Bayes framework to bound overhead and optimize inference latency.",
+  "Abstract": "In latency-critical applications, optimizing inference time while maintaining accuracy is paramount. This proposal introduces an adaptive layer-skipping mechanism informed by Jacobian evaluations, allowing for dynamic layer selection based on input features. By leveraging PAC-Bayes frameworks, we will derive strict latency bounds while minimizing hidden-state perturbation. Our approach is designed to be compute-frugal, utilizing single-pass adaptive thresholds to ensure memory efficiency. We will conduct experiments to evaluate throughput-accuracy trade-offs, benchmarking against existing methods while accounting for memory bandwidth and perturbation costs. This research aims to push the boundaries of latency-aware inference in neural networks, providing a robust framework for future applications in real-time systems.",
+  "Experiments": [
+    "1. Implement a baseline neural network model and modify it to include the adaptive layer-skipping mechanism.",
+    "2. Conduct experiments with varying input conditions to evaluate the performance of layer skipping based on Jacobian evaluations, using metrics such as inference time, accuracy, and memory usage.",
+    "3. Compare the proposed method against standard layer skipping and traditional inference methods to measure throughput-accuracy trade-offs.",
+    "4. Analyze perturbation costs and quantify stability radii to ensure compliance with latency budgets."
+  ],
+  "Risk Factors and Limitations": [
+    "1. The adaptive mechanism might introduce overhead that negates latency benefits in certain scenarios.",
+    "2. The reliance on Jacobian evaluations may complicate the implementation in highly dynamic environments.",
+    "3. Results may vary significantly across different neural network architectures, limiting generalizability."
+  ]
+}

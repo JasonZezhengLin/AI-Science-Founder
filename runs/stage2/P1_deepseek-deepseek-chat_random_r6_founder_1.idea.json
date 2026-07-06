@@ -1,0 +1,20 @@
+{
+  "Name": "kernel_fusion_for_transformer_inference",
+  "Title": "Kernel Fusion for Transformer Inference: A Hardware-First Approach to Optimizing CUDA/Triton Kernels",
+  "Short Hypothesis": "Fusing key operations in transformer inference kernels (e.g., attention, feedforward, and normalization) into single CUDA/Triton kernels can significantly reduce memory bandwidth usage and improve latency by minimizing unnecessary global memory accesses, while maintaining model accuracy.",
+  "Related Work": "Previous work like FlashAttention and Graphene has focused on optimizing individual components of transformer inference, such as attention mechanisms or tensor computations. However, these approaches often treat each operation (e.g., attention, feedforward) as a separate kernel, leading to suboptimal memory access patterns. Our proposal distinguishes itself by fusing multiple operations into a single kernel, leveraging CUDA/Triton's capabilities to reduce memory bottlenecks and improve hardware utilization.",
+  "Abstract": "Transformer models have become the backbone of modern NLP and vision tasks, but their inference efficiency remains a challenge due to high memory bandwidth demands and suboptimal kernel execution. This paper proposes a hardware-first approach to transformer inference optimization by fusing multiple operations (e.g., attention, feedforward, normalization) into single CUDA/Triton kernels. We hypothesize that kernel fusion can significantly reduce global memory accesses, improve tensor core utilization, and lower latency. We validate this hypothesis by designing and profiling fused kernels on commodity GPUs, comparing them against state-of-the-art baselines like FlashAttention and Graphene. Our experiments demonstrate measurable speedups in tokens-per-second and reduced memory bandwidth usage, while maintaining model accuracy. We provide detailed profiling data, including occupancy, warp stall reasons, and arithmetic intensity, to attribute improvements to specific hardware optimizations. This work bridges model efficiency with deployment systems engineering, offering a practical, reproducible solution for accelerating transformer inference.",
+  "Experiments": [
+    "Design fused CUDA/Triton kernels for transformer layers, combining attention, feedforward, and normalization operations.",
+    "Profile baseline kernels (e.g., FlashAttention, Graphene) and our fused kernels using Nsight Compute, measuring latency, throughput, memory bandwidth, and arithmetic intensity.",
+    "Evaluate performance on commodity GPUs (e.g., A100) using standard transformer models (e.g., GPT-2, ViT) with fixed accuracy budgets.",
+    "Compare fused kernels against baselines in terms of tokens-per-second, p50/p99 latency, and energy per token.",
+    "Analyze warp stall reasons, occupancy, and achieved bandwidth to attribute speedups to specific hardware optimizations."
+  ],
+  "Risk Factors and Limitations": [
+    "Kernel fusion may increase register pressure, leading to lower occupancy and potential performance degradation.",
+    "Fused kernels may not generalize well across different transformer architectures or hardware configurations.",
+    "The complexity of designing fused kernels could introduce implementation bugs or instability.",
+    "The proposed optimizations may require significant engineering effort to achieve measurable gains."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "Name": "tensorcore_kvcache_decoding",
+  "Title": "TensorCoreKV: Unlocking Tensor Cores for Low-Bit KV-Cache Decoding in Long-Context LLMs",
+  "Short Hypothesis": "Low-bit KV-cache decoding can be significantly accelerated by leveraging Tensor Cores, reducing memory bandwidth bottlenecks and improving end-to-end inference latency without sacrificing model accuracy.",
+  "Related Work": "Existing work on low-bit KV-cache quantization (e.g., BitDecoding, JanusQuant) primarily relies on CUDA cores, neglecting Tensor Cores, which are the primary source of compute on modern GPUs. While BitDecoding introduces Tensor Core utilization, it focuses on long-context decoding and lacks systematic optimization for low-bit KV-cache layouts. Our proposal distinguishes itself by designing a **Tensor Core-first decoding kernel** that explicitly optimizes low-bit KV-cache layouts and integrates with existing quantization schemes, ensuring measurable speedups on real hardware.",
+  "Abstract": "The rise of long-context Large Language Models (LLMs) amplifies memory and bandwidth demands during autoregressive decoding, as the Key-Value (KV) cache grows with each generated token. Low-bit KV-cache quantization (e.g., 4-bit or 2-bit) can reduce memory footprint while preserving accuracy, but existing systems suffer from slow decoding due to their exclusive reliance on CUDA cores, neglecting Tensor Cores—the primary source of compute on modern GPUs. We propose TensorCoreKV, a novel low-bit KV-cache decoding system that unlocks Tensor Cores for efficient decoding. Our approach introduces a **Tensor Core-first decoding kernel** that optimizes low-bit KV-cache layouts and integrates with existing quantization schemes. We design a **warp-level parallelization strategy** for dequantization and a **mixed-precision data layout** to facilitate access and fast dequantization for activation and weight tensors. Extensive evaluations on NVIDIA H100 and A100 GPUs show that TensorCoreKV achieves on average a 2.5× decoding speedup over FP16 FlashDecoding-v2, while preserving 99% of FP16 accuracy. Our contributions isolate concrete systems advances—a faster dequantization kernel, a cache-friendly skip schedule, a bandwidth-bound op made compute-bound—each defended by before/after traces.",
+  "Experiments": [
+    "Experiment 1: Kernel-Level Optimization - Develop and profile a Tensor Core-first decoding kernel for low-bit KV-cache layouts. Measure warp stall reasons, achieved bandwidth, and arithmetic intensity to attribute speedups to specific hardware causes.",
+    "Experiment 2: Mixed-Precision Layout - Design a mixed-precision data layout for low-bit KV-cache decoding. Evaluate the impact on memory access patterns and dequantization latency using Nsight traces.",
+    "Experiment 3: Warp-Level Parallelization - Implement a warp-level parallelization strategy for dequantization. Measure occupancy and warp stall reasons to validate efficiency gains.",
+    "Experiment 4: End-to-End Inference - Integrate TensorCoreKV into an existing inference framework (e.g., vLLM) and measure end-to-end latency, throughput, and energy per token on NVIDIA H100 and A100 GPUs. Compare against FP16 FlashDecoding-v2 and BitDecoding.",
+    "Experiment 5: Accuracy Retention - Evaluate the impact of low-bit KV-cache decoding on model accuracy using LongBench and SCBench benchmarks."
+  ],
+  "Risk Factors and Limitations": [
+    "TensorCoreKV may introduce additional complexity in managing mixed-precision layouts, potentially increasing kernel development overhead.",
+    "The proposed optimizations may not generalize well to GPUs with different architectures (e.g., AMD or Intel GPUs).",
+    "Low-bit quantization could introduce accuracy degradation in certain tasks, requiring careful tuning of quantization schemes.",
+    "The reliance on Tensor Cores may limit the applicability of TensorCoreKV to GPUs without Tensor Core support."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "Name": "dynamic_spectral_routing",
+  "Title": "Dynamic Spectral Routing: Training-Free Latency Optimization via Activation Geometry",
+  "Short Hypothesis": "The spectral properties of hidden states dynamically encode task-dependent computational difficulty, enabling efficient, training-free routing of tokens through fewer layers or lower-precision computation without sacrificing accuracy.",
+  "Related Work": "Existing work includes Spectral Quantization Routing (SQR) and Geometric Signal Separation, which use static spectral properties for mixed-precision inference or noise filtering. However, these methods lack dynamic adaptation to evolving task contexts. Our proposal distinguishes itself by introducing real-time spectral diagnostics and dynamic routing policies that enforce strict latency budgets while maintaining accuracy.",
+  "Abstract": "We propose Dynamic Spectral Routing (DSR), a training-free framework that leverages the spectral properties of hidden states to dynamically route tokens through fewer layers or lower-precision computation. By computing real-time spectral diagnostics (e.g., condition number and spectral decay rate) from activation covariances, DSR identifies tokens that are robust to reduced computation and enforces strict latency budgets. We ground our approach in PAC-Bayes theory, linking spectral stability to generalization under computation reduction. Evaluated on single-GPU setups across WILDS benchmarks, DSR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic baselines. Our work provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Experiment 1: Evaluate DSR on WILDS benchmarks, measuring accuracy, latency, and memory usage. Compare against static mixed-precision baselines and heuristic caching strategies.",
+    "Experiment 2: Analyze spectral diagnostics (condition number, spectral decay rate) across different layers and tasks to validate their predictive power for computational difficulty.",
+    "Experiment 3: Test DSR under controlled distribution shifts, measuring robustness and accuracy retention.",
+    "Experiment 4: Ablation study to isolate the contribution of dynamic routing policies versus static spectral properties."
+  ],
+  "Risk Factors and Limitations": [
+    "The framework relies on accurate real-time computation of spectral diagnostics, which may introduce overhead.",
+    "Dynamic routing policies may require calibration for different architectures or tasks.",
+    "The approach assumes that spectral properties are stable across similar tokens, which may not hold for highly heterogeneous inputs."
+  ]
+}

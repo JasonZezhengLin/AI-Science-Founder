@@ -1,0 +1,20 @@
+{
+  "Name": "task_relevant_mutual_information_loss",
+  "Title": "Quantifying Task-Relevant Mutual Information Loss in Model Compression",
+  "Short Hypothesis": "The loss of task-relevant mutual information during model compression can be quantified and bounded, providing a theoretical framework for preserving predictive sufficiency under compression.",
+  "Related Work": "Existing work on model compression and information-theoretic bounds, such as 'Population Risk Improvement with Model Compression' and 'Slicing Mutual Information Generalization Bounds for Neural Networks,' explores the relationship between mutual information and generalization but does not focus on quantifying task-relevant mutual information loss. This proposal distinguishes itself by deriving theoretical bounds specifically for preserving task-relevant information during compression.",
+  "Abstract": "Model compression techniques, such as quantization and pruning, often lead to a loss of task-relevant information, which can degrade predictive performance. This paper proposes a theoretical framework to quantify and bound the loss of task-relevant mutual information during compression. By framing compression as a rate-distortion problem, we derive achievable bounds on the bits-per-weight required to preserve predictive sufficiency. We introduce estimators for task-relevant mutual information and demonstrate their utility in allocating bits where they reduce task-relevant distortion most. Our experiments validate the framework on standard datasets and architectures, showing that it provides a principled approach to preserving predictive performance under compression. This work bridges statistical learning theory with compression, offering new insights into the fundamental bit-cost of predictive capabilities.",
+  "Experiments": [
+    "Estimate task-relevant mutual information using InfoNCE-style lower bounds on standard datasets (e.g., CIFAR-10, ImageNet).",
+    "Apply quantization and pruning to neural networks and measure the loss of task-relevant mutual information.",
+    "Compare the empirical mutual information loss to the theoretical bounds derived in the framework.",
+    "Evaluate the impact of bit allocation strategies based on mutual information on predictive performance (accuracy, F1-score).",
+    "Test the framework on different architectures (ResNet, VGG) to demonstrate its generalizability."
+  ],
+  "Risk Factors and Limitations": [
+    "Estimating mutual information in high-dimensional spaces is challenging and may introduce bias.",
+    "The theoretical bounds may be overly conservative, limiting their practical utility.",
+    "The framework assumes a specific distortion measure, which may not capture all aspects of task-relevant information.",
+    "The experiments are limited to image classification tasks; the framework's applicability to other domains (e.g., NLP) remains to be tested."
+  ]
+}

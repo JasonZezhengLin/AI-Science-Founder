@@ -1,0 +1,19 @@
+{
+  "Name": "latency_optimized_inference",
+  "Title": "Latency-Optimized Inference on Commodity GPUs via Profile-Guided Kernel Engineering",
+  "Short Hypothesis": "Carefully optimized kernel-level throughput engineering can lead to significant latency reductions and improved tokens-per-second on commodity GPUs for deep learning inference, without relying on theoretical bounds or complex mathematical guarantees.",
+  "Related Work": "Recent works such as Spectral Latent Steering, Spectral Quantization Routing, and Geometric Signal Separation focus on test-time optimization, mixed-precision inference, and geometric signal separation, respectively. However, these approaches often rely on theoretical guarantees, heuristic control mechanisms, or complex mathematical formulations. In contrast, this proposal focuses on empirical, profile-guided kernel engineering to optimize latency and throughput on commodity GPUs.",
+  "Abstract": "This proposal aims to investigate the potential of profile-guided kernel engineering for optimizing deep learning inference on commodity GPUs. By leveraging kernel-level throughput engineering, memory-bandwidth utilization, and tensor-core occupancy, we seek to reduce latency and improve tokens-per-second without relying on complex theoretical guarantees. Our approach will involve empirically driven experiments, nvprof/Nsight traces, and a focus on measured wall-clock latency and tokens-per-second on real hardware. We will evaluate our approach on a range of deep learning models and tasks, reporting p50/p99 latency, throughput under batching, and energy per token.",
+  "Experiments": [
+    "Optimize kernel launch configurations for maximum throughput and minimum latency",
+    "Investigate the impact of memory-bandwidth utilization on inference latency",
+    "Evaluate the effects of tensor-core occupancy on tokens-per-second",
+    "Compare the performance of different deep learning models and tasks under optimized kernel configurations",
+    "Measure p50/p99 latency, throughput under batching, and energy per token for each experiment"
+  ],
+  "Risk Factors and Limitations": [
+    "The proposal relies on empirical experiments and may not generalize to all deep learning models or tasks",
+    "The optimized kernel configurations may not be portable across different GPU architectures or driver versions",
+    "The focus on latency and tokens-per-second may compromise model accuracy or other performance metrics"
+  ]
+}

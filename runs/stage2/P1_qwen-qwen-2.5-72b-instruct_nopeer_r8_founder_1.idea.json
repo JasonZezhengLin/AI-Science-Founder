@@ -1,0 +1,20 @@
+{
+  "Name": "optimizedlowbitkvcache",
+  "Title": "Optimizing Low-Bit KV Cache for Efficient Long-Context LLM Inference",
+  "Short Hypothesis": "Low-bit quantization of the KV cache can significantly reduce memory bandwidth requirements and improve inference latency for long-context LLMs, but current systems suffer from suboptimal performance due to inefficient CUDA kernel design. By optimizing the dequantization process and leveraging Tensor Cores, we can achieve substantial speedups and maintain high accuracy.",
+  "Related Work": "Recent works such as BitDecoding (Du et al., 2025) have explored the use of low-bit KV caches for long-context LLMs, demonstrating significant speedups. However, these systems primarily rely on CUDA cores for dequantization, which is a bottleneck. Our work builds on these insights by focusing on the efficient use of Tensor Cores for dequantization and optimizing the entire inference pipeline.",
+  "Abstract": "Long-context Large Language Models (LLMs) require significant memory and bandwidth for autoregressive decoding, especially as the Key-Value (KV) cache grows with each generated token. Low-bit quantization of the KV cache can reduce memory footprint while maintaining accuracy, but existing systems suffer from slow decoding due to inefficient CUDA kernel design. We propose Optimized Low-Bit KV Cache (OLBKV), a system that leverages Tensor Cores for efficient dequantization and optimizes the entire inference pipeline. OLBKV introduces novel warp-level parallelization strategies and architecture-specific optimizations to maximize decoding throughput. Evaluated on NVIDIA H100 and A100 GPUs, OLBKV achieves up to 9x speedup over FP16 FlashDecoding-v2 and 5x over the state-of-the-art low-bit system QServe, while maintaining high accuracy. Our work provides a practical and efficient solution for long-context LLM inference.",
+  "Experiments": [
+    "1. Baseline Comparison: Measure the inference latency and accuracy of LLMs using FP16 FlashDecoding-v2 and QServe on NVIDIA H100 and A100 GPUs.",
+    "2. Dequantization Kernel Optimization: Implement and optimize dequantization kernels for 4-bit and 2-bit KV caches using Tensor Cores. Compare the performance with CUDA core-based dequantization.",
+    "3. Warp-Level Parallelization: Develop and evaluate warp-level parallelization strategies for dequantization to maximize Tensor Core utilization. Collect warp stall reasons and achieved bandwidth using Nsight Compute.",
+    "4. Architecture-Specific Optimizations: Apply H100-specific optimizations such as warpgroup tensor instructions and Blackwell's native low-precision tensor formats. Measure the impact on latency and throughput.",
+    "5. End-to-End Evaluation: Evaluate the end-to-end performance of OLBKV on a variety of LLMs (e.g., LLaMA-3.1-8B, GPT-3) with long-context (128K tokens) using p50/p99 latency and tokens-per-second metrics. Compare with baseline systems."
+  ],
+  "Risk Factors and Limitations": [
+    "1. Limited Generalization: The performance gains may vary across different GPU architectures and LLMs.",
+    "2. Implementation Complexity: Optimizing Tensor Core usage and warp-level parallelization can be complex and time-consuming.",
+    "3. Memory Bandwidth Constraints: Even with low-bit quantization, memory bandwidth can still be a bottleneck for very large models.",
+    "4. Accuracy Trade-offs: Low-bit quantization may introduce small accuracy losses that need to be carefully managed."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "Name": "curvature_aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: Training-Free Representation Geometry for Efficient Mixed-Precision Inference",
+  "Short Hypothesis": "By leveraging curvature-aware geometric subspaces and deterministic spectral estimators, we can develop a training-free precision routing framework that optimizes mixed-precision inference with strict computational overhead bounds and formalized stability guarantees.",
+  "Related Work": "Existing mixed-precision strategies often rely on heuristic approaches or extensive training loops to determine precision levels. Recent work on affine normal directions (Niu et al., 2026) highlights the potential of geometric insights for scalable optimization but does not address precision routing or training-free methods. Our proposal distinguishes itself by integrating curvature-aware geometric diagnostics with deterministic precision routing, ensuring mathematical transparency and computational efficiency.",
+  "Abstract": "Mixed-precision inference offers significant computational savings but often relies on heuristic or training-intensive methods to determine optimal precision levels. We propose a novel curvature-aware precision routing framework that leverages training-free representation geometry to optimize mixed-precision inference. By integrating deterministic spectral estimators and curvature-aware geometric subspaces, our framework replaces heuristic precision decisions with formalized stability radii and explicit condition number constraints. We develop a block-level precision tiering protocol that guarantees strict computational overhead bounds and preserves deterministic execution pathways. Our approach is validated through rigorous empirical evaluation, including gradient covariance decay analysis, Hessian conditioning diagnostics, and PAC-Bayes generalization bounds. Results demonstrate that our framework achieves state-of-the-art efficiency-accuracy trade-offs while maintaining mathematical transparency and computational feasibility for single-GPU deployments.",
+  "Experiments": [
+    "Experiment 1: Gradient Covariance Decay Analysis - Measure the decay rate of gradient covariance matrices across different precision levels to identify optimal precision tiers.",
+    "Experiment 2: Hessian Conditioning Diagnostics - Evaluate Hessian conditioning numbers to determine numerical stability and inform precision decisions.",
+    "Experiment 3: PAC-Bayes Generalization Bounds - Compute PAC-Bayes bounds to assess the generalization performance of the mixed-precision inference framework.",
+    "Experiment 4: Empirical Efficiency-Accuracy Trade-offs - Compare the computational efficiency and inference accuracy of our framework against existing mixed-precision methods on standard benchmarks."
+  ],
+  "Risk Factors and Limitations": [
+    "Potential underestimation of curvature effects in high-dimensional spaces, leading to suboptimal precision decisions.",
+    "Increased computational overhead from deterministic spectral estimators, though mitigated by block-level precision tiering.",
+    "Limited applicability to architectures that do not support mixed-precision operations.",
+    "Dependence on the quality of geometric subspace diagnostics, which may vary across different datasets and models."
+  ]
+}

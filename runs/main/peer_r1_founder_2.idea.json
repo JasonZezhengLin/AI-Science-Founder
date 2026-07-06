@@ -1,0 +1,20 @@
+{
+  "Name": "dynamic_geometry_routing",
+  "Title": "Dynamic Geometry Routing: Training-Free Latency-Aware Inference via Input Geometry Adaptation",
+  "Short Hypothesis": "The geometry of activation spaces encodes input complexity, which can be leveraged to dynamically adjust inference pathways and enforce strict latency budgets without retraining.",
+  "Related Work": "Existing approaches like Spectral Quantization Routing (SQR) and Spectral Latent Steering (SLS) focus on precision allocation and subspace projection but do not explicitly adapt inference pathways based on input geometry. Our proposal distinguishes itself by dynamically routing inputs through different computational pathways based on their geometric complexity, ensuring efficient inference while maintaining accuracy.",
+  "Abstract": "We propose Dynamic Geometry Routing (DGR), a training-free framework that leverages the geometry of activation spaces to dynamically adjust inference pathways based on input complexity. By computing the local covariance structure and spectral properties of activations in real-time, DGR identifies inputs that can be processed with reduced computational overhead without sacrificing accuracy. We introduce a routing mechanism that maps geometric diagnostics to compute-saving strategies, such as layer skipping or attention head pruning, while enforcing strict latency budgets. Theoretical bounds link geometric complexity to generalization stability under computational perturbations, providing a formal foundation for the routing mechanism. Experiments on single-GPU setups across WILDS benchmarks demonstrate that DGR achieves superior throughput-accuracy trade-offs compared to static and heuristic baselines. Our approach bridges foundational optimization theory with practical, scalable inference, offering a reproducible pathway for resource-efficient adaptation to dynamic input distributions.",
+  "Experiments": [
+    "Evaluate DGR on WILDS benchmarks under natural distribution shifts, measuring throughput, accuracy, and latency compliance.",
+    "Compare DGR against static and heuristic baselines, including SQR and SLS, across adversarial and out-of-distribution contexts.",
+    "Validate the routing mechanism by analyzing geometric diagnostics and their correlation with computational efficiency.",
+    "Assess the impact of layer skipping and attention head pruning on model performance and latency.",
+    "Test the scalability of DGR on larger models and datasets, measuring resource utilization and inference speed."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of DGR may be limited to models with certain architectural properties, such as those with modular or hierarchical structures.",
+    "Real-time computation of geometric diagnostics may introduce overhead, potentially offsetting computational savings.",
+    "The approach assumes that input complexity can be reliably captured by activation geometry, which may not hold for all types of inputs or tasks.",
+    "Experimental validation is limited to single-GPU setups; scalability to distributed systems remains untested."
+  ]
+}

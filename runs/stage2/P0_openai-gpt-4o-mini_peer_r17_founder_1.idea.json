@@ -1,0 +1,18 @@
+{
+  "Name": "geometric_signal_enhancement",
+  "Title": "Geometric Signal Enhancement: Training-Free Activation Projection for Robust In-Context Learning",
+  "Short Hypothesis": "We hypothesize that a training-free geometric signal enhancement approach, leveraging PCA-based activation projections, can improve the robustness of in-context learning by filtering out low-variance noise while preserving high-variance task-relevant signals.",
+  "Related Work": "Existing works, such as 'Spectral Latent Steering' and 'Training-Free Geometric Interference Cancellation', explore latent space optimization and noise cancellation; however, they do not explicitly apply PCA-based geometric filtering to improve robustness in in-context learning. This proposal distinguishes itself by focusing on the direct impact of geometric signal separation on model performance, providing a clear and interpretable method to enhance inference efficiency without retraining.",
+  "Abstract": "In-context learning (ICL) empowers large language models (LLMs) to adapt to new tasks with minimal overhead. However, their susceptibility to distributional shifts and noisy contexts remains a significant challenge. We propose a novel training-free geometric signal enhancement framework that employs Principal Component Analysis (PCA) for activation projection. By isolating high-variance task-relevant signals from low-variance noise during inference, our method aims to bolster model robustness. We evaluate the efficacy of this approach across diverse ICL benchmarks and under controlled distributional shifts, measuring accuracy retention, inference efficiency, and the stability of subspace alignment. Our results indicate that geometric filtering significantly enhances model reliability in adversarial and out-of-distribution scenarios while maintaining baseline performance on clean data. This work bridges mechanistic interpretability with resource efficiency, establishing a mathematically transparent pathway to optimize LLM performance in constrained environments.",
+  "Experiments": [
+    "1. Implement the PCA-based activation projection in an existing LLM architecture, applying it during the inference phase to separate signals.",
+    "2. Conduct controlled experiments on multiple ICL benchmarks, introducing distributional shifts to evaluate the model's robustness and accuracy retention.",
+    "3. Compare performance metrics, including accuracy, inference time, and resource allocation, against baseline models without geometric filtering.",
+    "4. Analyze the stability of subspace alignment post-projection using variance thresholds and assess the impact on model performance."
+  ],
+  "Risk Factors and Limitations": [
+    "The approach may not generalize well to all types of distributional shifts.",
+    "Computational overhead from PCA computation during inference could introduce latency.",
+    "The effectiveness of geometric filtering may vary based on the model architecture and specific tasks."
+  ]
+}

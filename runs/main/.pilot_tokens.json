@@ -1,0 +1,33 @@
+{
+  "per": {
+    "nopeer_r1_founder_1": {
+      "calls": 2,
+      "prompt": 6059,
+      "completion": 728,
+      "reasoning": 0
+    },
+    "nopeer_r1_founder_2": {
+      "calls": 2,
+      "prompt": 2534,
+      "completion": 724,
+      "reasoning": 0
+    },
+    "peer_r1_founder_1": {
+      "calls": 2,
+      "prompt": 5508,
+      "completion": 592,
+      "reasoning": 0
+    },
+    "peer_r1_founder_2": {
+      "calls": 2,
+      "prompt": 7657,
+      "completion": 719,
+      "reasoning": 0
+    }
+  },
+  "total": {
+    "calls": 8,
+    "prompt": 21758,
+    "completion": 2763
+  }
+}

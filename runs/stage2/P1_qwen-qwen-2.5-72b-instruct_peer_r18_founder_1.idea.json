@@ -1,0 +1,41 @@
+{
+  "Name": "efficient_fused_kernels_for_transformer_inference",
+  "Title": "Efficient Fused Kernels for Transformer Inference on Commodity GPUs",
+  "Short Hypothesis": "Fusing multiple transformer inference operations into a single kernel can significantly reduce wall-clock latency and improve tokens-per-second throughput on commodity GPUs.",
+  "Related Work": "Recent works such as 'Coruscant: Co-Designing GPU Kernel and Sparse Tensor Core to Advocate Unstructured Sparsity in Efficient LLM Inference' and 'AdaFuse: Accelerating Dynamic Adapter Inference via Token-Level Pre-Gating and Fused Kernel Optimization' have explored kernel optimization and fusion for efficient inference. However, these works often focus on specific hardware or specialized models. Our proposal aims to generalize these techniques to commodity GPUs and a broader range of transformer models, ensuring practical applicability and reproducibility.",
+  "Abstract": "Transformer models have revolutionized natural language processing but pose significant computational challenges, especially on commodity hardware. This work proposes a novel approach to optimize transformer inference by fusing multiple operations into a single, highly efficient kernel. By combining operations such as attention, feed-forward, and normalization, we aim to reduce memory bandwidth usage, improve register utilization, and minimize kernel launch overhead. We instrument the kernel with detailed profiling to ensure that gains are measurable and reproducible. Empirical results on a commodity GPU demonstrate significant improvements in wall-clock latency and tokens-per-second throughput, providing a practical and deployable solution for efficient transformer inference.",
+  "Experiments": [
+    {
+      "Description": "Develop a fused kernel that combines attention, feed-forward, and normalization operations.",
+      "Steps": [
+        "Design the kernel to minimize memory bandwidth usage and maximize register utilization.",
+        "Implement the kernel in CUDA, ensuring it is compatible with commodity GPUs.",
+        "Profile the kernel using nvprof/Nsight to collect metrics such as occupancy, achieved bandwidth, warp stall reasons, and arithmetic intensity."
+      ],
+      "Evaluation": "Compare the fused kernel's performance to the baseline (separate kernels for each operation) using wall-clock latency, tokens-per-second throughput, and memory bandwidth usage as metrics."
+    },
+    {
+      "Description": "Evaluate the fused kernel across different transformer models and sequence lengths.",
+      "Steps": [
+        "Test the kernel on a variety of transformer models (e.g., BERT, GPT-2, T5).",
+        "Vary the sequence length from 16 to 512 tokens to assess the kernel's performance under different workloads.",
+        "Collect and report the same metrics as in the first experiment."
+      ],
+      "Evaluation": "Analyze the performance gains across different models and sequence lengths to ensure the kernel's generalizability."
+    },
+    {
+      "Description": "Conduct an ablation study to isolate the impact of individual optimizations.",
+      "Steps": [
+        "Create variants of the fused kernel, each with a single optimization removed (e.g., no attention fusion, no feed-forward fusion).",
+        "Profile and compare these variants to the full fused kernel.",
+        "Identify the specific optimizations that contribute most to the performance gains."
+      ],
+      "Evaluation": "Determine the relative importance of each optimization and provide insights into the kernel's design."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The performance gains may be model-specific, and the fused kernel might not generalize well to all transformer architectures.",
+    "The kernel optimization process is complex and may require extensive tuning for different GPU architectures.",
+    "The fused kernel may introduce additional complexity in the deployment pipeline, requiring careful documentation and testing."
+  ]
+}

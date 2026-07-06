@@ -1,0 +1,19 @@
+{
+  "Name": "adaptive_kv_quantization",
+  "Title": "Adaptive Mixed-Precision KV Cache Quantization: A Hardware-Focused Approach",
+  "Short Hypothesis": "By implementing a hardware-aware adaptive mixed-precision quantization strategy for KV cache in LLMs, we can significantly improve inference throughput and reduce memory usage while maintaining accuracy, thus pushing the boundaries of KV cache efficiency beyond existing methods.",
+  "Related Work": "While existing works like 'Kitty' and 'KVmix' propose mixed-precision strategies, they either rely on static precision allocation or insufficiently leverage hardware profiling data. This proposal distinctly focuses on a dynamic adaptive approach that utilizes real-time profiling data to inform quantization strategies, prioritizing hardware efficiency and measured metrics over theoretical frameworks.",
+  "Abstract": "Key-Value (KV) caching is a critical bottleneck in the inference of large language models (LLMs), particularly as model sizes and context lengths increase. This paper proposes a novel adaptive mixed-precision quantization method for KV caches that dynamically adjusts the precision of key-value pairs based on empirical profiling data. By evaluating the sensitivity of different KV pairs to quantization errors in real-time, we can allocate higher precision to those that are most critical for maintaining model accuracy while applying aggressive quantization to less important pairs. This method is designed to be implemented on commodity GPUs using optimized CUDA kernels, ensuring that all gains are measurable in terms of throughput and memory efficiency. We hypothesize that this approach will lead to substantial improvements in KV cache performance, enabling larger batch sizes and faster inference times compared to current state-of-the-art methods. Our experiments will utilize real hardware to validate the effectiveness of our method by measuring throughput and memory usage across various model sizes and tasks.",
+  "Experiments": [
+    "1. Implement the adaptive mixed-precision quantization algorithm for the KV cache using optimized CUDA kernels.",
+    "2. Measure the inference throughput and memory usage of the KV cache under varying bit-width configurations on a commodity GPU.",
+    "3. Compare the performance of the adaptive approach against static mixed-precision strategies (e.g., from Kitty and KVmix) using the same baseline LLMs.",
+    "4. Evaluate the accuracy of model outputs by conducting tasks that require long-context reasoning, measuring any degradation due to quantization.",
+    "5. Report p50/p99 latency and throughput under different batch sizes, and analyze the achieved bandwidth and memory utilization."
+  ],
+  "Risk Factors and Limitations": [
+    "1. The effectiveness of the adaptive quantization may be limited by the granularity of profiling data and the dynamic nature of model behavior.",
+    "2. There may be unforeseen interactions between the adaptive quantization process and the underlying hardware that could affect performance.",
+    "3. The implementation complexity might increase the risk of bugs or inefficiencies in the kernel code that could negate potential gains."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "Name": "curvature-aware_foundation_model_adaptation",
+  "Title": "Curvature-Aware Precision Routing for Training-Free Foundation Model Adaptation",
+  "Short Hypothesis": "The curvature of the loss landscape in foundation models can be leveraged to dynamically allocate precision tiers and route computations, enabling training-free adaptation with minimal overhead.",
+  "Related Work": "Existing work on foundation model adaptation often relies on fine-tuning (e.g., LoRA, Adapter) or heuristic parameter-efficient methods, which require training and lack theoretical grounding. Training-free approaches like FreeOcc leverage foundation models but do not explicitly consider curvature or precision routing. Our proposal distinguishes itself by combining curvature-aware diagnostics with deterministic precision routing, offering a theoretically grounded and training-free alternative.",
+  "Abstract": "Foundation models are widely used for downstream tasks, but their adaptation often requires costly fine-tuning or heuristic parameter-efficient methods. We propose a training-free adaptation framework that leverages the curvature of the loss landscape to dynamically allocate precision tiers and route computations. Specifically, we introduce a curvature-aware precision routing protocol that uses Hessian diagnostics to identify critical subspaces and allocate higher precision to these regions, while employing lower precision elsewhere to minimize overhead. This deterministic approach replaces heuristic fine-tuning with a mathematically grounded optimization proxy, ensuring efficient adaptation without training. We validate our framework on benchmark datasets for vision and language tasks, demonstrating significant improvements in adaptation efficiency and robustness compared to existing training-free and parameter-efficient methods. Our approach bridges foundational optimization theory with practical deployment constraints, offering a scalable and theoretically grounded solution for foundation model adaptation.",
+  "Experiments": [
+    "Experiment 1: Curvature Diagnostics - Compute Hessian-based curvature metrics (e.g., condition number, eigenvalue decay) for foundation models on benchmark datasets (e.g., CIFAR-10, GLUE).",
+    "Experiment 2: Precision Allocation - Implement deterministic precision routing based on curvature diagnostics, allocating higher precision to subspaces with high curvature and lower precision elsewhere.",
+    "Experiment 3: Adaptation Evaluation - Compare our framework to training-free baselines (e.g., FreeOcc) and parameter-efficient methods (e.g., LoRA) on adaptation tasks, measuring accuracy, robustness, and computational overhead.",
+    "Experiment 4: Ablation Study - Analyze the impact of curvature thresholds, precision tiers, and routing protocols on performance.",
+    "Experiment 5: Scalability Test - Evaluate the framework’s scalability to larger foundation models (e.g., GPT-3, CLIP) and datasets (e.g., ImageNet, SuperGLUE)."
+  ],
+  "Risk Factors and Limitations": [
+    "Curvature diagnostics may introduce computational overhead, though we mitigate this through efficient Hessian approximations.",
+    "The framework assumes smoothness of the loss landscape, which may not hold for all tasks or models.",
+    "Precision routing may introduce numerical instability if not carefully calibrated.",
+    "The approach may be less effective for tasks requiring significant architectural changes beyond precision adaptation."
+  ]
+}

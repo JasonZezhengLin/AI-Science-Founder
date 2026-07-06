@@ -1,0 +1,21 @@
+{
+  "Name": "LatencyAwareAdaptiveQuantization",
+  "Title": "Latency-Aware Adaptive Quantization for Real-Time Inference on Edge Devices",
+  "Short Hypothesis": "Can a latency-aware, adaptive quantization framework improve the accuracy-latency trade-off for real-time inference on edge devices, while maintaining strict wall-clock budgets?",
+  "Related Work": "Recent works such as SNIP, EMQ, and AMP-ViT have explored adaptive mixed-precision quantization to optimize model performance and efficiency. However, these approaches often focus on training or static quantization settings and do not address the dynamic nature of real-time inference on edge devices. Our proposal distinguishes itself by integrating real-time infrastructure feedback to dynamically adjust quantization levels, ensuring optimal performance under varying latency constraints.",
+  "Abstract": "Real-time inference on edge devices is critical for applications such as autonomous systems and IoT, but it faces significant challenges in balancing accuracy and latency. This paper introduces Latency-Aware Adaptive Quantization (LAQ), a framework that dynamically adjusts quantization levels based on real-time infrastructure feedback. LAQ uses a lightweight telemetry bus to continuously monitor bandwidth, latency, and power conditions, and a reinforcement learning control plane to reconfigure inference pipelines. We evaluate LAQ on a heterogeneous testbed featuring Raspberry Pi 5, Jetson Orin, and AWS Graviton, demonstrating significant improvements in latency and accuracy compared to static quantization methods. Our framework is designed to be modular, enabling easy integration with existing edge inference systems.",
+  "Experiments": [
+    "Evaluate LAQ on a variety of edge devices (Raspberry Pi 5, Jetson Orin, AWS Graviton) to assess its performance under different hardware constraints.",
+    "Conduct real-time latency and accuracy benchmarks using standard datasets (e.g., ImageNet, COCO) and compare LAQ with static quantization methods.",
+    "Integrate LAQ with a reinforcement learning control plane to dynamically adjust quantization levels based on real-time telemetry data. Measure the effectiveness of this adaptive approach in maintaining strict wall-clock budgets.",
+    "Perform ablation studies to isolate the impact of different components of LAQ, such as the telemetry bus and the reinforcement learning controller.",
+    "Evaluate the robustness of LAQ under varying network conditions (e.g., 5G, Wi-Fi 7) and power constraints.",
+    "Analyze the trade-offs between accuracy, latency, and memory usage to identify the optimal configuration for different edge scenarios."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of the reinforcement learning control plane may vary across different edge devices and applications, requiring careful tuning and validation.",
+    "Real-time telemetry and adaptive quantization may introduce additional overhead, which could affect overall system performance.",
+    "The framework's reliance on real-time infrastructure feedback may be sensitive to network delays and packet loss, impacting its reliability.",
+    "The complexity of integrating LAQ with existing edge inference systems may pose challenges for deployment and maintenance."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "Name": "info_theoretic_quantization",
+  "Title": "Information-Theoretic Limits of Model Compression and Quantization",
+  "Short Hypothesis": "The compression limit of deep learning models can be reframed as a model- and task-conditioned quantity rather than a fixed property of the model, by leveraging information-theoretic principles and the concept of rate-distortion theory.",
+  "Related Work": "Recent works such as EMQ, AMP-ViT, and SNIP have explored mixed-precision quantization and compression techniques for deep learning models. However, these approaches often rely on heuristic-based methods and lack a clear understanding of the underlying information-theoretic limits. In contrast, our proposal seeks to establish a theoretical framework for model compression and quantization, grounded in principles from coding theory and statistics.",
+  "Abstract": "This research proposal aims to investigate the information-theoretic limits of model compression and quantization in deep learning. By framing compression as a rate-distortion problem, we seek to derive fundamental bounds on the bits-per-weight required to preserve predictive sufficiency. We will explore the use of entropy estimators, mutual-information lower bounds, and Fisher-information sensitivities to allocate bits where they reduce task-relevant distortion most. Our goal is to establish a theoretical framework for model compression and quantization, which can inform the development of more efficient and effective compression techniques.",
+  "Experiments": [
+    "Derive achievability and converse bounds for model compression and quantization using rate-distortion theory",
+    "Evaluate the performance of entropy estimators and mutual-information lower bounds in guiding bit allocation",
+    "Investigate the trade-off between compression ratio and task performance using distortion-rate curves",
+    "Compare the efficiency of different compression techniques, such as quantization and pruning, using information-theoretic metrics"
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of deriving tight information-theoretic bounds for deep learning models",
+    "The challenge of developing efficient algorithms for computing entropy estimators and mutual-information lower bounds",
+    "The potential for limited generalizability of our results to different model architectures and tasks"
+  ]
+}

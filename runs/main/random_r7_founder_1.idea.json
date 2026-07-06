@@ -1,0 +1,20 @@
+{
+  "Name": "spectral_mixed_precision",
+  "Title": "Spectral Diagnostics for Training-Free Mixed Precision Quantization",
+  "Short Hypothesis": "The spectral properties of a neural network's weight matrices can serve as a robust training-free proxy for determining optimal mixed precision quantization configurations, offering a mathematically grounded alternative to heuristic-based methods.",
+  "Related Work": "Recent works like EMQ and InfoQ have explored training-free proxies for mixed precision quantization, but they rely on heuristic metrics or mutual information flows, which lack theoretical grounding. Spectral quantization methods, such as SVD-based approaches, have shown promise but are limited to uniform quantization. Our proposal bridges this gap by leveraging spectral diagnostics to inform mixed precision decisions, providing a mathematically transparent and deterministic framework.",
+  "Abstract": "Mixed precision quantization (MPQ) offers a compelling trade-off between model efficiency and accuracy but often relies on heuristic or training-intensive methods to determine optimal bit-width configurations. We propose a novel training-free approach that leverages the spectral properties of weight matrices—specifically, their singular value decomposition (SVD)—to inform mixed precision decisions. By analyzing the decay of singular values, we derive a deterministic proxy for layer importance that aligns with the intrinsic structure of the network. This approach avoids the need for calibration data or expensive search algorithms, providing a mathematically grounded and computationally efficient alternative to existing methods. We validate our framework on a range of architectures, including ResNet and Vision Transformers, demonstrating significant improvements in accuracy-efficiency trade-offs compared to state-of-the-art MPQ methods.",
+  "Experiments": [
+    "1. **Spectral Analysis**: Compute the SVD of weight matrices for each layer in ResNet-50 and ViT-Base. Analyze the decay rate of singular values to derive layer importance scores.",
+    "2. **Bit-width Allocation**: Use the importance scores to formulate an integer linear programming (ILP) problem for bit-width allocation under a fixed computational budget.",
+    "3. **Quantization**: Apply mixed precision quantization based on the derived bit-width configurations and evaluate model accuracy on ImageNet using standard evaluation metrics (top-1 and top-5 accuracy).",
+    "4. **Ablation Study**: Ablate the influence of different spectral diagnostics (e.g., singular value decay rate, condition number) on quantization performance.",
+    "5. **Comparison**: Compare our method against state-of-the-art MPQ methods (EMQ, InfoQ) in terms of accuracy-efficiency trade-offs, computational overhead, and robustness to different architectures."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **SVD Computational Cost**: While SVD is efficient for smaller layers, it may incur overhead for very large weight matrices, particularly in transformer-based models.",
+    "2. **Generalization to Other Architectures**: The effectiveness of spectral diagnostics may vary across architectures, requiring further validation.",
+    "3. **Non-linear Layers**: Spectral analysis may not directly apply to non-linear layers (e.g., ReLU), necessitating alternative diagnostics.",
+    "4. **Hardware Constraints**: The proposed method assumes idealized hardware support for mixed precision, which may not always be available in practice."
+  ]
+}

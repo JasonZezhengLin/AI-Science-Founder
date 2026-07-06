@@ -1,0 +1,19 @@
+{
+  "Name": "geometric_subspace_routing_for_mixed_precision",
+  "Title": "Geometric Subspace Routing for Training-Free Mixed Precision Quantization",
+  "Short Hypothesis": "By leveraging geometric subspace diagnostics to identify layers with distinct curvature properties, we can deterministically allocate mixed precision bit-widths to maximize model efficiency without requiring training or calibration data.",
+  "Related Work": "Existing training-free mixed precision methods, such as EMQ and SNIP, rely on heuristic proxies or calibration data to allocate bit-widths. These approaches often lack transparency and fail to account for the geometric properties of the model's loss landscape. Our proposal differs by using curvature-aware geometric subspace diagnostics to inform bit-width allocation, providing a deterministic, mathematically grounded alternative.",
+  "Abstract": "Mixed precision quantization (MPQ) offers a promising approach to reduce the computational and memory footprint of deep neural networks. However, existing training-free methods often rely on heuristic proxies or calibration data, which can be inefficient and lack transparency. We propose a novel framework that leverages geometric subspace diagnostics to identify layers with distinct curvature properties, enabling deterministic bit-width allocation without the need for training or calibration data. Our approach quantifies gradient covariance decay, Hessian conditioning, and feature entanglement to formalize a training-free routing protocol. This protocol replaces heuristic fragility claims with formalized stability radii, PAC-Bayes generalization bounds, and explicit condition number constraints under precision switching. We validate our approach on ImageNet with ResNet and MobileNet architectures, demonstrating superior efficiency and accuracy compared to state-of-the-art methods.",
+  "Experiments": [
+    "Experiment 1: Evaluate gradient covariance decay across layers to identify high-variance regions that benefit from higher precision.",
+    "Experiment 2: Measure Hessian conditioning to determine layers with poor curvature properties, which may require higher bit-widths.",
+    "Experiment 3: Quantify feature entanglement to isolate layers where precision reduction could lead to significant information loss.",
+    "Experiment 4: Compare our geometric subspace routing approach against state-of-the-art methods (e.g., EMQ, SNIP) on ImageNet using ResNet and MobileNet architectures.",
+    "Experiment 5: Analyze the computational overhead of our diagnostic pipeline to ensure feasibility on single-GPU setups."
+  ],
+  "Risk Factors and Limitations": [
+    "The geometric subspace diagnostics may introduce computational overhead, although we aim to keep this minimal.",
+    "The approach assumes that curvature properties are consistent across different datasets, which may not hold in all cases.",
+    "The method relies on deterministic proxies, which may not capture all nuances of model behavior."
+  ]
+}

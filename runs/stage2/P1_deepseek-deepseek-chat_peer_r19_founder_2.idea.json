@@ -1,0 +1,20 @@
+{
+  "Name": "mutual_information_guided_compression",
+  "Title": "Mutual Information-Guided Model Compression: An Information-Theoretic Framework",
+  "Short Hypothesis": "Mutual information between model activations and task labels can serve as a principled guide for allocating bits in model compression, leading to better rate-distortion trade-offs and generalization.",
+  "Related Work": "Existing model compression techniques often rely on heuristic methods or empirical observations, such as pruning weights with small magnitudes or quantizing based on layer sensitivity. Recent work has explored information-theoretic approaches, but these typically focus on bounding generalization error rather than guiding compression directly. Our proposal distinguishes itself by using mutual information as a direct signal for bit allocation, bridging the gap between theoretical bounds and practical compression strategies.",
+  "Abstract": "Model compression is a crucial technique for deploying deep learning models in resource-constrained environments. However, most existing methods rely on heuristic approaches that lack theoretical grounding. We propose a novel information-theoretic framework for model compression that leverages mutual information between model activations and task labels to guide bit allocation. By estimating the mutual information at each layer, we derive a compression strategy that minimizes task-relevant distortion while adhering to a rate constraint. Our approach is theoretically grounded in rate-distortion theory and provides explicit bounds on the generalization error. We demonstrate the effectiveness of our method through experiments on image classification and natural language processing tasks, showing significant improvements in compression efficiency and model performance compared to existing techniques.",
+  "Experiments": [
+    "Estimate mutual information between activations and task labels for each layer using InfoNCE-style estimators.",
+    "Derive bit allocation strategies based on mutual information estimates, prioritizing layers with higher task-relevant information.",
+    "Evaluate compression performance on CIFAR-10 and ImageNet datasets, measuring accuracy and compression ratio.",
+    "Compare generalization bounds using PAC-Bayes and MDL frameworks against empirical generalization error.",
+    "Analyze the impact of different mutual information estimators on compression efficiency."
+  ],
+  "Risk Factors and Limitations": [
+    "Accurate estimation of mutual information in high-dimensional spaces remains challenging and may introduce bias.",
+    "The proposed method assumes that mutual information is a sufficient proxy for task-relevant information, which may not hold in all cases.",
+    "Computational overhead of mutual information estimation may offset some of the benefits of compression.",
+    "The method may require task-specific tuning, limiting its generalizability across different domains."
+  ]
+}

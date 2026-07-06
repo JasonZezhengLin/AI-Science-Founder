@@ -1,0 +1,18 @@
+{
+  "Name": "gpu_inference_optimization",
+  "Title": "Kernel-Level Throughput Engineering for Efficient Deep Learning Inference on Commodity GPUs",
+  "Short Hypothesis": "By optimizing fused CUDA/Triton kernels, memory-bandwidth utilization, KV-cache layout, and tensor-core occupancy, we can achieve significant end-to-end speedups for deep learning inference on commodity GPUs.",
+  "Related Work": "Previous work has focused on optimizing deep learning models for inference, but few have explored the potential of kernel-level throughput engineering on commodity GPUs. Our approach differs from existing work in its focus on empirical, hardware-faithful evaluation and optimization.",
+  "Abstract": "This proposal presents a novel approach to optimizing deep learning inference on commodity GPUs. By applying kernel-level throughput engineering techniques, such as optimizing memory-bandwidth utilization and tensor-core occupancy, we aim to achieve significant end-to-end speedups. Our approach prioritizes empirical, hardware-faithful evaluation, using tools like nvprof and Nsight to measure and optimize kernel performance. We will conduct experiments to evaluate the effectiveness of our approach, reporting metrics such as p50/p99 latency, throughput under batching, and energy per token.",
+  "Experiments": [
+    "Optimize memory-bandwidth utilization by reordering kernel operations and reducing HBM round-trips",
+    "Improve tensor-core occupancy by tuning thread block sizes and register allocation",
+    "Evaluate the impact of quantization, sparsity, and layer-skipping on latency and accuracy",
+    "Compare the performance of our optimized kernels against state-of-the-art baselines"
+  ],
+  "Risk Factors and Limitations": [
+    "Limited access to specialized hardware or expertise may hinder the optimization process",
+    "The complexity of modern deep learning models may make it challenging to identify optimal kernel configurations",
+    "The proposed approach may not generalize to all types of deep learning models or hardware platforms"
+  ]
+}

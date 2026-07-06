@@ -1,0 +1,20 @@
+{
+  "Name": "spectral_complexity_inference",
+  "Title": "Spectral Complexity Inference: Training-Free Acceleration via Stability-Guided Compute Allocation",
+  "Short Hypothesis": "The spectral complexity of hidden state activations serves as a direct proxy for computational difficulty, enabling training-free inference acceleration through dynamic compute allocation.",
+  "Related Work": "Existing methods for inference acceleration often rely on static profiling or heuristic decision-making, failing to adapt to dynamic input distributions (e.g., Spectral Quantization Routing, Geometric Signal Separation). These approaches typically lack formal links between spectral properties and computational complexity. Our proposal distinguishes itself by explicitly modeling the relationship between spectral stability and computational difficulty, providing a mathematically grounded framework for dynamic compute allocation.",
+  "Abstract": "We propose Spectral Complexity Inference (SCI), a training-free framework that accelerates inference by dynamically allocating compute resources based on the spectral complexity of hidden state activations. We hypothesize that the spectral condition number and decay rate of activations serve as direct proxies for computational difficulty, with well-conditioned activations requiring fewer compute resources. SCI computes these spectral diagnostics on-the-fly using randomized SVD and maps them to a compute-switching policy that enforces strict latency budgets. We theoretically ground SCI with PAC-Bayes bounds linking spectral stability to generalization under compute reduction. Evaluated on single-GPU setups across diverse benchmarks, SCI achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic baselines. By leveraging spectral complexity as a formalized proxy for computational difficulty, SCI provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "**Baseline Comparison**: Compare SCI against static compute allocation and heuristic baselines (e.g., layer skipping, attention pruning) on WILDS benchmarks, measuring accuracy, latency, and throughput.",
+    "**Spectral Diagnostics**: Validate the correlation between spectral condition number/decay rate and computational difficulty by measuring the impact of compute reduction on accuracy across different spectral regimes.",
+    "**Latency Budgeting**: Evaluate SCI's ability to enforce strict latency budgets by measuring wall-clock latency and throughput under varying compute constraints.",
+    "**Distribution Shifts**: Test SCI's robustness to natural distribution shifts by measuring accuracy retention on out-of-distribution data.",
+    "**Ablation Study**: Conduct an ablation study to isolate the contributions of spectral diagnostics, compute allocation policy, and randomized SVD."
+  ],
+  "Risk Factors and Limitations": [
+    "The assumption that spectral complexity directly correlates with computational difficulty may not hold for all architectures or tasks.",
+    "Randomized SVD introduces additional overhead, potentially offsetting compute savings.",
+    "The framework may struggle with highly irregular or sparse activations, where spectral properties are less informative.",
+    "Strict latency budgets could lead to suboptimal compute allocation in some cases, particularly for tasks requiring fine-grained reasoning."
+  ]
+}

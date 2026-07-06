@@ -1,0 +1,84 @@
+{
+  "Name": "curvature_routed_precision_allocation",
+  "Title": "Curvature-Routed Precision Allocation: Training-Free Spectral Diagnostics for Layer-Wise Deterministic Quantization",
+  "Short Hypothesis": "We hypothesize that layer-wise precision allocation can be determined deterministically pre-inference by coupling Hessian spectral diagnostics with formal stability radii bounds, without requiring expensive training-based proxy correlations or heuristic-driven per-layer tuning. Specifically, we posit that the condition number of the Gram matrix of layer activations, combined with gradient covariance decay profiles, provides a theoretically grounded signal for routing precision assignments that provably minimizes quantization error under PAC-Bayes generalization bounds. This setting is optimal because: (1) existing training-free methods lack formal stability guarantees linking spectral properties to precision sufficiency, (2) current approaches treat precision selection as independent layer decisions rather than jointly optimizing under curvature constraints, and (3) no existing work provides explicit mathematical accounting for how spectral decay rates predict precision requirements across architectural boundaries.",
+  "Related Work": "Recent work (EMQ, SNIP, AMP-ViT) proposes training-free proxies for mixed-precision search but relies on empirical correlation studies without formal theoretical justification. These methods treat precision routing as a heuristic layer-selection problem, lacking mechanistic transparency about *why* certain layers require specific precisions. Concurrent work on adaptive mixed-precision training (SNIP) uses periodic collection of statistics but applies uniform precision within GEMMs, missing fine-grained spectral structure. Our proposal distinctly differs by: (1) replacing empirical proxy correlation with formal PAC-Bayes bounds linking spectral conditioning to precision sufficiency, (2) introducing pre-execution Hessian diagnostics that yield deterministic routing without training, (3) providing explicit stability radius formulations that guarantee quantization error containment under precision switching, and (4) coupling gradient covariance decay analysis with feature entanglement metrics to isolate precision-critical layers algorithmically rather than heuristically. We deliberately avoid per-head routing complexity, instead enforcing block-level precision tiering aligned with architectural coherence theory.",
+  "Abstract": "Mixed-precision quantization offers compelling accuracy-efficiency trade-offs for inference, yet existing training-free approaches lack formal guarantees linking layer properties to precision requirements. We propose a curvature-routed precision allocation framework that determines layer-wise bit-widths deterministically via pre-execution spectral diagnostics, without training or proxy tuning. Our core insight is that the condition number and spectral decay rate of layer-wise Gram matrices, combined with gradient covariance profiles, encode sufficient information to predict precision sufficiency under PAC-Bayes generalization bounds. We introduce three core diagnostics: (1) Activation Gram Condition Number (AGCN), quantifying feature entanglement and precision sensitivity, (2) Spectral Decay Index (SDI), measuring how rapidly singular values decay and predicting quantization robustness, and (3) Gradient Covariance Decay Rate (GCDR), capturing optimization landscape curvature. These diagnostics feed a deterministic routing protocol that assigns block-level precision tiers (FP32, FP16, INT8) by minimizing a formal stability radius objective: layers with high AGCN and slow SDI receive higher precision, while layers with rapid decay tolerate lower precision. We provide explicit PAC-Bayes bounds proving that precision assignments satisfying our routing criterion guarantee bounded quantization error on held-out data. Empirical validation on Vision Transformers and LLMs demonstrates that our training-free routing matches or exceeds learned mixed-precision baselines while requiring zero training overhead and offering exact reproducibility. Ablations isolate the contribution of each diagnostic, and we provide explicit condition number constraints ensuring numerical stability under precision switching.",
+  "Experiments": [
+    {
+      "name": "Spectral Diagnostic Validation",
+      "description": "For each layer in Vision Transformer (ViT-B, ViT-L) and LLM (OPT-1.3B, OPT-6.7B), compute: (1) AGCN = κ(GG^T) where G is the matrix of layer activations from 1000 calibration samples, (2) SDI = log(σ_1/σ_k) / k where σ_i are singular values of G, (3) GCDR computed from gradient covariance matrices. Correlate each diagnostic against per-layer quantization error when that layer is quantized to INT8 while others remain FP32. Compute Pearson correlation and Spearman rank correlation. Expected: correlations > 0.75 for AGCN and SDI, validating that spectral properties predict quantization sensitivity.",
+      "metrics": [
+        "Pearson correlation (AGCN vs layer quantization error)",
+        "Spearman rank correlation (SDI vs layer quantization error)",
+        "Gradient covariance decay rate vs layer precision requirement"
+      ]
+    },
+    {
+      "name": "Deterministic Routing Protocol",
+      "description": "Implement routing function: for each layer, compute (AGCN, SDI, GCDR) triplets. Define thresholds: precision = FP32 if AGCN > τ_1 OR SDI < τ_2, precision = FP16 if τ_1/2 < AGCN < τ_1 AND τ_2 < SDI < 2τ_2, precision = INT8 otherwise. Thresholds calibrated on 10% of calibration set. Apply to ViT-B, ViT-L, OPT models on ImageNet-1K validation (ViT) and WikiText-103 (LLM). Measure: (1) Top-1 accuracy drop vs FP32 baseline, (2) Inference latency speedup on single GPU (NVIDIA A100), (3) Memory footprint reduction. Compare against: (a) Uniform INT8 quantization, (b) EMQ training-free proxy baseline, (c) SNIP learned mixed-precision (if applicable).",
+      "metrics": [
+        "Top-1 accuracy drop (%)",
+        "Inference latency speedup (×)",
+        "Memory reduction (%)",
+        "Perplexity degradation (LLMs)"
+      ]
+    },
+    {
+      "name": "PAC-Bayes Bound Verification",
+      "description": "For each model and precision configuration, compute empirical quantization error on calibration set. Derive PAC-Bayes bound: with probability 1-δ, quantization error on test set ≤ empirical error + O(√(KL(routing_dist || prior) / m)) where m = calibration samples. Compute KL divergence between our routed precision distribution and uniform prior. Validate that predicted bound upper-bounds observed test error. Repeat across 5 random calibration set splits. Report: (1) tightness ratio = observed test error / PAC-Bayes bound, (2) probability that bound holds (should be ≥ 1-δ).",
+      "metrics": [
+        "PAC-Bayes bound tightness ratio",
+        "Empirical coverage probability",
+        "KL divergence (routing vs prior)"
+      ]
+    },
+    {
+      "name": "Ablation: Diagnostic Contribution",
+      "description": "Sequentially remove each diagnostic: (1) Routing using only AGCN, (2) Routing using only SDI, (3) Routing using only GCDR, (4) Routing using AGCN+SDI, (5) Routing using all three. Measure accuracy drop and speedup for each configuration on ViT-B and OPT-1.3B. Quantify the marginal contribution of each diagnostic via difference in accuracy drop.",
+      "metrics": [
+        "Accuracy drop for each diagnostic subset",
+        "Speedup for each diagnostic subset",
+        "Marginal contribution (accuracy drop difference)"
+      ]
+    },
+    {
+      "name": "Condition Number Stability Analysis",
+      "description": "For each layer in each model, compute condition number κ(W) of weight matrix and κ(G) of activation Gram matrix. Analyze how κ affects quantization error under different precisions. Derive explicit bounds: quantization error ≤ C · κ(G) · precision_error where precision_error scales as 2^(-bits). Verify that layers with κ(G) > 10^4 require FP32, κ(G) ∈ [10^2, 10^4] require FP16, κ(G) < 10^2 tolerate INT8. Report: (1) empirical verification of these thresholds, (2) exception cases and their characterization.",
+      "metrics": [
+        "Condition number distribution across layers",
+        "Precision requirement vs condition number scatter plot",
+        "Threshold violation rate"
+      ]
+    },
+    {
+      "name": "Reproducibility and Variance Quantification",
+      "description": "Run routing protocol 10 times with different random seeds for calibration set sampling (1000 samples each). Measure: (1) variance in layer-wise precision assignments, (2) variance in final accuracy, (3) variance in speedup. Report mean ± std dev for each metric. Verify that routing is deterministic (zero variance in precision assignments given fixed calibration set).",
+      "metrics": [
+        "Precision assignment consistency (% layers with consistent assignment)",
+        "Accuracy variance across seeds",
+        "Speedup variance across seeds"
+      ]
+    },
+    {
+      "name": "Computational Overhead Quantification",
+      "description": "Measure wall-clock time to compute all three diagnostics (AGCN, SDI, GCDR) on 1000 calibration samples. Break down: (1) time to compute Gram matrix, (2) time to perform SVD, (3) time to compute gradient covariance. Report total overhead as percentage of inference latency for single forward pass. Verify that overhead is < 10% of inference time on A100.",
+      "metrics": [
+        "Total diagnostic computation time (seconds)",
+        "Overhead as % of inference latency",
+        "Per-layer diagnostic cost breakdown"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "Calibration Set Dependency: Spectral diagnostics depend on calibration set representativeness. If calibration samples don't cover activation distribution well, AGCN and SDI may be misleading. Mitigation: use diverse calibration strategies and validate sensitivity to calibration set composition.",
+    "Threshold Brittleness: Routing thresholds (τ_1, τ_2) are calibrated on 10% of calibration data. Small threshold perturbations might significantly change precision assignments. Mitigation: perform sensitivity analysis and report threshold ranges, not point values.",
+    "Limited Architectural Scope: Proposal focuses on Vision Transformers and decoder-only LLMs. Applicability to CNNs, RNNs, or encoder-decoder architectures unclear. Mitigation: validate on at least one CNN (ResNet-50) and one encoder-decoder model (T5).",
+    "Precision Tier Discretization: We enforce block-level precision (FP32/FP16/INT8), not continuous bit-widths. Layers at threshold boundaries may benefit from finer granularity. Mitigation: explore sub-byte precision (4-bit, 6-bit) in secondary experiments.",
+    "PAC-Bayes Bound Looseness: PAC-Bayes bounds are often loose in practice. Our bounds may not be tight enough to guide practical routing. Mitigation: compare empirical bound tightness against simpler Chernoff bounds and report both.",
+    "Hardware Specificity: Speedup measurements are GPU-specific (A100). Generalization to other hardware (TPU, CPU, mobile) requires separate validation. Mitigation: report hardware configuration explicitly and discuss expected scaling.",
+    "Scalability to Very Large Models: Diagnostic computation (especially SVD of Gram matrices) may not scale to 100B+ parameter models. Mitigation: test on largest available models (OPT-6.7B, potentially larger if accessible) and analyze scaling behavior.",
+    "Interaction with Activation Functions: Diagnostics assume specific activation distributions. Non-standard activations (e.g., learned activations) may violate assumptions. Mitigation: test on models with ReLU, GELU, SwiGLU and document assumptions.",
+    "Limited Theoretical Justification for Spectral Decay: While we provide PAC-Bayes bounds, the fundamental link between SDI and quantization robustness is empirically motivated, not theoretically derived from first principles. Mitigation: provide intuitive explanations and empirical validation, but clearly mark this as an empirical hypothesis."
+  ]
+}

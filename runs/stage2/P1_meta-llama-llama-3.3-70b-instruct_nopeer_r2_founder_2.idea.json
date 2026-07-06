@@ -1,0 +1,17 @@
+{
+  "Name": "neural_rate_distortion",
+  "Title": "Exploring Information-Theoretic Limits of Neural Network Compression",
+  "Short Hypothesis": "We hypothesize that the compression of neural networks can be fundamentally limited by the rate-distortion theory, and that the mutual information between the network's weights and the task's output can serve as a proxy for the distortion measure. By optimizing the compression scheme to minimize the distortion, we can achieve a better trade-off between model size and predictive performance.",
+  "Related Work": "While previous work has explored neural network compression using techniques such as pruning and quantization, our approach differs in its focus on information-theoretic limits and the use of mutual information as a distortion measure. This allows us to provide a more fundamental understanding of the compression-distortion trade-off and to develop more efficient compression schemes.",
+  "Abstract": "This proposal explores the information-theoretic limits of neural network compression using rate-distortion theory. We develop a framework for analyzing the compression-distortion trade-off in neural networks and demonstrate the effectiveness of our approach in achieving a better balance between model size and predictive performance. Our results provide new insights into the fundamental limits of neural network compression and have implications for the development of more efficient and effective compression schemes.",
+  "Experiments": [
+    "Develop a compression scheme that optimizes the rate-distortion trade-off using mutual information as a distortion measure",
+    "Evaluate the performance of the proposed compression scheme on a range of benchmark tasks and compare to existing methods",
+    "Analyze the information-theoretic limits of neural network compression using rate-distortion theory and provide a fundamental understanding of the compression-distortion trade-off"
+  ],
+  "Risk Factors and Limitations": [
+    "The development of an effective compression scheme that optimizes the rate-distortion trade-off may be challenging",
+    "The use of mutual information as a distortion measure may not always provide a accurate estimate of the true distortion",
+    "The results of this proposal may not generalize to all types of neural networks or tasks"
+  ]
+}

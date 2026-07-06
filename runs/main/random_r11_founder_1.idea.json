@@ -1,0 +1,20 @@
+{
+  "Name": "curvature_aware_mixed_precision",
+  "Title": "Curvature-Aware Mixed-Precision Quantization via Spectral Decomposition and Stability Radii",
+  "Short Hypothesis": "Optimal bit-width allocation in mixed-precision quantization can be determined by explicitly quantifying the relationship between Hessian conditioning, gradient covariance decay, and formalized stability radii, replacing heuristic proxies with deterministic spectral diagnostics.",
+  "Related Work": "Existing MPQ methods (e.g., EMQ, InfoQ) rely on heuristic proxies or training-based search, which lack mathematical transparency and scalability. Recent work like AMP-ViT and SNIP introduces adaptive frameworks but does not formalize the connection between curvature metrics and precision routing. Our proposal bridges this gap by leveraging spectral decomposition and PAC-Bayes bounds to derive deterministic bit-width allocations, ensuring rigorous theoretical grounding and feasibility.",
+  "Abstract": "Mixed-precision quantization (MPQ) offers a promising trade-off between model efficiency and accuracy, but existing methods rely on heuristic proxies or costly training-based search. We propose a curvature-aware precision routing framework that leverages spectral decomposition and formalized stability radii to optimize bit-width allocation. By quantifying Hessian conditioning and gradient covariance decay, our method replaces heuristic proxies with deterministic spectral diagnostics. We introduce a training-free protocol that computes PAC-Bayes generalization bounds and condition number constraints to derive optimal precision tiers. Experiments on vision transformers and LLMs demonstrate that our framework achieves superior accuracy-complexity trade-offs compared to state-of-the-art methods, with minimal computational overhead. Our approach ensures mathematical transparency, scalability, and reproducibility, making it ideal for resource-constrained deployments.",
+  "Experiments": [
+    "Experiment 1: Validate the correlation between Hessian conditioning and optimal bit-width allocation on ImageNet using ResNet and MobileNet families. Metrics: Accuracy, BitOps, condition number.",
+    "Experiment 2: Compare our curvature-aware framework against EMQ and InfoQ on vision transformers (ViT, DeiT, Swin). Metrics: Accuracy, FLOPs, quantization error.",
+    "Experiment 3: Evaluate generalization bounds and stability radii on LLMs (Llama, GPT-2). Metrics: Perplexity, PAC-Bayes bounds, inference latency.",
+    "Experiment 4: Ablation study to isolate the impact of gradient covariance decay on bit-width allocation. Metrics: Sensitivity analysis, variance quantification.",
+    "Experiment 5: Benchmark computational overhead of our training-free protocol against existing MPQ methods. Metrics: Search time, memory usage, GPU utilization."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk 1: Spectral decomposition may introduce numerical instability for very large models. Mitigation: Use block-level decomposition and enforce condition number constraints.",
+    "Risk 2: Training-free proxies may not generalize to all architectures. Mitigation: Extend evaluations to diverse model families and datasets.",
+    "Limitation 1: Our framework assumes access to pre-trained models, limiting applicability to scenarios where training is unavoidable.",
+    "Limitation 2: The computational overhead of spectral diagnostics may increase for models with extreme depth or width. Mitigation: Optimize implementation using low-rank approximations and parallelized execution."
+  ]
+}

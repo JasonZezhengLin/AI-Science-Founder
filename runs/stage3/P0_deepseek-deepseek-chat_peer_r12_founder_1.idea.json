@@ -1,0 +1,19 @@
+{
+  "Name": "curvature-aware_subspace_routing",
+  "Title": "Curvature-Aware Subspace Routing for Training-Free Precision Allocation",
+  "Short Hypothesis": "The curvature of activation subspaces, quantified via Hessian spectral properties, provides a deterministic proxy for quantization sensitivity, enabling training-free precision allocation that optimizes the throughput-accuracy tradeoff without heuristic calibration.",
+  "Related Work": "Recent work has explored geometric subspace diagnostics for training-free optimization, such as Spectral Quantization Routing (SQR), which uses activation covariance geometry for precision allocation. However, SQR does not account for curvature information, which is critical for understanding quantization robustness under perturbation. Our proposal extends this by incorporating Hessian spectral properties to formalize curvature-aware precision routing, providing a theoretically grounded alternative to heuristic approaches.",
+  "Abstract": "Mixed-precision inference offers significant computational savings but often relies on heuristic calibration or static profiling, failing to adapt to dynamic input distributions. We propose Curvature-Aware Subspace Routing (CASR), a training-free framework that dynamically allocates numerical precision based on the curvature of activation subspaces. We hypothesize that the Hessian spectral properties of hidden states—specifically, the condition number and spectral decay rate—serve as deterministic proxies for quantization sensitivity. Tokens in low-curvature subspaces are robust to low-precision computation, while high-curvature tokens require higher precision. CASR computes these curvature diagnostics on-the-fly using randomized Hessian-vector products, mapping them to a precision-switching policy that enforces strict latency budgets. We theoretically ground the routing mechanism with PAC-Bayes bounds linking curvature to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, CASR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized curvature diagnostics, CASR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Experiment 1: Validate curvature diagnostics by computing Hessian spectral properties (condition number, spectral decay) across hidden states and correlating them with quantization robustness. Metrics: Spearman correlation between curvature metrics and quantization error.",
+    "Experiment 2: Compare CASR against SQR and static mixed-precision baselines on WILDS benchmarks. Metrics: Throughput (tokens/second), accuracy (task-specific metrics), and Pareto frontier analysis.",
+    "Experiment 3: Ablation study to isolate the impact of curvature diagnostics by removing Hessian spectral properties and comparing performance to the full CASR framework. Metrics: Accuracy drop and throughput reduction.",
+    "Experiment 4: Evaluate CASR under natural distribution shifts by testing on out-of-distribution datasets. Metrics: Generalization gap (accuracy difference between in-distribution and out-of-distribution data)."
+  ],
+  "Risk Factors and Limitations": [
+    "Computational overhead of on-the-fly Hessian-vector products may impact latency, especially for large models.",
+    "Assumption that curvature diagnostics generalize across tasks and architectures may not hold in all cases.",
+    "Limited to single-GPU setups, which may not capture system-scale bottlenecks in multi-GPU deployments.",
+    "Reliance on PAC-Bayes bounds, which may be overly conservative in practice."
+  ]
+}

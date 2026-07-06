@@ -1,0 +1,18 @@
+{
+  "Name": "jacobian_layer_skipping",
+  "Title": "Training-Free Latency Optimization via Jacobian-Guided Layer Skipping",
+  "Short Hypothesis": "Layer-wise Jacobian norms provide a robust, training-free metric for dynamic layer skipping, enabling latency-aware inference without compromising accuracy.",
+  "Related Work": "Existing work on latency optimization focuses on spectral methods (e.g., Spectral Quantization Routing, Geometric Signal Separation) but does not leverage Jacobian-based stability metrics for layer skipping. Our proposal distinguishes itself by introducing a Jacobian-guided framework that enforces latency bounds while maintaining accuracy.",
+  "Abstract": "We propose a training-free framework for latency-aware inference that dynamically skips layers based on Jacobian norms. We hypothesize that layers with small Jacobian norms contribute minimally to the final output and can be skipped without significant accuracy loss. Our approach computes Jacobian norms on-the-fly using a single backward pass, enabling real-time layer skipping decisions. We theoretically ground this mechanism using PAC-Bayes bounds, linking Jacobian stability to generalization under layer skipping. Evaluated on single-GPU setups across WILDS benchmarks, our method achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic layer-skipping baselines. By replacing qualitative heuristics with formalized stability metrics, our framework provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Evaluate Jacobian-guided layer skipping on WILDS benchmarks, comparing it to static and heuristic layer-skipping baselines.",
+    "Measure throughput-accuracy trade-offs on single-GPU setups, enforcing strict wall-clock latency targets.",
+    "Analyze the correlation between Jacobian norms and accuracy loss across different layers and tasks.",
+    "Validate theoretical PAC-Bayes bounds on generalization stability under layer skipping."
+  ],
+  "Risk Factors and Limitations": [
+    "Jacobian computation may introduce overhead, though we mitigate this with a single backward pass.",
+    "The approach may not generalize to tasks where all layers contribute equally.",
+    "Dynamic layer skipping decisions may introduce non-deterministic latency."
+  ]
+}

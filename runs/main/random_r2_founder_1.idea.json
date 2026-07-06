@@ -1,0 +1,18 @@
+{
+  "Name": "spectral_mpq",
+  "Title": "SpectralMPQ: Training-Free Mixed-Precision Quantization via Hessian-Guided Spectral Decomposition",
+  "Short Hypothesis": "The spectral properties of weight matrices, when combined with Hessian curvature diagnostics, can serve as a robust training-free proxy for identifying quantization-sensitive regions, enabling efficient mixed-precision allocation without compromising model accuracy.",
+  "Related Work": "Existing training-free MPQ methods (e.g., EMQ, InfoQ) focus on proxies like Hessian sensitivity or global information flow but lack a rigorous mathematical foundation linking quantization sensitivity to spectral properties. SpectralMPQ distinguishes itself by explicitly leveraging spectral decomposition and Hessian curvature diagnostics to formalize quantization sensitivity, providing a deterministic and transparent framework for bit-width allocation.",
+  "Abstract": "Mixed-precision quantization (MPQ) is crucial for deploying deep neural networks on resource-constrained devices, but finding the optimal bit-width allocation remains challenging. Existing training-free methods rely on heuristic proxies that lack mathematical rigor and fail to account for the interplay between quantization sensitivity and curvature. To address this, we propose SpectralMPQ, a novel framework that leverages spectral decomposition and Hessian curvature diagnostics to identify quantization-sensitive regions in weight matrices. SpectralMPQ formulates bit-width allocation as a deterministic optimization problem, guided by spectral sensitivity scores derived from Hessian-conditioned singular values. Our approach explicitly accounts for numerical stability and curvature-aware precision routing, ensuring efficient and accurate MPQ without requiring training or calibration data. Experiments on ImageNet with ResNet and MobileNet architectures demonstrate that SpectralMPQ achieves state-of-the-art accuracy-complexity trade-offs while maintaining strict computational overhead bounds.",
+  "Experiments": [
+    "Experiment 1: Spectral Sensitivity Analysis - Perform spectral decomposition on weight matrices of ResNet-18 and MobileNetV2, compute Hessian-conditioned singular values, and analyze their correlation with quantization sensitivity.",
+    "Experiment 2: Bit-Width Allocation - Formulate bit-width allocation as an integer linear programming (ILP) problem using spectral sensitivity scores, and solve for optimal bit-width configurations under varying computational budgets.",
+    "Experiment 3: Empirical Evaluation - Evaluate SpectralMPQ on ImageNet using ResNet-18, ResNet-50, and MobileNetV2, comparing accuracy, model size, and computational efficiency against state-of-the-art MPQ methods (e.g., EMQ, InfoQ).",
+    "Experiment 4: Ablation Study - Ablate key components of SpectralMPQ (e.g., Hessian conditioning, spectral decomposition) to quantify their impact on accuracy and efficiency."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of SpectralMPQ may be limited for architectures with highly irregular weight distributions, where spectral properties may not correlate well with quantization sensitivity.",
+    "The computational overhead of Hessian-conditioned spectral decomposition could be non-trivial for very large models, although our framework enforces strict bounds to mitigate this risk.",
+    "The framework assumes access to pre-trained weights, which may not always be available in deployment scenarios requiring on-the-fly quantization."
+  ]
+}

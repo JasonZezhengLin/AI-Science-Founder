@@ -1,0 +1,17 @@
+{
+  "Name": "spectral_quantization_routing",
+  "Title": "Spectral Quantization Routing: Training-Free Precision Allocation via Activation Covariance Geometry",
+  "Short Hypothesis": "We hypothesize that the local covariance condition number and spectral decay rate of hidden states serve as direct proxies for quantization sensitivity, enabling training-free precision allocation in mixed-precision inference.",
+  "Related Work": "Recent works such as Spectral Latent Steering and Geometric Signal Separation have explored the use of geometric and spectral methods for improving the efficiency and robustness of neural networks. However, these approaches have focused on test-time optimization and in-context learning, whereas our proposal addresses the challenge of training-free precision allocation in mixed-precision inference.",
+  "Abstract": "Mixed-precision inference offers significant latency and memory gains but typically relies on static profiling or costly calibration. We propose Spectral Quantization Routing (SQR), a training-free framework that dynamically allocates numerical precision based on real-time activation geometry. SQR computes local covariance condition numbers and spectral decay rates of hidden states, mapping them to a precision-switching policy that enforces strict latency budgets. We theoretically ground the routing mechanism with PAC-Bayes bounds, linking spectral conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, SQR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines.",
+  "Experiments": [
+    "Evaluate SQR on WILDS benchmarks, comparing its performance to static and heuristic mixed-precision baselines.",
+    "Investigate the impact of different precision allocation strategies on the throughput-accuracy Pareto frontier.",
+    "Analyze the effect of spectral decay rate and local covariance condition number on quantization sensitivity and precision allocation."
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed approach may not generalize well to all types of neural networks or datasets.",
+    "The computational overhead of computing local covariance condition numbers and spectral decay rates may be significant.",
+    "The precision-switching policy may not always enforce strict latency budgets, potentially leading to inefficiencies."
+  ]
+}

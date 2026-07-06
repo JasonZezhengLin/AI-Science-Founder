@@ -1,0 +1,11 @@
+{
+  "arm": "peer",
+  "round": 3,
+  "founder": "founder_1",
+  "model": "deepseek/deepseek-chat",
+  "cross_founder_visibility": "1",
+  "persona_chars": 3255,
+  "peer_brief_chars": 798,
+  "workshop_desc_chars": 4263,
+  "idea_is_none": false
+}

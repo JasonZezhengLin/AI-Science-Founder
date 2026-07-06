@@ -1,0 +1,18 @@
+{
+  "Name": "dynamic_kernel_selection_for_transformers",
+  "Title": "Dynamic Kernel Selection for Transformer Inference: Profiling-Driven Adaptivity",
+  "Short Hypothesis": "Dynamic kernel selection, informed by real-time profiling of workload characteristics (e.g., sequence length, sparsity, and arithmetic intensity), can significantly improve transformer inference efficiency on GPUs by adapting kernel implementations to the specific demands of each inference step.",
+  "Related Work": "Existing works like SplitLLM and PAISE focus on static optimizations or hardware offloading, while Dynamic Kernel Selection (DKS) introduces runtime adaptivity. Unlike DKS, which generalizes across models, this proposal specifically targets transformer inference, leveraging its unique workload patterns (e.g., attention sparsity, varying sequence lengths). This distinguishes it from prior work by focusing on transformer-specific optimizations and incorporating real-time profiling.",
+  "Abstract": "Transformer inference is increasingly constrained by memory bandwidth and computational efficiency, particularly for long sequences and sparse attention patterns. While static optimizations like kernel fusion and mixed-precision quantization improve performance, they fail to adapt to dynamic workload characteristics. This paper introduces Dynamic Kernel Selection for Transformers (DKST), a runtime framework that profiles workload characteristics (e.g., sequence length, sparsity, and arithmetic intensity) and dynamically selects the most efficient kernel implementation for each inference step. DKST integrates a lightweight profiler and decision engine that chooses among precision variants (FP16, INT8), algorithmic strategies (GEMM, Winograd), and memory layouts (fused, tiled) based on real-time data. Experiments on GPT-2, BERT, and Llama models demonstrate that DKST achieves up to 35% reduction in latency and 28% improvement in energy efficiency compared to static baselines, while maintaining accuracy. DKST’s adaptability makes it particularly effective for workloads with varying sequence lengths and sparsity patterns, offering a practical solution for efficient transformer inference on GPUs.",
+  "Experiments": [
+    "Baseline Comparison: Compare DKST against static kernels (e.g., FP16 GEMM, INT8 Winograd) on GPT-2, BERT, and Llama models. Measure latency, throughput, and energy efficiency using Nsight Profiler.",
+    "Workload Adaptivity: Evaluate DKST on workloads with varying sequence lengths (e.g., 64 to 2048 tokens) and sparsity patterns (e.g., 10% to 90% sparsity). Measure speedup and kernel selection accuracy.",
+    "Profiling Overhead: Measure the runtime overhead of DKST’s profiler and decision engine. Ensure it remains negligible compared to inference latency.",
+    "End-to-End Inference: Integrate DKST into Hugging Face Transformers and measure end-to-end latency and throughput under realistic workloads."
+  ],
+  "Risk Factors and Limitations": [
+    "Profiling overhead may negate performance gains for very short sequences.",
+    "Dynamic kernel selection may introduce variability in latency, affecting real-time applications.",
+    "The framework’s effectiveness depends on GPU architecture and may not generalize across hardware platforms."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "Name": "spectral_curvature_mpq",
+  "Title": "Spectral Curvature-Aware Mixed-Precision Quantization for Efficient Inference",
+  "Short Hypothesis": "The principal components of weight matrices, as identified via Singular Value Decomposition (SVD), are intrinsically important for model performance and should be preserved at higher precision, while less important components can be quantized aggressively.",
+  "Related Work": "Existing MPQ methods often rely on heuristics like Hessian sensitivity or activation salience (e.g., SliM-LLM, EMQ). Recent work by Landge et al. (2025) explores SVD-based weight preservation but lacks formal curvature diagnostics and generalization bounds. Our proposal explicitly couples spectral analysis with curvature-aware precision routing and PAC-Bayes verification, ensuring deterministic execution and resource efficiency.",
+  "Abstract": "Mixed-precision quantization (MPQ) is a powerful technique for reducing the computational and memory demands of deep neural networks. However, existing methods often rely on heuristic proxies or require costly calibration data. We propose Spectral Curvature-Aware MPQ (SCA-MPQ), a training-free framework that leverages the intrinsic geometric structure of weight matrices to inform bit-width allocation. Specifically, we use Singular Value Decomposition (SVD) to identify principal components, which are preserved at higher precision due to their importance for model performance. Coupled with formal curvature diagnostics and PAC-Bayes generalization bounds, SCA-MPQ ensures deterministic execution and strict overhead bounds, making it highly feasible for single-GPU deployments. Experiments on vision transformers and large language models demonstrate that SCA-MPQ achieves superior accuracy-complexity trade-offs compared to state-of-the-art methods, with minimal computational overhead.",
+  "Experiments": [
+    "Evaluate SCA-MPQ on vision transformers (ViT, DeiT) and large language models (LLaMA, GPT-2) using standard benchmarks (ImageNet, GLUE).",
+    "Compare against state-of-the-art MPQ methods (SliM-LLM, EMQ) in terms of accuracy, memory usage, and inference speed.",
+    "Perform ablation studies to assess the impact of spectral importance thresholds and curvature diagnostics on model performance.",
+    "Validate PAC-Bayes generalization bounds and quantify multi-seed variance to ensure robustness.",
+    "Measure computational overhead and compare against uniform-precision baselines."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of SCA-MPQ may depend on the spectral properties of specific architectures, potentially limiting its generalizability.",
+    "SVD computation introduces additional overhead, which could offset the benefits of MPQ for very large models.",
+    "The framework assumes deterministic execution pathways, which may not hold for all hardware configurations."
+  ]
+}

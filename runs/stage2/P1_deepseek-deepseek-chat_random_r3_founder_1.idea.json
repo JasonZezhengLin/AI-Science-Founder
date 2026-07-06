@@ -1,0 +1,18 @@
+{
+  "Name": "dynamic_kv_cache_layout",
+  "Title": "Dynamic KV-Cache Layout Optimization for Efficient Transformer Inference",
+  "Short Hypothesis": "Dynamic adjustment of the KV-cache layout during inference, based on real-time profiling of memory access patterns and tensor-core occupancy, can significantly reduce latency and improve throughput for transformer models on commodity GPUs.",
+  "Related Work": "Existing works on transformer inference optimization focus on static KV-cache layouts and fixed memory access patterns. AMP-ViT and SNIP explore mixed-precision quantization and adaptive precision training but do not address dynamic memory layout optimization during inference. EMQ focuses on training-free proxies for quantization but does not consider real-time profiling. This proposal uniquely combines real-time profiling with dynamic KV-cache layout optimization to achieve hardware-faithful speedups.",
+  "Abstract": "Transformer models, particularly in NLP tasks, rely heavily on the Key-Value (KV) cache mechanism to store intermediate states during autoregressive inference. However, the static nature of KV-cache layouts often leads to suboptimal memory access patterns and inefficient tensor-core utilization. This paper proposes a dynamic KV-cache layout optimization framework that leverages real-time profiling of memory access patterns and tensor-core occupancy to adjust the KV-cache layout during inference. By dynamically adapting the layout to the specific hardware and workload, our approach aims to reduce latency and improve throughput on commodity GPUs. We introduce a lightweight profiler that monitors warp stall reasons, achieved bandwidth, and arithmetic intensity, guiding the layout adjustments. Our experiments on GPT-like models demonstrate significant reductions in p50/p99 latency and improvements in tokens-per-second, validated by nvprof/Nsight traces and end-to-end benchmarks.",
+  "Experiments": [
+    "Baseline Comparison: Compare the proposed dynamic KV-cache layout with static layouts on GPT-like models, measuring p50/p99 latency, tokens-per-second, and energy per token.",
+    "Real-Time Profiling: Implement and evaluate the lightweight profiler, measuring warp stall reasons, achieved bandwidth, and arithmetic intensity during inference.",
+    "Dynamic Layout Adjustment: Test the dynamic layout adjustment mechanism under varying sequence lengths and batch sizes, reporting improvements in latency and throughput.",
+    "Hardware-Faithful Evaluation: Conduct experiments on different GPUs (e.g., A100, RTX 3090) with locked clocks, warmup runs, and variance analysis to ensure reproducibility."
+  ],
+  "Risk Factors and Limitations": [
+    "The overhead of real-time profiling might negate some of the performance gains.",
+    "Dynamic layout adjustments may introduce complexity and potential instability in the inference pipeline.",
+    "The approach may not generalize well to all transformer architectures or hardware configurations."
+  ]
+}

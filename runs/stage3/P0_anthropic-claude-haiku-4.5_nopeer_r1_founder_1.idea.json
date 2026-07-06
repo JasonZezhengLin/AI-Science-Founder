@@ -1,0 +1,148 @@
+{
+  "Name": "curvature_aware_precision_routing",
+  "Title": "Geometric Precision Routing: Training-Free Layer-Wise Quantization via Spectral Subspace Diagnostics and Stability-Aware Routing",
+  "Short Hypothesis": "Layer-wise precision allocation in transformer inference can be determined pre-execution through deterministic spectral analysis of weight covariance structure and gradient flow geometry, without forward passes or calibration data. Specifically: (1) Hessian conditioning and spectral decay patterns in weight matrices encode latent precision requirements; (2) these geometric signatures can be extracted via SVD-based diagnostics on frozen weights alone; (3) formal stability radii and PAC-Bayes bounds can be derived to guarantee that precision decisions maintain generalization guarantees; (4) this training-free routing achieves comparable accuracy-efficiency trade-offs to calibration-based methods at negligible computational cost. This direction is necessary because existing mixed-precision schemes treat precision as a systems problem rather than a geometric one, missing the opportunity to ground routing in architectural theory and enable deterministic, reproducible quantization strategies that scale to resource-constrained deployments.",
+  "Related Work": "Existing mixed-precision inference methods fall into three categories: (1) Post-hoc calibration (e.g., OCS, ZipML, BRECQ) requiring forward passes on calibration data—expensive and data-dependent; (2) Layer-wise heuristics (e.g., per-layer sensitivity analysis, magnitude-based thresholding) lacking formal justification and prone to brittleness; (3) Recent work on mechanistic interpretability (Anthropic's dictionary learning, Transformer Circuits) characterizing layer geometry but not connecting to quantization. Our proposal uniquely bridges this gap by: (a) formalizing precision routing through weight Hessian spectral structure rather than activation statistics; (b) deriving PAC-Bayes generalization bounds explicitly accounting for precision switching, providing formal guarantees absent in prior work; (c) implementing deterministic, training-free diagnostics requiring only frozen weight SVD—no data access or calibration loops; (d) explicitly quantifying amortized diagnostic overhead and establishing strict single-GPU feasibility. Unlike BRECQ or OCS, we avoid calibration entirely. Unlike magnitude-based heuristics, we ground decisions in curvature geometry. Unlike mechanistic interpretability work, we operationalize geometric insights into actionable routing decisions with formal stability guarantees.",
+  "Abstract": "Mixed-precision inference promises efficiency gains, yet current approaches either require expensive calibration or deploy ad-hoc heuristics without geometric justification. We propose a training-free precision routing framework grounded in spectral geometry of weight matrices and formal stability analysis. The core insight: layer-wise precision requirements are encoded in the Hessian conditioning and spectral decay of frozen weights—signatures extractable via deterministic SVD-based diagnostics without forward passes or data access. We develop a three-stage pipeline: (1) **Spectral Diagnostics**: For each transformer layer, compute weight SVD to extract singular value decay rates, condition numbers, and subspace alignment metrics; (2) **Stability-Aware Routing**: Derive formal stability radii and PAC-Bayes generalization bounds that map spectral signatures to precision tier assignments, with explicit numerical guardrails for quantization error propagation; (3) **Deterministic Precision Allocation**: Assign block-level precision (FP32, BF16, INT8) to transformer components based on stability bounds, ensuring gradient flow integrity and bounded generalization loss. We validate on ImageNet-scale vision transformers and large language models (Llama-2, Mistral), comparing accuracy-efficiency Pareto fronts against calibration-based baselines (BRECQ, OCS). Experiments quantify: (a) diagnostic overhead (SVD cost as fraction of inference time); (b) precision allocation sensitivity to spectral thresholds; (c) generalization gap under precision switching via PAC-Bayes bounds; (d) inference speedup and memory savings per precision tier. Our framework achieves comparable or superior accuracy-efficiency trade-offs to data-dependent methods while requiring only frozen weights—enabling deterministic, reproducible quantization suitable for resource-constrained and privacy-sensitive deployments.",
+  "Experiments": [
+    {
+      "name": "Spectral Signature Extraction and Validation",
+      "description": "For each transformer layer in a pre-trained model (e.g., ViT-B/32, Llama-2-7B), compute full SVD of weight matrices W ∈ R^{d_out × d_in}. Extract: (1) singular value decay rate α via power-law fit log(σ_i) ≈ -α log(i); (2) condition number κ = σ_max/σ_min; (3) effective rank r_eff = (Σσ_i)^2 / Σσ_i^2. Visualize spectral profiles across layers and architectures. Hypothesis: layers with slow decay (high α) and high κ require higher precision; fast decay (low α) layers tolerate quantization. Validation: correlate spectral metrics with layer sensitivity measured via gradient norm perturbation (compute ∂L/∂W for random batch, measure change in loss under small weight noise).",
+      "metrics": [
+        "Singular value decay rate α per layer",
+        "Condition number κ",
+        "Effective rank r_eff",
+        "Pearson correlation between α and layer sensitivity",
+        "Spearman rank correlation between κ and calibration-based precision assignments from BRECQ"
+      ]
+    },
+    {
+      "name": "Stability Radius Derivation and Numerical Validation",
+      "description": "Derive formal stability radius ε(W, Δ) for a layer with weight matrix W and quantization perturbation Δ. Using perturbation theory, bound the change in layer output ∂h = W'x - Wx = Δx under FP32→BF16/INT8 conversion. Formalize: for quantization error ∥Δ∥_2 ≤ δ_q, derive maximum tolerable δ_q such that ∥∂h∥_2 ≤ ε_layer (user-specified tolerance). Express in terms of condition number: ε_layer ≤ δ_q · κ(W). Numerically validate on sample layers: (1) measure actual quantization error δ_q for BF16/INT8; (2) compute κ(W) via SVD; (3) predict ε_layer; (4) empirically measure ∂h via forward pass with quantized weights; (5) verify prediction bounds hold. Repeat across 50 random layers from different architectures.",
+      "metrics": [
+        "Predicted vs. empirical ε_layer (absolute error, relative error)",
+        "Percentage of layers where bound holds (should be ~100%)",
+        "Tightness of bound (ratio empirical/predicted)",
+        "Computational cost of SVD per layer (FLOPs, wall-clock time on single GPU)"
+      ]
+    },
+    {
+      "name": "PAC-Bayes Generalization Bound Under Precision Switching",
+      "description": "Formalize generalization loss when switching layer l from FP32 to lower precision. Using PAC-Bayes framework, bound E_test[L] - E_train[L] ≤ B_pac(δ, m, σ_prior, σ_post) where σ_post accounts for precision-induced weight perturbation. Specifically: model posterior = (W_FP32 + Δ_quant), prior = W_FP32. Set σ_post = ∥Δ_quant∥_2 (quantization error). Derive that B_pac ∝ √(log(1/δ) / m) + ∥Δ_quant∥_2 · (spectral norm of Hessian). Numerically compute bound for each layer under different precision tiers. Hypothesis: layers with small Hessian spectral norm tolerate larger Δ_quant without exceeding bound. Validation: (1) compute empirical generalization gap on held-out validation set; (2) verify it falls within predicted PAC-Bayes bound; (3) identify layers where bound is tight (informative) vs. loose (conservative).",
+      "metrics": [
+        "PAC-Bayes bound value per layer per precision tier",
+        "Empirical generalization gap",
+        "Percentage of layers where empirical gap < bound (should be ~95% for δ=0.05)",
+        "Bound tightness ratio (empirical / predicted)",
+        "Hessian spectral norm estimates per layer"
+      ]
+    },
+    {
+      "name": "Training-Free Precision Routing Algorithm",
+      "description": "Implement deterministic routing algorithm: For each layer l, (1) compute SVD: σ_1 ≥ σ_2 ≥ ... ≥ σ_r; (2) compute κ_l = σ_1 / σ_r; (3) compute PAC-Bayes bound B_l(prec) for each precision tier; (4) assign precision tier to layer l = argmin_prec(B_l(prec)) subject to B_l(prec) ≤ ε_global (global generalization budget); (5) if no tier satisfies budget, escalate to higher precision. Implement with explicit numerical safeguards: (a) clamp κ_l ≥ 1 + 1e-6 to avoid division by zero; (b) threshold small singular values σ_i < 1e-8 before computing κ; (c) log all precision decisions and bounds for auditing. Run algorithm on full model (e.g., ViT-B/32 = 12 layers × 12 heads, Llama-2-7B = 32 layers), output precision assignment map. Computational cost: single-GPU SVD for all layers should complete in <5 min for ViT-B, <30 min for Llama-2-7B.",
+      "metrics": [
+        "Wall-clock time for full diagnostic pipeline (SVD + bound computation + routing)",
+        "Percentage of FLOPs in each precision tier (FP32, BF16, INT8)",
+        "Total model size reduction (original FP32 vs. mixed-precision)",
+        "Amortized diagnostic cost as % of inference latency (single batch)",
+        "Reproducibility: identical precision maps across 10 independent runs (should be 100%)"
+      ]
+    },
+    {
+      "name": "Accuracy-Efficiency Validation on Vision Transformers",
+      "description": "Evaluate on ImageNet-1K classification. Models: ViT-B/32, ViT-L/32. Baselines: (1) Full FP32 (reference); (2) Uniform INT8; (3) BRECQ (post-hoc calibration); (4) OCS (optimal clipping). Our method: precision map from training-free routing. For each method: (1) run inference on ImageNet validation set (50K images); (2) measure top-1/top-5 accuracy; (3) measure inference latency (batch size 128 on single A100 GPU); (4) measure peak memory. Plot Pareto curve: accuracy vs. latency. Compute: (a) accuracy drop vs. FP32 baseline; (b) latency speedup vs. FP32; (c) memory savings. Hypothesis: our method achieves ≥95% of BRECQ accuracy while requiring 10-100× less computation (no calibration data needed).",
+      "metrics": [
+        "Top-1 accuracy on ImageNet validation",
+        "Top-5 accuracy",
+        "Inference latency (ms/image, batch size 128)",
+        "Peak GPU memory (GB)",
+        "Accuracy drop vs. FP32 (%)",
+        "Latency speedup vs. FP32 (×)",
+        "Memory savings vs. FP32 (%)",
+        "Computational cost of our method vs. BRECQ (FLOPs, wall-clock time)"
+      ]
+    },
+    {
+      "name": "Accuracy-Efficiency Validation on Large Language Models",
+      "description": "Evaluate on language modeling tasks. Models: Llama-2-7B, Mistral-7B. Task: next-token prediction on WikiText-103 (validation perplexity). Baselines: same as above. For each method: (1) run inference on WikiText validation set (~3.6M tokens); (2) measure perplexity; (3) measure generation latency (tokens/sec, batch size 1); (4) measure peak KV cache memory. Hypothesis: our method achieves perplexity within 5% of FP32 while reducing latency by 20-40% and memory by 30-50%.",
+      "metrics": [
+        "Perplexity on WikiText-103 validation",
+        "Perplexity increase vs. FP32 (%)",
+        "Generation latency (tokens/sec, batch size 1)",
+        "Latency speedup vs. FP32 (×)",
+        "Peak KV cache memory (GB)",
+        "Memory savings vs. FP32 (%)",
+        "Computational cost of our method (FLOPs, wall-clock time)"
+      ]
+    },
+    {
+      "name": "Ablation: Sensitivity to Spectral Thresholds and Routing Hyperparameters",
+      "description": "Investigate robustness of routing to hyperparameter choices. Vary: (1) condition number threshold κ_threshold (e.g., 10, 50, 100, 500, ∞); (2) effective rank threshold r_eff_threshold (e.g., 0.5, 0.7, 0.9); (3) global generalization budget ε_global (e.g., 0.01, 0.05, 0.1). For each configuration, re-run precision routing and measure resulting accuracy on ImageNet. Plot accuracy vs. each hyperparameter. Hypothesis: routing is stable across reasonable ranges; small changes in thresholds produce small changes in accuracy (smooth Pareto front).",
+      "metrics": [
+        "Accuracy across κ_threshold values",
+        "Accuracy across r_eff_threshold values",
+        "Accuracy across ε_global values",
+        "Precision map overlap (% of layers with identical tier assignment) between adjacent hyperparameter values",
+        "Robustness score: max accuracy drop when varying hyperparameters by ±50%"
+      ]
+    },
+    {
+      "name": "Mechanistic Analysis: Spectral Signatures vs. Layer Function",
+      "description": "Investigate whether spectral signatures correlate with known layer functions in transformers. Categorize layers: (1) attention layers (self-attention projections); (2) MLP layers (feed-forward networks); (3) normalization layers. For each category, compute mean/std of spectral metrics (α, κ, r_eff). Hypothesis: attention layers have higher κ and lower α (slower decay) than MLP layers, reflecting their role in capturing long-range dependencies. Visualize: (1) heatmap of κ across layers; (2) scatter plot (α vs. κ) colored by layer type; (3) correlation matrix between spectral metrics and layer type (via Cramér's V or mutual information). Validate by checking if human-interpretable layer functions align with precision assignments.",
+      "metrics": [
+        "Mean/std of α, κ, r_eff per layer type",
+        "Pearson/Spearman correlation between spectral metrics and layer type",
+        "Visualization quality: clarity of layer type clustering in spectral space",
+        "Percentage of attention layers assigned higher precision than MLP layers"
+      ]
+    },
+    {
+      "name": "Multi-Seed Reproducibility and Confidence Intervals",
+      "description": "Run full pipeline (diagnostics + routing + inference) on 10 independent random seeds (if applicable, e.g., different model initializations or validation set splits). Measure: (1) variance in precision map (% of layers with identical assignments across seeds); (2) variance in accuracy; (3) variance in latency. Compute 95% confidence intervals for all metrics. Hypothesis: deterministic routing produces identical precision maps and negligible variance in accuracy/latency across seeds.",
+      "metrics": [
+        "Precision map consistency (% identical across 10 seeds)",
+        "Accuracy variance (std, 95% CI)",
+        "Latency variance (std, 95% CI)",
+        "Percentage of metrics where CI width < 1% of mean value"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    {
+      "risk": "Spectral metrics may not fully capture layer sensitivity. Weight Hessian is a proxy for true loss landscape curvature; if layers exhibit highly nonlinear behavior or contain skip connections, spectral analysis of weights alone may miss important interactions.",
+      "mitigation": "Validate correlation between spectral metrics and empirical sensitivity (gradient perturbation) in Exp. 1. If correlation is weak (r < 0.7), incorporate additional diagnostics (e.g., Fisher information matrix, attention entropy). Explicitly quantify this limitation in results."
+    },
+    {
+      "risk": "PAC-Bayes bounds may be loose, leading to overly conservative precision assignments. If bounds are too conservative, the method may assign higher precision than necessary, reducing efficiency gains.",
+      "mitigation": "In Exp. 3, measure bound tightness. If empirical generalization gaps are consistently <50% of predicted bounds, investigate tighter PAC-Bayes variants or data-dependent bounds. Report tightness as a limitation."
+    },
+    {
+      "risk": "SVD computation may be expensive for very large models. While SVD is O(d^2 · min(d_out, d_in)) per layer, for billion-parameter models this could exceed budget.",
+      "mitigation": "In Exp. 4, explicitly measure SVD cost. If it exceeds 30 min for Llama-2-7B, implement low-rank SVD approximation (e.g., randomized SVD, Nyström approximation) to reduce cost to <5 min. Document trade-off between diagnostic accuracy and computational cost."
+    },
+    {
+      "risk": "Precision routing may not account for data-dependent effects (e.g., adversarial robustness, out-of-distribution generalization). Training-free approach may miss layer-specific vulnerabilities that only manifest on certain input distributions.",
+      "mitigation": "Scope experiments to standard accuracy on in-distribution data (ImageNet, WikiText). Explicitly note in limitations that method does not optimize for robustness or OOD generalization. Suggest future work on data-dependent refinements."
+    },
+    {
+      "risk": "Block-level precision (per-layer) may be too coarse. Some layers may benefit from finer-grained precision (e.g., per-head or per-block precision in MLP layers).",
+      "mitigation": "Enforce coarse-grained routing as design choice to maintain computational feasibility and reproducibility. If results show significant accuracy loss, conduct post-hoc analysis to identify layers where finer granularity would help. Document this as a limitation and design trade-off."
+    },
+    {
+      "risk": "Generalization of routing across different model sizes or architectures. Precision map learned on ViT-B may not transfer to ViT-L or different architectures (CNNs, RNNs).",
+      "mitigation": "Test on multiple architectures (ViT variants, Llama variants, potentially BERT). If transfer is poor, investigate whether spectral signatures scale predictably with model size/architecture. Report transfer success rates and identify failure modes."
+    },
+    {
+      "risk": "Comparison fairness: BRECQ and OCS may benefit from task-specific tuning or calibration data selection. Our method uses only frozen weights, which is inherently limited.",
+      "mitigation": "Ensure fair comparison: (1) use same calibration data/hyperparameters for all baselines; (2) report computational cost of calibration explicitly; (3) highlight that our method's advantage is in computational efficiency, not necessarily accuracy. Position as complementary approach for scenarios where calibration is infeasible."
+    },
+    {
+      "risk": "Precision routing may not generalize to dynamic/adaptive inference (e.g., token pruning, early exit). Method assumes static precision assignment.",
+      "mitigation": "Scope to static inference. Note that dynamic methods require different analysis (e.g., token-level routing). Suggest future work on integration with dynamic strategies."
+    },
+    {
+      "risk": "Numerical stability of SVD on ill-conditioned weight matrices. If condition numbers are extremely large (κ > 1e6), SVD may suffer from numerical errors.",
+      "mitigation": "In Exp. 2, monitor numerical stability: (1) compute SVD using stable algorithms (e.g., scipy.linalg.svd with full_matrices=False); (2) check for NaN/Inf in singular values; (3) report percentage of layers with κ > 1e5. If instability occurs, document and investigate alternative diagnostics (e.g., randomized SVD, Lanczos iteration)."
+    }
+  ]
+}

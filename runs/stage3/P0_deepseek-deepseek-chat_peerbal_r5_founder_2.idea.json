@@ -1,0 +1,20 @@
+{
+  "Name": "latency_aware_layer_skipping",
+  "Title": "PAC-Bayes Stability-Guided Layer-Skipping for Deterministic Latency-Aware Inference",
+  "Short Hypothesis": "Layer-skipping decisions guided by PAC-Bayes stability bounds derived from Jacobian analysis can enforce strict latency budgets while minimizing hidden-state perturbation, offering a deterministic and reproducible pathway for efficient inference.",
+  "Related Work": "Existing work includes Spectral Latent Steering (SLS), which uses subspace projection for test-time optimization, and Spectral Quantization Routing (SQR), which dynamically allocates precision based on activation geometry. While both focus on latency-aware inference, neither explicitly addresses layer-skipping. Our proposal distinguishes itself by linking layer-skipping decisions to PAC-Bayes stability bounds derived from Jacobian analysis, providing deterministic latency guarantees and minimizing heuristic control mechanisms.",
+  "Abstract": "Layer-skipping has emerged as a promising technique for reducing inference latency, but existing methods often rely on heuristic control mechanisms and lack deterministic latency guarantees. We propose a novel framework that leverages PAC-Bayes stability bounds derived from Jacobian analysis to guide layer-skipping decisions, ensuring strict computational budgets while minimizing hidden-state perturbation. By explicitly linking layer-skipping to spectral stability metrics, our approach eliminates heuristic stagnation detection and replaces it with interpretable stability diagnostics. We theoretically ground our framework in information-theoretic bounds, showing that Jacobian-based stability metrics capture the majority of signal required for accurate inference. Evaluated on single-GPU setups across WILDS benchmarks, our framework achieves superior throughput-accuracy Pareto frontiers compared to heuristic baselines, while enforcing deterministic latency bounds. By bridging the gap between foundational optimization theory and practical inference, our work offers a reproducible pathway for efficient, latency-aware layer-skipping.",
+  "Experiments": [
+    "Evaluate on WILDS benchmarks (e.g., Camelyon17, FMoW) to assess robustness to domain shifts.",
+    "Compare throughput-accuracy Pareto frontiers against heuristic layer-skipping baselines.",
+    "Measure hidden-state perturbation overhead using Frobenius norm differences in activations.",
+    "Validate deterministic latency guarantees by enforcing strict wall-clock budgets across varying input sizes.",
+    "Perform ablation studies to isolate the impact of PAC-Bayes stability bounds versus heuristic control mechanisms."
+  ],
+  "Risk Factors and Limitations": [
+    "Jacobian computation may introduce overhead, though we mitigate this via single-pass approximations.",
+    "Strict latency bounds may limit adaptability to highly variable input distributions.",
+    "Generalization to architectures beyond transformer-based models remains untested.",
+    "Dynamic layer-skipping decisions may introduce non-determinism in rare edge cases."
+  ]
+}

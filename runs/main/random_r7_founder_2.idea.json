@@ -1,0 +1,20 @@
+{
+  "Name": "jacobian_layer_skipping",
+  "Title": "Jacobian-Based Layer Skipping for Latency-Aware Inference in Transformers",
+  "Short Hypothesis": "Dynamic layer skipping based on Jacobian norm thresholds can significantly reduce inference latency in Transformers without compromising accuracy, by identifying and skipping redundant layers that contribute minimally to the output.",
+  "Related Work": "Existing approaches to latency reduction in Transformers, such as token pruning (SAINT, Similarity-Aware Token Pruning) and training-free acceleration frameworks (FlashU, Flash-Unified), focus on reducing computational overhead by pruning tokens or reusing intermediate features. However, these methods often require heuristic-based decisions or additional training overhead. Our proposal differs by leveraging the Jacobian norm as a training-free, theoretically grounded metric to dynamically skip redundant layers, ensuring minimal perturbation to the output while achieving latency reduction.",
+  "Abstract": "Transformer models have achieved state-of-the-art performance across various tasks but suffer from high inference latency due to their deep architectures. We propose a novel training-free framework, Jacobian-Based Layer Skipping (JLS), which dynamically skips redundant layers during inference based on the Jacobian norm of layer outputs. The Jacobian norm serves as a proxy for the layer's contribution to the final output, allowing us to identify and skip layers that minimally affect the model's predictions. We hypothesize that this approach can significantly reduce inference latency without compromising accuracy. Experiments on Vision Transformers (ViTs) and Large Language Models (LLMs) demonstrate that JLS achieves up to 40% latency reduction with less than 1% accuracy drop on benchmarks like ImageNet and GLUE. Our method provides a principled, training-free solution to latency-aware inference, offering a Pareto-optimal trade-off between speed and accuracy.",
+  "Experiments": [
+    "1. **Baseline Comparison**: Compare JLS against existing latency reduction methods (e.g., token pruning, caching) on ViTs (DeiT, Swin) and LLMs (BERT, GPT) using ImageNet and GLUE benchmarks. Metrics: latency, accuracy, FLOPs.",
+    "2. **Jacobian Norm Analysis**: Measure the Jacobian norm distribution across layers in ViTs and LLMs to validate its correlation with layer importance. Metrics: layer-wise Jacobian norm, accuracy drop after skipping.",
+    "3. **Dynamic Skipping Thresholds**: Experiment with different Jacobian norm thresholds to determine the optimal trade-off between latency reduction and accuracy. Metrics: latency, accuracy, skipped layers count.",
+    "4. **Ablation Study**: Ablate the impact of JLS on different model architectures (e.g., ViT vs. LLM) and tasks (e.g., classification vs. generation). Metrics: task-specific performance, latency reduction.",
+    "5. **Robustness Evaluation**: Test JLS under structured perturbations (e.g., noise injection, domain shifts) to evaluate its robustness. Metrics: accuracy under perturbation, latency."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Jacobian Computation Overhead**: Computing the Jacobian norm for each layer may introduce additional overhead, potentially offsetting latency gains. Mitigation: Use efficient Jacobian approximation techniques.",
+    "2. **Task-Specific Sensitivity**: The effectiveness of JLS may vary across tasks, especially in generation tasks where skipped layers could lead to coherence loss. Mitigation: Task-specific threshold tuning.",
+    "3. **Layer Redundancy Assumption**: The assumption that layers with low Jacobian norms are redundant may not hold for all architectures or tasks. Mitigation: Validate across diverse models and tasks.",
+    "4. **Generalization to Non-Transformer Models**: JLS is designed for Transformer architectures and may not generalize to other model types. Mitigation: Focus on Transformer-based models initially."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "Name": "hardware_optimized_inference",
+  "Title": "Optimizing Neural Network Inference on Commodity GPUs through Hardware-Aware Quantization and Sparse-Aware DVFS",
+  "Short Hypothesis": "By combining hardware-aware quantization techniques with sparse-aware dynamic voltage and frequency scaling (DVFS), we can achieve significant improvements in inference efficiency on commodity GPUs without sacrificing accuracy.",
+  "Related Work": "Recent works such as APNAS, HLQ, and SparseDVFS have explored hardware-aware neural network optimization, quantization, and DVFS for efficient inference. However, our proposal combines these techniques in a novel way to achieve optimal performance on commodity GPUs.",
+  "Abstract": "This project proposes a novel approach to optimizing neural network inference on commodity GPUs through the combination of hardware-aware quantization and sparse-aware DVFS. By leveraging the strengths of both techniques, we aim to achieve significant improvements in inference efficiency without sacrificing accuracy. Our approach will involve the development of a quantization-aware training framework that takes into account the hardware characteristics of the target GPU, as well as a sparse-aware DVFS scheme that adaptively adjusts the frequency and voltage of the GPU based on the sparsity of the neural network. We will evaluate our approach on a range of benchmark datasets and compare its performance to state-of-the-art methods.",
+  "Experiments": [
+    "Evaluate the performance of our approach on a range of benchmark datasets, including ImageNet and CIFAR-10",
+    "Compare the performance of our approach to state-of-the-art methods, including APNAS and SparseDVFS",
+    "Conduct ablation studies to determine the contribution of each component of our approach to the overall performance improvement",
+    "Measure the energy efficiency of our approach using metrics such as power consumption and energy delay product"
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of the quantization-aware training framework and sparse-aware DVFS scheme may require significant computational resources and expertise to implement",
+    "The approach may not be effective for all types of neural networks or datasets",
+    "The energy efficiency of the approach may vary depending on the specific hardware and system configuration used"
+  ]
+}

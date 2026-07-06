@@ -1,0 +1,18 @@
+{
+  "Name": "cross_modal_spectral_acceleration",
+  "Title": "Spectral-Driven Latency-Aware Inference Acceleration for Multi-Modal Models",
+  "Short Hypothesis": "Multi-modal models exhibit modality-specific redundancy in their latent representations, which can be dynamically exploited using spectral properties of cross-modal attention weights and activations to enable training-free inference acceleration without sacrificing task performance.",
+  "Related Work": "Existing methods like SAINT (token pruning for VLMs) and LiteStage (layer skipping for multi-stage reasoning) focus on single modalities or tasks. This proposal uniquely targets cross-modal redundancy in unified models, leveraging spectral properties of cross-modal attention to dynamically optimize inference pathways across modalities.",
+  "Abstract": "Multi-modal models face significant computational challenges due to the quadratic complexity of cross-modal interactions. We propose a spectral-driven, training-free inference acceleration framework that dynamically exploits modality-specific redundancy in latent representations. By analyzing the spectral decay rates of cross-modal attention weights and activations, our method enables adaptive layer skipping and token pruning while preserving task performance. Experiments on unified models (e.g., LLaVA, OpenSora) demonstrate significant latency reductions (up to 2x) with minimal performance degradation, bridging the gap between efficiency and accuracy in multi-modal inference.",
+  "Experiments": [
+    "Cross-Modal Spectral Analysis: Analyze spectral decay rates of attention weights and activations across modalities.",
+    "Modality-Aware Layer Skipping: Implement training-free layer skipping based on spectral decay rates.",
+    "Dynamic Token Pruning: Develop token pruning policy using activation spectral properties.",
+    "Latency-Aware Pareto Optimization: Evaluate latency-performance trade-offs across benchmarks."
+  ],
+  "Risk Factors and Limitations": [
+    "Modality Imbalance: Over-aggressive pruning/skipping may degrade cross-modal performance.",
+    "Spectral Approximation Overhead: Computing spectral properties on-the-fly may introduce latency overhead.",
+    "Benchmark Diversity: Limited generalization to unseen multi-modal tasks or domains."
+  ]
+}

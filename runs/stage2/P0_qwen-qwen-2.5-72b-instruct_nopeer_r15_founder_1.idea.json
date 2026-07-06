@@ -1,0 +1,21 @@
+{
+  "Name": "CurvatureAwarePrecisionRouting",
+  "Title": "Curvature-Aware Precision Routing for Efficient and Robust Neural Network Training",
+  "Short Hypothesis": "A curvature-aware precision routing framework can dynamically adjust numerical precision during training, leading to more efficient and robust neural network optimization while maintaining or improving model accuracy.",
+  "Related Work": "Recent work has explored mixed-precision training and curvature-aware optimization, but these approaches are often applied in isolation or do not provide a unified framework for precision adaptation. For example, Shao et al. (2026) propose a curvature-aware precision controller for physics-informed neural networks, but it is limited to a specific domain. Sheibanian et al. (2025) introduce Tri-Accel, which co-adapts precision, batch size, and second-order signals, but it does not explicitly account for curvature in its precision adaptation. Our proposal integrates curvature diagnostics with precision routing to create a more robust and efficient training pipeline.",
+  "Abstract": "We propose a curvature-aware precision routing (CAPR) framework for neural network training that dynamically adjusts numerical precision based on curvature information. CAPR leverages spectral quantization theory and deterministic spectral estimators to identify numerically sensitive training phases, dynamically switching between FP32 and FP64 precision. This approach aims to reduce computational overhead while maintaining or improving model accuracy. We evaluate CAPR on a range of neural network architectures and datasets, demonstrating significant reductions in training time and memory usage without sacrificing performance. Theoretical analysis and empirical validation confirm the effectiveness of CAPR in enhancing training efficiency and robustness.",
+  "Experiments": [
+    "Train a ResNet-18 on CIFAR-10 and CIFAR-100 using CAPR, comparing against full FP32 and FP64 baselines. Measure training time, memory usage, and final accuracy.",
+    "Evaluate CAPR on a larger architecture, such as EfficientNet-B0, on the same datasets. Analyze the impact on training dynamics and convergence.",
+    "Conduct ablation studies to isolate the effects of curvature diagnostics and precision switching. Compare against static mixed-precision and full-precision training.",
+    "Perform multi-seed experiments to quantify the variance in training time and final accuracy. Use confidence intervals to assess statistical significance.",
+    "Test CAPR on a different type of neural network, such as a Transformer, to evaluate its generalizability across architectures.",
+    "Analyze the spectral properties of the Hessian and gradient covariance matrices during training to validate the curvature diagnostics used in CAPR."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of CAPR may vary across different neural network architectures and datasets, requiring careful tuning of curvature thresholds.",
+    "Dynamic precision switching could introduce additional overhead due to precision conversion operations, which may offset some of the computational savings.",
+    "The spectral quantization theory and curvature diagnostics used in CAPR rely on assumptions that may not hold in all scenarios, potentially leading to suboptimal precision decisions.",
+    "The implementation of CAPR requires custom kernel support, which may limit its deployment on certain hardware platforms."
+  ]
+}

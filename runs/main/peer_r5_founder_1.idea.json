@@ -1,0 +1,19 @@
+{
+  "Name": "curvature_aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing via Spectral Subspace Diagnostics",
+  "Short Hypothesis": "The spectral decay rate and curvature of hidden state subspaces in transformer models can serve as deterministic proxies for precision allocation, enabling training-free, latency-bounded optimization of mixed-precision inference.",
+  "Related Work": "Recent works like Spectral Quantization Routing and Spectral Latent Steering explore training-free geometric methods for inference optimization but focus primarily on activation covariance or low-rank projections. These methods lack explicit curvature-aware diagnostics, which could provide finer-grained precision allocation. Our proposal distinguishes itself by integrating curvature-aware subspace analysis with spectral diagnostics, offering a more precise and theoretically grounded approach to mixed-precision routing.",
+  "Abstract": "Mixed-precision inference promises significant computational savings but often relies on heuristic or costly calibration methods. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates numerical precision based on the spectral decay rate and curvature of hidden state subspaces. By leveraging randomized SVD to compute local curvature diagnostics, CAPR identifies subspaces where low-precision computation is robust, while ill-conditioned subspaces receive higher precision. We provide PAC-Bayes bounds linking spectral curvature to generalization stability under quantization noise, ensuring theoretical grounding. Empirical evaluation on single-GPU setups across WILDS benchmarks demonstrates that CAPR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized risk bounds, CAPR offers a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Curvature Diagnostics: Measure the spectral decay rate and curvature of hidden state subspaces using randomized SVD across transformer layers.",
+    "Precision Allocation: Map curvature diagnostics to a precision-switching policy, enforcing strict latency budgets.",
+    "Throughput-Accuracy Tradeoff: Evaluate CAPR on WILDS benchmarks, comparing throughput, accuracy, and latency against static and heuristic mixed-precision baselines.",
+    "Theoretical Validation: Derive PAC-Bayes bounds linking spectral curvature to generalization stability under quantization noise.",
+    "Ablation Studies: Analyze the impact of curvature-aware routing on model robustness and inference efficiency under distribution shifts."
+  ],
+  "Risk Factors and Limitations": [
+    "Computational Overhead: Randomized SVD may introduce latency overhead, though we aim to minimize this through efficient implementations.",
+    "Generalization: Theoretical bounds may not fully capture practical generalization under extreme quantization.",
+    "Hardware Constraints: Precision switching mechanisms may require specific hardware support, limiting deployability."
+  ]
+}

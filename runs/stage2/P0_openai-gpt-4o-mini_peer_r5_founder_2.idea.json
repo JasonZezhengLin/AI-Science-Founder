@@ -1,0 +1,15 @@
+{
+  "Name": "activation_partitioning_inference",
+  "Title": "Dynamic Activation Partitioning for Training-Free Inference Optimization in LLMs and VLMs",
+  "Short Hypothesis": "We hypothesize that dynamic partitioning of activations based on real-time geometry can lead to significant improvements in inference efficiency and robustness under latency constraints, providing a training-free alternative to existing optimization methods.",
+  "Related Work": "This proposal builds on recent work in training-free optimization and dynamic resource allocation, such as 'Spectral Quantization Routing' and 'Training-Free Geometric Interference Cancellation.' However, it distinctly focuses on partitioning activations in real-time to optimize inference efficiency, which has not been extensively explored in the literature.",
+  "Abstract": "In this proposal, we introduce a novel framework for dynamic activation partitioning aimed at optimizing inference in large language models (LLMs) and vision-language models (VLMs) without requiring additional training. By leveraging real-time activation geometry, we can partition activations into high- and low-importance segments, allowing for selective computational resource allocation that adheres to strict latency budgets. This approach not only enhances inference efficiency but also improves robustness against distributional shifts by dynamically adapting to the model's operational context. We will validate our framework across various benchmarks, demonstrating its effectiveness in achieving improved throughput-accuracy trade-offs compared to existing methods. Our work promises to bridge the gap between theoretical optimization principles and practical model deployment, yielding a reproducible and transparent pathway for training-free inference optimization.",
+  "Experiments": [
+    "1. Implement the dynamic activation partitioning framework in a baseline LLM/VLM.",
+    "2. Evaluate the model on standard benchmarks (e.g., GLUE, WILDS) under controlled distributional shifts.",
+    "3. Measure inference latency, throughput, and accuracy across different activation partition strategies.",
+    "4. Assess the robustness of the model against adversarial examples using activation partitioning.",
+    "5. Compare results with existing training-free methods to establish performance improvements."
+  ],
+  "Risk Factors and Limitations": "Potential risks include the challenge of accurately partitioning activations based on geometry, which may vary across different types of data inputs. Additionally, there could be limitations in the scalability of the proposed method across extremely large models or datasets. Ensuring reproducibility and generalization across diverse tasks may require careful calibration."
+}

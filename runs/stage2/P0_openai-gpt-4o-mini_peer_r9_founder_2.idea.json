@@ -1,0 +1,18 @@
+{
+  "Name": "dynamic_layer_selection_inference",
+  "Title": "Dynamic Layer Selection for Latency-Aware Inference Using Activation Geometry",
+  "Short Hypothesis": "We hypothesize that the geometric properties of activation distributions can be utilized to dynamically adjust the number of layers utilized during inference, leading to improved latency and accuracy without requiring training.",
+  "Related Work": "While existing works like SQR and OptimML focus on quantization and power management, our proposal introduces a novel method for active layer selection based on real-time activation metrics, filling a gap in the literature regarding dynamic model scaling without retraining.",
+  "Abstract": "In this proposal, we explore a novel approach to optimizing machine learning inference through dynamic layer selection based on activation geometry. We hypothesize that real-time metrics, such as the spectral condition number of activations, can inform which layers are necessary for a given input, allowing for a training-free mechanism to adapt the depth of the model. Our method employs a Jacobian-based layer-skipping framework that enables the model to skip unnecessary computations while maintaining accuracy within strict latency budgets. This mechanism not only enhances efficiency but also aligns with PAC-Bayes principles, ensuring bounded overhead while adapting to varying input complexities. We will evaluate our approach across multiple tasks and architectures, measuring throughput and accuracy to establish a Pareto frontier for latency-aware inference. By providing a rigorous, empirically validated framework, this work aims to contribute significantly to the field of latency-sensitive applications in machine learning.",
+  "Experiments": [
+    "Implement a baseline model and the proposed dynamic layer selection method on standard benchmarks (e.g., CIFAR-10, ImageNet).",
+    "Measure inference latency and accuracy across various input complexities to establish the Pareto frontier.",
+    "Conduct ablation studies to evaluate the impact of different layer-skipping strategies on performance metrics.",
+    "Collect cross-layer covariance statistics to validate the spectral condition number hypothesis against actual performance."
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed method may not generalize well across all architectures or tasks, requiring careful selection of benchmarks.",
+    "Dynamic adjustments could lead to unpredictable performance if activation distributions are not adequately characterized.",
+    "Real-time computations may introduce additional overhead that offsets the benefits of layer skipping."
+  ]
+}

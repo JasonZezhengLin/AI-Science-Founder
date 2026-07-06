@@ -1,0 +1,18 @@
+{
+  "Name": "layerwise_information_compression",
+  "Title": "Layerwise Information Compression: An Information-Theoretic Approach to Neural Network Pruning",
+  "Short Hypothesis": "Different layers of neural networks contain varying amounts of task-relevant information; strategically pruning layers based on their information content can optimize model compression while maintaining performance.",
+  "Related Work": "Existing works have explored model compression through pruning and quantization from an information-theoretic standpoint, but few have explicitly connected layer-wise information content to compression strategies. Notable works include the derivation of trade-offs between compression and performance (Isik et al., 2021) and the analysis of generalization risk with model compression (Bu et al., 2019). This proposal differentiates itself by focusing on a systematic method to assess and utilize the information content of individual layers for targeted compression.",
+  "Abstract": "In this work, we propose an innovative framework for neural network pruning grounded in information theory. We hypothesize that different network layers encapsulate varying degrees of task-relevant information and that quantifying this information can guide effective model compression strategies. By leveraging mutual information and entropy measures, we aim to develop a layerwise information assessment metric that quantifies the contribution of each layer to the overall model performance. Based on this metric, we will introduce a pruning strategy that selectively removes parameters from layers with lower information content, thereby optimizing the trade-off between model size and task performance. We will validate our approach through theoretical bounds on achievable rate-distortion curves and empirical evaluations on benchmark datasets, demonstrating the effectiveness of our method in achieving state-of-the-art compression rates without sacrificing predictive accuracy.",
+  "Experiments": [
+    "Develop an information estimator using mutual information and entropy to quantify task-relevant information per layer in various neural network architectures.",
+    "Implement a pruning algorithm that utilizes the layer information estimates to selectively prune weights from layers with lower information content.",
+    "Evaluate the performance of the pruned models on benchmark datasets such as CIFAR-10 and ImageNet, measuring accuracy, model size, and compression rate.",
+    "Compare the proposed method against existing pruning strategies to assess improvements in compression efficiency and predictive performance."
+  ],
+  "Risk Factors and Limitations": [
+    "The accuracy of the information estimators may vary based on the architecture and dataset, potentially influencing pruning decisions.",
+    "Layerwise information content may not always correlate perfectly with task performance, leading to suboptimal pruning outcomes.",
+    "The proposed framework may require tuning of parameters related to information estimation and pruning thresholds, which could introduce variability."
+  ]
+}

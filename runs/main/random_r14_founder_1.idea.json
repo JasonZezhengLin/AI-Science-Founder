@@ -1,0 +1,18 @@
+{
+  "Name": "curvature_aware_mixed_precision",
+  "Title": "Curvature-Aware Mixed Precision Quantization via Spectral Geometry Diagnostics",
+  "Short Hypothesis": "The curvature of the loss landscape, as measured by Hessian spectral properties, can serve as a training-free proxy for determining optimal mixed precision quantization configurations, outperforming existing heuristic-based methods.",
+  "Related Work": "Existing mixed precision quantization methods, such as EMQ and SliM-LLM, rely on training-free proxies like Hessian sensitivity or salience-driven bit allocation. However, these proxies often fail to capture the global impact of quantization errors. Recent work in InfoQ and Delta-CoMe has explored global information flow and inter-layer dependencies, but neither explicitly leverages curvature diagnostics. Our proposal distinguishes itself by introducing a curvature-aware framework that uses Hessian spectral properties to guide precision allocation, providing a more theoretically grounded and empirically robust approach.",
+  "Abstract": "Mixed precision quantization (MPQ) offers a promising approach to balancing model efficiency and accuracy, but determining optimal bit-width configurations remains a challenge. Current training-free methods rely on heuristic proxies that often fail to capture the global impact of quantization errors. In this work, we propose a novel curvature-aware MPQ framework that leverages Hessian spectral properties to guide precision allocation. By quantifying the curvature of the loss landscape, our method identifies layers most sensitive to quantization errors and allocates higher precision accordingly. We introduce a deterministic spectral estimator to efficiently compute Hessian eigenvalues, enabling a training-free precision routing protocol. Empirical evaluations on ImageNet and GLUE benchmarks demonstrate that our approach outperforms state-of-the-art MPQ methods, achieving superior accuracy-complexity trade-offs without the need for costly training or calibration data.",
+  "Experiments": [
+    "Experiment 1: Hessian Spectral Estimation - Compute Hessian eigenvalues for each layer using a deterministic spectral estimator. Evaluate the correlation between eigenvalue magnitudes and quantization sensitivity.",
+    "Experiment 2: Precision Allocation - Allocate bit-widths based on Hessian eigenvalues, assigning higher precision to layers with larger eigenvalues. Compare the resulting accuracy and efficiency against uniform quantization baselines.",
+    "Experiment 3: Ablation Study - Ablate the curvature-aware precision allocation to isolate its impact on model performance. Compare with existing proxies like Hessian sensitivity and salience-driven allocation.",
+    "Experiment 4: Benchmark Evaluation - Evaluate the proposed method on ImageNet (ResNet, MobileNet) and GLUE (BERT, DistilBERT) benchmarks. Measure accuracy, model size, and inference speed."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk 1: The Hessian spectral estimator may introduce computational overhead, particularly for large models. Mitigation: Optimize the estimator for efficiency and validate its scalability.",
+    "Risk 2: The correlation between Hessian eigenvalues and quantization sensitivity may vary across architectures. Mitigation: Conduct extensive empirical evaluations across diverse models.",
+    "Risk 3: The proposed method assumes a stationary loss landscape, which may not hold during training. Mitigation: Focus on post-training quantization scenarios where the loss landscape is stable."
+  ]
+}

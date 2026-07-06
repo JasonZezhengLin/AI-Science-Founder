@@ -1,0 +1,19 @@
+{
+  "Name": "kernel_feedback_tuning",
+  "Title": "Kernel Feedback Tuning: Hardware-Aware Optimization of CUDA/Triton Kernels via Profiler-Guided Empirical Tuning",
+  "Short Hypothesis": "By integrating real-time hardware feedback (e.g., Nsight Compute metrics) into an iterative tuning loop, CUDA/Triton kernels can be empirically optimized for specific hardware configurations, achieving measurable speedups in wall-clock latency without requiring formal theoretical guarantees.",
+  "Related Work": "Existing work on CUDA kernel optimization (e.g., CUDA-LLM, CudaForge) focuses on automated generation and correctness but lacks systematic integration of hardware feedback for empirical tuning. While LiquidGEMM and CHOSEN optimize specific kernels (e.g., GEMM), they do not generalize to broader kernel types or leverage profiler-guided tuning. Our proposal distinguishes itself by focusing on empirical, hardware-aware tuning loops that iteratively refine kernels based on measurable metrics like warp stall reasons, achieved bandwidth, and arithmetic intensity.",
+  "Abstract": "Optimizing CUDA/Triton kernels for hardware-efficient inference remains a challenge due to the complexity of modern GPU architectures and the lack of systematic integration of hardware feedback into the tuning process. We propose Kernel Feedback Tuning (KFT), a framework that iteratively refines CUDA/Triton kernels using real-time hardware feedback from profilers like Nsight Compute. KFT employs an empirical tuning loop that measures key metrics (e.g., warp stall reasons, achieved bandwidth, arithmetic intensity) and applies heuristic adjustments (e.g., tile size, memory access patterns) to optimize kernel performance. We evaluate KFT on a range of kernel types, including GEMM, reduction, and attention, across multiple GPU architectures (e.g., A100, RTX 4090). Our results demonstrate measurable speedups in wall-clock latency, with end-to-end improvements of up to 2.5x on real-world inference workloads. KFT bridges the gap between hardware-specific optimization and practical deployment, offering a reproducible, profiler-guided approach to kernel tuning.",
+  "Experiments": [
+    "Experiment 1: Baseline Kernel Performance Measurement. Measure the wall-clock latency, warp stall reasons, achieved bandwidth, and arithmetic intensity of baseline CUDA/Triton kernels for GEMM, reduction, and attention operations.",
+    "Experiment 2: Profiler-Guided Tuning Loop. Implement an iterative tuning loop that adjusts kernel parameters (e.g., tile size, memory access patterns) based on Nsight Compute feedback. Measure the impact of each adjustment on key metrics.",
+    "Experiment 3: Cross-Architecture Validation. Validate the tuned kernels on multiple GPU architectures (e.g., A100, RTX 4090) to ensure generalizability. Measure wall-clock latency and throughput under batching.",
+    "Experiment 4: End-to-End Inference Benchmark. Integrate the tuned kernels into a real-world inference pipeline (e.g., LLM serving) and measure end-to-end speedups, energy per token, and p50/p99 latency."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk 1: The tuning loop may converge slowly or require extensive profiling overhead, limiting its practicality for rapid deployment.",
+    "Risk 2: Heuristic adjustments may not generalize across kernel types or hardware configurations, reducing the framework's applicability.",
+    "Limitation 1: The approach relies heavily on profiler feedback, which may introduce measurement noise or variability across runs.",
+    "Limitation 2: Empirical tuning lacks theoretical guarantees, making it difficult to predict performance gains in untested scenarios."
+  ]
+}

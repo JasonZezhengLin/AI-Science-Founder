@@ -1,0 +1,18 @@
+{
+  "Name": "task_irrelevant_redundancy_removal",
+  "Title": "Task-Irrelevant Redundancy in Neural Representations: A Rate-Distortion Perspective",
+  "Short Hypothesis": "Neural representations often contain task-irrelevant redundancy that can be removed without affecting task performance, leading to more efficient compression. By quantifying and removing this redundancy, we can achieve better rate-distortion trade-offs in model compression.",
+  "Related Work": "Existing works like 'Population Risk Improvement with Model Compression' focus on the trade-off between generalization error and empirical risk but do not explicitly address task-irrelevant redundancy. Similarly, 'Rate-Distortion-Perception Trade-off' explores perceptual quality but not task-specific redundancy. Our proposal distinguishes itself by explicitly quantifying and removing task-irrelevant redundancy, offering a novel perspective on compression efficiency.",
+  "Abstract": "Neural representations often encode more information than necessary for a given task, leading to inefficiencies in model compression. This paper proposes a novel information-theoretic framework to quantify and remove task-irrelevant redundancy in neural representations. We introduce a method to estimate the mutual information between the representation and the task, and use this to identify and prune task-irrelevant components. Our approach is grounded in rate-distortion theory, where we optimize the trade-off between compression rate and task performance. We demonstrate that removing task-irrelevant redundancy leads to more efficient compression without sacrificing accuracy, and provide theoretical bounds on the achievable rate-distortion trade-offs. Experiments on image classification and natural language processing tasks validate our approach, showing significant improvements in compression efficiency.",
+  "Experiments": [
+    "Task-Relevance Estimation: Estimate mutual information between neural representations and task labels using InfoNCE-style estimators.",
+    "Redundancy Removal: Prune components of the representation with low mutual information with the task.",
+    "Rate-Distortion Optimization: Optimize the trade-off between compression rate and task performance using rate-distortion theory.",
+    "Evaluation Metrics: Measure compression efficiency (bits-per-weight), task performance (accuracy), and theoretical bounds on rate-distortion trade-offs."
+  ],
+  "Risk Factors and Limitations": [
+    "Mutual Information Estimation: Accurate estimation of mutual information can be challenging, especially in high-dimensional spaces.",
+    "Task-Specificity: The approach may not generalize well across different tasks or domains.",
+    "Complexity: The pruning and optimization process may introduce additional computational overhead."
+  ]
+}

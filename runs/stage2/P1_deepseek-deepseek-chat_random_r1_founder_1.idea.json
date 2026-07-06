@@ -1,0 +1,20 @@
+{
+  "Name": "tensor_core_aware_kv_cache_compression",
+  "Title": "Tensor Core-Aware KV Cache Compression for Efficient Long-Context LLM Inference",
+  "Short Hypothesis": "By optimizing the layout and quantization of the KV cache to exploit Tensor Cores, we can significantly reduce memory bandwidth and improve decoding throughput for long-context LLMs without sacrificing accuracy.",
+  "Related Work": "Recent work like BitDecoding has explored low-bit KV cache quantization but primarily focuses on CUDA cores. AMP-ViT and SNIP address mixed-precision quantization but do not specifically target Tensor Core optimization for KV cache. Our proposal uniquely combines Tensor Core-aware layout optimization with low-bit quantization, leveraging hardware-specific features to maximize throughput.",
+  "Abstract": "Long-context Large Language Models (LLMs) face significant memory and bandwidth challenges due to the growing Key-Value (KV) cache during autoregressive decoding. While low-bit quantization reduces memory footprint, existing systems often neglect Tensor Cores, the primary source of compute on modern GPUs. This paper introduces Tensor Core-Aware KV Cache Compression (TCA-KVC), a novel approach that optimizes KV cache layout and quantization to exploit Tensor Cores efficiently. We propose automatic layout induction techniques and warp-level parallelization strategies for dequantization, enabling high-throughput decoding. Our system includes a query transformation module for diverse attention variants and architecture-specific optimizations for the latest GPU generations. Evaluations on LLaMA-3.1-8B with a 128K context demonstrate a 3x reduction in single-batch decoding latency and a 7.5x speedup over FP16 FlashDecoding-v2, showcasing substantial improvements for long-context generation.",
+  "Experiments": [
+    "Compare decoding throughput and latency of TCA-KVC with BitDecoding and FP16 FlashDecoding-v2 on LLaMA-3.1-8B with 128K context.",
+    "Measure memory bandwidth utilization and Tensor Core occupancy using nvprof/Nsight traces.",
+    "Evaluate the impact of different quantization bit-widths (4-bit, 2-bit) on accuracy and throughput.",
+    "Test the system on multiple GPU architectures (Blackwell, Hopper, Ada, Ampere) to ensure robustness.",
+    "Perform end-to-end latency races under fixed accuracy budgets, reporting p50/p99 latency and energy per token."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of Tensor Core optimization may vary across different GPU architectures.",
+    "Low-bit quantization could introduce accuracy loss, requiring careful tuning of bit-widths.",
+    "The proposed layout optimization techniques may not generalize to all attention variants.",
+    "Increased complexity in kernel implementation could lead to higher development and maintenance costs."
+  ]
+}

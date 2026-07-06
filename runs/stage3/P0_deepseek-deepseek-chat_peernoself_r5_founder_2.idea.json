@@ -1,0 +1,19 @@
+{
+  "Name": "spectral_attention_granularity",
+  "Title": "Spectral Attention Granularity: Training-Free Block-Level Adaptation for Latency-Bounded Transformers",
+  "Short Hypothesis": "The spectral properties of attention matrices can serve as a direct proxy for their computational redundancy, enabling block-level granularity adjustment to enforce strict latency budgets without sacrificing accuracy.",
+  "Related Work": "Existing work focuses on token-level (e.g., Spectral Quantization Routing) or layer-level (e.g., Geometric Interference Cancellation) adaptations. This proposal distinguishes itself by targeting block-level attention granularity, which is a fundamentally different computational bottleneck. It builds on spectral decomposition techniques but applies them to attention matrices rather than hidden states, offering a novel pathway for latency optimization.",
+  "Abstract": "Transformer models suffer from quadratic complexity in attention mechanisms, making them computationally expensive for real-time applications. We propose Spectral Attention Granularity (SAG), a training-free framework that dynamically adjusts attention block granularity based on the spectral properties of attention matrices. By analyzing the singular value decomposition (SVD) of attention matrices, we identify redundant blocks that can be pruned or merged without significant accuracy loss. SAG computes these spectral diagnostics on-the-fly and maps them to a block-level granularity policy that enforces strict latency budgets. We theoretically ground this approach with PAC-Bayes bounds linking spectral stability to generalization under block-level perturbations. Evaluated on single-GPU setups across WILDS benchmarks, SAG achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic attention pruning baselines. This work bridges spectral theory with system-scale efficiency, offering a zero-cost, mathematically transparent method to optimize transformer inference.",
+  "Experiments": [
+    "Baseline Comparison: Compare SAG against static attention pruning (e.g., Linformer) and heuristic methods (e.g., BigBird) on WILDS benchmarks, measuring throughput (tokens/second) and accuracy.",
+    "Spectral Diagnostics Validation: Evaluate the correlation between attention matrix singular values and redundancy, using ablation studies to confirm the effectiveness of SVD-based pruning.",
+    "Latency Budget Enforcement: Test SAG under varying latency constraints (e.g., 10ms, 50ms, 100ms) to demonstrate its ability to dynamically adjust granularity while maintaining accuracy.",
+    "Robustness Evaluation: Measure SAG’s performance under distributional shifts (e.g., adversarial perturbations, domain shifts) to validate its robustness.",
+    "Theoretical Validation: Derive PAC-Bayes bounds linking spectral stability to generalization under block-level perturbations, and experimentally validate these bounds."
+  ],
+  "Risk Factors and Limitations": [
+    "SVD computation overhead: While SVD is efficient for small matrices, it may introduce latency for large attention matrices. Mitigation: Use randomized SVD for approximation.",
+    "Granularity trade-offs: Aggressive pruning may lead to accuracy loss. Mitigation: Calibrate spectral thresholds based on task-specific sensitivity.",
+    "Generalization to non-transformer models: SAG is designed for transformers and may not generalize to other architectures. Mitigation: Focus on transformer-specific benchmarks."
+  ]
+}

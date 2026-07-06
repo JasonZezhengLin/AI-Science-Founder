@@ -1,0 +1,361 @@
+/var/spool/slurmd/job942263/slurm_script: line 26: conda: command not found
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 466, in get_response_from_llm
+    response = make_llm_call(
+  File "/home/zezhenglin/founder/ai_scientist/utils/token_tracker.py", line 197, in sync_wrapper
+    result = func(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 252, in make_llm_call
+    _response = client.chat.completions.create(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - {'error': {'message': 'No endpoints found for anthropic/claude-3.5-haiku.', 'code': 404}, 'user_id': 'org_310pio22yuGAwBOHuw53i4fYej9'}
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 466, in get_response_from_llm
+    response = make_llm_call(
+  File "/home/zezhenglin/founder/ai_scientist/utils/token_tracker.py", line 197, in sync_wrapper
+    result = func(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 252, in make_llm_call
+    _response = client.chat.completions.create(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - {'error': {'message': 'No endpoints found for anthropic/claude-3.5-haiku.', 'code': 404}, 'user_id': 'org_310pio22yuGAwBOHuw53i4fYej9'}
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 466, in get_response_from_llm
+    response = make_llm_call(
+  File "/home/zezhenglin/founder/ai_scientist/utils/token_tracker.py", line 197, in sync_wrapper
+    result = func(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 252, in make_llm_call
+    _response = client.chat.completions.create(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - {'error': {'message': 'No endpoints found for anthropic/claude-3.5-haiku.', 'code': 404}, 'user_id': 'org_310pio22yuGAwBOHuw53i4fYej9'}
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 466, in get_response_from_llm
+    response = make_llm_call(
+  File "/home/zezhenglin/founder/ai_scientist/utils/token_tracker.py", line 197, in sync_wrapper
+    result = func(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 252, in make_llm_call
+    _response = client.chat.completions.create(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - {'error': {'message': 'No endpoints found for anthropic/claude-3.5-haiku.', 'code': 404}, 'user_id': 'org_310pio22yuGAwBOHuw53i4fYej9'}
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 466, in get_response_from_llm
+    response = make_llm_call(
+  File "/home/zezhenglin/founder/ai_scientist/utils/token_tracker.py", line 197, in sync_wrapper
+    result = func(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 252, in make_llm_call
+    _response = client.chat.completions.create(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - {'error': {'message': 'No endpoints found for anthropic/claude-3.5-haiku.', 'code': 404}, 'user_id': 'org_310pio22yuGAwBOHuw53i4fYej9'}
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 466, in get_response_from_llm
+    response = make_llm_call(
+  File "/home/zezhenglin/founder/ai_scientist/utils/token_tracker.py", line 197, in sync_wrapper
+    result = func(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 252, in make_llm_call
+    _response = client.chat.completions.create(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - {'error': {'message': 'No endpoints found for anthropic/claude-3.5-haiku.', 'code': 404}, 'user_id': 'org_310pio22yuGAwBOHuw53i4fYej9'}
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 466, in get_response_from_llm
+    response = make_llm_call(
+  File "/home/zezhenglin/founder/ai_scientist/utils/token_tracker.py", line 197, in sync_wrapper
+    result = func(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 252, in make_llm_call
+    _response = client.chat.completions.create(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - {'error': {'message': 'No endpoints found for anthropic/claude-3.5-haiku.', 'code': 404}, 'user_id': 'org_310pio22yuGAwBOHuw53i4fYej9'}
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 466, in get_response_from_llm
+    response = make_llm_call(
+  File "/home/zezhenglin/founder/ai_scientist/utils/token_tracker.py", line 197, in sync_wrapper
+    result = func(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 252, in make_llm_call
+    _response = client.chat.completions.create(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - {'error': {'message': 'No endpoints found for anthropic/claude-3.5-haiku.', 'code': 404}, 'user_id': 'org_310pio22yuGAwBOHuw53i4fYej9'}
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 466, in get_response_from_llm
+    response = make_llm_call(
+  File "/home/zezhenglin/founder/ai_scientist/utils/token_tracker.py", line 197, in sync_wrapper
+    result = func(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 252, in make_llm_call
+    _response = client.chat.completions.create(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - {'error': {'message': 'No endpoints found for anthropic/claude-3.5-haiku.', 'code': 404}, 'user_id': 'org_310pio22yuGAwBOHuw53i4fYej9'}
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 466, in get_response_from_llm
+    response = make_llm_call(
+  File "/home/zezhenglin/founder/ai_scientist/utils/token_tracker.py", line 197, in sync_wrapper
+    result = func(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 252, in make_llm_call
+    _response = client.chat.completions.create(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - {'error': {'message': 'No endpoints found for anthropic/claude-3.5-haiku.', 'code': 404}, 'user_id': 'org_310pio22yuGAwBOHuw53i4fYej9'}
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 466, in get_response_from_llm
+    response = make_llm_call(
+  File "/home/zezhenglin/founder/ai_scientist/utils/token_tracker.py", line 197, in sync_wrapper
+    result = func(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 252, in make_llm_call
+    _response = client.chat.completions.create(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - {'error': {'message': 'No endpoints found for anthropic/claude-3.5-haiku.', 'code': 404}, 'user_id': 'org_310pio22yuGAwBOHuw53i4fYej9'}
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 466, in get_response_from_llm
+    response = make_llm_call(
+  File "/home/zezhenglin/founder/ai_scientist/utils/token_tracker.py", line 197, in sync_wrapper
+    result = func(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 252, in make_llm_call
+    _response = client.chat.completions.create(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - {'error': {'message': 'No endpoints found for anthropic/claude-3.5-haiku.', 'code': 404}, 'user_id': 'org_310pio22yuGAwBOHuw53i4fYej9'}
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 466, in get_response_from_llm
+    response = make_llm_call(
+  File "/home/zezhenglin/founder/ai_scientist/utils/token_tracker.py", line 197, in sync_wrapper
+    result = func(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 252, in make_llm_call
+    _response = client.chat.completions.create(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - {'error': {'message': 'No endpoints found for anthropic/claude-3.5-haiku.', 'code': 404}, 'user_id': 'org_310pio22yuGAwBOHuw53i4fYej9'}
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 466, in get_response_from_llm
+    response = make_llm_call(
+  File "/home/zezhenglin/founder/ai_scientist/utils/token_tracker.py", line 197, in sync_wrapper
+    result = func(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 252, in make_llm_call
+    _response = client.chat.completions.create(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - {'error': {'message': 'No endpoints found for anthropic/claude-3.5-haiku.', 'code': 404}, 'user_id': 'org_310pio22yuGAwBOHuw53i4fYej9'}
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 466, in get_response_from_llm
+    response = make_llm_call(
+  File "/home/zezhenglin/founder/ai_scientist/utils/token_tracker.py", line 197, in sync_wrapper
+    result = func(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 252, in make_llm_call
+    _response = client.chat.completions.create(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - {'error': {'message': 'No endpoints found for anthropic/claude-3.5-haiku.', 'code': 404}, 'user_id': 'org_310pio22yuGAwBOHuw53i4fYej9'}
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 466, in get_response_from_llm
+    response = make_llm_call(
+  File "/home/zezhenglin/founder/ai_scientist/utils/token_tracker.py", line 197, in sync_wrapper
+    result = func(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 252, in make_llm_call
+    _response = client.chat.completions.create(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - {'error': {'message': 'No endpoints found for anthropic/claude-3.5-haiku.', 'code': 404}, 'user_id': 'org_310pio22yuGAwBOHuw53i4fYej9'}
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 466, in get_response_from_llm
+    response = make_llm_call(
+  File "/home/zezhenglin/founder/ai_scientist/utils/token_tracker.py", line 197, in sync_wrapper
+    result = func(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 252, in make_llm_call
+    _response = client.chat.completions.create(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - {'error': {'message': 'No endpoints found for anthropic/claude-3.5-haiku.', 'code': 404}, 'user_id': 'org_310pio22yuGAwBOHuw53i4fYej9'}
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 466, in get_response_from_llm
+    response = make_llm_call(
+  File "/home/zezhenglin/founder/ai_scientist/utils/token_tracker.py", line 197, in sync_wrapper
+    result = func(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 252, in make_llm_call
+    _response = client.chat.completions.create(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - {'error': {'message': 'No endpoints found for anthropic/claude-3.5-haiku.', 'code': 404}, 'user_id': 'org_310pio22yuGAwBOHuw53i4fYej9'}

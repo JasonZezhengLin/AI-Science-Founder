@@ -1,0 +1,18 @@
+{
+  "Name": "gpu_inference_opt",
+  "Title": "Hardware-Aware Optimizations for Machine Learning Inference on Commodity GPUs",
+  "Short Hypothesis": "By applying kernel-level throughput engineering and hardware-faithful evaluation, we can achieve significant speedups in machine learning inference on commodity GPUs without sacrificing accuracy.",
+  "Related Work": "While previous work has focused on optimizing machine learning models for specific hardware architectures, our proposal differs in its emphasis on kernel-level optimizations and hardware-faithful evaluation. We will build upon existing research in optimizing GPU memory bandwidth utilization, KV-cache layout, and tensor-core occupancy, but with a focus on reproducible benchmarks and end-to-end speedups.",
+  "Abstract": "This proposal presents a novel approach to optimizing machine learning inference on commodity GPUs. By applying kernel-level throughput engineering and hardware-faithful evaluation, we aim to achieve significant speedups without sacrificing accuracy. Our approach involves optimizing fused CUDA/Triton kernels, memory-bandwidth utilization, KV-cache layout, and tensor-core occupancy, and evaluating their impact on wall-clock latency and tokens-per-second on real hardware. We will use profiling tools such as nvprof and Nsight to instrument and optimize our kernels, and report our results in terms of measured latency, throughput, and energy per token.",
+  "Experiments": [
+    "Optimize fused CUDA/Triton kernels for matrix multiplication and convolutional layers",
+    "Evaluate the impact of memory-bandwidth utilization, KV-cache layout, and tensor-core occupancy on inference speed",
+    "Compare the performance of different kernel optimizations using nvprof and Nsight",
+    "Report results in terms of measured latency, throughput, and energy per token"
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of optimizing kernel-level code may require significant expertise and development time",
+    "The results may be specific to the chosen GPU architecture and may not generalize to other hardware platforms",
+    "The emphasis on hardware-faithful evaluation may limit the applicability of our results to theoretical or simulated environments"
+  ]
+}

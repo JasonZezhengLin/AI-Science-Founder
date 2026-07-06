@@ -1,0 +1,17 @@
+{
+  "Name": "jacobian_layer_skipping",
+  "Title": "Training-Free Latency Optimization via Jacobian-Based Layer Skipping",
+  "Short Hypothesis": "The Jacobian norm of hidden states can serve as a robust proxy for determining when to skip layers in neural networks, enabling training-free latency-aware inference without significant degradation in performance.",
+  "Related Work": "Recent work has explored training-free inference optimizations, such as Spectral Quantization Routing (SQR) and Sortblock, which dynamically allocate resources based on activation geometry or feature similarity. However, these methods often require additional computations for diagnostics or rely on heuristic mechanisms. Our proposal uniquely leverages the Jacobian norm, a readily computable metric, to make layer-skipping decisions, offering a simpler and more theoretically grounded approach.",
+  "Abstract": "We propose a training-free framework for latency-aware inference in neural networks that dynamically skips layers based on the Jacobian norm of hidden states. The Jacobian norm serves as a proxy for the sensitivity of the network's output to changes in the hidden state, allowing us to skip layers when the network's output is robust to such changes. Our approach requires no additional training or calibration and can be applied to any pre-trained model. We theoretically ground our method in the stability of optimization landscapes and empirically validate it on a range of tasks, including image classification and language modeling. Our experiments show that our approach significantly reduces inference latency while maintaining competitive performance, offering a practical and scalable solution for resource-efficient inference.",
+  "Experiments": [
+    "Experiment 1: Image Classification - Apply Jacobian-based layer skipping to ResNet-50 on the ImageNet dataset. Measure latency reduction and accuracy drop. Evaluation metrics: Inference time (ms), Top-1 Accuracy.",
+    "Experiment 2: Language Modeling - Apply Jacobian-based layer skipping to GPT-2 on the WikiText-103 dataset. Measure latency reduction and perplexity increase. Evaluation metrics: Inference time (ms), Perplexity.",
+    "Experiment 3: Robustness Analysis - Evaluate the impact of Jacobian-based layer skipping under various input perturbations (e.g., noise, adversarial attacks) on CIFAR-10. Evaluation metrics: Robustness score (accuracy under perturbation)."
+  ],
+  "Risk Factors and Limitations": [
+    "The Jacobian norm computation may introduce additional overhead, potentially offsetting latency gains.",
+    "The method may not generalize well to architectures with highly non-linear transformations.",
+    "Layer skipping could lead to catastrophic drops in performance for certain inputs, requiring careful thresholding."
+  ]
+}

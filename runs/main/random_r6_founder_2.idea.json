@@ -1,0 +1,19 @@
+{
+  "Name": "jacobian_layer_skipping",
+  "Title": "Training-Free Latency-Aware Inference via Jacobian-Based Layer Skipping",
+  "Short Hypothesis": "By leveraging the Jacobian matrix to quantify layer-wise sensitivity, we can dynamically skip computationally expensive layers during inference without significant degradation in model performance, achieving a balance between latency and accuracy.",
+  "Related Work": "Existing approaches to layer skipping often rely on heuristic methods or require additional training, such as LiteStage (Kang et al., 2025) and River-LLM (Shen & Zou, 2026). These methods either introduce overhead or fail to adapt dynamically across layers. Our proposal distinguishes itself by using the Jacobian matrix to measure layer sensitivity in a training-free manner, enabling precise and adaptive layer skipping.",
+  "Abstract": "Deep neural networks often suffer from high computational costs during inference, particularly in resource-constrained environments. Existing layer-skipping methods either require additional training or rely on heuristic-based approaches, limiting their practicality. We propose a training-free, latency-aware inference framework that leverages the Jacobian matrix to quantify layer-wise sensitivity. By dynamically skipping layers with low sensitivity, our method achieves significant reductions in inference latency while maintaining model accuracy. We validate our approach on several benchmark datasets, demonstrating its effectiveness across different architectures and tasks. Our results show that the proposed framework achieves up to 2x speedup with minimal accuracy loss, offering a practical solution for efficient inference in real-world applications.",
+  "Experiments": [
+    "Experiment 1: Evaluate layer sensitivity using the Jacobian matrix on ImageNet for ResNet-50. Metrics: Layer sensitivity scores, inference latency, and top-1 accuracy.",
+    "Experiment 2: Implement dynamic layer skipping on CIFAR-10 for VGG-16. Metrics: Inference speedup, accuracy drop, and FLOPs reduction.",
+    "Experiment 3: Test generalization on NLP tasks using BERT for GLUE benchmark. Metrics: Latency reduction, task-specific accuracy, and memory usage.",
+    "Experiment 4: Compare with state-of-the-art layer-skipping methods (e.g., LiteStage, River-LLM). Metrics: Relative speedup, accuracy preservation, and computational overhead."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk 1: The Jacobian computation may introduce additional overhead, potentially offsetting the benefits of layer skipping. Mitigation: Optimize Jacobian computation using efficient numerical methods.",
+    "Risk 2: The method may not generalize well to all architectures or tasks. Mitigation: Conduct extensive experiments across diverse models and datasets.",
+    "Limitation 1: The approach assumes that layer sensitivity can be accurately captured by the Jacobian matrix, which may not hold for all layers. Mitigation: Combine with other sensitivity metrics for robustness.",
+    "Limitation 2: The framework is training-free, but may not achieve the same performance as methods that involve fine-tuning. Mitigation: Explore hybrid approaches that combine training-free and fine-tuned strategies."
+  ]
+}

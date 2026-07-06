@@ -1,0 +1,20 @@
+{
+  "Name": "jacobian_layer_skipping",
+  "Title": "Jacobian-Based Layer-Skipping for Training-Free, Latency-Aware Inference",
+  "Short Hypothesis": "The Jacobian matrix of a neural network's hidden states provides a mathematically transparent proxy for layer-wise computational redundancy, enabling training-free, latency-aware layer-skipping without significant accuracy degradation.",
+  "Related Work": "Existing work on layer-skipping often relies on heuristic thresholds or costly training-based methods (e.g., adaptive inference networks). Training-free approaches, such as Spectral Quantization Routing, focus on precision allocation rather than layer redundancy. Our proposal uniquely leverages the Jacobian matrix to derive a mathematically grounded, training-free layer-skipping mechanism, distinct from prior work.",
+  "Abstract": "We propose a training-free, latency-aware inference framework that dynamically skips redundant layers in neural networks based on the Jacobian matrix of hidden states. Our hypothesis is that the Frobenius norm of the Jacobian serves as a robust proxy for layer-wise computational redundancy, enabling efficient inference without accuracy loss. By computing the Jacobian on-the-fly and applying a calibrated threshold, we dynamically route inputs through fewer layers when redundancy is detected. This approach enforces strict latency budgets while maintaining accuracy, particularly in resource-constrained settings. We theoretically ground our method using PAC-Bayes bounds, linking Jacobian stability to generalization under layer perturbation. Evaluated on single-GPU setups across diverse benchmarks, our framework achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic layer-skipping baselines. This work bridges computational efficiency with theoretical transparency, offering a zero-cost, mathematically reproducible pathway for latency-critical inference.",
+  "Experiments": [
+    "Evaluate Jacobian-based layer-skipping on CIFAR-10, ImageNet, and WILDS benchmarks. Measure accuracy, latency, and memory usage.",
+    "Compare against static layer-skipping baselines and training-based adaptive inference methods.",
+    "Validate the Frobenius norm of the Jacobian as a proxy for redundancy by correlating it with layer-wise accuracy drops.",
+    "Test robustness to distributional shifts and adversarial perturbations.",
+    "Implement PAC-Bayes bounds to quantify generalization stability under layer perturbation."
+  ],
+  "Risk Factors and Limitations": [
+    "On-the-fly Jacobian computation may introduce overhead, potentially offsetting latency gains.",
+    "The method may underperform in architectures where Jacobian norms do not reliably indicate redundancy.",
+    "Calibration of the skipping threshold may require domain-specific tuning.",
+    "The approach assumes that layer redundancy is consistent across inputs, which may not hold in all cases."
+  ]
+}

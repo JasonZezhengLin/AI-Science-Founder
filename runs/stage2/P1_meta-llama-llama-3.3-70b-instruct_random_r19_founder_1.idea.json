@@ -1,0 +1,18 @@
+{
+  "Name": "low_latency_mixed_precision_inference",
+  "Title": "Mixed-Precision Inference Optimization for Low-Latency Machine Learning on Commodity GPUs",
+  "Short Hypothesis": "By leveraging mixed-precision quantization and optimizing memory-bandwidth utilization, we can achieve significant reductions in latency for machine learning inference on commodity GPUs without sacrificing accuracy.",
+  "Related Work": "Recent works such as SNIP, EMQ, and AMP-ViT have explored mixed-precision training and quantization for machine learning models. However, these approaches focus primarily on training and do not directly address the optimization of inference latency on commodity GPUs. Our proposal builds upon these existing techniques and extends them to the domain of low-latency inference optimization.",
+  "Abstract": "This proposal aims to investigate the optimization of mixed-precision inference for low-latency machine learning on commodity GPUs. We propose to leverage mixed-precision quantization and optimize memory-bandwidth utilization to reduce latency. Our approach will involve profiling and optimizing the memory access patterns of machine learning models, as well as exploring the use of novel data structures and algorithms to minimize memory bandwidth usage. We will evaluate our approach using a range of benchmarks and metrics, including latency, throughput, and accuracy.",
+  "Experiments": [
+    "Experiment 1: Profile and optimize memory access patterns for a range of machine learning models using tools such as nvprof and Nsight.",
+    "Experiment 2: Investigate the use of mixed-precision quantization for reducing latency, including the evaluation of different quantization schemes and their impact on accuracy.",
+    "Experiment 3: Explore the use of novel data structures and algorithms for minimizing memory bandwidth usage, such as the use of sparse matrices or compressed representations.",
+    "Experiment 4: Evaluate the performance of our optimized approach using a range of benchmarks and metrics, including latency, throughput, and accuracy."
+  ],
+  "Risk Factors and Limitations": [
+    "The optimization of mixed-precision inference may require significant expertise in both machine learning and computer architecture.",
+    "The use of novel data structures and algorithms may introduce additional complexity and overhead.",
+    "The evaluation of our approach may be sensitive to the specific hardware and software configuration used."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "Name": "jacobian_layer_skipping",
+  "Title": "Jacobian-Based Layer Skipping for Latency-Aware Inference",
+  "Short Hypothesis": "A training-free framework that uses Jacobian norms to estimate layer importance and dynamically skips layers based on latency constraints can achieve Pareto-optimal latency-accuracy trade-offs across diverse architectures.",
+  "Related Work": "Existing works like LiteStage and Similarity-Aware Token Pruning focus on specific architectures or tasks. Our proposal generalizes these ideas by using Jacobian norms to estimate layer importance, enabling architecture-agnostic latency-aware inference. Unlike training-based methods, our approach is entirely training-free, making it more practical for deployment.",
+  "Abstract": "Latency-aware inference is critical for deploying machine learning models in real-time applications. While existing methods like token pruning and layer skipping offer partial solutions, they often rely on architecture-specific heuristics or training overhead. We propose a training-free framework that leverages Jacobian norms to estimate layer importance and dynamically skips layers based on latency constraints. Our approach enforces strict wall-clock budgets by integrating a latency-aware scheduler, ensuring Pareto-optimal latency-accuracy trade-offs. Experiments on vision transformers, convolutional networks, and language models demonstrate that our framework achieves up to 2.5× speedup with minimal accuracy loss, outperforming existing training-free methods. Theoretical analysis provides guarantees on latency bounds, making our approach both practical and theoretically grounded.",
+  "Experiments": [
+    "Dataset: ImageNet-1K, CIFAR-10, GLUE benchmark.",
+    "Models: Vision Transformers (ViT-B/16), ResNet-50, BERT-base.",
+    "Metrics: Accuracy, latency (ms), speedup ratio.",
+    "Intervention: Implement Jacobian-based layer skipping with a latency-aware scheduler. Skip layers based on Jacobian norms and wall-clock budget.",
+    "Evaluation: Compare against baseline models and existing training-free methods (e.g., LiteStage, Similarity-Aware Token Pruning)."
+  ],
+  "Risk Factors and Limitations": [
+    "Jacobian computation may introduce overhead for very deep models.",
+    "Latency-aware scheduler may not generalize to all hardware setups.",
+    "Accuracy loss may be significant for models with highly interdependent layers."
+  ]
+}

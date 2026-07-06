@@ -1,0 +1,17 @@
+{
+  "Name": "cuda_optimized_ml",
+  "Title": "Optimizing Machine Learning Workloads with Novel CUDA Kernel Management Techniques",
+  "Short Hypothesis": "By leveraging novel CUDA kernel management techniques, we can significantly improve the performance of machine learning workloads on GPUs, leading to faster training and inference times.",
+  "Related Work": "Recent works such as AMP-ViT, SNIP, and EMQ have demonstrated the importance of optimizing machine learning models for efficient deployment on GPUs. However, these works focus on high-level optimizations such as mixed-precision training and quantization, whereas our proposal focuses on low-level kernel management techniques to further improve performance.",
+  "Abstract": "In this proposal, we aim to investigate the use of novel CUDA kernel management techniques to optimize machine learning workloads on GPUs. By leveraging techniques such as memory coalescing, shared memory usage, and kernel fusion, we can reduce memory bandwidth utilization, increase compute utilization, and improve overall system throughput. We will conduct a thorough performance analysis of various machine learning workloads, including convolutional neural networks (CNNs) and recurrent neural networks (RNNs), to identify bottlenecks and areas for optimization. Our goal is to achieve significant reductions in execution time and improved resource utilization, making it possible to deploy machine learning models more efficiently and effectively.",
+  "Experiments": [
+    "Implement and optimize CUDA kernels for various machine learning workloads, including CNNs and RNNs",
+    "Conduct thorough performance analysis using nvprof and Nsight tools to identify bottlenecks and areas for optimization",
+    "Evaluate the effectiveness of novel CUDA kernel management techniques, such as memory coalescing and kernel fusion, in improving performance",
+    "Compare the performance of optimized kernels with state-of-the-art baselines, including AMP-ViT and SNIP"
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of optimizing CUDA kernels for various machine learning workloads may be higher than expected, requiring significant development and testing time",
+    "The availability of suitable hardware and software tools for profiling and optimizing CUDA kernels may be limited, potentially impacting the accuracy of results"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "Name": "dynamic_precision_routing_via_spectral_decay",
+  "Title": "Dynamic Precision Routing via Spectral Decay Diagnostics",
+  "Short Hypothesis": "The spectral decay rate of activation covariances serves as a direct proxy for quantization sensitivity, enabling dynamic precision routing with formal guarantees under input distribution shifts.",
+  "Related Work": "Existing work on mixed-precision inference (e.g., Spectral Quantization Routing) relies on static profiling or heuristic calibration, failing to adapt to dynamic input distributions. This proposal distinguishes itself by leveraging real-time spectral decay diagnostics to dynamically allocate precision, grounded in formal PAC-Bayes bounds.",
+  "Abstract": "Mixed-precision inference promises significant latency and memory gains but typically relies on static profiling or costly calibration, failing to adapt to dynamic input distributions. We propose Dynamic Precision Routing via Spectral Decay Diagnostics (DPRSD), a training-free framework that dynamically allocates numerical precision based on real-time activation geometry. We hypothesize that the spectral decay rate of activation covariances serves as a direct proxy for quantization sensitivity. Tokens residing in subspaces with rapid spectral decay are robust to low-precision computation, while those with slow decay require higher precision. DPRSD computes these geometric diagnostics on-the-fly using randomized SVD, mapping them to a precision-switching policy that enforces strict latency budgets. We theoretically ground the routing mechanism with PAC-Bayes bounds that link spectral decay to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, DPRSD achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized risk bounds, DPRSD provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Evaluate the spectral decay rate of activation covariances across different layers and tokens using randomized SVD.",
+    "Map spectral decay rates to precision levels (e.g., FP16, FP32) and validate the mapping on a held-out test set.",
+    "Implement DPRSD on a single-GPU setup and measure latency, memory usage, and accuracy across WILDS benchmarks.",
+    "Compare DPRSD against static and heuristic mixed-precision baselines, focusing on throughput-accuracy Pareto frontiers.",
+    "Perform ablation studies to isolate the impact of spectral decay diagnostics on quantization sensitivity."
+  ],
+  "Risk Factors and Limitations": [
+    "The randomized SVD computation may introduce overhead that offsets the benefits of precision routing.",
+    "The spectral decay rate may not be a reliable proxy for quantization sensitivity in all scenarios.",
+    "The theoretical bounds may not hold under extreme distribution shifts or adversarial inputs."
+  ]
+}

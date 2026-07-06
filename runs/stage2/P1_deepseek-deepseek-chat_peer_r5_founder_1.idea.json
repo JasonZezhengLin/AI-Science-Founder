@@ -1,0 +1,21 @@
+{
+  "Name": "kernel_fusion_kv_cache",
+  "Title": "Efficient Kernel Fusion for Low-Bit KV Cache Decoding in Long-Context LLMs",
+  "Short Hypothesis": "Fusing CUDA and Triton kernels for low-bit KV cache decoding can significantly reduce wall-clock latency and improve memory-bandwidth utilization in long-context LLMs, leveraging tensor-core occupancy and optimized memory layouts.",
+  "Related Work": "Recent work like BitDecoding has explored low-bit KV cache quantization but primarily focuses on CUDA cores and tensor cores separately. Our proposal uniquely integrates kernel fusion techniques to optimize both CUDA and Triton kernels, leveraging their combined strengths for efficient low-bit KV cache decoding. This approach distinguishes itself by focusing on kernel fusion and memory-layout optimization, which are not extensively explored in existing literature.",
+  "Abstract": "The increasing demand for long-context Large Language Models (LLMs) poses significant challenges in memory and bandwidth utilization, especially during autoregressive decoding. Low-bit KV cache quantization offers a promising solution but often suffers from inefficient decoding due to suboptimal kernel utilization. We propose a novel approach that fuses CUDA and Triton kernels to optimize low-bit KV cache decoding, leveraging tensor-core occupancy and memory-bandwidth utilization. Our method introduces optimized memory layouts and warp-level parallelization strategies for dequantization, ensuring efficient execution on modern GPUs. We validate our approach through extensive profiling, reporting wall-clock latency, tokens-per-second, and memory-bandwidth utilization metrics. Our experiments demonstrate significant improvements in decoding speed and resource efficiency, making long-context LLMs more practical for real-world deployment.",
+  "Experiments": [
+    "Implement fused CUDA/Triton kernels for low-bit KV cache decoding.",
+    "Profile and optimize memory layouts for tensor-core occupancy.",
+    "Conduct latency races under fixed accuracy budgets, measuring p50/p99 latency and throughput under batching.",
+    "Evaluate memory-bandwidth utilization and arithmetic intensity using nvprof/Nsight traces.",
+    "Compare against baseline methods like BitDecoding and FP16 FlashDecoding-v2, reporting wall-clock latency and tokens-per-second.",
+    "Perform variance analysis across multiple GPUs/driver versions to ensure robustness."
+  ],
+  "Risk Factors and Limitations": [
+    "Potential challenges in achieving optimal kernel fusion without introducing overhead.",
+    "Dependence on specific GPU architectures for tensor-core optimizations.",
+    "Need for extensive profiling and tuning to achieve significant speedups.",
+    "Possible trade-offs between quantization precision and decoding accuracy."
+  ]
+}

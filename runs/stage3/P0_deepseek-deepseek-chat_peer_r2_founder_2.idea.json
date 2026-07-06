@@ -1,0 +1,45 @@
+{
+  "Name": "latency-aware_spectral_routing",
+  "Title": "Latency-Aware Spectral Routing: Training-Free Inference Optimization via Activation Covariance Geometry",
+  "Short Hypothesis": "The spectral properties of hidden state activations can serve as a direct proxy for computational difficulty, enabling dynamic, latency-aware routing of tokens through fewer layers or lower-precision computations without compromising accuracy.",
+  "Related Work": "Recent works like Spectral Quantization Routing (SQR) and Spectral Latent Steering (SLS) have explored spectral properties for mixed-precision inference and test-time optimization. However, these approaches either focus on precision allocation or subspace projection, but do not combine both into a unified framework for latency-aware routing. Our proposal extends these ideas by introducing a dynamic routing mechanism that uses spectral diagnostics to enforce strict latency budgets while maintaining accuracy.",
+  "Abstract": "Modern neural networks often face stringent latency constraints in deployment, especially in resource-constrained environments. Existing methods for latency-aware inference rely on heuristic pruning or static profiling, which fail to adapt to dynamic input distributions. We propose Latency-Aware Spectral Routing (LASR), a training-free framework that dynamically routes tokens through fewer layers or lower-precision computations based on the spectral properties of hidden state activations. Specifically, we compute the local covariance condition number and spectral decay rate of hidden states on-the-fly using randomized SVD, mapping these geometric diagnostics to a precision-switching and layer-skipping policy. We theoretically ground LASR with PAC-Bayes bounds linking spectral conditioning to generalization stability under quantization and layer-skipping noise. Evaluated on single-GPU setups across WILDS benchmarks, LASR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic latency-aware baselines. By replacing qualitative fragility claims with formalized risk bounds, LASR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    {
+      "Description": "Evaluate LASR on WILDS benchmarks (e.g., Camelyon17, iWildCam) with varying latency budgets.",
+      "Metrics": [
+        "Throughput (tokens/sec)",
+        "Accuracy",
+        "Latency (ms)"
+      ]
+    },
+    {
+      "Description": "Compare LASR against static mixed-precision and layer-skipping baselines.",
+      "Metrics": [
+        "Accuracy",
+        "Latency",
+        "Memory Usage"
+      ]
+    },
+    {
+      "Description": "Ablation study on the impact of spectral diagnostics (condition number, spectral decay rate) on routing decisions.",
+      "Metrics": [
+        "Routing Accuracy",
+        "Layer Skipping Rate",
+        "Precision Switching Rate"
+      ]
+    },
+    {
+      "Description": "Measure the computational overhead of randomized SVD and its impact on inference latency.",
+      "Metrics": [
+        "SVD Latency",
+        "Total Inference Latency"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of LASR may degrade under extreme input distribution shifts not covered in the training data.",
+    "The computational overhead of randomized SVD could outweigh the benefits of dynamic routing in some scenarios.",
+    "LASR relies on the assumption that spectral properties are consistent across different layers, which may not hold for all architectures."
+  ]
+}

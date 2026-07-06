@@ -1,0 +1,18 @@
+{
+  "Name": "curvature-aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: Training-Free Representation Geometry for Efficient Mixed-Precision Inference",
+  "Short Hypothesis": "By leveraging curvature-aware geometric diagnostics derived from training-free representation geometry, we can design a deterministic precision routing framework that optimizes mixed-precision inference while maintaining numerical stability and computational efficiency.",
+  "Related Work": "Existing work on mixed-precision inference often relies on heuristic approaches or training-based calibration, lacking formal guarantees on numerical stability and efficiency. Recent advances in training-free representation geometry (e.g., Niu et al., 2026) provide a foundation for curvature-aware diagnostics but have not been applied to precision routing. Our proposal bridges this gap by introducing a mathematically transparent, deterministic framework for curvature-aware precision routing, explicitly quantifying stability radii and condition number constraints.",
+  "Abstract": "Mixed-precision inference offers significant computational savings but often suffers from heuristic fragility and numerical instability. We propose a curvature-aware precision routing framework that leverages training-free representation geometry to optimize precision allocation dynamically. By employing deterministic spectral estimators and pre-execution diagnostic loops, our framework quantifies gradient covariance decay, Hessian conditioning, and feature entanglement, enabling precision routing based on formalized stability radii and PAC-Bayes generalization bounds. We enforce coarse-grained, block-level precision tiering to guarantee strict overhead bounds and deterministic execution pathways. Empirical validation on standard benchmarks demonstrates that our approach achieves superior throughput-accuracy Pareto fronts compared to existing methods, while maintaining explicit numerical stability and computational efficiency. This work bridges foundational optimization theory with deployment constraints, providing a scalable and theoretically grounded solution for mixed-precision inference.",
+  "Experiments": [
+    "Experiment 1: Evaluate the curvature-aware diagnostics on standard benchmarks (e.g., CIFAR-10, ImageNet) to quantify gradient covariance decay, Hessian conditioning, and feature entanglement. Metrics: diagnostic accuracy, computational overhead.",
+    "Experiment 2: Implement and validate the precision routing framework on single-GPU setups, comparing against state-of-the-art mixed-precision methods (e.g., AMP, FP8). Metrics: inference throughput, accuracy drop, numerical stability (condition number).",
+    "Experiment 3: Conduct ablation studies to isolate the impact of curvature-aware diagnostics and block-level precision tiering on performance. Metrics: throughput-accuracy Pareto fronts, variance across seeds.",
+    "Experiment 4: Validate the framework's scalability on larger models (e.g., ResNet-50, BERT) and datasets (e.g., ImageNet, GLUE). Metrics: inference latency, memory usage, accuracy."
+  ],
+  "Risk Factors and Limitations": [
+    "Potential computational overhead from curvature-aware diagnostics may offset precision savings.",
+    "The framework's reliance on deterministic spectral estimators may limit adaptability to non-stationary data distributions.",
+    "Block-level precision tiering may introduce suboptimal precision allocations in highly heterogeneous architectures."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "Name": "jacobian_layer_skipping",
+  "Title": "Jacobian-Based Layer Skipping for Latency-Aware Inference",
+  "Short Hypothesis": "Layer skipping during inference can be optimized by leveraging Jacobian-based spectral stability metrics, enabling strict latency budgets without compromising robustness.",
+  "Related Work": "Existing methods for latency-aware inference, such as spectral quantization routing (SQR) and geometric signal separation, focus on precision allocation or subspace projection but do not explicitly address layer skipping. Training-free frameworks like Spectral Latent Steering (SLS) optimize test-time computation but rely on heuristic control mechanisms. This proposal uniquely integrates Jacobian-based diagnostics with PAC-Bayes bounds to enable deterministic layer skipping, a novel approach not explored in prior work.",
+  "Abstract": "We propose a training-free framework for latency-aware inference that leverages Jacobian-based spectral stability metrics to optimize layer skipping. By computing the Jacobian of hidden-state perturbations across layers, we derive spectral stability bounds that predict the robustness of skipping specific layers. These bounds are integrated with PAC-Bayes theory to enforce strict computational budgets while minimizing hidden-state perturbation. Our method introduces a dynamic layer-skipping scheduler that adaptively routes tokens through fewer layers when spectral stability exceeds calibrated thresholds, ensuring deterministic latency targets. Evaluated on single-GPU setups across adversarial benchmarks and natural domain shifts, our approach achieves superior throughput-accuracy trade-offs. Theoretical analysis links spectral stability to generalization under perturbation, providing transparent guarantees for system-scale optimization. This work bridges foundational optimization theory with practical inference efficiency, offering a reproducible, zero-training pathway to resource-efficient deployment.",
+  "Experiments": [
+    "Experiment 1: Validate Jacobian-based spectral stability metrics on adversarial benchmarks. Measure stability radii and perturbation sensitivity across layers.",
+    "Experiment 2: Implement the dynamic layer-skipping scheduler and evaluate its impact on throughput-accuracy Pareto frontiers. Compare against baselines like SQR and SLS.",
+    "Experiment 3: Test robustness under natural domain shifts using WILDS benchmarks. Quantify accuracy retention and latency reduction.",
+    "Experiment 4: Perform ablation studies to isolate the contribution of Jacobian-based diagnostics versus heuristic approaches.",
+    "Metrics: Throughput (tokens/second), accuracy (task-specific), latency (wall-clock time), perturbation sensitivity (spectral stability radii)."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk 1: Jacobian computation may introduce overhead, potentially offsetting latency gains.",
+    "Risk 2: Spectral stability metrics may not generalize across diverse architectures or tasks.",
+    "Limitation: The method assumes access to hidden-state activations, which may not be feasible in all deployment scenarios.",
+    "Limitation: Theoretical guarantees rely on idealized assumptions (e.g., perturbation bounds), which may not hold in practice."
+  ]
+}

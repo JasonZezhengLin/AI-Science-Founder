@@ -1,0 +1,96 @@
+{
+  "Name": "spectral_gating_inference",
+  "Title": "Spectral Gating for Latency-Bounded Adaptive Inference: Training-Free Layer Routing via Jacobian Stability Proxies",
+  "Short Hypothesis": "We hypothesize that layer-wise routing decisions in neural networks can be made online using lightweight Jacobian spectral properties (singular value concentrations) as uncertainty-calibrated proxies, enabling training-free adaptive computation that provably respects inference latency budgets while maintaining accuracy. Unlike prior early-exit methods requiring retraining or heuristic confidence scores, spectral gating directly measures hidden-state perturbation risk and enforces PAC-Bayes-bounded overhead, making it suitable for latency-critical deployments where wall-clock budgets are non-negotiable.",
+  "Related Work": "Prior work on early-exit networks (BranchyNet, DEEBERT) requires training auxiliary classifiers or retraining base models. Recent training-free methods (EMQ, AMP-ViT) focus on quantization proxies but do not address dynamic routing or latency guarantees. Layer-skipping approaches (SkipNet, adaptive depth) use learned gating but incur training overhead. Spectral methods for robustness (spectral normalization, Lipschitz bounds) exist but are not integrated into inference-time routing with explicit latency accounting. Our contribution uniquely combines: (1) training-free spectral proxies for routing without retraining, (2) explicit PAC-Bayes-derived latency bounds, (3) online single-pass Jacobian estimation amortized into wall-clock budgets, and (4) mechanistic perturbation-cost accounting that distinguishes infrastructure overhead from optimization pathology. This directly targets ML inference theory and bridges implicit test-time optimization with explicit complementary pathways.",
+  "Abstract": "Adaptive neural network inference—where computation is dynamically allocated across layers—promises efficiency gains but introduces latency unpredictability. Existing methods either require retraining (early-exit classifiers) or use heuristic confidence scores without formal guarantees. We propose Spectral Gating, a training-free inference framework that routes computation by measuring per-layer Jacobian spectral concentration, providing uncertainty-calibrated proxies for hidden-state perturbation risk. Our key insight: the top singular value of layer Jacobians, estimated via single-pass power iteration, directly bounds the propagated uncertainty of skipping subsequent layers—enabling principled routing decisions. We derive PAC-Bayes-style bounds linking spectral concentration to per-layer skip probability, guaranteeing inference latency budgets while controlling accuracy loss. Crucially, spectral estimation is amortized into standard forward-pass wall-clock budgets using inline, low-FLOP diagnostics. We validate on ImageNet (ResNets, ViTs) and language models (BERT, Llama variants), demonstrating: (1) Pareto-optimal throughput-accuracy frontiers compared to learned early-exit and confidence-based baselines, (2) strict latency budget adherence with <5% overhead on typical hardware, (3) robustness to domain shifts via stability radius quantification, and (4) modular applicability across architectures without retraining. Experiments include full cross-layer covariance ablations, multi-seed variance quantification, and deterministic mechanistic probes isolating routing decisions from gradient conflicts. Code and telemetry are open-sourced for reproducibility.",
+  "Experiments": [
+    {
+      "experiment": "Baseline Spectral Proxy Validation",
+      "description": "Compute per-layer Jacobian top-k singular values (k=1,3,5) via power iteration on ImageNet validation set (10k samples). For each layer, estimate σ₁(∇h_ℓ) where h_ℓ is layer output. Correlate σ₁ against ground-truth accuracy drop when layer ℓ is skipped (oracle computation: forward pass with layer set to identity). Metric: Spearman correlation ρ between spectral proxy and oracle skip-loss. Target: ρ > 0.75 on ResNet-50, ρ > 0.70 on ViT-Base.",
+      "method": "Single-pass power iteration: w ← Av; iterate 3 times per batch. Accumulate covariance estimates across 100 random-order batches. Compute σ₁ from accumulated Gram matrix. Wall-clock overhead: measure via profiling on A100 GPU; target <2% per-layer overhead."
+    },
+    {
+      "experiment": "Training-Free Routing Policy Derivation",
+      "description": "Define routing threshold τ_ℓ per layer based on spectral concentration: skip layer ℓ if σ₁(∇h_ℓ) < τ_ℓ. Derive τ_ℓ from PAC-Bayes bound: for error ε and confidence δ, τ_ℓ = Φ⁻¹(1 - δ_ℓ) · σ_noise where σ_noise is estimated activation noise (proxy: running variance of layer outputs). Sweep δ_ℓ ∈ {0.01, 0.05, 0.1} and measure resulting latency vs. accuracy on ImageNet. Metric: compute Pareto frontier of (inference latency [ms], top-1 accuracy [%]). Target: achieve 20-30% latency reduction at <1% accuracy drop vs. baseline.",
+      "method": "Implement inline routing: for each input sample, compute σ₁ estimate, compare to τ_ℓ, decide skip/execute. Measure wall-clock latency per sample via CUDA events. Report mean ± std over 1000 samples. Vary batch size {1, 8, 32} to isolate per-sample overhead. Ensure no parallel sampling (single-pass sequential decisions)."
+    },
+    {
+      "experiment": "Latency Budget Adherence and Overhead Accounting",
+      "description": "Set explicit latency budget B_ms (e.g., 50ms, 100ms) and measure: (1) percentage of samples violating budget, (2) actual wall-clock overhead of spectral estimation vs. theoretical prediction. Decompose overhead into: (a) power iteration FLOPs, (b) memory bandwidth for covariance accumulation, (c) decision logic. Compare against baseline (no routing). Metric: (violation rate [%], actual overhead [%], predicted overhead [%]). Target: <1% violations, actual overhead within ±0.5% of prediction.",
+      "method": "Profile on A100, RTX 4090, and CPU (single-core inference). For each hardware tier, measure: (i) time per power iteration step, (ii) memory traffic via NVIDIA Profiler, (iii) latency per routing decision. Report raw telemetry: timestamps, FLOPs, memory bytes. Repeat over 5 random seeds; report mean ± std and 95th percentile latency."
+    },
+    {
+      "experiment": "Mechanistic Perturbation-Cost Analysis",
+      "description": "Isolate whether accuracy loss comes from: (A) layer skipping itself (optimization pathology), or (B) spectral estimation errors (infrastructure overhead). For each layer, compute: (1) oracle skip cost: accuracy drop when deterministically skipping layer ℓ (no routing), (2) routing error cost: accuracy drop due to incorrect skip/execute decisions (compare routing output vs. oracle). Decompose total loss = skip cost + routing error cost. Metric: attribution percentages. Target: routing error cost < 30% of total loss (indicating spectral proxy fidelity).",
+      "method": "For ResNet-50 on ImageNet: (i) compute oracle skip costs for all layers by running full forward passes with each layer identity-mapped; (ii) run spectral routing and record decisions; (iii) compare decision correctness via confusion matrix; (iv) compute attribution via ablation. Repeat on BERT (skip attention/MLP heads) and Llama-7B (skip transformer blocks)."
+    },
+    {
+      "experiment": "Robustness to Domain Shift and Structured Perturbations",
+      "description": "Evaluate spectral routing under distribution shift: (1) ImageNet → ImageNet-C (corruption types: blur, noise, contrast), (2) CIFAR-10 → CIFAR-10.1, (3) BERT on SQuAD → adversarial examples (TextFooler). For each shift, compute: (i) Pareto frontier shift (latency-accuracy trade-off change), (ii) stability radius: maximum perturbation magnitude ε such that routing decisions remain stable. Metric: Δ(Pareto frontier) [%], stability radius [relative L₂ norm]. Target: <5% Pareto shift, stability radius > 0.1 (normalized).",
+      "method": "Apply structured perturbations (corruption severity 1-5 for ImageNet-C). Measure spectral proxies under perturbation; compute σ₁ change. Define stability radius as max ε where skip decisions flip <10%. Use deterministic projection-based probes: perturb activations in principal component directions and measure σ₁ sensitivity."
+    },
+    {
+      "experiment": "Cross-Architecture Generalization (Training-Free Applicability)",
+      "description": "Apply spectral gating without retraining to: (1) ResNet-18/50/152, (2) ViT-Base/Large, (3) BERT-Base/Large, (4) Llama-7B/13B. For each, use same threshold derivation (no architecture-specific tuning). Metric: achievable latency reduction [%] at <1% accuracy drop. Target: consistent 15-25% reduction across architectures, demonstrating modular applicability.",
+      "method": "Compute spectral proxies on validation set. Sweep δ uniformly across all architectures. Report per-architecture Pareto frontiers. Measure variance in threshold values across architectures; report as coefficient of variation [%]."
+    },
+    {
+      "experiment": "Ablation: Spectral Proxy Variants and Rank Selection",
+      "description": "Compare routing decisions using: (1) σ₁ only, (2) σ₁ + σ₂, (3) σ₁:σ_k ratio (effective rank), (4) Frobenius norm (baseline). Measure accuracy-latency trade-off for each. Metric: area under Pareto curve (AUC). Target: σ₁-based routing achieves highest AUC; σ₁ + σ₂ provides <2% improvement (justifying simplicity of σ₁).",
+      "method": "Implement all variants in single codebase. Sweep thresholds identically across variants. Report Pareto frontiers and AUC via numerical integration."
+    },
+    {
+      "experiment": "Multi-Seed Variance Quantification and Statistical Significance",
+      "description": "Repeat all experiments (Exp. 1-6) over 5 random seeds: (i) random batch orderings for spectral estimation, (ii) random data splits for validation. Report: mean accuracy, std, 95% CI, and statistical significance tests (paired t-test vs. baseline). Metric: all reported accuracies include ± std. Target: confidence intervals exclude zero for claimed improvements.",
+      "method": "Set random seeds explicitly. Report exact seed values. Use scipy.stats for t-tests. Report p-values."
+    },
+    {
+      "experiment": "Comparison Against Learned Baselines (Early-Exit, Confidence Scores)",
+      "description": "Compare spectral gating against: (1) learned early-exit (DEEBERT, BranchyNet style: train auxiliary classifiers), (2) confidence-based routing (use softmax max-probability as proxy), (3) learned skip gates (SkipNet: train gating network). For fair comparison, measure: (i) total training time (if required), (ii) inference latency (including any gating overhead), (iii) accuracy at matched latency budget. Metric: latency-accuracy Pareto frontier. Target: spectral gating matches or exceeds learned methods while requiring zero training.",
+      "method": "Implement baselines using public code or reproduce from papers. Use identical hardware and batch configurations. Report exact hyperparameters for all baselines. For learned methods, report training time and convergence curves."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    {
+      "risk": "Spectral Estimation Stability Under Small Batches",
+      "description": "Power iteration convergence requires sufficient batch size to estimate Jacobian accurately. Single-sample inference (batch size 1) may yield unstable σ₁ estimates, violating latency budget guarantees. Mitigation: (1) pre-compute spectral estimates on representative batches and cache per-layer thresholds, (2) use running exponential-moving-average of σ₁ across samples to smooth estimates, (3) explicitly quantify σ₁ variance as function of batch size and report confidence intervals on routing decisions.",
+      "limitation": "Applicability to single-sample inference may require offline calibration, reducing flexibility for streaming/online settings."
+    },
+    {
+      "risk": "Computational Overhead of Power Iteration",
+      "description": "Even with 3 iterations, power iteration adds matrix-vector products. On very latency-critical hardware (edge devices, <10ms budgets), overhead may exceed 5%, violating strict budget constraints. Mitigation: (1) use randomized low-rank approximation (Nystrom method) to reduce iteration cost, (2) amortize spectral estimation across multiple samples, (3) profile on target hardware early and adjust iteration count dynamically.",
+      "limitation": "May not be suitable for ultra-low-latency regimes (<5ms) without significant engineering effort."
+    },
+    {
+      "risk": "Generalization of PAC-Bayes Bounds Across Datasets",
+      "description": "PAC-Bayes bounds are worst-case and may be loose. Derived thresholds τ_ℓ may be overly conservative, leading to suboptimal latency-accuracy trade-offs. Mitigation: (1) empirically validate bounds on held-out datasets, (2) use data-dependent PAC-Bayes (Catoni's bound) for tighter guarantees, (3) report gap between theoretical bounds and empirical performance.",
+      "limitation": "Theoretical guarantees may not translate to practical performance gains; empirical validation is critical."
+    },
+    {
+      "risk": "Limited Applicability to Highly Heterogeneous Architectures",
+      "description": "Spectral properties may vary significantly across residual, attention, and normalization layers. Single threshold τ_ℓ per layer may not capture layer-type-specific routing needs. Mitigation: (1) derive layer-type-specific thresholds (separate for conv, attention, MLP), (2) use clustering of spectral profiles to group similar layers, (3) report per-layer-type performance.",
+      "limitation": "May require architecture-aware tuning despite training-free claim; generalization across novel architectures unvalidated."
+    },
+    {
+      "risk": "Activation Perturbation Accumulation in Deep Networks",
+      "description": "Skipping multiple layers sequentially may cause compounding perturbation errors not captured by single-layer spectral bounds. Mitigation: (1) derive cumulative perturbation bounds via product of per-layer σ₁ values, (2) implement layer-wise skip budgets (total skip count limit), (3) validate empirically that multi-layer skips remain stable.",
+      "limitation": "Theoretical bounds may require conservative skip limits, reducing achievable latency gains."
+    },
+    {
+      "risk": "Hardware-Specific Overhead Variance",
+      "description": "Wall-clock overhead of spectral estimation is hardware-dependent (GPU memory bandwidth, CPU cache, etc.). Overhead predictions may not transfer across devices. Mitigation: (1) profile on multiple hardware tiers (A100, RTX 4090, CPU), (2) report hardware-specific overhead explicitly, (3) provide overhead lookup table for practitioners.",
+      "limitation": "Requires per-hardware profiling; not truly hardware-agnostic."
+    },
+    {
+      "risk": "Comparison Fairness Against Learned Baselines",
+      "description": "Learned early-exit methods (DEEBERT) may achieve better latency-accuracy trade-offs due to task-specific training. Claiming superiority without accounting for training data/compute may be unfair. Mitigation: (1) compare at matched total compute budgets (training + inference), (2) report training time explicitly, (3) evaluate on multiple datasets to assess generalization of learned vs. training-free methods.",
+      "limitation": "May not outperform highly-tuned learned methods; positioning is 'training-free alternative' rather than 'universally superior'."
+    },
+    {
+      "risk": "Reproducibility of Spectral Estimates",
+      "description": "Power iteration initialization and convergence criteria may introduce non-determinism across runs. Mitigation: (1) use fixed random seed for initialization, (2) set explicit iteration count (not adaptive), (3) report exact convergence criteria and tolerance values.",
+      "limitation": "Requires careful engineering for reproducibility; not guaranteed out-of-the-box."
+    }
+  ]
+}

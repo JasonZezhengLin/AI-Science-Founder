@@ -1,0 +1,20 @@
+{
+  "Name": "mi_layer_compressibility",
+  "Title": "Mutual Information as a Compressibility Measure in Neural Networks",
+  "Short Hypothesis": "The mutual information between intermediate layers of a neural network and the task output quantifies layer-specific redundancy, enabling principled compression decisions.",
+  "Related Work": "Existing work explores mutual information in generalization (Steinke & Zakynthinou, 2020) and reasoning dynamics (Qian et al., 2025), but does not explicitly link MI to compressibility. Compression methods like EMQ and AMP-ViT focus on quantization proxies without leveraging MI for redundancy identification.",
+  "Abstract": "Neural network compression often relies on heuristic methods or uniform quantization, which may overlook layer-specific redundancies. This paper proposes an information-theoretic approach to compression by estimating the mutual information (MI) between intermediate layers and the task output. We hypothesize that layers with low MI contribute minimally to task performance and can be compressed aggressively without loss of accuracy. We develop estimators for layer-wise MI using InfoNCE and derive theoretical bounds on the compressibility of layers based on their MI. Experiments on vision and language models demonstrate that MI-guided compression achieves higher accuracy-complexity trade-offs compared to uniform and heuristic-based methods. Our approach provides a principled framework for identifying redundancy in neural networks, bridging information theory and practical compression.",
+  "Experiments": [
+    "Estimate MI between each layer and the task output using InfoNCE-based estimators.",
+    "Compress layers with low MI using quantization and pruning, while preserving layers with high MI.",
+    "Evaluate on vision (ResNet, ViT) and language (BERT, GPT) models across datasets (CIFAR-10, ImageNet, GLUE).",
+    "Compare MI-guided compression to uniform quantization and heuristic-based methods (EMQ, AMP-ViT).",
+    "Metrics: Accuracy, compression ratio, bits-per-weight, and mutual information retention."
+  ],
+  "Risk Factors and Limitations": [
+    "Estimating MI in high-dimensional layers may introduce bias or variance.",
+    "Theoretical bounds may not hold for all architectures or tasks.",
+    "MI-guided pruning might destabilize training for certain models.",
+    "Computational overhead of MI estimation could offset compression gains."
+  ]
+}

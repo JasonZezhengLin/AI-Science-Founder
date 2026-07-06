@@ -1,0 +1,20 @@
+{
+  "Name": "curvature_aware_icl_routing",
+  "Title": "Curvature-Aware Precision Routing for Robust In-Context Learning",
+  "Short Hypothesis": "The robustness and efficiency of in-context learning can be significantly improved by dynamically routing tokens through precision tiers based on the local curvature of their activation subspaces, quantified by the condition number and spectral decay rate.",
+  "Related Work": "Recent work has explored geometric approaches to improve robustness in ICL, such as PCA-based filtering (Geometric Signal Separation) and spectral quantization (Spectral Quantization Routing). However, these methods either rely on static subspace projections or lack explicit curvature-aware diagnostics. Our proposal distinguishes itself by introducing a dynamic precision routing mechanism that adapts to the local curvature of activation subspaces, providing a more nuanced and theoretically grounded approach to handling distributional shifts and noisy contexts.",
+  "Abstract": "In-context learning (ICL) enables large language models to adapt to new tasks without parameter updates, but its robustness to distributional shifts and noisy contexts remains a challenge. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates numerical precision based on the local curvature of activation subspaces. CAPR computes the condition number and spectral decay rate of hidden states on-the-fly using randomized SVD, mapping these geometric diagnostics to a precision-switching policy that enforces strict latency budgets. We theoretically ground CAPR with PAC-Bayes bounds that link curvature metrics to generalization stability under quantization noise. Evaluated on single-GPU setups across adversarial ICL benchmarks and natural domain shifts, CAPR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized risk bounds, CAPR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Evaluate CAPR on adversarial ICL benchmarks (e.g., AdvGLUE) and natural domain shifts (e.g., WILDS) to measure robustness and accuracy retention.",
+    "Compare CAPR against static and heuristic mixed-precision baselines (e.g., Spectral Quantization Routing, Geometric Signal Separation) in terms of throughput-accuracy Pareto frontiers.",
+    "Validate the theoretical PAC-Bayes bounds by measuring the generalization stability of CAPR under controlled quantization noise levels.",
+    "Assess the computational overhead of CAPR's on-the-fly curvature diagnostics using randomized SVD and ensure it remains within strict latency budgets.",
+    "Conduct ablation studies to isolate the impact of curvature-aware precision switching versus other components of the framework."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of CAPR may vary across different model architectures and task domains, requiring extensive empirical validation.",
+    "The computational overhead of on-the-fly curvature diagnostics, although bounded, could still impact real-time inference latency in resource-constrained environments.",
+    "The proposed PAC-Bayes bounds, while theoretically grounded, may require further refinement to capture the full complexity of generalization under quantization noise.",
+    "The framework relies on randomized SVD for curvature diagnostics, which introduces stochasticity that could affect reproducibility in certain settings."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "Name": "curvature_aware_routing",
+  "Title": "Curvature-Aware Precision Routing for Deterministic Inference",
+  "Short Hypothesis": "The curvature of the loss landscape, quantified through Hessian conditioning, can serve as a deterministic proxy for precision allocation in mixed-precision inference, enabling training-free optimization without heuristic control mechanisms.",
+  "Related Work": "Existing approaches to mixed-precision inference rely on static profiling (e.g., NVIDIA TensorRT) or heuristic control mechanisms (e.g., Spectral Quantization Routing by founder_1). These methods often fail to adapt to dynamic input distributions or lack theoretical grounding. Our proposal distinguishes itself by leveraging Hessian conditioning as a deterministic proxy for precision allocation, replacing heuristic fragility claims with formalized stability radii and PAC-Bayes generalization bounds.",
+  "Abstract": "Mixed-precision inference promises significant latency and memory gains but typically relies on static profiling or costly calibration, failing to adapt to dynamic input distributions. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates numerical precision based on real-time Hessian conditioning. We hypothesize that the local curvature of the loss landscape, quantified through Hessian eigenvalues, serves as a deterministic proxy for quantization sensitivity. Tokens residing in regions with high curvature require higher precision, while those in flatter regions are robust to low-precision computation. CAPR computes these curvature diagnostics on-the-fly using randomized Lanczos algorithms, mapping them to a precision-switching policy that enforces strict latency budgets. We theoretically ground the routing mechanism with PAC-Bayes bounds that link curvature to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, CAPR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized risk bounds, CAPR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Evaluate CAPR on WILDS benchmarks (e.g., Camelyon17, iWildCam) to measure throughput-accuracy Pareto frontiers.",
+    "Compare CAPR against static mixed-precision baselines (e.g., NVIDIA TensorRT) and heuristic control mechanisms (e.g., Spectral Quantization Routing).",
+    "Quantify the impact of Hessian conditioning on precision allocation by varying the curvature thresholds and measuring the resulting accuracy and latency.",
+    "Validate theoretical PAC-Bayes bounds by empirically measuring generalization stability under quantization noise.",
+    "Conduct ablation studies to isolate the contribution of curvature-aware routing from other components of the framework."
+  ],
+  "Risk Factors and Limitations": [
+    "The computational overhead of on-the-fly Hessian conditioning may outweigh the benefits of precision routing.",
+    "The effectiveness of CAPR may be limited to specific architectures or tasks where the loss landscape curvature is highly informative.",
+    "The randomized Lanczos algorithm may not provide accurate Hessian estimates for very high-dimensional spaces.",
+    "The theoretical PAC-Bayes bounds may be too conservative to provide practical guidance for precision allocation."
+  ]
+}

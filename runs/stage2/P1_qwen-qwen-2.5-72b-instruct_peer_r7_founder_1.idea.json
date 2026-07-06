@@ -1,0 +1,29 @@
+{
+  "Name": "OptimizedSparseInference",
+  "Title": "Efficient Sparse Inference for Large Language Models via Dynamic Kernel Fusion and Layer-Wise Precision Tuning",
+  "Short Hypothesis": "Combining dynamic kernel fusion and layer-wise precision tuning can significantly reduce the wall-clock latency and improve the throughput of sparse inference in large language models (LLMs) without compromising accuracy.",
+  "Related Work": "Recent works such as FlashInfer [1], SpInfer [2], and Coruscant [3] have explored efficient kernel-level optimizations and sparsity techniques for LLM inference. FlashInfer focuses on customizable and efficient attention engines, SpInfer introduces tensor-core-aware bitmap encoding for sparsity, and Coruscant proposes a GPU kernel and sparse tensor core design for unstructured sparsity. However, these works do not fully address the dynamic nature of inference tasks and the need for adaptive precision tuning. Our proposal aims to bridge this gap by integrating dynamic kernel fusion and layer-wise precision tuning.",
+  "Abstract": "Large language models (LLMs) have become essential in various applications, but their inference efficiency remains a significant challenge, especially in resource-constrained environments. This proposal introduces a novel framework, Efficient Sparse Inference (ESI), which combines dynamic kernel fusion and layer-wise precision tuning to optimize the wall-clock latency and throughput of sparse inference in LLMs. By dynamically fusing kernel operations and tuning the precision of each layer based on real-time activation geometry, ESI ensures that the model maintains high accuracy while achieving significant speedups. We evaluate ESI on a range of LLMs and demonstrate its effectiveness in reducing latency and improving throughput, making it suitable for real-world deployment.",
+  "Experiments": [
+    {
+      "Description": "Measure the wall-clock latency and throughput of ESI compared to state-of-the-art sparse inference methods (FlashInfer, SpInfer, Coruscant) on a variety of LLMs (e.g., BERT, RoBERTa, T5).",
+      "Method": "We will use nvprof and Nsight to collect detailed performance metrics, including kernel occupancy, memory bandwidth, and energy consumption. We will compare the results under different sequence lengths and batch sizes.",
+      "Metrics": "Wall-clock latency, throughput (tokens per second), energy consumption, and memory bandwidth utilization."
+    },
+    {
+      "Description": "Evaluate the accuracy of ESI on standard benchmarks (e.g., GLUE, SQuAD).",
+      "Method": "We will fine-tune the models on these benchmarks and measure the accuracy before and after applying ESI. We will also compare the accuracy degradation with and without precision tuning.",
+      "Metrics": "Accuracy (F1 score, BLEU score) and accuracy degradation."
+    },
+    {
+      "Description": "Analyze the impact of dynamic kernel fusion and layer-wise precision tuning on different layers of the model.",
+      "Method": "We will instrument the model to collect layer-wise performance metrics and identify the layers that benefit the most from kernel fusion and precision tuning. We will use these insights to optimize the fusion and tuning strategies.",
+      "Metrics": "Layer-wise latency, throughput, and energy consumption."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The dynamic nature of kernel fusion and precision tuning may introduce additional overhead, which could negate the performance gains in some scenarios.",
+    "Layer-wise precision tuning requires careful calibration to avoid accuracy degradation, especially in critical layers.",
+    "The effectiveness of ESI may vary across different LLM architectures and inference workloads, requiring extensive benchmarking and tuning."
+  ]
+}

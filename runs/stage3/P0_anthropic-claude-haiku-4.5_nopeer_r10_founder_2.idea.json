@@ -1,0 +1,127 @@
+{
+  "Name": "uncertainty_calibrated_jacobian_routing",
+  "Title": "Uncertainty-Calibrated Jacobian Routing: PAC-Bayes-Bounded Layer Selection via Activation Spectral Diagnostics",
+  "Short Hypothesis": "Layer-skipping decisions in neural networks can be made via single-pass, uncertainty-quantified Jacobian spectral estimates that provably bound perturbation risk under PAC-Bayes theory, eliminating expensive ensemble sampling and enabling strict latency guarantees. Specifically, we hypothesize that the local Lipschitz constant (spectral norm of layer Jacobians) provides a calibrated proxy for downstream loss sensitivity, and that variance-bounded activation statistics enable deterministic routing thresholds with formally bounded approximation error, without requiring parallel sampling or full cross-layer covariance estimation.",
+  "Related Work": "Existing adaptive inference work (early-exit networks, dynamic depth) relies on heuristic confidence scores or learned gating without formal approximation guarantees. Recent Jacobian-based pruning (e.g., Fisher-information methods) targets training-time sparsity, not inference-time routing. PAC-Bayes bounds have been applied to ensemble methods and margin-based classifiers, but not to online layer-selection routing. Test-time optimization work (e.g., gradient-based prompt adaptation) explores implicit optimization but lacks explicit spectral stability characterization. Our distinction: (1) we derive PAC-Bayes-style generalization bounds directly for layer-skipping decisions using spectral information, (2) we propose a training-free, single-pass diagnostic that amortizes spectral estimation into wall-clock budgets without ensemble overhead, (3) we explicitly quantify activation variance to calibrate uncertainty proxies, preventing latency budget overruns, and (4) we decouple offline ablation from online routing, enforcing strict separation between diagnostic infrastructure and deployment paths.",
+  "Abstract": "Adaptive neural network inference via layer skipping offers computational savings, but existing methods lack formal approximation guarantees and often require expensive ensemble sampling or learned routing heads. We propose Uncertainty-Calibrated Jacobian Routing (UCJR), a training-free inference-time algorithm that makes layer-skipping decisions via provably bounded spectral diagnostics. Our key insight is that the Lipschitz constant of intermediate layers (estimated via Jacobian spectral norms) provides a calibrated proxy for downstream loss sensitivity under PAC-Bayes theory. We derive formal bounds on the approximation error incurred by skipping layers, expressed in terms of layer-wise activation variance and spectral stability. UCJR operates via a single forward pass with inline, amortized spectral estimation: at each layer, we compute a variance-bounded activation statistic and compare it against a deterministic threshold derived from our PAC-Bayes bound. Critically, we avoid parallel sampling and enforce strict memory-bandwidth accounting, enabling deployment on resource-constrained hardware. We validate UCJR on ImageNet and CIFAR-100 using ResNets and Vision Transformers, demonstrating Pareto-optimal accuracy-latency tradeoffs compared to learned early-exit baselines. We provide rigorous latency telemetry (wall-clock time, memory usage) and quantify stability margins under structured perturbations (adversarial noise, distribution shift). Our framework is modular: offline ablations characterize spectral stability properties, while online routing operates with negligible overhead, enabling deployment across compute tiers (single GPU to inference clusters).",
+  "Experiments": [
+    {
+      "name": "Experiment 1: Derivation and Empirical Validation of PAC-Bayes Bound",
+      "description": "Formally derive a PAC-Bayes bound on the approximation error |f_skip(x) - f_full(x)| when skipping layer ℓ, expressed as a function of (i) layer Jacobian spectral norm σ_ℓ = ||∂f_ℓ/∂x||_2, (ii) activation variance Var[a_ℓ], and (iii) downstream layer complexity. Specifically, prove that P(|f_skip(x) - f_full(x)| ≤ ε) ≥ 1 - δ where ε depends on σ_ℓ and Var[a_ℓ], with explicit δ-dependence. Empirically validate this bound on ResNet-50 and ViT-B by: (a) computing true spectral norms via power iteration (10 iterations per layer), (b) measuring actual approximation errors when skipping each layer on 1000 test samples, (c) plotting empirical vs. theoretical error distributions and computing calibration metrics (e.g., fraction of samples where true error falls within bound).",
+      "metrics": [
+        "Bound calibration rate (% samples within predicted error envelope)",
+        "Tightness ratio (empirical error / theoretical bound)",
+        "Power iteration overhead (FLOPs per layer)"
+      ]
+    },
+    {
+      "name": "Experiment 2: Activation Variance Estimation and Uncertainty Proxy Calibration",
+      "description": "Develop an online, single-pass variance estimator for activations using Welford's algorithm (O(1) memory per layer). For each layer ℓ, compute running mean and variance μ_ℓ, σ²_ℓ over a minibatch. Define an uncertainty proxy U_ℓ = σ_ℓ (Jacobian spectral norm) × σ²_ℓ (activation variance). Empirically calibrate thresholds τ_ℓ for routing decisions: skip layer ℓ if U_ℓ < τ_ℓ. Validate calibration by: (a) sweeping τ across [0.1, 0.9] quantiles of U_ℓ distribution, (b) measuring accuracy drop and latency savings for each τ, (c) computing calibration curves (expected vs. observed accuracy loss), (d) quantifying variance estimation error using bootstrap confidence intervals on held-out validation set.",
+      "metrics": [
+        "Variance estimation error (relative to batch statistics)",
+        "Calibration curve slope (ideally ≈1)",
+        "Latency reduction per ±1% accuracy drop",
+        "Wall-clock overhead of Welford updates"
+      ]
+    },
+    {
+      "name": "Experiment 3: Single-Pass Spectral Estimation Integration and Latency Accounting",
+      "description": "Implement UCJR with inline spectral estimation: at each layer, compute a low-rank approximation of the Jacobian using a single power-iteration step (applied to a random Gaussian probe vector). Measure exact wall-clock time, memory bandwidth, and FLOPs for: (i) Jacobian-vector product (forward + backward), (ii) Welford variance update, (iii) threshold comparison and routing decision. Compare against baselines: (a) learned early-exit heads (inference-time only), (b) full-network inference, (c) random layer skipping. Report throughput (images/sec), latency percentiles (p50, p95, p99), peak memory, and memory bandwidth utilization on a single GPU (e.g., NVIDIA A100). Enforce strict latency budgets: spectral estimation overhead must be <5% of total inference time.",
+      "metrics": [
+        "Throughput (images/sec)",
+        "Latency percentiles (p50, p95, p99 in ms)",
+        "Peak memory (MB)",
+        "Memory bandwidth (GB/s)",
+        "Spectral estimation overhead (% of total latency)"
+      ]
+    },
+    {
+      "name": "Experiment 4: Accuracy-Latency Pareto Frontier and Comparison to Baselines",
+      "description": "Construct Pareto frontiers by varying routing thresholds τ across all layers. For each configuration, measure: (a) top-1 and top-5 accuracy on ImageNet validation set (50K images), (b) end-to-end latency (wall-clock), (c) percentage of layers skipped. Compare UCJR against: (i) learned early-exit networks (trained on the same architecture), (ii) AngleLinear/dynamic depth methods, (iii) uniform random layer skipping (oracle upper bound on latency savings). Plot accuracy vs. latency for all methods. Compute Pareto dominance: count configurations where UCJR achieves higher accuracy at same latency or lower latency at same accuracy.",
+      "metrics": [
+        "Top-1 accuracy",
+        "Top-5 accuracy",
+        "End-to-end latency (ms)",
+        "Layers skipped (%)",
+        "Pareto dominance count vs. each baseline"
+      ]
+    },
+    {
+      "name": "Experiment 5: Stability Under Perturbations and Domain Shift",
+      "description": "Evaluate UCJR robustness via: (a) Adversarial noise: add ℓ_∞ perturbations (ε ∈ {0.01, 0.1, 0.3}) to test images and measure accuracy drop and latency stability, (b) Distribution shift: evaluate on ImageNet-C (15 corruption types at 5 severity levels) and ImageNet-R (renditions), measuring accuracy-latency correlation, (c) Spectral stability radius: compute the perturbation magnitude δ such that Jacobian spectral norms change by <10%, and verify routing decisions remain stable within this radius. Quantify stability via: (i) routing consistency (% of samples with identical skip patterns), (ii) accuracy variance across perturbation types, (iii) latency variance.",
+      "metrics": [
+        "Accuracy drop under adversarial noise",
+        "Routing consistency (% unchanged)",
+        "Accuracy on ImageNet-C and ImageNet-R",
+        "Spectral stability radius (δ)",
+        "Latency variance under perturbations"
+      ]
+    },
+    {
+      "name": "Experiment 6: Ablation Studies and Component Isolation",
+      "description": "Isolate mechanistic contributions: (a) Jacobian spectral norm only: use σ_ℓ alone for routing (no activation variance), (b) Activation variance only: use σ²_ℓ alone, (c) Full UCJR proxy U_ℓ = σ_ℓ × σ²_ℓ, (d) Variance estimation method: compare Welford vs. full batch statistics vs. exponential moving average. For each variant, report accuracy, latency, and calibration metrics. Perform deterministic, projection-based mechanistic probes: visualize layer-wise Jacobian spectra (eigenvalue distributions) and activation variance profiles to identify which layers benefit most from skipping.",
+      "metrics": [
+        "Accuracy (all variants)",
+        "Latency (all variants)",
+        "Calibration quality (all variants)",
+        "Variance estimation error (method comparison)"
+      ]
+    },
+    {
+      "name": "Experiment 7: Generalization Across Architectures and Datasets",
+      "description": "Validate generalization by applying UCJR (without retraining) to: (a) different architectures: ResNet-18, ResNet-101, ResNet-152, ViT-S, ViT-L, (b) different datasets: CIFAR-100, CIFAR-10, (c) different domains: medical imaging (ChexPert), fine-grained classification (Stanford Cars). For each configuration, measure accuracy drop and latency savings relative to full-network inference. Report variance across seeds (3 random initializations) and statistical significance tests.",
+      "metrics": [
+        "Accuracy across architectures",
+        "Latency across architectures",
+        "Cross-dataset generalization",
+        "Variance across seeds",
+        "Statistical significance (t-tests)"
+      ]
+    },
+    {
+      "name": "Experiment 8: Compute-Tier Adaptation and Modular Deployment",
+      "description": "Demonstrate tier-scoped deployment: (a) Micro-GPU (e.g., NVIDIA Jetson): measure throughput, latency, and power consumption; verify spectral estimation overhead remains <5%, (b) Single GPU (A100): full-scale benchmark with batch processing, (c) Multi-GPU cluster: measure communication overhead and load balancing. For each tier, provide exact hardware specifications, raw telemetry logs, and reproducible configurations. Decouple offline diagnostics (spectral profiling, full covariance estimation) from online routing (inline, amortized diagnostics).",
+      "metrics": [
+        "Throughput (images/sec per tier)",
+        "Latency (ms per tier)",
+        "Power consumption (W, Jetson)",
+        "Communication overhead (multi-GPU)",
+        "Spectral estimation overhead (per tier)"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    {
+      "risk": "Spectral Norm Estimation Accuracy",
+      "description": "Single power-iteration steps may poorly approximate true Jacobian spectral norms, especially for highly non-linear layers. Mitigation: empirically validate power-iteration accuracy against full SVD on small subsets; use multiple iterations if latency budget permits; compare against other low-rank approximations (Hutchinson trace estimator)."
+    },
+    {
+      "risk": "Variance Estimation Noise",
+      "description": "Welford's algorithm estimates variance from minibatches; small batch sizes may produce noisy estimates, leading to unstable routing decisions. Mitigation: use exponential moving average with appropriate decay rates; validate variance estimates via bootstrap; report confidence intervals."
+    },
+    {
+      "risk": "PAC-Bayes Bound Looseness",
+      "description": "Derived bounds may be vacuous or extremely loose in practice, limiting their utility for setting thresholds. Mitigation: empirically calibrate bounds rather than using them directly; validate calibration curves; compare against data-dependent bounds."
+    },
+    {
+      "risk": "Limited Architectures",
+      "description": "UCJR may not generalize to all architectures (e.g., highly non-linear, recurrent, or attention-heavy networks). Mitigation: test on diverse architectures (ResNets, ViTs, CNNs); report failure modes; identify architectural properties that enable/disable layer skipping."
+    },
+    {
+      "risk": "Latency Budget Overruns",
+      "description": "Spectral estimation overhead may exceed 5% target on slower hardware or with larger batch sizes. Mitigation: amortize spectral updates across multiple batches; use approximate methods (e.g., single power iteration); provide tier-specific configurations."
+    },
+    {
+      "risk": "Distribution Shift Sensitivity",
+      "description": "Routing decisions calibrated on training/validation data may fail under distribution shift. Mitigation: evaluate on domain-shift benchmarks (ImageNet-C, ImageNet-R); quantify stability radius; propose online recalibration strategies."
+    },
+    {
+      "risk": "Reproducibility and Artifact Availability",
+      "description": "Spectral estimation and variance computation require careful implementation; small numerical errors can cascade. Mitigation: release open-source code with exact hardware specifications, random seeds, and raw telemetry logs; provide deterministic test cases."
+    },
+    {
+      "risk": "Comparison Fairness",
+      "description": "Learned early-exit baselines may be trained with different hyperparameters or datasets, leading to unfair comparisons. Mitigation: retrain all baselines on identical data with grid-searched hyperparameters; report baseline variance across seeds."
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "Name": "curvequant",
+  "Title": "Curvature-Aware Mixed Precision Quantization for Neural Networks",
+  "Short Hypothesis": "We hypothesize that incorporating curvature-aware optimization and spectral quantization theory into mixed precision quantization can lead to significant improvements in accuracy and efficiency for neural networks.",
+  "Related Work": "Our proposal builds upon recent works such as EMQ, AMP-ViT, and SNIP, which have demonstrated the effectiveness of mixed precision quantization for neural networks. However, our approach differs in that it incorporates curvature-aware optimization and spectral quantization theory to further improve accuracy and efficiency.",
+  "Abstract": "Mixed precision quantization has emerged as a promising technique for reducing the computational requirements of neural networks while maintaining accuracy. However, existing methods often rely on heuristic-based approaches or require significant computational resources. In this proposal, we introduce a curvature-aware mixed precision quantization framework that incorporates spectral quantization theory to optimize the precision of neural network weights and activations. Our approach leverages the structural properties of neural networks to identify the most critical components and allocate precision accordingly. We demonstrate the effectiveness of our approach on a range of neural network architectures and datasets, achieving significant improvements in accuracy and efficiency compared to state-of-the-art baselines.",
+  "Experiments": [
+    "Evaluate the proposed curvature-aware mixed precision quantization framework on a range of neural network architectures, including ResNet, MobileNet, and ViT.",
+    "Compare the performance of our approach to state-of-the-art mixed precision quantization methods, including EMQ, AMP-ViT, and SNIP.",
+    "Investigate the impact of different curvature-aware optimization techniques on the performance of our framework.",
+    "Analyze the effect of spectral quantization theory on the accuracy and efficiency of our approach."
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed framework may require significant computational resources to optimize the precision of neural network weights and activations.",
+    "The effectiveness of our approach may depend on the specific neural network architecture and dataset used.",
+    "The curvature-aware optimization technique used may not be effective for all types of neural networks."
+  ]
+}

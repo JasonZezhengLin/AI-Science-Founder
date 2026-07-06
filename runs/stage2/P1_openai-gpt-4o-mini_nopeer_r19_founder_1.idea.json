@@ -1,0 +1,19 @@
+{
+  "Name": "kernel_composition_optimization",
+  "Title": "Kernel Composition Optimization: A Systems Approach to Latency Reduction in Inference Workloads",
+  "Short Hypothesis": "By systematically decomposing complex inference workloads into simpler, reusable kernel components and optimizing their execution order and memory layout, we can significantly reduce wall-clock latency and increase throughput on commodity GPUs.",
+  "Related Work": "While existing methods focus on optimizing individual kernels or rely on automated frameworks for kernel generation, our proposal emphasizes a novel approach where we compose applications from optimized, reusable kernel components. This contrasts with works like Astra and AutoKernel, which prioritize autonomous kernel tuning but do not address the potential benefits of kernel decomposition and composition for inference tasks.",
+  "Abstract": "In the context of machine learning inference, latency is a critical concern that directly impacts user experience and system efficiency. Traditional approaches often optimize kernels in isolation, leading to suboptimal performance when considering the overall architecture of the inference task. We propose a novel framework for Kernel Composition Optimization (KCO), which focuses on decomposing complex inference workloads into simpler, reusable kernel components. By systematically analyzing execution order, memory layouts, and inter-kernel communication, we aim to enhance data locality and minimize memory bandwidth usage. Our approach will leverage extensive profiling to evaluate performance impacts and iteratively refine the kernel composition strategy. Preliminary experiments will focus on transformer-based models, examining the impact of our optimizations on wall-clock latency and throughput metrics. Through detailed profiling, we will establish concrete performance benchmarks, demonstrating that our KCO framework can achieve significant gains in inference efficiency on commodity GPUs.",
+  "Experiments": [
+    "Conduct a baseline measurement of latency and throughput for a standard transformer model inference workload.",
+    "Decompose the inference process into configurable kernel components (e.g., attention, feed-forward, normalization), optimizing each component for kernel performance.",
+    "Implement a composition strategy that varies execution order and memory layouts based on profiling data.",
+    "Evaluate the performance of the composed workload against the baseline, measuring p50/p99 latency, throughput under batching, and energy per token.",
+    "Iteratively refine the kernel composition based on profiling results to identify optimal configurations."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of the kernel composition may be limited by the granularity of decomposition; complex interactions between components might lead to overhead.",
+    "Profiling overhead may introduce additional latency not accounted for in initial measurements.",
+    "The approach may not generalize well to all types of models beyond transformer architectures, necessitating further exploration."
+  ]
+}

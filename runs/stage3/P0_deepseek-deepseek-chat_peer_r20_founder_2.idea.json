@@ -1,0 +1,20 @@
+{
+  "Name": "jacobian_layer_skipping",
+  "Title": "Jacobian-Guided Layer Skipping for Latency-Aware Inference",
+  "Short Hypothesis": "Layer skipping can be optimized dynamically during inference by using Jacobian-based diagnostics to measure the sensitivity of each layer's output to its input perturbations, enabling precise latency-accuracy trade-offs without requiring training or calibration.",
+  "Related Work": "Existing layer-skipping methods often rely on static heuristics or offline profiling, failing to adapt to dynamic input distributions (e.g., LiteStage, Sortblock). Training-free approaches like Spectral Quantization Routing and Geometric Signal Separation focus on activation geometry but do not explicitly address layer skipping. Our proposal uniquely integrates Jacobian-based diagnostics to dynamically assess layer importance during inference, offering a mathematically grounded and latency-aware solution.",
+  "Abstract": "Layer skipping is a promising technique for reducing inference latency in deep neural networks, but existing methods often rely on static heuristics or costly offline profiling. We propose a novel training-free framework that dynamically optimizes layer skipping during inference using Jacobian-based diagnostics. By computing the Jacobian matrix of each layer's output with respect to its input, we measure the layer's sensitivity to perturbations and use this metric to determine its importance. Layers with low sensitivity are skipped, while those with high sensitivity are retained, ensuring minimal impact on accuracy. We theoretically ground our approach in PAC-Bayes bounds, linking Jacobian sensitivity to generalization stability under layer removal. Evaluated on single-GPU setups across vision and NLP benchmarks, our method achieves superior throughput-accuracy Pareto frontiers compared to static and heuristic layer-skipping baselines. This work bridges foundational optimization theory with practical, latency-aware inference, offering a reproducible and zero-cost pathway for efficient model deployment.",
+  "Experiments": [
+    "Evaluate on vision (e.g., ImageNet) and NLP (e.g., GLUE) benchmarks to validate generalizability.",
+    "Compare against static and heuristic layer-skipping baselines (e.g., LiteStage, Sortblock) in terms of latency and accuracy.",
+    "Measure Jacobian sensitivity for each layer and correlate it with layer importance using ablation studies.",
+    "Conduct scalability tests on single-GPU setups to ensure feasibility within academic lab constraints.",
+    "Evaluate robustness to distributional shifts using WILDS benchmarks."
+  ],
+  "Risk Factors and Limitations": [
+    "Jacobian computation introduces additional overhead, which may offset latency gains.",
+    "Dynamic layer skipping may lead to instability in certain architectures.",
+    "The approach assumes smooth optimization landscapes, which may not hold for all models.",
+    "Scalability to very large models (e.g., GPT-4) remains unverified."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "Name": "gpu_inference_optimizer",
+  "Title": "Kernel-Level Throughput Engineering for Efficient Deep Learning Inference on Commodity GPUs",
+  "Short Hypothesis": "By applying kernel-level optimizations and hardware-faithful evaluation, we can achieve significant speedups in deep learning inference on commodity GPUs without sacrificing accuracy.",
+  "Related Work": "While previous work has focused on optimizing deep learning models for specific hardware platforms, our approach concentrates on optimizing the inference process at the kernel level, taking into account the unique characteristics of commodity GPUs. Our work differs from existing research in its emphasis on empirical, hardware-based optimization rather than theoretical or formal methods.",
+  "Abstract": "This proposal presents a novel approach to optimizing deep learning inference on commodity GPUs. By leveraging kernel-level throughput engineering and hardware-faithful evaluation, we aim to achieve substantial speedups in inference times without compromising model accuracy. Our approach involves optimizing fused CUDA/Triton kernels, memory-bandwidth utilization, KV-cache layout, and tensor-core occupancy, and evaluating the results using reproducible benchmarks and nvprof/Nsight traces. We expect our work to contribute to the development of more efficient and deployable deep learning systems.",
+  "Experiments": [
+    "Optimize kernel launch configurations for coalesced memory access",
+    "Investigate the impact of register blocking on kernel performance",
+    "Evaluate the effectiveness of autotuned tile sizes and precision picking on inference speed",
+    "Conduct A/B latency races under fixed accuracy budgets to compare optimized and baseline models"
+  ],
+  "Risk Factors and Limitations": [
+    "Limited access to diverse GPU hardware for testing and validation",
+    "Potential for over-optimization for specific hardware platforms",
+    "Difficulty in reproducing results due to variations in driver versions, GPU models, or system configurations"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "Name": "dynamic_tile_fusion",
+  "Title": "Dynamic Tile Fusion: Real-Time Kernel Fusion Optimization for Efficient Inference",
+  "Short Hypothesis": "Dynamic adjustment of tile size and warp-level parallelization strategies based on real-time profiling data can significantly improve kernel-level throughput and hardware utilization for efficient inference on modern GPUs.",
+  "Related Work": "Existing work on kernel optimization, such as BitDecoding and Quantix, focuses on static tile sizes and fixed warp-level strategies, which may not fully exploit the hardware capabilities under varying workloads. Our proposal distinguishes itself by introducing dynamic adjustment mechanisms based on real-time profiling data, enabling more efficient utilization of CUDA/Triton kernels and tensor-core occupancy.",
+  "Abstract": "We propose Dynamic Tile Fusion, a novel kernel fusion technique that dynamically adjusts tile size and warp-level parallelization strategies based on real-time profiling data. By continuously monitoring metrics such as occupancy, achieved bandwidth, and arithmetic intensity, our method adapts the kernel fusion parameters to maximize hardware utilization and throughput. We implement this technique using fused CUDA/Triton kernels and evaluate it on modern GPUs, demonstrating significant improvements in kernel-level throughput and hardware efficiency. Our experiments show that Dynamic Tile Fusion outperforms static fusion methods in terms of tokens-per-second and wall-clock latency, providing a practical solution for efficient inference deployment.",
+  "Experiments": [
+    "Implement Dynamic Tile Fusion using fused CUDA/Triton kernels.",
+    "Profile and adjust tile size and warp-level parallelization strategies in real-time based on occupancy, achieved bandwidth, and arithmetic intensity.",
+    "Compare the performance of Dynamic Tile Fusion against static fusion methods on modern GPUs.",
+    "Evaluate the impact of Dynamic Tile Fusion on kernel-level throughput, wall-clock latency, and tokens-per-second.",
+    "Measure hardware utilization metrics, including tensor-core occupancy and memory-bandwidth utilization."
+  ],
+  "Risk Factors and Limitations": [
+    "The real-time profiling overhead may offset some of the performance gains.",
+    "Dynamic adjustment mechanisms may introduce additional complexity in kernel implementation.",
+    "The effectiveness of Dynamic Tile Fusion may vary across different GPU architectures and workloads."
+  ]
+}

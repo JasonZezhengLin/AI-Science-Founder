@@ -1,0 +1,20 @@
+{
+  "Name": "information_theoretic_pruning",
+  "Title": "Information-Theoretic Neural Network Pruning: Operational Bounds on Bits-Per-Weight for Predictive Sufficiency",
+  "Short Hypothesis": "Pruning neural networks can be framed as a lossy source coding problem, where the goal is to minimize the bits-per-weight while preserving predictive sufficiency, and operational bounds on this trade-off can be derived using mutual information and entropy estimators.",
+  "Related Work": "Existing pruning methods focus on empirical heuristics or hardware-specific optimizations, often lacking a theoretical foundation. Recent work has explored information-theoretic frameworks for generalization and compression, but operational bounds on bits-per-weight for pruning remain unexplored. This proposal distinguishes itself by deriving achievable bounds on the bits-per-weight needed for predictive sufficiency, leveraging mutual information and entropy estimators.",
+  "Abstract": "Neural network pruning is a widely used technique for model compression, but existing methods often rely on empirical heuristics without a theoretical foundation. This paper proposes an information-theoretic framework for pruning, framing it as a lossy source coding problem under a distortion constraint. We derive operational bounds on the bits-per-weight needed to preserve predictive sufficiency, using mutual information and entropy estimators to quantify the trade-off between model size and task performance. Our approach provides a principled way to allocate bits where they reduce task-relevant distortion most, bridging the gap between theoretical bounds and practical implementations. Experiments on benchmark datasets demonstrate that our method achieves state-of-the-art compression rates while maintaining predictive performance, offering a new perspective on neural network pruning.",
+  "Experiments": [
+    "Evaluate the proposed pruning method on benchmark datasets (e.g., CIFAR-10, ImageNet) using mutual information estimators (e.g., InfoNCE) to quantify task-relevant information.",
+    "Compare the bits-per-weight achieved by our method to existing pruning techniques, using predictive accuracy as the distortion measure.",
+    "Analyze the trade-off between model size and task performance by varying the distortion constraint and plotting the resulting rate-distortion curves.",
+    "Validate the derived operational bounds by comparing empirical results to theoretical predictions, assessing the tightness of the bounds.",
+    "Investigate the robustness of the method to different architectures (e.g., ResNet, VGG) and tasks (e.g., classification, regression)."
+  ],
+  "Risk Factors and Limitations": [
+    "The mutual information estimators used may have high variance, leading to unstable bounds.",
+    "The theoretical bounds may not be tight enough to guide practical pruning decisions.",
+    "The method may not generalize well to tasks with complex dependencies or high-dimensional data.",
+    "The computational cost of estimating mutual information could be prohibitive for large models."
+  ]
+}

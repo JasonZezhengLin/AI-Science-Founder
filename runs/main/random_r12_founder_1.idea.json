@@ -1,0 +1,20 @@
+{
+  "Name": "spectral_quantization_routing",
+  "Title": "Spectral Quantization Routing: Training-Free Mixed-Precision Allocation via Eigenvalue Diagnostics",
+  "Short Hypothesis": "The eigenvalues of layer-wise Hessian matrices provide a robust, training-free proxy for determining optimal mixed-precision bit-widths, enabling efficient quantization without heuristic-based search.",
+  "Related Work": "Existing mixed-precision quantization methods rely on heuristic proxies (e.g., EMQ) or calibration data (e.g., SliM-LLM). While these approaches improve efficiency, they often lack theoretical grounding and fail to generalize across architectures. Recent work on Hessian-based diagnostics (e.g., InfoQ) suggests that eigenvalue spectra capture layer sensitivity, but their application to quantization remains unexplored. Our proposal bridges this gap by formalizing eigenvalue spectra as a deterministic, training-free proxy for bit-width allocation.",
+  "Abstract": "Mixed-precision quantization (MPQ) offers a promising trade-off between model efficiency and accuracy, but existing methods rely on heuristic proxies or costly calibration data. We propose Spectral Quantization Routing (SQR), a training-free framework that leverages the eigenvalue spectra of layer-wise Hessian matrices to determine optimal bit-widths. By quantifying the curvature sensitivity of each layer through its Hessian eigenvalues, SQR assigns higher precision to layers with larger spectral gaps, preserving critical information flow while aggressively quantizing less sensitive layers. We introduce a deterministic routing protocol that combines spectral diagnostics with integer linear programming to optimize bit-width allocation under a given computational budget. Experiments on ImageNet with ResNet and MobileNet families demonstrate that SQR achieves superior accuracy-efficiency trade-offs compared to state-of-the-art MPQ methods, reducing search overhead by 90% while maintaining competitive performance.",
+  "Experiments": [
+    "Evaluate SQR on ImageNet using ResNet-18, ResNet-50, and MobileNetV2. Compare accuracy and computational efficiency against EMQ, SliM-LLM, and InfoQ.",
+    "Measure the correlation between Hessian eigenvalue spectra and quantization sensitivity across 100 random bit-width configurations. Use Kendall's tau to quantify the relationship.",
+    "Conduct ablation studies to isolate the impact of eigenvalue diagnostics versus integer programming on bit-width allocation efficiency.",
+    "Assess the scalability of SQR by applying it to larger architectures like Vision Transformers (ViT) and Swin Transformers.",
+    "Quantify the computational overhead of Hessian eigenvalue estimation using power iteration and compare it to existing proxy-based methods."
+  ],
+  "Risk Factors and Limitations": [
+    "Hessian eigenvalue estimation may introduce computational overhead, particularly for large models.",
+    "The assumption that spectral gaps correlate with quantization sensitivity may not hold for all architectures.",
+    "SQR relies on deterministic optimization, which may limit flexibility compared to heuristic-based approaches.",
+    "The framework assumes a static computational budget, which may not adapt to dynamic deployment constraints."
+  ]
+}

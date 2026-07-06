@@ -1,0 +1,20 @@
+{
+  "Name": "curvature_aware_spectral_routing",
+  "Title": "Curvature-Aware Spectral Routing: Training-Free Precision Allocation via Hessian-Spectral Diagnostics",
+  "Short Hypothesis": "The local curvature of the loss landscape, quantified by Hessian spectral properties, can serve as a robust proxy for determining optimal precision allocation in mixed-precision inference, enabling deterministic, training-free routing without heuristic control mechanisms.",
+  "Related Work": "Existing methods like Spectral Quantization Routing (SQR) focus on activation covariance geometry but overlook the role of curvature in precision sensitivity. Spectral Latent Steering (SLS) restricts optimization to low-rank subspaces but lacks curvature-aware diagnostics. This proposal uniquely integrates Hessian spectral analysis with precision routing, providing a deterministic framework grounded in curvature transparency.",
+  "Abstract": "Mixed-precision inference offers significant efficiency gains but often relies on static profiling or heuristic calibration, failing to adapt to dynamic input distributions. We propose Curvature-Aware Spectral Routing (CASR), a training-free framework that dynamically allocates numerical precision based on the local curvature of the loss landscape. By leveraging Hessian spectral diagnostics—specifically, the condition number and decay rate—CASR identifies regions of the activation space robust to low-precision computation. On-the-fly Hessian-vector products enable efficient spectral estimation, mapped to a precision-switching policy that enforces strict latency budgets. We theoretically ground CASR with PAC-Bayes bounds linking curvature to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, CASR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized curvature-based risk bounds, CASR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Evaluate CASR on WILDS benchmarks (e.g., Camelyon17, iWildCam) using a pre-trained transformer model. Measure throughput, accuracy, and latency under varying precision budgets.",
+    "Compare CASR against static mixed-precision baselines (e.g., FP16, INT8) and heuristic adaptive methods (e.g., Adaptive Precision Quantization). Use FID, perplexity, and task-specific metrics for evaluation.",
+    "Conduct ablation studies to isolate the impact of Hessian spectral diagnostics versus activation covariance geometry. Measure precision allocation patterns and computational overhead.",
+    "Validate theoretical PAC-Bayes bounds by empirically quantifying generalization stability under quantization noise. Use Monte Carlo simulations to estimate risk bounds.",
+    "Test CASR on out-of-distribution (OOD) datasets to assess robustness to natural distribution shifts. Compare performance with SQR and SLS."
+  ],
+  "Risk Factors and Limitations": [
+    "Computational overhead of on-the-fly Hessian-vector products may limit scalability for very large models.",
+    "The assumption of local curvature as a proxy for precision sensitivity may not hold for all architectures or tasks.",
+    "CASR relies on deterministic spectral estimation, which may introduce bias in high-dimensional spaces.",
+    "The framework assumes access to pre-trained models, limiting applicability to scenarios requiring fine-tuning."
+  ]
+}

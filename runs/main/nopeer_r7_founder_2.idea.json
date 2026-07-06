@@ -1,0 +1,18 @@
+{
+  "Name": "adaptive_layer_skipping",
+  "Title": "Adaptive Layer-Skipping in Deep Neural Networks Based on Input Complexity",
+  "Short Hypothesis": "Deep neural networks can achieve significant latency reduction without sacrificing accuracy by dynamically skipping layers based on the complexity of the input, as measured by local Jacobian spectra.",
+  "Related Work": "Layer-skipping techniques have been explored in prior work (e.g., SkipNet, BranchyNet), but these approaches typically rely on pre-defined skipping policies or training-based thresholds. Our proposal differs by introducing a training-free, input-dependent layer-skipping mechanism based on Jacobian spectra, which directly captures input complexity and allows for adaptive computation. This approach is distinct from existing methods in its reliance on spectral stability measures and its avoidance of additional training overhead.",
+  "Abstract": "Deep neural networks often exhibit redundant computation for simple inputs, leading to unnecessary latency. We propose a novel adaptive layer-skipping mechanism that dynamically adjusts the depth of computation based on the complexity of the input, as measured by the local Jacobian spectra. By leveraging spectral stability bounds, our method avoids the need for additional training and ensures minimal perturbation to the network's hidden states. We validate our approach on image classification and natural language processing tasks, demonstrating significant latency reduction without compromising accuracy. Our results highlight the potential of input-dependent computation for latency-critical applications.",
+  "Experiments": [
+    "Experiment 1: Implement adaptive layer-skipping in a ResNet-50 architecture for CIFAR-10 classification. Measure latency reduction and accuracy drop.",
+    "Experiment 2: Extend the approach to a Transformer model for text classification on the SST-2 dataset. Evaluate latency and accuracy trade-offs.",
+    "Experiment 3: Compare the proposed method against existing layer-skipping techniques (e.g., SkipNet) on both tasks, focusing on latency reduction and computational efficiency.",
+    "Evaluation Metrics: Latency (in milliseconds), accuracy (%), and FLOPs reduction."
+  ],
+  "Risk Factors and Limitations": [
+    "The method relies on accurate estimation of Jacobian spectra, which may introduce computational overhead during inference.",
+    "The effectiveness of adaptive layer-skipping may vary across different architectures and datasets.",
+    "The approach assumes that input complexity can be reliably captured by local Jacobian spectra, which may not hold for all inputs."
+  ]
+}

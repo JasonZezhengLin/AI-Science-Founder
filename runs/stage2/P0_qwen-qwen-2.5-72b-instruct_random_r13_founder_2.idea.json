@@ -1,0 +1,20 @@
+{
+  "Name": "LatencyAwareAdaptiveMixedPrecision",
+  "Title": "Latency-Aware Adaptive Mixed Precision for Efficient Inference in Vision Transformers",
+  "Short Hypothesis": "Developing a latency-aware adaptive mixed-precision (LAMP) framework for vision transformers (ViTs) that dynamically adjusts precision levels based on real-time inference constraints, while maintaining high accuracy and reducing computational overhead.",
+  "Related Work": "Existing work in adaptive mixed-precision (AMP) for vision transformers (ViTs) has focused on balancing accuracy and efficiency through post-training quantization [1, 2] and training-free proxies [3]. However, these methods often overlook the latency constraints critical for real-time applications. Our proposal introduces a latency-aware framework that dynamically adjusts precision levels during inference, ensuring that the model meets strict latency requirements while maintaining high accuracy.",
+  "Abstract": "Vision transformers (ViTs) have revolutionized computer vision but face significant challenges in terms of computational and memory demands, especially in real-time applications. This proposal introduces Latency-Aware Adaptive Mixed Precision (LAMP), a framework that dynamically adjusts precision levels during inference to meet strict latency constraints while maintaining high accuracy. LAMP leverages a Jacobian-based layer-skipping mechanism and uncertainty-quantified activation proxies to minimize hidden-state perturbation and enforce strict wall-clock budgets. We validate LAMP through a series of experiments on ViT, DeiT, and Swin models, demonstrating significant improvements in latency-accuracy trade-offs compared to state-of-the-art methods.",
+  "Experiments": [
+    "Experiment 1: Baseline Performance Evaluation - Evaluate the baseline performance of ViT, DeiT, and Swin models on the ImageNet dataset using full-precision inference. Record accuracy and inference latency.",
+    "Experiment 2: Latency-Aware Precision Adjustment - Implement the LAMP framework and dynamically adjust precision levels during inference. Use Jacobian-based layer-skipping to identify critical layers for high precision and less critical layers for lower precision. Measure the impact on inference latency and accuracy.",
+    "Experiment 3: Uncertainty-Quantified Activation Proxies - Introduce uncertainty-quantified activation proxies to dynamically adjust precision levels based on real-time inference constraints. Evaluate the effectiveness of these proxies in maintaining high accuracy while reducing computational overhead.",
+    "Experiment 4: Comparative Analysis - Compare LAMP with state-of-the-art adaptive mixed-precision methods (e.g., AMP-ViT, SNIP) in terms of latency, accuracy, and computational efficiency. Use metrics such as throughput, FLOPs, and memory usage.",
+    "Experiment 5: Robustness Evaluation - Test the robustness of LAMP under structured perturbations and domain shifts. Evaluate the stability of the model in different environments and quantify the impact on latency and accuracy."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk 1: Overhead of Jacobian Calculation - The computational overhead of calculating Jacobians in real-time could impact the overall latency. We will mitigate this by using efficient approximation techniques and amortizing the cost over multiple layers.",
+    "Risk 2: Sensitivity to Initial Precision Settings - The initial precision settings could significantly affect the performance of the LAMP framework. We will conduct extensive hyperparameter tuning to identify optimal initial settings.",
+    "Limitation 1: Limited to Vision Transformers - The proposed framework is primarily designed for vision transformers and may not be directly applicable to other types of models.",
+    "Limitation 2: Dependence on Hardware - The effectiveness of LAMP may vary depending on the hardware used for inference. We will test the framework on multiple GPU platforms to ensure generalizability."
+  ]
+}

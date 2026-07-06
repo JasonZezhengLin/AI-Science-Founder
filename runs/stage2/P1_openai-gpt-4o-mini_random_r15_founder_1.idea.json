@@ -1,0 +1,19 @@
+{
+  "Name": "dynamic_quantization_strategy",
+  "Title": "Dynamic Quantization Strategy for Real-Time Mixed-Precision Inference in Large Language Models",
+  "Short Hypothesis": "Dynamic adjustment of quantization levels during inference based on real-time profiling metrics will significantly improve inference speed without sacrificing accuracy compared to static quantization methods.",
+  "Related Work": "Most current research, including methods like KVTuner and MicroMix, focus on static mixed-precision configurations that are pre-set based on training or calibration phases. This proposal differentiates itself by creating a system that dynamically adjusts quantization levels during inference based on runtime performance metrics, tackling inefficiencies inherent in fixed configurations.",
+  "Abstract": "Large language models (LLMs) demand significant computational resources, making efficient inference a critical concern. Existing mixed-precision quantization techniques often rely on static configurations that may not optimize performance across diverse inference scenarios. This proposal introduces a Dynamic Quantization Strategy (DQS) that enables real-time adjustments of mixed-precision levels during inference based on continuous profiling metrics. By leveraging insights into layer sensitivity and runtime performance characteristics, DQS will adaptively select precision levels for weights and activations to maximize throughput while minimizing accuracy degradation. We will evaluate DQS against traditional static quantization methods using a series of latency races on commodity GPUs, measuring p50/p99 latency, throughput under batching, and energy per token. Our approach aims to not only improve inference speed but also adapt to changing workload conditions, providing a robust solution for deploying LLMs in resource-constrained environments.",
+  "Experiments": [
+    "Implement a baseline mixed-precision quantization method for comparison.",
+    "Profile runtime metrics such as latency, throughput, and energy consumption during inference.",
+    "Develop an adaptive algorithm that adjusts quantization levels based on profiling data.",
+    "Conduct A/B testing to evaluate DQS against static configurations, reporting p50/p99 latency and energy efficiency.",
+    "Use multiple LLMs (e.g., Llama-2 and Qwen) across varying context lengths to assess generalizability."
+  ],
+  "Risk Factors and Limitations": [
+    "Real-time profiling may introduce additional overhead that could negate performance gains.",
+    "Dynamic adjustments may require careful tuning to ensure accuracy is not compromised.",
+    "The effectiveness of DQS may vary across different hardware architectures, limiting generalizability."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "Name": "hardware_efficient_inference",
+  "Title": "Optimizing Neural Network Inference for Resource-Constrained Edge Devices",
+  "Short Hypothesis": "By leveraging a combination of model compression techniques, hardware-aware optimization, and software-hardware co-design, we can significantly improve the efficiency of neural network inference on resource-constrained edge devices while maintaining acceptable accuracy.",
+  "Related Work": "Recent works such as SNIP, EMQ, and AMP-ViT have explored mixed-precision training, automated mixed-precision quantization, and adaptive post-training quantization for efficient neural network inference. However, these approaches focus on specific aspects of optimization and do not provide a comprehensive framework for optimizing inference on edge devices. Our proposal builds upon these works and aims to provide a holistic approach to optimizing neural network inference for resource-constrained edge devices.",
+  "Abstract": "This proposal aims to optimize neural network inference for resource-constrained edge devices by leveraging a combination of model compression techniques, hardware-aware optimization, and software-hardware co-design. We propose to develop a framework that integrates advanced neural network optimization techniques with hardware power management capabilities to enable energy-efficient inference while maintaining acceptable accuracy. Our approach will involve a systematic investigation of joint model compression techniques, including pruning, quantization, and knowledge distillation, as well as hardware-aware optimization techniques such as clock frequency scaling and voltage regulation. We will evaluate our framework on various benchmark models and edge devices, including FPGAs and mobile devices, and report our results in terms of energy consumption, latency, and accuracy.",
+  "Experiments": [
+    "Implement and evaluate the proposed framework on various benchmark models, including ResNet and MobileNet, and edge devices, including FPGAs and mobile devices.",
+    "Conduct a systematic investigation of joint model compression techniques, including pruning, quantization, and knowledge distillation, and evaluate their impact on energy consumption, latency, and accuracy.",
+    "Explore hardware-aware optimization techniques, including clock frequency scaling and voltage regulation, and evaluate their impact on energy consumption and latency.",
+    "Evaluate the proposed framework on real-world applications, including object detection and image classification, and report the results in terms of energy consumption, latency, and accuracy."
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed framework may not be compatible with all types of edge devices or benchmark models.",
+    "The framework may require significant computational resources and expertise to implement and evaluate.",
+    "The results may vary depending on the specific hardware and software configurations used."
+  ]
+}

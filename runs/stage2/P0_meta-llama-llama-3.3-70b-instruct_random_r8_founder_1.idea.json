@@ -1,0 +1,17 @@
+{
+  "Name": "curvature_aware_quantization",
+  "Title": "Curvature-Aware Mixed-Precision Quantization for Deep Learning",
+  "Short Hypothesis": "We hypothesize that incorporating curvature information into the mixed-precision quantization process can lead to more efficient and accurate deep learning models. By analyzing the curvature of the loss landscape, we can identify the most critical layers and parameters that require higher precision, thereby reducing the overall computational cost and memory usage.",
+  "Related Work": "Recent works such as EMQ, SNIP, and AMP-ViT have explored the idea of mixed-precision quantization for deep learning. However, these methods rely on heuristic-based approaches or require significant computational resources. Our proposed method differs from existing work by incorporating curvature information into the quantization process, allowing for a more principled and efficient approach.",
+  "Abstract": "Mixed-precision quantization has emerged as a promising technique for reducing the computational cost and memory usage of deep learning models. However, existing methods often rely on heuristic-based approaches or require significant computational resources. In this work, we propose a curvature-aware mixed-precision quantization method that incorporates curvature information into the quantization process. Our method analyzes the curvature of the loss landscape to identify the most critical layers and parameters that require higher precision, thereby reducing the overall computational cost and memory usage. We demonstrate the effectiveness of our method on various deep learning models and tasks, showing significant improvements in efficiency and accuracy.",
+  "Experiments": [
+    "Experiment 1: Evaluate the proposed method on a range of deep learning models, including convolutional neural networks (CNNs) and recurrent neural networks (RNNs).",
+    "Experiment 2: Compare the proposed method with existing mixed-precision quantization methods, such as EMQ and SNIP.",
+    "Experiment 3: Analyze the effect of curvature information on the quantization process, including the impact on accuracy and computational cost."
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed method may require significant computational resources for curvature analysis.",
+    "The method may not be effective for all types of deep learning models or tasks.",
+    "The choice of curvature metric and threshold may require careful tuning."
+  ]
+}

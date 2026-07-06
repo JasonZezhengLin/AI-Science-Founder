@@ -1,0 +1,19 @@
+{
+  "Name": "curvature_aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: Training-Free Dynamic Precision Allocation via Hessian Geometry",
+  "Short Hypothesis": "By leveraging Hessian curvature diagnostics and gradient covariance geometry, we can dynamically allocate numerical precision in a training-free framework, ensuring deterministic execution pathways and explicit numerical stability bounds while maintaining generalization stability under quantization noise.",
+  "Related Work": "Existing methods like 'Spectral Quantization Routing' and 'Tri-Accel' explore precision adaptation but rely on static profiling or heuristic control mechanisms. CAPR distinguishes itself by formalizing curvature-driven precision allocation, linking Hessian diagnostics to generalization stability, and enforcing deterministic execution pathways with explicit numerical stability bounds.",
+  "Abstract": "Mixed-precision inference offers significant computational savings but often relies on static profiling or costly calibration, failing to adapt to dynamic input distributions. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates numerical precision based on Hessian curvature diagnostics and gradient covariance geometry. CAPR computes these diagnostics on-the-fly using randomized SVD and maps them to a precision-switching policy that enforces strict latency budgets. We theoretically ground the routing mechanism with PAC-Bayes bounds that link curvature conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, CAPR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized risk bounds, CAPR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Experiment 1: Validate curvature diagnostics. Compute Hessian curvature and gradient covariance metrics for different layers of a ResNet-18 model on CIFAR-10. Evaluate the correlation between curvature metrics and quantization sensitivity using layer-wise accuracy degradation.",
+    "Experiment 2: Test precision routing policies. Implement CAPR on a single-GPU setup and compare throughput, accuracy, and latency against static mixed-precision baselines (e.g., FP16, INT8) and heuristic methods (e.g., HAWQ). Use WILDS benchmarks for evaluation.",
+    "Experiment 3: Assess generalization stability. Measure generalization gaps under quantization noise for different curvature-driven precision allocations. Compare with PAC-Bayes bounds derived from curvature metrics.",
+    "Experiment 4: Evaluate deterministic execution. Verify that CAPR maintains deterministic execution pathways and explicit numerical stability bounds across multiple runs with varying input distributions."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk 1: Curvature diagnostics may incur computational overhead, limiting real-time applicability.",
+    "Risk 2: The proposed PAC-Bayes bounds may not tightly capture generalization stability under all quantization regimes.",
+    "Limitation 1: The framework is currently designed for single-GPU setups, potentially limiting scalability.",
+    "Limitation 2: The method assumes access to intermediate activations, which may not be feasible in all deployment scenarios."
+  ]
+}

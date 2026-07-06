@@ -1,0 +1,19 @@
+{
+  "Name": "quantsparse",
+  "Title": "QuantSparse: Synergistic Quantization and Sparsity for Efficient LLM Inference",
+  "Short Hypothesis": "Combining low-bit quantization with structured sparsity and optimized memory layouts can unlock multiplicative speedups on modern GPUs by reducing both arithmetic intensity and memory bandwidth bottlenecks.",
+  "Related Work": "Existing work focuses on standalone optimizations, such as low-bit KV cache quantization (BitDecoding) or GPU-centric KV cache services (TARDIS). QuantSparse distinguishes itself by integrating quantization, sparsity, and memory layout optimization into a unified framework, enabling multiplicative speedups through synergistic hardware-aware techniques.",
+  "Abstract": "Large language models (LLMs) face significant inefficiencies during inference, primarily due to high memory bandwidth demands and underutilized compute resources. We propose QuantSparse, a novel inference system that synergistically combines low-bit quantization, structured sparsity, and optimized memory layouts to unlock multiplicative speedups on modern GPUs. QuantSparse introduces a hardware-aware compression pipeline that jointly optimizes for reduced arithmetic intensity and improved memory coalescing. The system includes a novel quantization-aware sparsity induction algorithm, a memory layout optimizer that maximizes Tensor Core utilization, and a fused dequantization kernel that minimizes memory round-trips. Evaluated on NVIDIA Ampere and Hopper GPUs, QuantSparse achieves up to 4.2× speedup over baseline FP16 inference while maintaining model accuracy within 1%.",
+  "Experiments": [
+    "Compare QuantSparse against standalone quantization (BitDecoding) and sparsity techniques on LLaMA-7B and GPT-NeoX-20B models.",
+    "Profile memory bandwidth utilization, arithmetic intensity, and Tensor Core occupancy using Nsight Compute.",
+    "Measure end-to-end latency and throughput on NVIDIA A100 and H100 GPUs with fixed accuracy budgets.",
+    "Evaluate the impact of different quantization bit-widths (4-bit, 2-bit) and sparsity patterns (block, structured) on speedup and accuracy.",
+    "Conduct ablation studies to isolate the contributions of quantization, sparsity, and memory layout optimization."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of QuantSparse may vary across GPU architectures due to differences in Tensor Core capabilities and memory hierarchy.",
+    "Inducing hardware-aware sparsity patterns may require additional training or fine-tuning, limiting applicability to pre-trained models.",
+    "The synergistic benefits of quantization and sparsity may diminish at extremely low bit-widths or high sparsity levels, requiring careful parameter tuning."
+  ]
+}

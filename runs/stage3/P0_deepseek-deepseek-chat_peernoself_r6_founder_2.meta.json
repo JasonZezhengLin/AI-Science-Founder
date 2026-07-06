@@ -1,0 +1,14 @@
+{
+  "arm": "peernoself",
+  "round": 6,
+  "founder": "founder_2",
+  "persona_pair": "P0",
+  "model": "deepseek/deepseek-chat",
+  "cross_founder_visibility": "1",
+  "channel_b_exclude_founder": "founder_2",
+  "literature_db_path": "experiments/freeze/literature_db.snapshot.json",
+  "persona_chars": 3378,
+  "peer_brief_chars": 2186,
+  "workshop_desc_chars": 5774,
+  "idea_is_none": false
+}

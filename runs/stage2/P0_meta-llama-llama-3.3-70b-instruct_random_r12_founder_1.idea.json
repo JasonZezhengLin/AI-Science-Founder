@@ -1,0 +1,16 @@
+{
+  "Name": "curvature_aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing for Mixed-Precision Quantization in Deep Learning",
+  "Short Hypothesis": "We hypothesize that a curvature-aware precision routing framework can efficiently optimize mixed-precision quantization in deep learning models, leading to improved accuracy and reduced computational cost.",
+  "Related Work": "Recent works such as EMQ, SNIP, and AMP-ViT have explored mixed-precision quantization, but they rely on heuristic-based methods or manual configurations. Our approach differs by introducing a curvature-aware precision routing framework that leverages geometric subspace diagnostics and deterministic optimization proxies to optimize mixed-precision quantization.",
+  "Abstract": "This proposal introduces a novel curvature-aware precision routing framework for mixed-precision quantization in deep learning. Our approach combines geometric subspace diagnostics with deterministic optimization proxies to efficiently optimize mixed-precision quantization. We demonstrate the effectiveness of our framework through extensive experiments on various deep learning models, showing improved accuracy and reduced computational cost compared to state-of-the-art methods.",
+  "Experiments": [
+    "Experiment 1: Evaluate the effectiveness of our curvature-aware precision routing framework on ImageNet using ResNet and MobileNet models.",
+    "Experiment 2: Compare our approach with state-of-the-art mixed-precision quantization methods, such as EMQ and SNIP, on large language models.",
+    "Experiment 3: Investigate the impact of curvature-aware precision routing on the robustness and generalization of deep learning models."
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of the curvature-aware precision routing framework may lead to increased computational overhead.",
+    "The effectiveness of our approach may depend on the specific deep learning model and dataset used."
+  ]
+}

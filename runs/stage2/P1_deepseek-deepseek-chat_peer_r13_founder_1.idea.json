@@ -1,0 +1,19 @@
+{
+  "Name": "kv_cache_compression",
+  "Title": "Profiler-Guided KV-Cache Compression for Hardware-Efficient Transformer Inference",
+  "Short Hypothesis": "Dynamic pruning and quantization of KV-cache entries based on profiler-measured memory bandwidth utilization can significantly reduce latency and improve tensor-core occupancy without sacrificing model accuracy.",
+  "Related Work": "Recent work has explored KV-cache optimization through spectral methods (e.g., subspace projections) and heuristic pruning. However, these approaches often lack hardware-faithful evaluation and rely on abstract diagnostics rather than profiler-measured metrics. Our proposal distinguishes itself by directly targeting memory-bound bottlenecks using profiler-guided heuristics, ensuring reproducible speedups validated through kernel-level traces.",
+  "Abstract": "Transformer inference is increasingly bottlenecked by memory bandwidth, particularly due to the growing size of KV-caches. We propose a hardware-efficient framework for KV-cache compression that combines dynamic pruning and adaptive quantization based on profiler-measured metrics. By identifying and removing low-impact cache entries and quantizing high-impact entries, we reduce memory bandwidth pressure and improve tensor-core occupancy. Our approach leverages empirical profiler traces to guide the compression process, ensuring that optimizations are grounded in measurable hardware metrics. We evaluate our method on single-GPU setups across diverse tasks, demonstrating significant latency reductions and throughput improvements while maintaining model accuracy. By focusing on reproducible benchmarks and kernel-level traces, our work bridges model compression with deployment systems engineering, offering a practical solution for resource-efficient inference.",
+  "Experiments": [
+    "Baseline latency profiling: Measure baseline latency, memory bandwidth utilization, and tensor-core occupancy for a standard transformer model on a single GPU.",
+    "Dynamic pruning: Implement a dynamic pruning mechanism that removes low-impact KV-cache entries based on profiler-measured memory bandwidth utilization. Evaluate latency, throughput, and accuracy.",
+    "Adaptive quantization: Apply adaptive quantization to high-impact KV-cache entries, guided by profiler traces. Measure the impact on latency, bandwidth utilization, and tensor-core occupancy.",
+    "Combined optimization: Combine pruning and quantization and evaluate the end-to-end speedup and accuracy trade-offs.",
+    "Profiler traces: Collect detailed profiler traces (e.g., warp stall reasons, coalesced loads) to attribute gains to specific hardware causes."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk of accuracy degradation: Aggressive pruning or quantization may compromise model accuracy, requiring careful calibration.",
+    "Hardware-specific optimizations: The proposed method may need tuning for different GPU architectures.",
+    "Overhead of profiler-guided heuristics: The runtime overhead of profiling and decision-making may offset some of the gains."
+  ]
+}

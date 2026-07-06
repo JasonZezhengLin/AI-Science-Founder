@@ -1,0 +1,20 @@
+{
+  "Name": "TrainingFreeLatencyAdaptiveQuantization",
+  "Title": "Training-Free Latency-Adaptive Quantization via Spectral Condition Number",
+  "Short Hypothesis": "We hypothesize that the spectral condition number of hidden state activations can serve as a robust, real-time proxy for quantization sensitivity, enabling dynamic precision allocation that enforces strict latency budgets without retraining.",
+  "Related Work": "Recent works have explored training-free methods for latency-bounded inference, such as Spectral Quantization Routing (SQR) [3] and Training-Free Geometric Interference Cancellation [1]. However, these methods either rely on static profiling or heuristic approaches, failing to adapt dynamically to input-specific conditions. Our proposal leverages the spectral condition number, a mathematically grounded metric, to dynamically allocate precision, ensuring both robustness and strict latency enforcement.",
+  "Abstract": "Mixed-precision inference offers significant latency and memory benefits but often relies on static profiling or costly calibration, failing to adapt to dynamic input distributions. We propose Training-Free Latency-Adaptive Quantization (TLAQ), a framework that dynamically allocates numerical precision based on the spectral condition number of hidden state activations. TLAQ computes this metric on-the-fly using randomized SVD, mapping it to a precision-switching policy that enforces strict latency budgets. We theoretically ground TLAQ with PAC-Bayes bounds linking spectral conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, TLAQ achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized risk bounds, TLAQ provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "1. **Spectral Condition Number Computation**: Use randomized SVD to compute the spectral condition number of hidden state activations on-the-fly for each token in the input sequence.",
+    "2. **Precision Allocation Policy**: Develop a precision allocation policy that maps the spectral condition number to a precision level, ensuring that tokens with high condition numbers (indicating sensitivity) are allocated higher precision.",
+    "3. **Latency Budget Enforcement**: Implement a dynamic scheduler that adjusts the precision allocation to enforce strict latency budgets, using wall-clock time as the primary constraint.",
+    "4. **Evaluation on WILDS Benchmarks**: Evaluate TLAQ on a variety of WILDS benchmarks, comparing it against static and heuristic mixed-precision baselines in terms of throughput, accuracy, and latency.",
+    "5. **Perturbation and Domain Shift Robustness**: Test the robustness of TLAQ under structured perturbations and domain shifts, quantifying the impact on accuracy and latency."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Computational Overhead of Randomized SVD**: The on-the-fly computation of the spectral condition number using randomized SVD may introduce additional computational overhead, which could affect the overall latency budget.",
+    "2. **Sensitivity to Hyperparameters**: The precision allocation policy may be sensitive to the choice of hyperparameters, requiring careful tuning to balance accuracy and latency.",
+    "3. **Limited Scalability**: The approach may not scale well to very large models or very high-throughput scenarios, where the overhead of spectral condition number computation becomes significant.",
+    "4. **Generalization to Different Models**: The effectiveness of the spectral condition number as a proxy for quantization sensitivity may vary across different model architectures and tasks."
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "Name": "curvatureawareprecisionrouting",
+  "Title": "Curvature-Aware Precision Routing for Efficient Mixed-Precision Training",
+  "Short Hypothesis": "In mixed-precision training, a curvature-aware precision routing framework can dynamically allocate precision levels to different layers and operations, leading to more efficient and stable training while maintaining model accuracy.",
+  "Related Work": "Recent works such as SNIP (Pan et al., 2023) and EMQ (Dong et al., 2023) have explored adaptive mixed-precision training and training-free proxies for mixed-precision quantization. However, these methods either rely on heuristic-based precision allocation or do not fully leverage the curvature information of the loss landscape. This proposal introduces a curvature-aware precision routing framework that dynamically adjusts precision based on the local curvature, providing a more principled and efficient approach.",
+  "Abstract": "Mixed-precision training offers significant computational benefits but requires careful precision allocation to maintain model accuracy. This paper introduces Curvature-Aware Precision Routing (CAPR), a novel framework that dynamically allocates precision levels to different layers and operations based on the local curvature of the loss landscape. CAPR uses spectral quantization theory and deterministic spectral estimators to quantify gradient covariance decay and Hessian conditioning, ensuring numerical stability and efficient resource utilization. We validate CAPR on a range of models and datasets, demonstrating up to 50% reduction in FLOPs while maintaining or even improving model accuracy. Our approach outperforms existing methods by explicitly accounting for the curvature of the loss surface, leading to more stable and efficient training.",
+  "Experiments": [
+    {
+      "Description": "Evaluate the performance of CAPR on a variety of models (e.g., ResNet, ViT, BERT) and datasets (e.g., ImageNet, CIFAR-10, MNLI).",
+      "Metrics": "Top-1 accuracy, FLOPs reduction, wall-clock training time, and model size."
+    },
+    {
+      "Description": "Compare CAPR with existing mixed-precision training methods (e.g., SNIP, EMQ) in terms of accuracy and efficiency.",
+      "Metrics": "Top-1 accuracy, FLOPs reduction, wall-clock training time, and model size."
+    },
+    {
+      "Description": "Analyze the impact of curvature-aware precision routing on the convergence and stability of training by monitoring gradient covariance decay and Hessian conditioning.",
+      "Metrics": "Gradient norm, Hessian eigenvalue distribution, and training loss."
+    },
+    {
+      "Description": "Perform ablation studies to understand the contribution of different components of CAPR (e.g., spectral quantization, curvature estimation).",
+      "Metrics": "Top-1 accuracy, FLOPs reduction, and wall-clock training time."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of curvature-aware precision routing may vary across different architectures and datasets, requiring extensive hyperparameter tuning.",
+    "The computational overhead of curvature estimation and spectral quantization might be significant, potentially offsetting the benefits of reduced FLOPs.",
+    "The framework's reliance on deterministic spectral estimators might introduce biases in certain scenarios, affecting the stability of training."
+  ]
+}

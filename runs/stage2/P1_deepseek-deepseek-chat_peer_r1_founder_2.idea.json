@@ -1,0 +1,18 @@
+{
+  "Name": "rate_distortion_spectral_compression",
+  "Title": "Rate-Distortion-Optimal Compression via Spectral Diagnostics",
+  "Short Hypothesis": "The spectral properties of hidden state activations (e.g., covariance condition number, spectral decay rate) can serve as proxies for the rate-distortion function, enabling training-free, dynamically adaptive compression that approaches theoretical limits.",
+  "Related Work": "Existing work on rate-distortion theory for model compression (e.g., 'Rate Distortion via Constrained Estimated Mutual Information Minimization') focuses on theoretical bounds but lacks practical, training-free implementations. Recent spectral-based methods (e.g., 'Spectral Quantization Routing') leverage activation geometry for inference efficiency but do not explicitly connect to rate-distortion theory. This proposal bridges these approaches by using spectral diagnostics to estimate the rate-distortion function dynamically during inference.",
+  "Abstract": "We propose a training-free framework for rate-distortion-optimal model compression that dynamically allocates bits based on real-time spectral diagnostics of hidden state activations. By leveraging the covariance condition number and spectral decay rate as proxies for the rate-distortion function, our method adapts compression decisions to the input distribution without requiring costly training or calibration. We theoretically ground our approach in rate-distortion theory, showing that spectral properties capture the trade-off between bit allocation and task-relevant distortion. Empirically, we demonstrate that our method achieves superior compression efficiency compared to static and heuristic baselines, approaching theoretical limits while enforcing strict latency budgets. This work bridges the gap between foundational information theory and practical, scalable compression, offering a transparent and reproducible pathway for resource-efficient inference.",
+  "Experiments": [
+    "Evaluate on WILDS benchmarks and adversarial ICL tasks to measure compression efficiency and robustness under distributional shifts.",
+    "Compare to static quantization and heuristic mixed-precision baselines using metrics such as bits-per-weight, task accuracy, and inference latency.",
+    "Validate spectral diagnostics (covariance condition number, spectral decay rate) as proxies for the rate-distortion function by analyzing their correlation with task-relevant distortion.",
+    "Measure the computational overhead of real-time spectral diagnostics using randomized SVD and assess its scalability to large models."
+  ],
+  "Risk Factors and Limitations": [
+    "The accuracy of spectral diagnostics as proxies for the rate-distortion function may degrade under extreme input distributions or non-stationary data.",
+    "The computational overhead of real-time spectral diagnostics could offset compression gains for very large models.",
+    "Theoretical guarantees rely on assumptions about the activation geometry that may not hold in all practical scenarios."
+  ]
+}

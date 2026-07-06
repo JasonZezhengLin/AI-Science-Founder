@@ -1,0 +1,19 @@
+{
+  "Name": "mutual_information_compression",
+  "Title": "Task-Relevant Mutual Information as a Guide for Model Compression",
+  "Short Hypothesis": "Model compression can be optimized by dynamically allocating bits to different parts of the model based on their contribution to task-relevant mutual information.",
+  "Related Work": "Recent work by Berivan Isik et al. (2021) and Jun Chen et al. (2024) has explored information-theoretic approaches to compression, focusing on rate-distortion theory and task-based compression. However, these approaches do not explicitly use task-relevant mutual information to guide compression decisions. Our proposal fills this gap by directly linking compression to task performance through mutual information.",
+  "Abstract": "This paper proposes a novel framework for model compression that leverages task-relevant mutual information to guide bit allocation. We hypothesize that different parts of a model contribute unequally to task performance, and compression should preserve the most informative components. We introduce a mutual information estimator to quantify the task-relevant information in each layer or parameter group. Based on these estimates, we dynamically allocate bits to minimize task-relevant distortion. Experiments on image classification and language modeling tasks demonstrate that our approach achieves superior compression rates while maintaining task performance compared to existing methods. Our framework bridges the gap between information theory and practical model compression, offering a principled approach to bit allocation.",
+  "Experiments": [
+    "Estimate task-relevant mutual information for each layer/parameter group in a model using InfoNCE-style estimators.",
+    "Dynamically allocate bits to each layer/parameter group based on their mutual information estimates.",
+    "Evaluate the compressed models on image classification (CIFAR-10, ImageNet) and language modeling (WikiText-2) tasks.",
+    "Compare compression rates and task performance against baseline methods (e.g., pruning, quantization).",
+    "Metrics: Task accuracy, compression ratio, mutual information estimates."
+  ],
+  "Risk Factors and Limitations": [
+    "Estimating mutual information accurately in high-dimensional spaces can be challenging.",
+    "The framework may introduce additional computational overhead during compression.",
+    "The approach assumes that task-relevant mutual information can be reliably estimated, which may not hold for all tasks."
+  ]
+}

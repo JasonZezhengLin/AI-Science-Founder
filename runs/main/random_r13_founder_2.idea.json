@@ -1,0 +1,17 @@
+{
+  "Name": "latency_aware_layer_skipping",
+  "Title": "Latency-Aware Layer-Skipping via Jacobian-Based Perturbation Analysis and PAC-Bayes Spectral Bounds",
+  "Short Hypothesis": "A training-free, Jacobian-based layer-skipping framework can minimize hidden-state perturbation while strictly enforcing latency budgets, achieving accuracy-latency Pareto efficiency.",
+  "Related Work": "Existing works like HiLoRA and AMP-ViT focus on domain generalization and quantization but do not explicitly address latency-aware layer-skipping or hidden-state perturbation minimization. This proposal uniquely combines PAC-Bayes spectral bounds with Jacobian-based perturbation analysis to enforce strict latency constraints.",
+  "Abstract": "Large models often face significant inference latency, especially in resource-constrained environments. Existing methods for latency reduction, such as quantization or pruning, often require retraining or fail to strictly enforce latency budgets. We propose a novel training-free framework for latency-aware layer-skipping that leverages Jacobian-based perturbation analysis and PAC-Bayes spectral bounds. Our approach minimizes hidden-state perturbation while strictly adhering to latency constraints, ensuring computational tractability and robustness. Experiments on large language models demonstrate that our framework achieves superior accuracy-latency Pareto efficiency compared to existing methods, with minimal overhead.",
+  "Experiments": [
+    "Latency-Accuracy Pareto Frontiers: Evaluate the trade-off between accuracy and latency on large language models (e.g., GPT-3, LLaMA) using our framework versus baselines (e.g., AMP-ViT, HiLoRA).",
+    "Perturbation-Cost Analysis: Measure hidden-state perturbation (via Frobenius norm of Jacobian) and its impact on model accuracy under varying latency budgets.",
+    "Wall-Clock Budget Enforcement: Validate strict adherence to latency budgets across different hardware setups (e.g., single GPU, multi-GPU)."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk: Jacobian computation may introduce overhead; mitigate via efficient approximations.",
+    "Limitation: Framework assumes access to pre-trained models; applicability to training-from-scratch scenarios is unexplored.",
+    "Risk: Spectral bounds may be too conservative; refine via empirical calibration."
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "Name": "sparsity_aware_kernel_fusion",
+  "Title": "Dynamic Sparsity-Aware Kernel Fusion for Efficient LLM Inference",
+  "Short Hypothesis": "Adaptively fusing kernels based on runtime sparsity patterns in LLM inference can reduce latency and improve throughput by minimizing memory bandwidth and maximizing tensor-core utilization.",
+  "Related Work": "BitDecoding optimizes low-bit KV cache quantization for Tensor Cores but does not address dynamic sparsity patterns in kernel fusion. Existing sparsity-aware optimizations (e.g., Sparse Tensor Cores) focus on static sparsity or specific operations, leaving room for dynamic fusion strategies tailored to LLM inference.",
+  "Abstract": "Large Language Models (LLMs) exhibit dynamic sparsity patterns during inference, which can be leveraged to reduce computation and memory bandwidth. However, existing systems often rely on static sparsity patterns or suboptimal kernel fusion strategies, leaving potential performance gains untapped. We propose a novel approach to dynamically fuse kernels based on runtime sparsity patterns, optimizing memory bandwidth and tensor-core utilization. Our method profiles sparsity during inference and adapts kernel fusion strategies to minimize latency and maximize throughput. Experiments on commodity GPUs demonstrate significant improvements in end-to-end inference speed while maintaining accuracy. By combining hardware-aware profiling with dynamic fusion, our work bridges the gap between sparsity-aware optimizations and efficient LLM deployment.",
+  "Experiments": [
+    "Benchmark latency and throughput of baseline LLM inference kernels with static sparsity patterns.",
+    "Profile runtime sparsity patterns across different layers and attention heads using Nsight.",
+    "Implement dynamic kernel fusion strategies for sparse matrix multiplications and attention operations.",
+    "Evaluate latency (p50/p99), throughput (tokens-per-second), and memory bandwidth utilization on commodity GPUs.",
+    "Compare results against BitDecoding and other state-of-the-art sparsity-aware systems.",
+    "Conduct ablation studies to isolate the impact of dynamic fusion on performance."
+  ],
+  "Risk Factors and Limitations": [
+    "Dynamic sparsity patterns may vary significantly across models and tasks, requiring extensive profiling.",
+    "Kernel fusion overhead may outweigh benefits for certain sparsity levels or GPU architectures.",
+    "Implementation complexity may increase due to the need for runtime adaptation.",
+    "Results may not generalize to all LLM architectures or hardware configurations."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "Name": "curvature_aware_sparse_attention",
+  "Title": "Curvature-Aware Sparse Attention for Efficient and Stable Video Generation",
+  "Short Hypothesis": "Incorporating curvature-aware dynamic budgeting into sparse attention mechanisms can significantly improve the computational efficiency and temporal stability of video generation models without requiring additional training.",
+  "Related Work": "Existing sparse attention methods, such as those in [Ride the Wave: Precision-Allocated Sparse Attention for Smooth Video Generation], focus on static sparsity patterns and deterministic block routing, which often lead to visual flickering and inefficiencies. Our proposal introduces curvature-aware dynamic budgeting, allowing for adaptive precision allocation based on critical semantic transitions, which distinguishes it from these approaches.",
+  "Abstract": "Video Diffusion Transformers have revolutionized high-fidelity video generation but suffer from the massive computational burden of self-attention. While sparse attention provides a promising acceleration solution, existing methods frequently provoke severe visual flickering caused by static sparsity patterns and deterministic block routing. To resolve these limitations, we propose Curvature-Aware Sparse Attention (CASA), a training-free framework designed for highly efficient and temporally smooth video generation. First, we implement a curvature-aware dynamic budgeting mechanism. By profiling the generation trajectory acceleration across timesteps, we elastically allocate the exact-computation budget to secure high-precision processing strictly during critical semantic transitions. Second, we replace global homogenizing estimations with hardware-aligned grouped approximations, successfully capturing fine-grained local variations while maintaining peak compute throughput. Finally, we incorporate a stochastic selection bias into the attention routing mechanism. This probabilistic approach softens rigid selection boundaries and eliminates selection oscillation, effectively eradicating the localized computational starvation that drives temporal flickering. Extensive evaluations on leading video diffusion models demonstrate that CASA achieves substantial inference acceleration while consistently producing remarkably fluid and structurally stable video sequences.",
+  "Experiments": [
+    "Implement CASA on a leading video diffusion model and compare its performance against baseline sparse attention methods.",
+    "Evaluate the computational efficiency by measuring the inference time and memory usage across different video lengths.",
+    "Assess temporal stability by quantifying visual flickering using a flicker metric and subjective human evaluations.",
+    "Measure the quality of generated videos using standard metrics such as FID and IS.",
+    "Conduct ablation studies to understand the impact of each component of CASA (curvature-aware budgeting, grouped approximations, stochastic selection bias)."
+  ],
+  "Risk Factors and Limitations": [
+    "The curvature-aware budgeting mechanism may introduce additional computational overhead during the profiling phase.",
+    "The stochastic selection bias might lead to variability in the quality of generated videos.",
+    "The proposed method may not generalize well to all types of video content, particularly those with highly dynamic scenes.",
+    "There could be challenges in integrating CASA with existing video diffusion models without significant architectural changes."
+  ]
+}

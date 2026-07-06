@@ -1,0 +1,18 @@
+{
+  "Name": "curvature-aware_routing",
+  "Title": "Curvature-Aware Precision Routing: Training-Free Numerical Stability via Log-Determinant Geometry",
+  "Short Hypothesis": "The log-determinant of the tangent Hessian provides a computationally efficient proxy for numerical stability under mixed-precision computation, enabling training-free precision allocation based on curvature-aware diagnostics.",
+  "Related Work": "Existing mixed-precision methods rely on static profiling or heuristic calibration (e.g., Spectral Quantization Routing), which fail to account for dynamic curvature properties. Techniques like Spectral Latent Steering focus on low-rank subspaces but ignore curvature-driven precision requirements. Our proposal uniquely bridges log-determinant geometry (Affine Normal Directions) with precision routing, offering a theoretically grounded, training-free solution.",
+  "Abstract": "Mixed-precision inference promises significant computational savings but often suffers from numerical instability due to ill-conditioned curvature. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates numerical precision based on the log-determinant of the tangent Hessian. By leveraging the intrinsic connection between log-determinant curvature and numerical stability, CAPR identifies regions of the optimization landscape that require higher precision. We develop a matrix-free procedure for log-determinant computation, enabling efficient on-the-fly diagnostics. Theoretically, we establish PAC-Bayes bounds linking curvature to generalization stability under quantization noise. Empirically, CAPR outperforms static and heuristic mixed-precision baselines on single-GPU setups across WILDS benchmarks, achieving superior throughput-accuracy trade-offs. By replacing heuristic precision allocation with curvature-aware diagnostics, CAPR provides a transparent, reproducible pathway for resource-efficient inference.",
+  "Experiments": [
+    "Evaluate CAPR on WILDS benchmarks, comparing throughput and accuracy against static and heuristic mixed-precision baselines.",
+    "Measure log-determinant computation overhead and validate its accuracy against autodifferentiation-based ground truth.",
+    "Assess numerical stability by tracking condition numbers and gradient norms across precision tiers.",
+    "Conduct ablation studies to isolate the impact of curvature-aware diagnostics versus baseline precision allocation."
+  ],
+  "Risk Factors and Limitations": [
+    "Matrix-free log-determinant computation may introduce approximation errors, potentially affecting precision allocation.",
+    "The framework assumes access to second-order information, which may not be feasible for all architectures.",
+    "Empirical validation is limited to single-GPU setups; scalability to multi-GPU environments remains untested."
+  ]
+}

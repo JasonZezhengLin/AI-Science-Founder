@@ -1,0 +1,21 @@
+{
+  "Name": "tensor_core_kv_cache_optimization",
+  "Title": "TensorCoreKV: Accelerating KV Cache Decoding with Tensor Cores for Long-Context LLMs",
+  "Short Hypothesis": "By leveraging Tensor Cores for low-bit KV cache decoding in long-context LLMs, we can achieve significant speedups in inference latency and throughput compared to CUDA-only approaches.",
+  "Related Work": "Recent works like BitDecoding have explored the use of Tensor Cores for low-bit KV cache decoding, achieving notable speedups. However, these approaches rely on architecture-specific optimizations and lack a unified framework for diverse attention variants and quantization algorithms. Our proposal distinguishes itself by introducing a generalizable Tensor Core optimization strategy that automatically induces optimized layouts and warp-level parallelization strategies, independent of specific GPU architectures.",
+  "Abstract": "The growing memory and bandwidth demands of long-context Large Language Models (LLMs) during autoregressive decoding pose significant challenges for efficient inference. While low-bit Key-Value (KV) cache quantization reduces memory footprint, existing systems primarily rely on CUDA cores, neglecting the potential of Tensor Cores for accelerating decoding. We propose TensorCoreKV, a novel approach that leverages Tensor Cores for efficient low-bit KV cache decoding. TensorCoreKV introduces methods for automatically inducing optimized layouts, warp-level parallelization strategies for dequantization, and a unified query transformation module supporting diverse attention variants. Our quantization kernel supports both tensor-wise and channel-wise scaling, while the dequantization kernel coordinates CUDA and Tensor Core execution for mixed-precision operations. Evaluated on various GPU architectures, TensorCoreKV achieves significant decoding speedups, demonstrating substantial improvements for long-context generation.",
+  "Experiments": [
+    "Implement TensorCoreKV and compare its decoding speedup against CUDA-only approaches (e.g., FlashDecoding-v2) on multiple GPU architectures (e.g., Blackwell, Hopper, Ada, Ampere).",
+    "Measure the impact of TensorCoreKV on single-batch decoding latency for LLaMA-3.1-8B with a 128K context.",
+    "Evaluate the effectiveness of the unified query transformation module across diverse attention variants.",
+    "Assess the performance of the quantization and dequantization kernels for various quantization algorithms (e.g., tensor-wise and channel-wise scaling).",
+    "Profile TensorCoreKV to analyze occupancy, achieved bandwidth, warp stall reasons, and arithmetic intensity.",
+    "Report p50/p99 latency, throughput under batching, and energy per token for TensorCoreKV compared to baseline methods."
+  ],
+  "Risk Factors and Limitations": [
+    "TensorCoreKV's performance may vary across different GPU architectures, potentially limiting its generalizability.",
+    "The effectiveness of TensorCoreKV depends on the specific quantization algorithms used, which may require additional tuning.",
+    "The proposed warp-level parallelization strategies may introduce complexity in kernel implementation and debugging.",
+    "TensorCoreKV's gains may be less pronounced for shorter context lengths, where memory and bandwidth demands are lower."
+  ]
+}

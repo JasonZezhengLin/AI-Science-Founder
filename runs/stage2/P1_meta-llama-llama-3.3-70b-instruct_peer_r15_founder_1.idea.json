@@ -1,0 +1,18 @@
+{
+  "Name": "efficient_llm_inference",
+  "Title": "Optimizing Large Language Model Inference on Commodity GPUs through Hybrid CPU-GPU Attention and Quantization",
+  "Short Hypothesis": "By combining hybrid CPU-GPU attention mechanisms with quantization techniques, we can achieve significant improvements in large language model inference efficiency on commodity GPUs without sacrificing accuracy.",
+  "Related Work": "Recent works such as HGCA and PLAIN have explored hybrid CPU-GPU attention and quantization techniques for large language model inference. However, these approaches often focus on specific aspects of the problem and do not provide a comprehensive solution. Our proposal builds upon these works and aims to provide a more holistic approach to optimizing large language model inference on commodity GPUs.",
+  "Abstract": "Large language models have achieved remarkable performance in natural language processing tasks, but their computational requirements pose significant challenges for deployment on commodity GPUs. To address this, we propose a hybrid CPU-GPU attention mechanism that leverages the strengths of both CPU and GPU architectures. Our approach combines the benefits of parallel sparse attention on the CPU with dense attention on the GPU, minimizing PCIe transfer overhead through log-sum-exp fusion. Additionally, we incorporate quantization techniques to further reduce computational requirements. We evaluate our approach on a range of large language models and demonstrate significant improvements in inference efficiency without sacrificing accuracy.",
+  "Experiments": [
+    "Evaluate the proposed hybrid CPU-GPU attention mechanism on a range of large language models, including LLaMA and Qwen2.5-VL",
+    "Compare the performance of our approach with existing methods, including HGCA and PLAIN",
+    "Investigate the impact of quantization techniques on inference efficiency and accuracy",
+    "Conduct ablation studies to identify the contributions of individual components to the overall performance of our approach"
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed approach may require significant modifications to existing large language model architectures",
+    "The use of quantization techniques may lead to accuracy degradation if not properly calibrated",
+    "The performance of our approach may vary depending on the specific hardware configuration and model architecture"
+  ]
+}

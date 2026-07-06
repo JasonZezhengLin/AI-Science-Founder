@@ -1,0 +1,19 @@
+{
+  "Name": "kernel_aware_mixed_precision",
+  "Title": "Kernel-Aware Mixed-Precision Quantization via Hardware Profiling",
+  "Short Hypothesis": "Mixed-precision quantization strategies guided by profiled hardware metrics (e.g., tensor-core occupancy, memory bandwidth, warp stall reasons) will yield measurable speedups on real hardware compared to heuristic or proxy-based methods.",
+  "Related Work": "Recent works like AMP-ViT, SNIP, and EMQ focus on adaptive mixed-precision quantization but rely on theoretical proxies or heuristic methods. HiLoRA explores training-free adaptation but does not consider hardware-level metrics. Our proposal distinguishes itself by using profiled hardware metrics to guide precision selection, ensuring direct optimization for latency/throughup.",
+  "Abstract": "Mixed-precision quantization is a powerful technique for optimizing the efficiency of large language models (LLMs) and vision transformers (ViTs). However, existing methods often rely on theoretical proxies or heuristic precision selection, which may not translate to measurable speedups on real hardware. We propose Kernel-Aware Mixed-Precision Quantization (KAMP), a novel approach that uses profiled hardware metrics (e.g., tensor-core occupancy, memory bandwidth, warp stall reasons) to guide precision decisions. By directly optimizing for hardware performance, KAMP achieves significant latency reductions and throughput improvements on commodity GPUs. We evaluate KAMP on ViT and LLM architectures, demonstrating measurable speedups under fixed accuracy budgets. Our results show that KAMP outperforms existing mixed-precision methods in terms of p50/p99 latency and energy per token, providing practitioners with a deployable solution for efficient inference.",
+  "Experiments": [
+    "Profiling Baseline: Profile baseline models (ViT, LLM) on a commodity GPU using nvprof/Nsight to collect hardware metrics (tensor-core occupancy, memory bandwidth, warp stall reasons).",
+    "Precision Selection: Use profiled metrics to guide layerwise precision selection, optimizing for latency/throughput.",
+    "A/B Latency Races: Compare KAMP against heuristic/proxy-based methods (e.g., AMP-ViT, SNIP) in A/B latency races under fixed accuracy budgets.",
+    "Evaluation Metrics: Report p50/p99 latency, throughput under batching, and energy per token for all methods.",
+    "Reproducibility: Pin driver/CUDA versions, archive trace files, and commit benchmark harnesses to ensure reproducibility."
+  ],
+  "Risk Factors and Limitations": [
+    "Hardware-Specific Optimizations: The proposed method may require tuning for different GPU architectures.",
+    "Profiling Overhead: Collecting hardware metrics adds some overhead, though this is amortized over inference runs.",
+    "Generalization: The method may need adaptation for models with significantly different architectures."
+  ]
+}

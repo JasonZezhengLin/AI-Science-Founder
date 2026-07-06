@@ -1,0 +1,20 @@
+{
+  "Name": "latency-aware_jacobian_skipping",
+  "Title": "Latency-Aware Jacobian Skipping: Training-Free Inference Acceleration via Spectral Stability Bounds",
+  "Short Hypothesis": "By leveraging spectral stability bounds derived from PAC-Bayes theory, we can dynamically skip layers during inference based on the Jacobian norm of activations, achieving significant latency reduction while maintaining model robustness.",
+  "Related Work": "Existing work on inference acceleration often relies on static layer pruning or heuristic skipping strategies, which fail to adapt to dynamic input distributions and lack theoretical guarantees. Spectral Quantization Routing (SQR) explores mixed-precision inference but does not address layer skipping. Our proposal differs by introducing a training-free, latency-aware framework grounded in PAC-Bayes spectral stability bounds, ensuring robustness under distribution shifts.",
+  "Abstract": "We propose Latency-Aware Jacobian Skipping (LAJS), a training-free framework for accelerating inference by dynamically skipping layers based on the Jacobian norm of activations. By leveraging spectral stability bounds derived from PAC-Bayes theory, LAJS ensures that skipped layers do not significantly perturb the model's output, maintaining robustness under distribution shifts. LAJS computes Jacobian norms on-the-fly using randomized SVD, mapping them to a layer-skipping policy that enforces strict latency budgets. We theoretically ground the skipping mechanism with PAC-Bayes bounds that link spectral conditioning to generalization stability under layer perturbations. Evaluated on single-GPU setups across WILDS benchmarks, LAJS achieves a superior throughput-accuracy Pareto frontier compared to static pruning and heuristic skipping baselines. By replacing qualitative fragility claims with formalized risk bounds, LAJS provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Evaluate LAJS on WILDS benchmarks using single-GPU setups to measure throughput-accuracy Pareto frontiers.",
+    "Compare LAJS against static pruning and heuristic skipping baselines.",
+    "Validate the theoretical PAC-Bayes bounds by measuring generalization stability under layer perturbations.",
+    "Conduct ablation studies to analyze the impact of randomized SVD on computational overhead.",
+    "Measure hidden-state perturbation overhead and compare it to full-space perturbation baselines."
+  ],
+  "Risk Factors and Limitations": [
+    "The randomized SVD computation may introduce additional overhead, potentially offsetting latency gains.",
+    "The method relies on the assumption that Jacobian norms are good proxies for layer importance, which may not hold for all architectures.",
+    "Generalization stability guarantees are based on PAC-Bayes bounds, which may be conservative in practice.",
+    "The framework may require fine-tuning for specific hardware configurations to achieve optimal performance."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "Name": "kernel_fusion_for_quantized_models",
+  "Title": "Kernel Fusion Strategies for Optimizing Inference Latency in Quantized Neural Networks",
+  "Short Hypothesis": "Quantized neural networks can achieve significant throughput improvements and reduced inference latency through specialized kernel fusion strategies tailored for low-precision operations, which have been underexplored in existing literature.",
+  "Related Work": "While several studies focus on mixed-precision quantization (e.g., SNIP, AMP-ViT), they primarily emphasize adaptive precision selection rather than the direct optimization of kernel fusion for quantized operations. This proposal uniquely targets the architectural improvements in kernel execution for quantized models, which is distinct from existing optimization strategies that do not account for the specific needs of low-precision computations.",
+  "Abstract": "Quantized neural networks (QNNs) pose unique challenges and opportunities for optimizing inference performance on GPUs. Current frameworks often overlook the optimization of kernel execution, particularly for fused operations in low-precision settings. This proposal introduces a novel approach to optimize inference latency in QNNs through dedicated kernel fusion strategies designed specifically for quantized operations. By analyzing the characteristics of quantized data and operations, we will design new fused kernels that maximize memory coalescing and minimize instruction overhead. Our experiments will be conducted on commodity GPUs, utilizing performance profiling tools to measure latency and throughput improvements. We anticipate that our approach will demonstrate significant speedups over traditional inference methods, providing practical insights for deploying QNNs in real-world applications. The results will be validated through rigorous benchmarking, emphasizing reproducibility and hardware fidelity.",
+  "Experiments": [
+    "Implement a baseline quantized model using existing inference kernels and measure its latency and throughput on a given GPU setup.",
+    "Design and implement new fused kernels specifically for quantized operations, focusing on memory access patterns and low-precision arithmetic.",
+    "Conduct A/B testing to compare the performance of the new fused kernels against the baseline, measuring p50/p99 latency and tokens-per-second throughput.",
+    "Evaluate the impact of these optimizations on energy consumption, reporting energy per token as an additional metric."
+  ],
+  "Risk Factors and Limitations": [
+    "Performance gains may vary significantly depending on the specific architecture and workload of the neural network.",
+    "The proposed kernel optimizations may require extensive tuning and profiling, which can be time-consuming.",
+    "There is a possibility that the improvements are not substantial enough to warrant the complexity introduced by new kernel designs."
+  ]
+}

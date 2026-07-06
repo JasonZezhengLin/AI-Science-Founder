@@ -1,0 +1,36 @@
+{
+  "Name": "latency_aware_spectral_regularization",
+  "Title": "Latency-Aware Spectral Regularization for Test-Time Inference",
+  "Short Hypothesis": "Modulating the optimization dynamics of test-time inference through spectral stability constraints can enforce strict latency budgets while preserving task performance, without explicit subspace projection or quantization.",
+  "Related Work": "Existing work focuses on explicit subspace projection (e.g., Spectral Latent Steering) or quantization (e.g., Spectral Quantization Routing) to enforce latency constraints. While effective, these methods introduce additional computational overhead and complexity. Our approach differs by directly modulating the optimization dynamics of test-time inference through spectral stability constraints, avoiding explicit projection or quantization while maintaining strict latency bounds.",
+  "Abstract": "Test-time inference in large language models often faces strict latency constraints, necessitating efficient optimization strategies. Existing methods rely on explicit subspace projection or quantization, which introduce computational overhead and complexity. We propose Latency-Aware Spectral Regularization (LASR), a novel framework that modulates the optimization dynamics of test-time inference through spectral stability constraints. By analyzing the spectral properties of the loss landscape, LASR identifies and enforces stability constraints that naturally limit the optimization trajectory to regions of low computational cost. This approach avoids explicit projection or quantization, reducing overhead while preserving task performance. Experiments on mathematical reasoning and code generation tasks demonstrate that LASR achieves competitive performance while enforcing strict latency budgets, offering a transparent and reproducible pathway for efficient test-time inference.",
+  "Experiments": [
+    {
+      "Description": "Evaluate LASR on mathematical reasoning tasks (e.g., GSM8K) and code generation tasks (e.g., HumanEval) under strict latency constraints.",
+      "Metrics": [
+        "Accuracy",
+        "Latency",
+        "Throughput"
+      ]
+    },
+    {
+      "Description": "Compare LASR against explicit subspace projection (e.g., Spectral Latent Steering) and quantization (e.g., Spectral Quantization Routing) baselines.",
+      "Metrics": [
+        "Accuracy",
+        "Latency",
+        "Throughput"
+      ]
+    },
+    {
+      "Description": "Measure the spectral stability of the loss landscape under LASR constraints.",
+      "Metrics": [
+        "Spectral Stability"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of LASR depends on the spectral properties of the loss landscape, which may vary across tasks.",
+    "Enforcing spectral stability constraints may limit the optimization trajectory, potentially reducing task performance.",
+    "The approach assumes that low computational cost regions of the loss landscape align with spectral stability, which may not hold in all cases."
+  ]
+}

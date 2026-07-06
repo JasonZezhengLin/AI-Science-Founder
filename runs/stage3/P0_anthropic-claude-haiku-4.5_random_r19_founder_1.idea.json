@@ -1,0 +1,74 @@
+{
+  "Name": "curvature_aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: A Training-Free Geometric Framework for Deterministic Mixed-Precision Quantization via Spectral Stability Diagnosis",
+  "Short Hypothesis": "We hypothesize that layer-wise quantization precision can be deterministically routed via pre-execution spectral diagnostics of feature covariance structure and Hessian conditioning, rather than post-hoc accuracy proxies. Specifically, layers exhibiting high feature entanglement (low spectral gap in activation covariance) and poor gradient conditioning (high Hessian condition numbers) require higher precision to maintain stability under quantization. This enables training-free, theoretically-grounded precision assignment with formal PAC-Bayes generalization guarantees, avoiding the circular dependency between proxy correlation and quantization accuracy that plagues existing training-free methods.",
+  "Related Work": "Recent work (EMQ, SNIP, AMP-ViT) proposes training-free proxies correlating layer properties to quantization performance, but these methods remain heuristic: they either lack theoretical justification for proxy selection, provide no formal stability guarantees, or require extensive validation against quantization benchmarks. Critically, these approaches treat precision routing as a post-hoc search problem rather than an architectural diagnostic problem. Our proposal differs fundamentally by: (1) grounding precision assignment in explicit curvature geometry (Hessian conditioning, spectral covariance decay) rather than empirical proxy correlation; (2) deriving formal PAC-Bayes stability radii that bound quantization error under precision switching; (3) eliminating the need for training-free proxy validation by replacing it with deterministic, mathematically-transparent spectral estimation; (4) providing explicit condition number constraints that guarantee numerical stability without requiring candidate quantization experiments.",
+  "Abstract": "Mixed-precision quantization achieves strong accuracy-efficiency trade-offs, but existing training-free methods rely on empirical proxies with unclear theoretical grounding. We propose Curvature-Aware Precision Routing (CAPR), a deterministic framework that assigns layer-wise quantization precision via pre-execution spectral diagnostics of feature geometry and gradient conditioning. Our key insight is that layers exhibiting high feature entanglement (measured via activation covariance spectral gap) and poor Hessian conditioning require higher precision to maintain quantization stability. We operationalize this via three core diagnostics: (1) Spectral Covariance Decay (SCD): quantifies feature dimensionality via singular value decay of layer activations; (2) Gradient Conditioning Index (GCI): estimates Hessian condition numbers via power iteration on gradient outer products; (3) Precision Stability Radius (PSR): derives formal PAC-Bayes bounds on quantization error under precision switching. CAPR routes precision assignments to minimize amortized diagnostic overhead (< 2% inference cost) while guaranteeing stability constraints. We validate on ImageNet (ResNet-50, ViT-B) and language modeling (BERT, GPT-2) benchmarks, demonstrating that CAPR-assigned precision configurations match or exceed training-based mixed-precision methods while eliminating search costs. Critically, we formally verify that assigned precision levels maintain Hessian-bounded generalization under quantization, establishing the first theoretically-grounded training-free routing protocol.",
+  "Experiments": [
+    {
+      "name": "Spectral Diagnostic Validation",
+      "description": "For each layer in ResNet-50 and ViT-B, compute: (1) Singular Value Spectrum (SVS) of layer activation covariance via power iteration (10 iterations); (2) Spectral Gap Ratio (SGR) = σ₁/σₖ where k=0.9*rank; (3) Gradient Outer Product Condition Number via 20 power iterations on ∇ℒ(∇ℒ)ᵀ. Correlate these diagnostics against layer-wise quantization sensitivity (measured via post-training quantization accuracy drop at 8-bit vs. 4-bit). Hypothesis: high SGR and high condition numbers should correlate with greater accuracy loss under lower precision.",
+      "evaluation_metrics": [
+        "Spearman correlation between SGR/condition number and quantization sensitivity",
+        "Coefficient of determination (R²) for linear regression: quantization_loss ~ β₀ + β₁·SGR + β₂·κ(H)",
+        "Ablation: measure correlation strength when each diagnostic is removed"
+      ]
+    },
+    {
+      "name": "Precision Routing Protocol Derivation",
+      "description": "Define routing function R(ℓ) → p_ℓ ∈ {4,6,8} bits based on diagnostics: R(ℓ) = argmin_p ||Δ_p||₂ subject to formal stability constraint κ(H_ℓ) · Δ_p ≤ ε_stab. Derive PAC-Bayes generalization bound: with probability 1-δ, quantization error satisfies E_test[L_q] ≤ E_train[L_q] + O(√(Σ_ℓ κ(H_ℓ)·log(1/δ)/n)). Implement deterministic routing via thresholding: if SGR > τ_high, assign 8-bit; if κ(H) > τ_cond, increase precision by 1 tier; otherwise 4-bit. Optimize thresholds τ_high, τ_cond via grid search on ImageNet validation set.",
+      "evaluation_metrics": [
+        "Generalization bound tightness: compare theoretical bound against observed test-train gap",
+        "Routing consistency: measure agreement between CAPR assignments and oracle precision (from grid search)",
+        "Computational overhead: wall-clock time for diagnostic computation as % of inference time"
+      ]
+    },
+    {
+      "name": "Quantization Accuracy Comparison",
+      "description": "Apply CAPR-assigned precision to three architectures: (1) ResNet-50 on ImageNet; (2) ViT-B on ImageNet; (3) BERT-base on GLUE tasks. For each, compare against: (a) uniform 8-bit quantization; (b) uniform 4-bit quantization; (c) training-based mixed-precision (HAQ, AutoQ); (d) training-free proxies (EMQ, SNIP). Measure accuracy, model size, and inference latency on single A100 GPU. Use post-training quantization (PTQ) with 500 calibration samples.",
+      "evaluation_metrics": [
+        "Accuracy drop vs. FP32 baseline at matched model size",
+        "Pareto frontier: accuracy vs. model size across all methods",
+        "Inference latency on GPU (with precision-aware kernels)",
+        "Statistical significance: 3-seed runs with 95% confidence intervals"
+      ]
+    },
+    {
+      "name": "Stability Radius Verification",
+      "description": "For each layer, compute empirical stability radius: apply small random perturbations to layer weights (magnitude δ), measure output activation norm change. Compare against theoretical PSR bound. Hypothesis: empirical stability radius should exceed theoretical bound with high probability. Vary δ ∈ [10⁻⁵, 10⁻²] and measure deviation between empirical and theoretical bounds.",
+      "evaluation_metrics": [
+        "Empirical vs. theoretical stability radius ratio (should be ≥ 1)",
+        "Fraction of layers where empirical radius exceeds theoretical bound (target: > 90%)",
+        "Tightness gap: E[empirical] / E[theoretical]"
+      ]
+    },
+    {
+      "name": "Ablation: Diagnostic Contribution Analysis",
+      "description": "Remove each diagnostic component sequentially: (1) CAPR-full (all three diagnostics); (2) CAPR-SCD only (spectral covariance decay); (3) CAPR-GCI only (gradient conditioning); (4) CAPR-PSR only (stability radius). Measure resulting quantization accuracy on ResNet-50 ImageNet. Quantify contribution via: Δ_accuracy = accuracy_full - accuracy_ablated.",
+      "evaluation_metrics": [
+        "Accuracy drop for each ablated variant (in percentage points)",
+        "Contribution ranking: which diagnostic has largest impact?",
+        "Redundancy analysis: measure correlation between SCD and GCI to identify potential simplifications"
+      ]
+    },
+    {
+      "name": "Scaling Analysis: Overhead vs. Model Size",
+      "description": "Apply CAPR to models of increasing size: ResNet-50, ResNet-152, ViT-B, ViT-L, GPT-2-base, GPT-2-medium. Measure: (1) diagnostic computation cost (time + memory); (2) amortized overhead per inference (diagnostic cost / batch inference count); (3) how overhead scales with model depth and width. Target: diagnostic overhead < 2% of single-batch inference time.",
+      "evaluation_metrics": [
+        "Diagnostic time as % of inference time (should be < 2%)",
+        "Memory overhead for storing spectral estimates (should be < 1% model size)",
+        "Scaling coefficient: how does overhead grow with model parameters?"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "**Spectral Estimation Noise**: Power iteration for condition number estimation may be noisy with few iterations. Mitigation: use multiple random initializations and report confidence intervals; validate against direct Hessian eigenvalue computation on small layers.",
+    "**Limited Architectural Scope**: Initial validation focuses on CNNs and ViTs; applicability to RNNs, attention mechanisms with dynamic computation, or highly specialized architectures (e.g., mixture-of-experts) is unclear. Mitigation: explicitly test on BERT (transformer-based) as proof of generality; discuss architectural assumptions.",
+    "**Quantization Method Sensitivity**: CAPR is derived for post-training quantization (PTQ); applicability to quantization-aware training (QAT) or dynamic quantization is not established. Mitigation: test on both PTQ and QAT; if QAT shows different routing, investigate why and propose extensions.",
+    "**Calibration Data Dependency**: Spectral diagnostics depend on calibration data; if calibration distribution differs from deployment, routing may be suboptimal. Mitigation: test robustness via cross-dataset calibration (e.g., calibrate on ImageNet, test on CIFAR-10); measure sensitivity to calibration set size.",
+    "**Threshold Selection Brittleness**: Routing thresholds (τ_high, τ_cond) are grid-searched on validation data; generalization to new architectures or datasets may be poor. Mitigation: derive principled threshold selection via PAC-Bayes theory rather than grid search; validate on held-out architectures.",
+    "**Computational Overhead Underestimation**: Practical GPU implementations of power iteration may have higher overhead than theoretical estimates due to memory bandwidth and kernel launch costs. Mitigation: implement on actual GPU with precise timing; use sparse power iteration if applicable.",
+    "**Formal Bound Looseness**: PAC-Bayes bounds may be vacuous (larger than observed error) due to union bounds over layers. Mitigation: compute empirical Rademacher complexity; compare against simpler bounds (e.g., VC dimension); discuss tightness gaps explicitly.",
+    "**Limited Bit-Width Range**: Proposal focuses on 4, 6, 8-bit precision; applicability to extreme quantization (2-3 bits) or mixed-precision with 16-bit layers is unexplored. Mitigation: extend experiments to 2-bit layers; discuss when CAPR routing breaks down."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "Name": "mutual_information_guided_compression",
+  "Title": "Mutual Information-Guided Model Compression: A Rate-Distortion Perspective",
+  "Short Hypothesis": "The mutual information between model representations and task-relevant information provides a principled way to allocate bits during compression, minimizing task-relevant distortion while achieving high compression rates.",
+  "Related Work": "Prior work on model compression has largely focused on rate-distortion tradeoffs (Isik et al., 2021) and generalization improvement via compression (Bu et al., 2019). However, these approaches do not explicitly consider the mutual information between compressed representations and task-relevant information. This proposal bridges this gap by using mutual information as a guiding metric for bit allocation, distinguishing it from existing methods that rely on heuristics or uniform quantization.",
+  "Abstract": "Model compression is essential for deploying deep neural networks on resource-constrained devices, but existing methods often rely on heuristic bit allocation strategies that may not preserve task-relevant information. We propose a novel information-theoretic framework for model compression that leverages the mutual information between model representations and task-relevant information to guide bit allocation. By formulating compression as a rate-distortion problem with mutual information as the distortion measure, we derive optimal bit allocation strategies that minimize task-relevant distortion while achieving high compression rates. We validate our approach on image classification and natural language processing tasks, demonstrating that our method outperforms state-of-the-art compression techniques in terms of both compression rate and task performance. Our results highlight the importance of task-relevant information in model compression and provide a principled framework for future work in this area.",
+  "Experiments": [
+    "Experiment 1: Evaluate mutual information-guided bit allocation on ResNet-18 for CIFAR-10 classification. Compare with uniform quantization and state-of-the-art methods like EMQ. Metrics: Accuracy, compression rate, and mutual information between compressed representations and task labels.",
+    "Experiment 2: Apply the framework to BERT for GLUE benchmark tasks. Compare with SNIP and other LLM compression methods. Metrics: Task performance (e.g., F1 score, accuracy), compression rate, and mutual information between compressed embeddings and task outputs.",
+    "Experiment 3: Ablation study to analyze the impact of mutual information estimation methods (e.g., InfoNCE, variational bounds) on compression performance. Metrics: Accuracy, compression rate, and computational overhead."
+  ],
+  "Risk Factors and Limitations": [
+    "Mutual information estimation can be computationally expensive, potentially limiting scalability to very large models.",
+    "The framework assumes task-relevant information can be accurately quantified, which may not hold for all tasks or datasets.",
+    "Optimal bit allocation strategies may require iterative optimization, increasing compression time compared to heuristic methods."
+  ]
+}

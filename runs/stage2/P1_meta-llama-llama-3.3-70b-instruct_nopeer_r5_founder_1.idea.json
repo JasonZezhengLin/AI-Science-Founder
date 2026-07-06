@@ -1,0 +1,18 @@
+{
+  "Name": "low_latency_ml_inference",
+  "Title": "Optimizing CUDA Kernels for Low-Latency Machine Learning Inference on Commodity GPUs",
+  "Short Hypothesis": "By optimizing CUDA kernels for memory-bandwidth utilization and tensor-core occupancy, we can achieve significant reductions in latency for machine learning inference on commodity GPUs.",
+  "Related Work": "Previous work has focused on optimizing machine learning models for inference, but few have explored the potential for optimizing CUDA kernels to improve performance. This proposal builds on existing research in CUDA optimization and machine learning inference, but takes a novel approach by focusing on memory-bandwidth utilization and tensor-core occupancy.",
+  "Abstract": "This proposal presents a novel approach to optimizing machine learning inference on commodity GPUs. By optimizing CUDA kernels for memory-bandwidth utilization and tensor-core occupancy, we can achieve significant reductions in latency. We propose a series of experiments to evaluate the effectiveness of our approach, including benchmarking existing models and optimizing new models using our techniques. Our goal is to demonstrate the potential for low-latency machine learning inference on commodity GPUs, and to provide a set of optimized CUDA kernels that can be used by the community.",
+  "Experiments": [
+    "Benchmark existing machine learning models on commodity GPUs to establish a baseline for latency",
+    "Optimize CUDA kernels for memory-bandwidth utilization and tensor-core occupancy using techniques such as coalesced loads and reduced HBM round-trips",
+    "Evaluate the effectiveness of our optimized kernels using benchmarking and profiling tools such as nvprof and Nsight",
+    "Compare the performance of our optimized kernels to existing state-of-the-art models and kernels"
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of optimizing CUDA kernels for memory-bandwidth utilization and tensor-core occupancy may be higher than expected",
+    "The potential for improvement in latency may be limited by the underlying hardware and existing optimization techniques",
+    "The optimized kernels may not be generalizable to all machine learning models and use cases"
+  ]
+}

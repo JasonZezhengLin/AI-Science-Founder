@@ -1,0 +1,20 @@
+{
+  "Name": "curvature-aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: Training-Free Mixed-Precision Quantization via Geometric Subspace Diagnostics",
+  "Short Hypothesis": "The curvature of the loss landscape, particularly in low-dimensional subspaces, can serve as a robust proxy for determining optimal per-layer bit-width configurations in mixed-precision quantization, enabling training-free, geometry-aware precision routing that outperforms heuristic-based methods.",
+  "Related Work": "Existing methods like EMQ and SNIP rely on heuristic proxies or training-based approaches, which either lack a clear theoretical foundation or are computationally expensive. HiLoRA introduces hierarchical LoRA routing but focuses on domain generalization rather than quantization. Our proposal leverages geometric subspace diagnostics, specifically curvature metrics, to allocate precision without training, distinguishing it from heuristic-based methods and offering a theoretically grounded alternative.",
+  "Abstract": "Mixed-precision quantization (MQ) offers a promising trade-off between model efficiency and accuracy, yet determining optimal per-layer bit-width configurations remains challenging. Current training-free methods rely on heuristic proxies that lack theoretical grounding, while training-based approaches are computationally expensive. We propose Curvature-Aware Precision Routing (CAPR), a novel training-free framework that leverages the curvature of the loss landscape in low-dimensional subspaces to allocate precision optimally. CAPR employs geometric subspace diagnostics to quantify the sensitivity of each layer to quantization noise, using curvature metrics such as Hessian conditioning and gradient covariance decay. By formalizing precision allocation as a curvature-aware optimization problem, CAPR ensures deterministic, numerically stable routing with minimal computational overhead. Empirical evaluations on ImageNet with ResNet and MobileNet families demonstrate that CAPR achieves superior accuracy-complexity trade-offs compared to state-of-the-art methods, while maintaining strict overhead bounds and theoretical transparency. Our approach bridges foundational optimization theory with deployment constraints, offering a resource-efficient, mathematically grounded solution for mixed-precision quantization.",
+  "Experiments": [
+    "Experiment 1: Evaluate CAPR on ImageNet with ResNet-18, ResNet-50, and MobileNetV2. Compare accuracy and computational efficiency against EMQ, SNIP, and AMP-ViT.",
+    "Experiment 2: Perform ablation studies to isolate the impact of curvature metrics (Hessian conditioning, gradient covariance decay) on precision allocation.",
+    "Experiment 3: Validate the robustness of CAPR across different quantization bit-widths (4-bit, 6-bit, 8-bit) and measure the variance in accuracy and computational overhead.",
+    "Experiment 4: Assess the scalability of CAPR by applying it to larger models like ViT and DeiT, comparing performance against state-of-the-art methods.",
+    "Experiment 5: Measure the overhead of geometric subspace diagnostics in CAPR and compare it to training-based methods like SNIP."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of curvature metrics may vary across different architectures and tasks, potentially limiting the generalizability of CAPR.",
+    "CAPR relies on accurate estimation of curvature metrics, which could introduce computational overhead in highly complex models.",
+    "The deterministic nature of CAPR may limit its adaptability to dynamic or non-stationary loss landscapes.",
+    "The proposed method assumes that the loss landscape curvature is a sufficient proxy for quantization sensitivity, which may not hold in all cases."
+  ]
+}

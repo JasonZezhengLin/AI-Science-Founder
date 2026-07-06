@@ -1,0 +1,19 @@
+{
+  "Name": "curvature_interference_cancellation",
+  "Title": "Curvature-Aware Geometric Interference Cancellation for Training-Free Precision Routing",
+  "Short Hypothesis": "The curvature of activation subspaces, quantified through Hessian conditioning and spectral decay rates, can serve as a deterministic proxy for identifying and canceling geometric interference in training-free precision routing, enabling robust inference under dynamic input distributions.",
+  "Related Work": "Spectral Quantization Routing (founder_1) explores precision allocation based on activation geometry but does not explicitly address geometric interference. Geometric Signal Separation (founder_1) uses PCA filtering for noise removal but lacks curvature-aware diagnostics. This proposal integrates curvature-aware Hessian conditioning with interference cancellation, offering a mathematically transparent, training-free framework for precision routing.",
+  "Abstract": "Training-free precision routing promises efficient inference but struggles with dynamic input distributions due to geometric interference in activation subspaces. We propose a curvature-aware framework that quantifies interference through Hessian conditioning and spectral decay rates, enabling deterministic interference cancellation. By computing local Hessian spectra and projecting activations onto well-conditioned subspaces, we isolate task-relevant signals while allocating precision dynamically. This approach replaces heuristic fragility claims with formalized risk bounds, linking curvature diagnostics to PAC-Bayes generalization stability. Evaluated on single-GPU setups across WILDS benchmarks, our method achieves superior throughput-accuracy trade-offs compared to static and heuristic baselines. By integrating curvature-aware diagnostics with geometric interference cancellation, we provide a reproducible, training-free pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Experiment 1: Curvature Diagnostics Validation - Compute Hessian spectra and spectral decay rates for activation subspaces across diverse benchmarks (e.g., WILDS). Evaluate correlation between curvature metrics (condition number, spectral decay) and precision sensitivity.",
+    "Experiment 2: Interference Cancellation Efficacy - Implement geometric interference cancellation via Hessian-based subspace projection. Measure accuracy retention and interference reduction under adversarial and out-of-distribution contexts.",
+    "Experiment 3: Precision Routing Performance - Compare throughput-accuracy trade-offs against static and heuristic mixed-precision baselines. Use latency budgets and PAC-Bayes generalization bounds as evaluation metrics.",
+    "Experiment 4: Ablation Studies - Ablate curvature diagnostics and interference cancellation components to isolate their contributions. Measure performance degradation and computational overhead."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk 1: Curvature diagnostics may incur non-trivial computational overhead, potentially offsetting precision routing gains.",
+    "Risk 2: Subspace projections may introduce numerical instability, especially in ill-conditioned activation subspaces.",
+    "Limitation 1: The framework assumes well-behaved activation geometry, which may not hold for highly non-linear or adversarial inputs.",
+    "Limitation 2: Evaluations are limited to single-GPU setups, potentially obscuring scalability challenges in distributed environments."
+  ]
+}

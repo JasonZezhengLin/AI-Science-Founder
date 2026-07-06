@@ -1,0 +1,18 @@
+{
+  "Name": "gpu_kernel_opt",
+  "Title": "Optimizing Machine Learning Inference on Commodity GPUs through Kernel-Level Throughput Engineering",
+  "Short Hypothesis": "Custom kernel fusion and optimized tensor core occupancy can significantly improve the inference latency of machine learning models on commodity GPUs, leading to measurable, hardware-faithful speedups.",
+  "Related Work": "Existing research has focused on optimizing machine learning inference through model compression, sparsity, and layer-skipping. However, few studies have explored the potential of kernel-level throughput engineering and hardware-faithful evaluation. This proposal builds upon the idea of optimizing machine learning inference on commodity GPUs, but with a focus on custom kernel fusion and tensor core occupancy.",
+  "Abstract": "This proposal investigates the potential of custom kernel fusion and optimized tensor core occupancy to improve the inference latency of machine learning models on commodity GPUs. Through a combination of kernel-level throughput engineering and hardware-faithful evaluation, we aim to achieve measurable speedups and advance the state-of-the-art in machine learning inference. Our approach will involve designing and implementing custom kernels, optimizing tensor core occupancy, and evaluating the resulting performance improvements using hardware-faithful metrics such as latency, throughput, and energy per token.",
+  "Experiments": [
+    "Design and implement custom kernels for popular machine learning models, focusing on fusion of compute-intensive operations and optimized memory access patterns.",
+    "Investigate the impact of tensor core occupancy on arithmetic intensity and develop strategies to optimize occupancy for improved performance.",
+    "Evaluate the performance of custom kernels and optimized tensor core occupancy using hardware-faithful metrics, including latency, throughput, and energy per token.",
+    "Compare the results to existing state-of-the-art models and optimization techniques, highlighting the benefits and limitations of our approach."
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of designing and implementing custom kernels may limit the applicability of our approach to a wide range of machine learning models.",
+    "The potential for improved performance may be limited by the underlying hardware architecture and the efficiency of the GPU architecture.",
+    "The evaluation metrics used may not capture all aspects of performance, and additional metrics may be necessary to fully understand the benefits and limitations of our approach."
+  ]
+}

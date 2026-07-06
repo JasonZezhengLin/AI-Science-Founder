@@ -1,0 +1,164 @@
+=== host: j004-ds  python: /home/zezhenglin/.conda/envs/founder/bin/python ===
+Python 3.10.20
+=== literature DB restored to frozen snapshot (4 peers) ===
+=== RUN: arm=peer round=1 founder=founder_1 ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/main/peer_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI API with model deepseek/deepseek-chat.
+No ideas found in /tmp/tmpsxdphow1.json. Starting from scratch.
+
+Generating proposal 1/1
+[DEBUG make_llm_call] OK: len=126, finish=stop
+Action: SearchSemanticScholar
+Arguments: {"query": "training-free representation geometry curvature-aware precision routing"}
+Response Status Code: 200
+Response Content: {"total": 5, "offset": 0, "data": [{"paperId": "f47f6845ea808881cf41b089bf93c305fffc479c", "title": "FreeOcc: Training-free Panoptic Occupancy Prediction via Foundation Models", "venue": "arXiv.org", "year": 2026, "citationCount": 0, "openAccessPdf": {"url": "", "status": null, "license": null, "disclaimer": "Notice: Paper or abstract available at https://arxiv.org/abs/2603.06166, which is subject to the license by the author or copyright owner provided with this content. Please go to the source
+[DEBUG make_llm_call] OK: len=3562, finish=stop
+Action: FinalizeIdea
+Arguments: ```json
+{
+  "idea": {
+    "Name": "precision_interference_unification",
+    "Title": "Unified Precision Allocation and Geometric Interference Cancellation for Robust Inference",
+    "Short Hypothesis": "Precision allocation and geometric interference cancellation can be unified into a single training-free framework that dynamically adjusts numerical precision while simultaneously isolating task-relevant subspaces, leading to more robust and efficient inference under distribution shifts.",
+    "Related Work": "Existing work includes Spectral Quantization Routing (SQR) for precision allocation and Geometric Signal Separation for interference cancellation. However, these approaches are developed independently and do not exploit their complementary benefits. Our proposal integrates these ideas into a unified framework, leveraging the spectral properties of activations to simultaneously optimize precision allocation and interference cancellation.",
+    "Abstract": "We propose a unified training-free framework that combines precision allocation and geometric interference cancellation to enhance the robustness and efficiency of inference under distribution shifts. Our approach leverages the spectral properties of activations to dynamically adjust numerical precision while isolating task-relevant subspaces. Specifically, we compute the local covariance condition number and spectral decay rate of hidden states to determine precision requirements and identify interference directions. We then project activations onto a low-rank, norm-preserving subspace to cancel geometric interference, ensuring strict computational budgets. Theoretical bounds link spectral conditioning to generalization stability under quantization noise and perturbation. Evaluated on single-GPU setups across WILDS benchmarks, our framework achieves a superior throughput-accuracy Pareto frontier compared to isolated precision allocation and interference cancellation baselines. This work provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+    "Experiments": [
+      "Evaluate on single-GPU setups across WILDS benchmarks to measure robustness to distribution shifts.",
+      "Compare throughput-accuracy Pareto frontiers with isolated precision allocation (SQR) and interference cancellation (Geometric Signal Separation) baselines.",
+      "Measure subspace alignment stability and generalization stability under quantization noise and perturbation.",
+      "Conduct ablation studies to isolate the contributions of precision allocation and interference cancellation."
+    ],
+    "Risk Factors and Limitations": [
+      "Potential computational overhead from real-time spectral diagnostics.",
+      "Possible sensitivity to hyperparameters in the projection and precision-switching mechanisms.",
+      "Limited applicability to tasks with highly non-linear interference patterns."
+    ]
+  }
+}
+```
+Proposal finalized: {'Name': 'precision_interference_unification', 'Title': 'Unified Precision Allocation and Geometric Interference Cancellation for Robust Inference', 'Short Hypothesis': 'Precision allocation and geometric interference cancellation can be unified into a single training-free framework that dynamically adjusts numerical precision while simultaneously isolating task-relevant subspaces, leading to more robust and efficient inference under distribution shifts.', 'Related Work': 'Existing work includes Spectral Quantization Routing (SQR) for precision allocation and Geometric Signal Separation for interference cancellation. However, these approaches are developed independently and do not exploit their complementary benefits. Our proposal integrates these ideas into a unified framework, leveraging the spectral properties of activations to simultaneously optimize precision allocation and interference cancellation.', 'Abstract': 'We propose a unified training-free framework that combines precision allocation and geometric interference cancellation to enhance the robustness and efficiency of inference under distribution shifts. Our approach leverages the spectral properties of activations to dynamically adjust numerical precision while isolating task-relevant subspaces. Specifically, we compute the local covariance condition number and spectral decay rate of hidden states to determine precision requirements and identify interference directions. We then project activations onto a low-rank, norm-preserving subspace to cancel geometric interference, ensuring strict computational budgets. Theoretical bounds link spectral conditioning to generalization stability under quantization noise and perturbation. Evaluated on single-GPU setups across WILDS benchmarks, our framework achieves a superior throughput-accuracy Pareto frontier compared to isolated precision allocation and interference cancellation baselines. This work provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.', 'Experiments': ['Evaluate on single-GPU setups across WILDS benchmarks to measure robustness to distribution shifts.', 'Compare throughput-accuracy Pareto frontiers with isolated precision allocation (SQR) and interference cancellation (Geometric Signal Separation) baselines.', 'Measure subspace alignment stability and generalization stability under quantization noise and perturbation.', 'Conduct ablation studies to isolate the contributions of precision allocation and interference cancellation.'], 'Risk Factors and Limitations': ['Potential computational overhead from real-time spectral diagnostics.', 'Possible sensitivity to hyperparameters in the projection and precision-switching mechanisms.', 'Limited applicability to tasks with highly non-linear interference patterns.']}
+Stored 1 ideas in /tmp/tmpsxdphow1.json
+[OK] runs/main/peer_r1_founder_1 -> idea 'precision_interference_unification'
+=== RUN: arm=peer round=1 founder=founder_2 ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/main/peer_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI API with model deepseek/deepseek-chat.
+No ideas found in /tmp/tmpknfier1t.json. Starting from scratch.
+
+Generating proposal 1/1
+[DEBUG make_llm_call] OK: len=109, finish=stop
+Action: SearchSemanticScholar
+Arguments: {"query": "training-free latency-aware machine learning inference"}
+Response Status Code: 200
+Response Content: {"total": 3322, "offset": 0, "next": 10, "data": [{"paperId": "a6704e3f8157fd17d85124a48d6f1a64890950ee", "title": "Training-Free Hardware-Aware Neural Architecture Search with Reinforcement Learning", "venue": "", "year": null, "citationCount": 1, "openAccessPdf": {"url": "", "status": null, "license": null, "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://www.kibme.org/resources/journal/20211229104917308.p
+[DEBUG make_llm_call] OK: len=4145, finish=stop
+Action: FinalizeIdea
+Arguments: ```json
+{
+  "idea": {
+    "Name": "dynamic_geometry_routing",
+    "Title": "Dynamic Geometry Routing: Training-Free Latency-Aware Inference via Input Geometry Adaptation",
+    "Short Hypothesis": "The geometry of activation spaces encodes input complexity, which can be leveraged to dynamically adjust inference pathways and enforce strict latency budgets without retraining.",
+    "Related Work": "Existing approaches like Spectral Quantization Routing (SQR) and Spectral Latent Steering (SLS) focus on precision allocation and subspace projection but do not explicitly adapt inference pathways based on input geometry. Our proposal distinguishes itself by dynamically routing inputs through different computational pathways based on their geometric complexity, ensuring efficient inference while maintaining accuracy.",
+    "Abstract": "We propose Dynamic Geometry Routing (DGR), a training-free framework that leverages the geometry of activation spaces to dynamically adjust inference pathways based on input complexity. By computing the local covariance structure and spectral properties of activations in real-time, DGR identifies inputs that can be processed with reduced computational overhead without sacrificing accuracy. We introduce a routing mechanism that maps geometric diagnostics to compute-saving strategies, such as layer skipping or attention head pruning, while enforcing strict latency budgets. Theoretical bounds link geometric complexity to generalization stability under computational perturbations, providing a formal foundation for the routing mechanism. Experiments on single-GPU setups across WILDS benchmarks demonstrate that DGR achieves superior throughput-accuracy trade-offs compared to static and heuristic baselines. Our approach bridges foundational optimization theory with practical, scalable inference, offering a reproducible pathway for resource-efficient adaptation to dynamic input distributions.",
+    "Experiments": [
+      "Evaluate DGR on WILDS benchmarks under natural distribution shifts, measuring throughput, accuracy, and latency compliance.",
+      "Compare DGR against static and heuristic baselines, including SQR and SLS, across adversarial and out-of-distribution contexts.",
+      "Validate the routing mechanism by analyzing geometric diagnostics and their correlation with computational efficiency.",
+      "Assess the impact of layer skipping and attention head pruning on model performance and latency.",
+      "Test the scalability of DGR on larger models and datasets, measuring resource utilization and inference speed."
+    ],
+    "Risk Factors and Limitations": [
+      "The effectiveness of DGR may be limited to models with certain architectural properties, such as those with modular or hierarchical structures.",
+      "Real-time computation of geometric diagnostics may introduce overhead, potentially offsetting computational savings.",
+      "The approach assumes that input complexity can be reliably captured by activation geometry, which may not hold for all types of inputs or tasks.",
+      "Experimental validation is limited to single-GPU setups; scalability to distributed systems remains untested."
+    ]
+  }
+}
+```
+Proposal finalized: {'Name': 'dynamic_geometry_routing', 'Title': 'Dynamic Geometry Routing: Training-Free Latency-Aware Inference via Input Geometry Adaptation', 'Short Hypothesis': 'The geometry of activation spaces encodes input complexity, which can be leveraged to dynamically adjust inference pathways and enforce strict latency budgets without retraining.', 'Related Work': 'Existing approaches like Spectral Quantization Routing (SQR) and Spectral Latent Steering (SLS) focus on precision allocation and subspace projection but do not explicitly adapt inference pathways based on input geometry. Our proposal distinguishes itself by dynamically routing inputs through different computational pathways based on their geometric complexity, ensuring efficient inference while maintaining accuracy.', 'Abstract': 'We propose Dynamic Geometry Routing (DGR), a training-free framework that leverages the geometry of activation spaces to dynamically adjust inference pathways based on input complexity. By computing the local covariance structure and spectral properties of activations in real-time, DGR identifies inputs that can be processed with reduced computational overhead without sacrificing accuracy. We introduce a routing mechanism that maps geometric diagnostics to compute-saving strategies, such as layer skipping or attention head pruning, while enforcing strict latency budgets. Theoretical bounds link geometric complexity to generalization stability under computational perturbations, providing a formal foundation for the routing mechanism. Experiments on single-GPU setups across WILDS benchmarks demonstrate that DGR achieves superior throughput-accuracy trade-offs compared to static and heuristic baselines. Our approach bridges foundational optimization theory with practical, scalable inference, offering a reproducible pathway for resource-efficient adaptation to dynamic input distributions.', 'Experiments': ['Evaluate DGR on WILDS benchmarks under natural distribution shifts, measuring throughput, accuracy, and latency compliance.', 'Compare DGR against static and heuristic baselines, including SQR and SLS, across adversarial and out-of-distribution contexts.', 'Validate the routing mechanism by analyzing geometric diagnostics and their correlation with computational efficiency.', 'Assess the impact of layer skipping and attention head pruning on model performance and latency.', 'Test the scalability of DGR on larger models and datasets, measuring resource utilization and inference speed.'], 'Risk Factors and Limitations': ['The effectiveness of DGR may be limited to models with certain architectural properties, such as those with modular or hierarchical structures.', 'Real-time computation of geometric diagnostics may introduce overhead, potentially offsetting computational savings.', 'The approach assumes that input complexity can be reliably captured by activation geometry, which may not hold for all types of inputs or tasks.', 'Experimental validation is limited to single-GPU setups; scalability to distributed systems remains untested.']}
+Stored 1 ideas in /tmp/tmpknfier1t.json
+[OK] runs/main/peer_r1_founder_2 -> idea 'dynamic_geometry_routing'
+=== RUN: arm=nopeer round=1 founder=founder_1 ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/main/nopeer_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI API with model deepseek/deepseek-chat.
+No ideas found in /tmp/tmpzfd041r_.json. Starting from scratch.
+
+Generating proposal 1/1
+[DEBUG make_llm_call] OK: len=107, finish=stop
+Action: SearchSemanticScholar
+Arguments: {"query": "curvature-aware precision routing machine learning"}
+Response Status Code: 200
+Response Content: {"total": 3816, "offset": 0, "next": 10, "data": [{"paperId": "97bf07228ef91fc57c1b8f402963dcb9e1173ca6", "title": "Tri-Accel: Curvature-Aware Precision-Adaptive and Memory-Elastic Optimization for Efficient GPU Usage", "venue": "arXiv.org", "year": 2025, "citationCount": 0, "openAccessPdf": {"url": "", "status": null, "license": null, "disclaimer": "Notice: Paper or abstract available at https://arxiv.org/abs/2508.16905, which is subject to the license by the author or copyright owner provided 
+[DEBUG make_llm_call] OK: len=4179, finish=stop
+Action: FinalizeIdea
+Arguments: ```json
+{
+  "idea": {
+    "Name": "curvature-aware_precision_routing",
+    "Title": "Training-Free Curvature-Aware Precision Routing: A Geometric Subspace Approach",
+    "Short Hypothesis": "Curvature-aware precision routing can be achieved training-free by leveraging geometric subspace diagnostics and spectral quantization theory, enabling deterministic optimization proxies with formalized stability radii.",
+    "Related Work": "Existing work, such as Tri-Accel, focuses on training-time adaptive precision routing using curvature and gradient variance. This proposal differs by eliminating the need for training, instead relying on geometric subspace diagnostics and spectral quantization to formalize stability radii. This approach aligns with foundational optimization theory and prioritizes mathematical transparency over heuristic adaptations.",
+    "Abstract": "We propose a training-free precision routing framework that leverages curvature-aware geometric subspace diagnostics and spectral quantization theory. By quantifying gradient covariance decay, Hessian conditioning, and feature entanglement, our approach replaces heuristic precision switching with formalized stability radii and explicit condition number constraints. The framework enforces deterministic execution pathways through coarse-grained, block-level precision tiering, ensuring strict overhead bounds and architectural coherence. Empirical validation on single-GPU setups demonstrates significant improvements in numerical stability and computational efficiency, with explicit PAC-Bayes generalization bounds and curvature transparency. This work bridges theoretical ML with scalable inference, offering a resource-efficient and mathematically grounded alternative to training-based precision routing.",
+    "Experiments": [
+      "Experiment 1: Validate curvature-aware precision routing on ResNet-18 and EfficientNet-B0 using CIFAR-10/100. Measure improvements in numerical stability (condition number) and computational efficiency (training-free overhead).",
+      "Experiment 2: Compare formalized stability radii against heuristic precision switching strategies. Evaluate using PAC-Bayes generalization bounds and curvature transparency metrics.",
+      "Experiment 3: Test coarse-grained, block-level precision tiering on single-GPU setups. Measure overhead bounds and deterministic execution pathways.",
+      "Experiment 4: Quantify gradient covariance decay, Hessian conditioning, and feature entanglement across multiple architectures (e.g., Transformer, ResNet). Use spectral estimators and pre-execution diagnostic loops."
+    ],
+    "Risk Factors and Limitations": [
+      "Limited applicability to architectures with highly non-linear curvature profiles.",
+      "Potential overhead from pre-execution diagnostic loops in resource-constrained environments.",
+      "Reliance on deterministic execution pathways may limit scalability in distributed setups.",
+      "Empirical validation restricted to single-GPU environments, which may not generalize to multi-GPU or edge devices."
+    ]
+  }
+}
+```
+Proposal finalized: {'Name': 'curvature-aware_precision_routing', 'Title': 'Training-Free Curvature-Aware Precision Routing: A Geometric Subspace Approach', 'Short Hypothesis': 'Curvature-aware precision routing can be achieved training-free by leveraging geometric subspace diagnostics and spectral quantization theory, enabling deterministic optimization proxies with formalized stability radii.', 'Related Work': 'Existing work, such as Tri-Accel, focuses on training-time adaptive precision routing using curvature and gradient variance. This proposal differs by eliminating the need for training, instead relying on geometric subspace diagnostics and spectral quantization to formalize stability radii. This approach aligns with foundational optimization theory and prioritizes mathematical transparency over heuristic adaptations.', 'Abstract': 'We propose a training-free precision routing framework that leverages curvature-aware geometric subspace diagnostics and spectral quantization theory. By quantifying gradient covariance decay, Hessian conditioning, and feature entanglement, our approach replaces heuristic precision switching with formalized stability radii and explicit condition number constraints. The framework enforces deterministic execution pathways through coarse-grained, block-level precision tiering, ensuring strict overhead bounds and architectural coherence. Empirical validation on single-GPU setups demonstrates significant improvements in numerical stability and computational efficiency, with explicit PAC-Bayes generalization bounds and curvature transparency. This work bridges theoretical ML with scalable inference, offering a resource-efficient and mathematically grounded alternative to training-based precision routing.', 'Experiments': ['Experiment 1: Validate curvature-aware precision routing on ResNet-18 and EfficientNet-B0 using CIFAR-10/100. Measure improvements in numerical stability (condition number) and computational efficiency (training-free overhead).', 'Experiment 2: Compare formalized stability radii against heuristic precision switching strategies. Evaluate using PAC-Bayes generalization bounds and curvature transparency metrics.', 'Experiment 3: Test coarse-grained, block-level precision tiering on single-GPU setups. Measure overhead bounds and deterministic execution pathways.', 'Experiment 4: Quantify gradient covariance decay, Hessian conditioning, and feature entanglement across multiple architectures (e.g., Transformer, ResNet). Use spectral estimators and pre-execution diagnostic loops.'], 'Risk Factors and Limitations': ['Limited applicability to architectures with highly non-linear curvature profiles.', 'Potential overhead from pre-execution diagnostic loops in resource-constrained environments.', 'Reliance on deterministic execution pathways may limit scalability in distributed setups.', 'Empirical validation restricted to single-GPU environments, which may not generalize to multi-GPU or edge devices.']}
+Stored 1 ideas in /tmp/tmpzfd041r_.json
+[OK] runs/main/nopeer_r1_founder_1 -> idea 'curvature-aware_precision_routing'
+=== RUN: arm=nopeer round=1 founder=founder_2 ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/main/nopeer_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI API with model deepseek/deepseek-chat.
+No ideas found in /tmp/tmpduqavn_2.json. Starting from scratch.
+
+Generating proposal 1/1
+[DEBUG make_llm_call] OK: len=123, finish=stop
+Action: SearchSemanticScholar
+Arguments: {"query": "PAC-Bayes spectral stability bounds layer-skipping inference latency"}
+Response Status Code: 200
+Response Content: {"total": 0, "offset": 0}
+
+[DEBUG make_llm_call] OK: len=3789, finish=stop
+Action: FinalizeIdea
+Arguments: ```json
+{
+  "idea": {
+    "Name": "pac_bayes_layer_skipping_latency",
+    "Title": "PAC-Bayes Layer Skipping for Latency-Critical Inference",
+    "Short Hypothesis": "PAC-Bayes frameworks combined with spectral stability bounds can enable a mathematically grounded layer-skipping mechanism that achieves strict latency guarantees while maintaining model accuracy.",
+    "Related Work": "Existing work on layer-skipping focuses on heuristic approaches or empirical validation, lacking theoretical grounding. PAC-Bayes frameworks have been applied to generalization bounds but not specifically to layer-skipping for latency-critical inference. Spectral stability bounds have been used in robustness analysis but not in the context of inference latency.",
+    "Abstract": "Latency-critical applications demand strict inference time guarantees while maintaining model accuracy. This paper proposes a novel approach leveraging PAC-Bayes frameworks and spectral stability bounds to derive a mathematically grounded layer-skipping mechanism. By bounding the perturbation introduced by skipping layers, we ensure that inference latency is minimized without significant accuracy loss. We validate our approach on standard benchmarks, demonstrating that our method achieves strict latency guarantees while maintaining competitive accuracy. Our results show that the proposed mechanism outperforms heuristic layer-skipping methods, providing a theoretically sound and empirically effective solution for latency-critical inference.",
+    "Experiments": [
+      "Implement the PAC-Bayes layer-skipping mechanism in a standard neural network architecture (e.g., ResNet).",
+      "Evaluate on standard benchmarks (e.g., CIFAR-10, ImageNet) using latency and accuracy metrics.",
+      "Compare against heuristic layer-skipping methods and baseline models without layer-skipping.",
+      "Analyze the impact of spectral stability bounds on model robustness and inference time."
+    ],
+    "Risk Factors and Limitations": [
+      "The theoretical bounds may be too conservative, limiting the practical benefits of layer-skipping.",
+      "The method may require additional computational overhead for spectral stability calculations.",
+      "The approach may not generalize well to architectures significantly different from the ones tested."
+    ]
+  }
+}
+```
+Proposal finalized: {'Name': 'pac_bayes_layer_skipping_latency', 'Title': 'PAC-Bayes Layer Skipping for Latency-Critical Inference', 'Short Hypothesis': 'PAC-Bayes frameworks combined with spectral stability bounds can enable a mathematically grounded layer-skipping mechanism that achieves strict latency guarantees while maintaining model accuracy.', 'Related Work': 'Existing work on layer-skipping focuses on heuristic approaches or empirical validation, lacking theoretical grounding. PAC-Bayes frameworks have been applied to generalization bounds but not specifically to layer-skipping for latency-critical inference. Spectral stability bounds have been used in robustness analysis but not in the context of inference latency.', 'Abstract': 'Latency-critical applications demand strict inference time guarantees while maintaining model accuracy. This paper proposes a novel approach leveraging PAC-Bayes frameworks and spectral stability bounds to derive a mathematically grounded layer-skipping mechanism. By bounding the perturbation introduced by skipping layers, we ensure that inference latency is minimized without significant accuracy loss. We validate our approach on standard benchmarks, demonstrating that our method achieves strict latency guarantees while maintaining competitive accuracy. Our results show that the proposed mechanism outperforms heuristic layer-skipping methods, providing a theoretically sound and empirically effective solution for latency-critical inference.', 'Experiments': ['Implement the PAC-Bayes layer-skipping mechanism in a standard neural network architecture (e.g., ResNet).', 'Evaluate on standard benchmarks (e.g., CIFAR-10, ImageNet) using latency and accuracy metrics.', 'Compare against heuristic layer-skipping methods and baseline models without layer-skipping.', 'Analyze the impact of spectral stability bounds on model robustness and inference time.'], 'Risk Factors and Limitations': ['The theoretical bounds may be too conservative, limiting the practical benefits of layer-skipping.', 'The method may require additional computational overhead for spectral stability calculations.', 'The approach may not generalize well to architectures significantly different from the ones tested.']}
+Stored 1 ideas in /tmp/tmpduqavn_2.json
+[OK] runs/main/nopeer_r1_founder_2 -> idea 'pac_bayes_layer_skipping_latency'
+=== PILOT DONE (overall rc=0) ===
+-rw-rw---- 1 zezhenglin zezhenglin 3031 Jun 21 18:32 runs/main/nopeer_r1_founder_1.idea.json
+-rw-rw---- 1 zezhenglin zezhenglin 2280 Jun 21 18:32 runs/main/nopeer_r1_founder_2.idea.json
+-rw-rw---- 1 zezhenglin zezhenglin 2891 Jun 21 18:17 runs/main/peer_r1_founder_1.idea.json
+-rw-rw---- 1 zezhenglin zezhenglin 3134 Jun 21 18:23 runs/main/peer_r1_founder_2.idea.json

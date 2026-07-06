@@ -1,0 +1,18 @@
+{
+  "Name": "jacobian_guided_layer_skipping",
+  "Title": "Jacobian-Guided Layer Skipping: Training-Free Latency Optimization via Activation Sensitivity Analysis",
+  "Short Hypothesis": "The Jacobian matrix of layer activations with respect to inputs provides a direct measure of layer-wise sensitivity, enabling training-free layer skipping decisions that preserve model accuracy while minimizing inference latency.",
+  "Related Work": "Existing layer skipping methods often rely on heuristic thresholds or costly training-based calibration (e.g., LiteStage, River-LLM). Spectral Quantization Routing (SQR) leverages activation geometry but focuses on precision allocation rather than layer skipping. Our proposal uniquely uses Jacobian-based sensitivity analysis to make skipping decisions, offering a theoretically grounded, training-free alternative that is distinct from both heuristic and geometry-based approaches.",
+  "Abstract": "Layer skipping has emerged as a promising technique to reduce inference latency in deep neural networks. However, existing methods often rely on heuristic thresholds or costly training-based calibration, limiting their practicality and theoretical grounding. We propose Jacobian-Guided Layer Skipping (JGLS), a training-free framework that leverages the Jacobian matrix of layer activations with respect to inputs to quantify layer-wise sensitivity. By analyzing the spectral properties of the Jacobian, JGLS identifies layers whose contributions to the final output are minimal, enabling safe skipping without significant accuracy loss. We theoretically ground JGLS in PAC-Bayes bounds, linking Jacobian sensitivity to generalization stability under layer removal. Evaluated on single-GPU setups across vision and language tasks, JGLS achieves superior latency-accuracy trade-offs compared to heuristic and training-based baselines. Our approach provides a transparent, reproducible pathway for efficient inference under strict computational budgets.",
+  "Experiments": [
+    "Experiment 1: Sensitivity Analysis - Compute layer-wise Jacobian matrices for a pretrained ResNet-50 and GPT-2. Measure spectral norms and condition numbers to identify layers with low sensitivity.",
+    "Experiment 2: Skipping Policy Evaluation - Implement a skipping policy based on Jacobian thresholds. Evaluate accuracy and latency on CIFAR-10 and WikiText-2 benchmarks.",
+    "Experiment 3: Comparison with Baselines - Compare JGLS against LiteStage and River-LLM in terms of latency reduction and accuracy drop.",
+    "Experiment 4: Robustness Testing - Assess JGLS under distribution shifts using WILDS benchmarks to evaluate its generalization stability."
+  ],
+  "Risk Factors and Limitations": [
+    "Jacobian computation introduces additional runtime overhead during inference.",
+    "The method may not generalize well to tasks requiring fine-grained spatial or temporal detail.",
+    "The approach assumes that layer sensitivity is consistent across different inputs, which may not hold for highly dynamic data distributions."
+  ]
+}

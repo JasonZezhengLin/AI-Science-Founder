@@ -1,0 +1,18 @@
+{
+  "Name": "gpu_inference_optimization",
+  "Title": "Kernel-Level Throughput Engineering for Efficient Machine Learning Inference on Commodity GPUs",
+  "Short Hypothesis": "By optimizing kernel-level throughput and memory-bandwidth utilization, we can achieve significant speedups in machine learning inference on commodity GPUs without sacrificing accuracy.",
+  "Related Work": "Previous work has focused on optimizing machine learning models for inference, but few have explored the potential of kernel-level throughput engineering and hardware-faithful evaluation. Our proposal builds on the idea of optimizing machine learning inference for specific hardware platforms, but with a focus on commodity GPUs and a rigorous, measurement-based approach.",
+  "Abstract": "This proposal presents a novel approach to optimizing machine learning inference on commodity GPUs. By applying kernel-level throughput engineering and hardware-faithful evaluation, we aim to achieve significant speedups in inference times without sacrificing accuracy. Our approach involves optimizing fused CUDA/Triton kernels, memory-bandwidth utilization, KV-cache layout, and tensor-core occupancy, and evaluating the performance using detailed metrics such as occupancy, achieved bandwidth, warp stall reasons, and arithmetic intensity. We will conduct experiments using real-world models and datasets, and report results in terms of wall-clock latency, tokens-per-second, and energy per token.",
+  "Experiments": [
+    "Optimize kernel-level throughput for a range of machine learning models, including convolutional neural networks and recurrent neural networks",
+    "Evaluate the performance of the optimized kernels using detailed metrics such as occupancy, achieved bandwidth, warp stall reasons, and arithmetic intensity",
+    "Conduct A/B latency races under fixed accuracy budgets, reporting p50/p99 latency, throughput under batching, and energy per token",
+    "Investigate the impact of quantization, sparsity, and layer-skipping on the latency-accuracy Pareto front on commodity GPUs"
+  ],
+  "Risk Factors and Limitations": [
+    "The optimization process may be time-consuming and require significant expertise in CUDA and GPU architecture",
+    "The approach may not generalize to all types of machine learning models or hardware platforms",
+    "The evaluation metrics may not capture all aspects of performance, and additional metrics may be needed to fully characterize the benefits and limitations of the approach"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "Name": "curvature_attn_pruning",
+  "Title": "Curvature-Aware Attention Pruning: Training-Free Layer-Wise Head Reduction via Hessian Diagnostics",
+  "Short Hypothesis": "The Hessian condition number of attention head activations provides a deterministic proxy for pruning redundant heads without compromising model accuracy, enabling efficient inference under strict latency budgets.",
+  "Related Work": "Existing work on attention pruning relies on heuristic importance scores or costly training-based calibration (e.g., Lottery Ticket Hypothesis). Spectral Quantization Routing (SQR) explores precision allocation via activation geometry but does not address attention head redundancy. Spectral Latent Steering (SLS) uses subspace projection for test-time optimization but lacks curvature-aware diagnostics. This proposal uniquely integrates Hessian conditioning with attention pruning, offering a training-free, mathematically transparent solution.",
+  "Abstract": "Attention mechanisms are computationally expensive, yet many heads contribute redundantly to model performance. We propose Curvature-Aware Attention Pruning (CAAP), a training-free framework that dynamically reduces attention heads based on the Hessian condition number of their activations. By computing local curvature diagnostics using randomized SVD, we identify heads residing in well-conditioned subspaces that can be pruned without significant accuracy loss. We theoretically ground this mechanism with PAC-Bayes bounds linking Hessian conditioning to generalization stability under head removal. Evaluated on single-GPU setups across diverse NLP benchmarks, CAAP achieves superior throughput-accuracy tradeoffs compared to static pruning baselines. By replacing heuristic fragility claims with formalized risk bounds, CAAP provides a transparent, reproducible pathway for resource-efficient inference.",
+  "Experiments": [
+    {
+      "Setup": "Evaluate CAAP on GPT-2 and BERT models across GLUE and SQuAD benchmarks.",
+      "Intervention": "Compute Hessian condition numbers for attention heads using randomized SVD and prune heads with condition numbers below a calibrated threshold.",
+      "Metrics": "Throughput (tokens/sec), accuracy (GLUE/SQuAD), Hessian condition number distribution, and attention head redundancy rates."
+    },
+    {
+      "Setup": "Compare CAAP to static pruning baselines (e.g., magnitude pruning) and training-based methods (e.g., Lottery Ticket Hypothesis).",
+      "Intervention": "Apply CAAP and baselines under identical latency budgets.",
+      "Metrics": "Throughput-accuracy Pareto frontier, pruning stability across seeds, and computational overhead."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The Hessian computation introduces additional overhead, though randomized SVD mitigates this.",
+    "The pruning threshold calibration may require task-specific tuning.",
+    "The approach assumes well-conditioned subspaces generalize stably, which may not hold for all tasks."
+  ]
+}

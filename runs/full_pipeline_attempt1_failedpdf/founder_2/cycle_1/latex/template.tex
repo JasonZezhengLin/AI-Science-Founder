@@ -1,0 +1,32 @@
+\section{Experiments}
+\label{sec:experiments}
+Our experiments reveal unexpected results. While the proposed method reduces overconfidence on the training set, it fails to improve generalization on the test set. These results challenge assumptions about model calibration and uncertainty quantification, highlighting the complexity of addressing overconfidence in deep learning models.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{accuracy_vs_epoch.png}
+\caption{Accuracy vs. Epoch for baseline and proposed models. The proposed method reduces overconfidence on the training set but fails to improve test generalization.}
+\label{fig:accuracy_vs_epoch}
+\end{figure}
+
+\section{Conclusion}
+\label{sec:conclusion}
+We investigate pitfalls of overconfidence in deep learning models, revealing unexpected failures in a proposed method designed to mitigate overconfidence. Despite theoretical underpinnings, the method fails to consistently improve performance on unseen data. These findings highlight the challenges of translating theoretical advancements into practical improvements and the need for more rigorous evaluation methods.
+
+\bibliography{iclr2025}
+\bibliographystyle{iclr2025}
+
+\appendix
+
+\section*{\LARGE Supplementary Material}
+\label{sec:appendix}
+
+\section{Appendix Section}
+Additional experimental details and hyperparameter settings are provided here. We include ablation study results (Figure \ref{fig:ablation_study_results}) and further analysis of calibration error across epochs.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{ablation_study_results.png}
+\caption{Ablation study results showing the impact of different components of the proposed method.}
+\label{fig:ablation_study_results}
+\end{figure}

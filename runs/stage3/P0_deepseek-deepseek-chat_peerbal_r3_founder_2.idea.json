@@ -1,0 +1,17 @@
+{
+  "Name": "pac_bayes_spectral_layer_skipping",
+  "Title": "PAC-Bayes Spectral Stability Bounds for Training-Free Layer-Skipping Frameworks",
+  "Short Hypothesis": "PAC-Bayes frameworks can provide spectral stability bounds that enable training-free, latency-aware layer-skipping frameworks by minimizing hidden-state perturbation and enforcing strict wall-clock budgets.",
+  "Related Work": "Existing work includes Spectral Quantization Routing (SQR), which uses spectral properties for precision allocation, and Spectral Latent Steering (SLS), which focuses on test-time optimization via subspace projection. This proposal distinguishes itself by applying PAC-Bayes frameworks to derive spectral stability bounds specifically for layer-skipping frameworks, ensuring minimal hidden-state perturbation and strict latency guarantees.",
+  "Abstract": "We propose a novel framework that leverages PAC-Bayes frameworks to derive spectral stability bounds for training-free, latency-aware layer-skipping in neural networks. By focusing on the spectral properties of hidden states, our approach minimizes perturbation and enforces strict wall-clock budgets, making it suitable for real-time applications. We theoretically ground our framework in PAC-Bayes bounds, linking spectral stability to generalization stability under layer-skipping noise. Empirically, we evaluate our approach on single-GPU setups across various benchmarks, demonstrating superior throughput-accuracy Pareto frontiers compared to existing baselines. Our framework provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Experiment 1: Validate spectral stability bounds on a single-GPU setup using WILDS benchmarks. Measure throughput-accuracy Pareto frontiers and compare against SQR and SLS baselines.",
+    "Experiment 2: Evaluate hidden-state perturbation overhead using deterministic projection-based mechanistic probes. Quantify perturbation-cost and memory-bandwidth accounting.",
+    "Experiment 3: Assess robustness to structured perturbations and domain shifts, strictly bounded to hardware limits. Quantify stability radii and latency guarantees."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk: The spectral stability bounds may not generalize well across different architectures.",
+    "Limitation: The framework requires initial spectral diagnostics, which may introduce minor overhead.",
+    "Risk: Strict latency budgets may limit the applicability to extremely time-sensitive tasks."
+  ]
+}

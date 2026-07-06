@@ -1,0 +1,30 @@
+{
+  "Name": "geometric_precision_routing",
+  "Title": "Geometric Precision Routing: Training-Free Mixed-Precision Quantization via Curvature-Aware Subspace Diagnostics",
+  "Short Hypothesis": "By leveraging curvature-aware precision routing and geometric subspace diagnostics, we can achieve efficient mixed-precision quantization without the need for training, while maintaining formalized stability radii and PAC-Bayes generalization bounds.",
+  "Related Work": "Existing mixed-precision quantization methods often rely on training-based search or heuristic proxies, which lack formal guarantees and understanding of the underlying geometric properties. Recent works like EMQ and AMP-ViT have made strides in training-free approaches, but they do not fully exploit the geometric structure of the model's curvature and subspace diagnostics.",
+  "Abstract": "Mixed-precision quantization (MPQ) is crucial for deploying deep neural networks on resource-constrained devices. However, existing methods often rely on training-based search or heuristic proxies, which lack formal guarantees and understanding of the underlying geometric properties. This paper introduces Geometric Precision Routing (GPR), a novel framework that leverages curvature-aware precision routing and geometric subspace diagnostics to achieve efficient MPQ without the need for training. GPR employs deterministic spectral estimators and pre-execution diagnostic loops to formally isolate algorithmic pathologies from infrastructural noise, enabling a training-free routing protocol that replaces heuristic fragility claims with formalized stability radii and PAC-Bayes generalization bounds. We validate GPR on various architectures and datasets, demonstrating superior performance in terms of accuracy and efficiency compared to state-of-the-art methods.",
+  "Experiments": [
+    {
+      "Description": "Evaluate GPR on Vision Transformers (ViTs) using ImageNet dataset.",
+      "Metrics": "Accuracy, FLOPs, Memory Usage"
+    },
+    {
+      "Description": "Compare GPR with state-of-the-art methods (EMQ, AMP-ViT) on ResNet and MobileNet families.",
+      "Metrics": "Accuracy, FLOPs, Memory Usage"
+    },
+    {
+      "Description": "Assess the impact of curvature-aware precision routing on model stability using formalized stability radii.",
+      "Metrics": "Stability Radii, PAC-Bayes Generalization Bounds"
+    },
+    {
+      "Description": "Conduct ablation studies to isolate the contribution of geometric subspace diagnostics.",
+      "Metrics": "Accuracy, FLOPs, Memory Usage"
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of GPR may vary across different architectures and datasets.",
+    "The computational overhead of pre-execution diagnostic loops needs to be carefully managed.",
+    "The formalized stability radii and PAC-Bayes generalization bounds may not fully capture all aspects of model performance."
+  ]
+}

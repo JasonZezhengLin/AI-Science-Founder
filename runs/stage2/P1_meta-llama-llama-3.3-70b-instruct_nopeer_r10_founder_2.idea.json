@@ -1,0 +1,18 @@
+{
+  "Name": "compressive_learning",
+  "Title": "Operational Bounds for Neural Network Compression via Rate-Distortion Theory",
+  "Short Hypothesis": "We hypothesize that by formulating neural network compression as a rate-distortion problem, we can establish operational bounds on the compressibility of neural networks, providing a fundamental limit on the trade-off between model size and predictive performance.",
+  "Related Work": "While existing work on neural network compression has focused on empirical methods such as pruning and quantization, our approach is distinct in its emphasis on information-theoretic limits and rate-distortion theory. By leveraging tools from coding theory and statistics, we can derive achievable bounds and converse results that characterize the fundamental limits of compressive learning.",
+  "Abstract": "This project proposes to investigate the operational bounds of neural network compression via rate-distortion theory. By formulating compression as a lossy source coding problem, we can establish fundamental limits on the trade-off between model size and predictive performance. Our approach combines tools from coding theory, statistics, and machine learning to derive achievable bounds and converse results, providing a principled understanding of the compressibility of neural networks. We will evaluate our approach using distortion-rate frontiers and code efficiency metrics, with a focus on characterizing the information-theoretic limits of compressive learning.",
+  "Experiments": [
+    "Derive achievable bounds for neural network compression using rate-distortion theory",
+    "Develop converse results to establish fundamental limits on compressibility",
+    "Evaluate the performance of compressed models using distortion-rate frontiers and code efficiency metrics",
+    "Compare the results with existing empirical methods for neural network compression"
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of neural networks may limit the applicability of our approach",
+    "The choice of distortion measure and source distribution may impact the results",
+    "The development of efficient coding schemes for neural networks may be challenging"
+  ]
+}

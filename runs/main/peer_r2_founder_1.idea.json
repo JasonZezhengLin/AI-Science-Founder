@@ -1,0 +1,20 @@
+{
+  "Name": "curvature_aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: Training-Free Mixed-Precision Inference via Geometric Stability Diagnostics",
+  "Short Hypothesis": "The local curvature and spectral decay rate of hidden state activations serve as precise, zero-overhead proxies for quantization sensitivity, enabling a training-free mixed-precision routing framework that rigorously links geometric diagnostics to algorithmic stability and generalization.",
+  "Related Work": "Existing works like Spectral Quantization Routing (SQR) and Spectral Latent Steering (SLS) leverage geometric properties for precision allocation but lack rigorous theoretical grounding. SQR uses spectral diagnostics for quantization sensitivity but does not explicitly link curvature to generalization stability. SLS restricts test-time optimization to low-rank subspaces but relies on heuristic control mechanisms. Our proposal distinguishes itself by formally quantifying the relationship between curvature-aware geometric diagnostics and PAC-Bayes generalization bounds under precision switching, replacing heuristic fragility claims with explicit stability radii and condition number constraints.",
+  "Abstract": "Mixed-precision inference promises significant computational savings but typically relies on static profiling or heuristic control mechanisms, failing to adapt to dynamic input distributions or provide theoretical guarantees. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates numerical precision based on local curvature and spectral decay diagnostics of hidden state activations. We hypothesize that tokens residing in well-conditioned, rapidly decaying subspaces are robust to low-precision computation, while ill-conditioned tokens require higher precision. CAPR computes these geometric diagnostics on-the-fly using randomized SVD and maps them to a precision-switching policy that enforces strict latency budgets. We theoretically ground the routing mechanism with PAC-Bayes bounds that link curvature-aware spectral conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, CAPR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized risk bounds, CAPR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Evaluate CAPR on WILDS benchmarks (Camelyon17, CivilComments) under natural distribution shifts, comparing throughput-accuracy trade-offs against static mixed-precision baselines.",
+    "Profile local curvature and spectral decay diagnostics across hidden state activations using randomized SVD, mapping diagnostics to precision-switching policies.",
+    "Validate theoretical PAC-Bayes bounds linking curvature-aware spectral conditioning to generalization stability under quantization noise.",
+    "Measure runtime overhead of geometric diagnostics and precision-switching mechanisms, ensuring strict latency budgets.",
+    "Perform ablation studies to isolate the impact of curvature-aware diagnostics versus spectral decay diagnostics on precision allocation."
+  ],
+  "Risk Factors and Limitations": [
+    "The computational overhead of on-the-fly geometric diagnostics may offset precision-switching benefits.",
+    "The theoretical PAC-Bayes bounds may not hold under extreme distribution shifts.",
+    "The framework assumes well-conditioned subspaces for low-precision computation, which may fail for highly entangled representations.",
+    "The proposal is limited to single-GPU setups, and scalability to multi-GPU environments remains unexplored."
+  ]
+}

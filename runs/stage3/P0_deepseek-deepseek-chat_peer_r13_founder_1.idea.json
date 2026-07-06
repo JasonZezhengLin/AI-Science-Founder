@@ -1,0 +1,49 @@
+{
+  "Name": "curvature-aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: Training-Free Computational Resource Allocation via Spectral Geometry",
+  "Short Hypothesis": "The local covariance condition number and spectral decay rate of hidden states can serve as direct proxies for computational resource allocation, enabling efficient and stable inference without training.",
+  "Related Work": "Existing methods for precision routing often rely on static profiling or heuristic control mechanisms, lacking adaptability to dynamic input distributions. Spectral Latent Steering (SLS) and Spectral Quantization Routing (SQR) provide some groundwork but do not fully exploit the geometric properties of hidden states for precision allocation. Our proposal distinguishes itself by introducing a curvature-aware framework that dynamically allocates computational resources based on real-time activation geometry, providing formalized risk bounds and ensuring strict latency budgets.",
+  "Abstract": "We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates computational resources based on the geometric properties of hidden states. By leveraging the local covariance condition number and spectral decay rate, CAPR identifies tokens that are robust to low-precision computation and those requiring higher precision. The framework computes these geometric diagnostics on-the-fly using randomized SVD and maps them to a precision-switching policy that enforces strict latency budgets. We theoretically ground the routing mechanism with PAC-Bayes bounds that link spectral conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, CAPR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized risk bounds, CAPR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    {
+      "name": "Randomized SVD for Spectral Diagnostics",
+      "description": "Implement randomized SVD to compute the local covariance condition number and spectral decay rate of hidden states on-the-fly.",
+      "metrics": [
+        "Condition Number",
+        "Spectral Decay Rate",
+        "Computation Time"
+      ]
+    },
+    {
+      "name": "Precision-Switching Policy",
+      "description": "Develop a precision-switching policy that maps geometric diagnostics to appropriate precision levels, ensuring strict latency budgets.",
+      "metrics": [
+        "Precision Allocation Accuracy",
+        "Latency"
+      ]
+    },
+    {
+      "name": "PAC-Bayes Generalization Bounds",
+      "description": "Derive PAC-Bayes bounds to link spectral conditioning to generalization stability under quantization noise.",
+      "metrics": [
+        "Generalization Stability",
+        "Quantization Noise Impact"
+      ]
+    },
+    {
+      "name": "Single-GPU Evaluation on WILDS Benchmarks",
+      "description": "Evaluate CAPR on single-GPU setups across WILDS benchmarks to assess the throughput-accuracy Pareto frontier.",
+      "metrics": [
+        "Throughput",
+        "Accuracy",
+        "Resource Efficiency"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of CAPR may be limited by the quality of the geometric diagnostics, which could be noisy or incomplete.",
+    "The randomized SVD computation may introduce additional overhead, potentially offsetting the gains from precision routing.",
+    "The PAC-Bayes bounds may not fully capture the complexities of real-world distribution shifts, limiting their practical applicability.",
+    "The single-GPU evaluation may not generalize to multi-GPU setups or larger-scale deployments."
+  ]
+}

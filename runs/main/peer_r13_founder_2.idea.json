@@ -1,0 +1,30 @@
+{
+  "Name": "latency-aware_spectral_skip",
+  "Title": "Latency-Aware Spectral Skipping: Training-Free Inference Acceleration via Spectral Stability Diagnostics",
+  "Short Hypothesis": "By leveraging the spectral stability of hidden states in neural networks, we can dynamically skip layers during inference to reduce latency without significant loss in accuracy, providing a training-free solution for efficient inference.",
+  "Related Work": "Existing methods for inference acceleration often rely on static pruning or quantization, which may not adapt well to dynamic input distributions. Training-free approaches like Spectral Quantization Routing (SQR) and Geometric Signal Separation have explored spectral properties for efficient inference, but none explicitly utilize spectral stability for layer skipping. Our proposal differs by introducing a zero-training framework that dynamically skips layers based on real-time spectral diagnostics, ensuring strict latency bounds while maintaining accuracy.",
+  "Abstract": "We propose Latency-Aware Spectral Skipping (LASS), a training-free framework that accelerates neural network inference by dynamically skipping layers based on the spectral stability of hidden states. Our hypothesis is that layers with stable spectral properties contribute less to the final output and can be skipped without significant accuracy loss. LASS computes real-time spectral diagnostics using randomized SVD and maps them to a layer-skipping policy that enforces strict latency budgets. We theoretically ground this approach with PAC-Bayes bounds linking spectral stability to generalization under perturbation. Evaluated on single-GPU setups across diverse benchmarks, LASS achieves a superior throughput-accuracy Pareto frontier compared to static pruning and heuristic skipping baselines. By replacing qualitative fragility claims with formalized risk bounds, LASS provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    {
+      "Description": "Evaluate LASS on image classification tasks using ResNet-50 and MobileNetV2 on CIFAR-10 and ImageNet.",
+      "Metrics": "Accuracy, Inference Latency, FLOPs Reduction"
+    },
+    {
+      "Description": "Test LASS on language models (BERT, GPT-2) for text classification and generation tasks.",
+      "Metrics": "Accuracy, Perplexity, Inference Latency"
+    },
+    {
+      "Description": "Compare LASS with static pruning and heuristic skipping methods on WILDS benchmarks to assess robustness under distribution shifts.",
+      "Metrics": "Accuracy Retention, Latency Variance"
+    },
+    {
+      "Description": "Measure the impact of LASS on hidden state perturbation and spectral stability diagnostics across different layers.",
+      "Metrics": "Perturbation Cost, Spectral Stability Metrics"
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "Potential accuracy degradation if spectral diagnostics fail to capture important layer contributions.",
+    "Increased computational overhead from real-time spectral diagnostics.",
+    "Limited applicability to models with highly interdependent layers."
+  ]
+}

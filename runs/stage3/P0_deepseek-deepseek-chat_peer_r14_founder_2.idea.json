@@ -1,0 +1,18 @@
+{
+  "Name": "latency-aware_jacobian_layer_skipping",
+  "Title": "Latency-Aware Jacobian-Based Layer Skipping for Strict Wall-Clock Budgets",
+  "Short Hypothesis": "Jacobian-based layer skipping can enforce strict wall-clock budgets during inference by dynamically identifying and skipping redundant layers based on their spectral stability, minimizing hidden-state perturbation while preserving accuracy.",
+  "Related Work": "Existing approaches to layer skipping often rely on static heuristics or costly training pipelines, which fail to adapt to dynamic input distributions and enforce strict latency budgets. Spectral Quantization Routing (SQR) dynamically allocates numerical precision based on activation geometry, but it does not address layer redundancy. Training-Free Geometric Interference Cancellation isolates task subspaces but lacks a mechanism for layer skipping. Our proposal uniquely combines Jacobian-based spectral stability analysis with a latency-aware layer-skipping framework, providing a transparent, reproducible pathway for resource-efficient inference.",
+  "Abstract": "We propose a latency-aware Jacobian-based layer-skipping framework that dynamically identifies and skips redundant layers during inference to enforce strict wall-clock budgets. By analyzing the spectral stability of hidden-state Jacobians, we derive a zero-overhead proxy for layer redundancy, enabling adaptive layer skipping with minimal perturbation. Our approach leverages PAC-Bayes bounds to link spectral stability to generalization under perturbation, ensuring robust performance across diverse tasks. Evaluated on single-GPU setups across benchmark datasets, our method achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic layer-skipping baselines. By replacing qualitative redundancy claims with formalized risk bounds, our framework provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Evaluate the framework on benchmark datasets (e.g., WILDS, GLUE) using single-GPU setups, measuring throughput, accuracy, and hidden-state perturbation.",
+    "Compare against static and heuristic layer-skipping baselines, assessing performance on throughput-accuracy Pareto frontiers.",
+    "Validate the spectral stability proxy by varying input distributions and measuring generalization stability under perturbation.",
+    "Perform ablation studies to isolate the impact of Jacobian-based spectral stability analysis on layer-skipping decisions."
+  ],
+  "Risk Factors and Limitations": [
+    "Jacobian computation overhead may offset latency gains from layer skipping.",
+    "Spectral stability analysis may not generalize across all tasks and architectures.",
+    "Dynamic layer skipping may introduce instability in certain distribution shifts."
+  ]
+}

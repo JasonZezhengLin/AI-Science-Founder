@@ -1,0 +1,18 @@
+{
+  "Name": "spectral_stability_pruning",
+  "Title": "Spectral Stability-Aware Computation Pruning for Latency-Bounded Inference",
+  "Short Hypothesis": "Tokens with stable spectral properties can be processed with fewer computations without compromising accuracy, enabling latency-aware inference.",
+  "Related Work": "Existing work focuses on precision allocation (Spectral Quantization Routing), interference cancellation (Training-Free Geometric Interference Cancellation), and subspace filtering (Geometric Signal Separation). This proposal uniquely targets computation pruning based on spectral stability, filling a gap in the literature.",
+  "Abstract": "We propose Spectral Stability-Aware Computation Pruning (SSACP), a training-free framework that dynamically prunes computations during inference based on the spectral stability of hidden states. By computing the condition number and spectral decay rate of hidden states on-the-fly, SSACP identifies tokens that can be safely processed with fewer computations (e.g., skipping layers or pruning attention heads) without compromising accuracy. We theoretically ground this approach using PAC-Bayes bounds linking spectral stability to generalization under computation pruning. Evaluated on single-GPU setups across WILDS benchmarks, SSACP achieves a superior throughput-accuracy Pareto frontier compared to baseline models. By replacing heuristic pruning strategies with formalized spectral stability diagnostics, SSACP provides a transparent, reproducible pathway for resource-efficient inference under strict latency budgets.",
+  "Experiments": [
+    "Evaluate SSACP on WILDS benchmarks under natural distribution shifts, measuring accuracy retention and latency reduction.",
+    "Compare SSACP to baseline models and heuristic pruning strategies, assessing throughput-accuracy Pareto frontiers.",
+    "Analyze the correlation between spectral stability metrics (condition number, spectral decay rate) and pruning success rates.",
+    "Conduct ablation studies to validate the impact of spectral stability diagnostics on pruning policies."
+  ],
+  "Risk Factors and Limitations": [
+    "Spectral stability metrics may not generalize to all tasks or architectures.",
+    "On-the-fly computation of spectral properties may introduce overhead, though we mitigate this with randomized SVD.",
+    "The approach assumes that spectral stability is a reliable proxy for computation redundancy, which may not hold in all cases."
+  ]
+}

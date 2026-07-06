@@ -1,0 +1,20 @@
+{
+  "Name": "spectral_mixed_precision_routing",
+  "Title": "SPQR: Spectral Precision Quantization Routing for Training-Free Mixed-Precision Optimization",
+  "Short Hypothesis": "Spectral analysis of weight and activation matrices can serve as a deterministic proxy for identifying optimal mixed-precision configurations, enabling training-free quantization with minimal computational overhead.",
+  "Related Work": "Existing methods like EMQ and SNIP rely on heuristic proxies or training-based approaches for mixed-precision quantization. While EMQ evolves proxies automatically, it still requires training-free proxies with unclear correlations. SNIP uses fine-grained precision adjustments but depends on periodic training statistics. Our approach differs by using spectral analysis (e.g., Singular Value Decomposition) to directly quantify the sensitivity of layers to quantization, eliminating the need for training or calibration data. This method aligns with InfoQ's focus on global information flow but extends it by incorporating curvature-aware precision routing.",
+  "Abstract": "Mixed-precision quantization (MPQ) is crucial for deploying deep neural networks on resource-constrained devices, but existing methods often rely on heuristic proxies or costly training-based searches. We propose SPQR, a training-free mixed-precision quantization framework that leverages spectral analysis to identify optimal bit-width configurations. By performing Singular Value Decomposition (SVD) on weight and activation matrices, SPQR quantifies the sensitivity of layers to quantization and assigns precision levels based on spectral decay rates. This deterministic approach eliminates the need for training or calibration data, ensuring low computational overhead. Experiments on ResNet and MobileNet architectures demonstrate that SPQR achieves superior accuracy-complexity trade-offs compared to state-of-the-art methods, with up to 1.5% higher accuracy on ImageNet at 4-bit precision. SPQR bridges the gap between theoretical spectral quantization theory and practical deployment constraints, offering a resource-efficient solution for mixed-precision optimization.",
+  "Experiments": [
+    "1. **Spectral Sensitivity Analysis**: Perform SVD on weight and activation matrices for each layer in ResNet-18 and MobileNetV2 to quantify sensitivity to quantization. Use spectral decay rates as proxies for assigning bit-widths.",
+    "2. **Mixed-Precision Allocation**: Formulate bit-width allocation as an Integer Linear Programming (ILP) problem, minimizing quantization error under a given budget (e.g., model size or BitOps).",
+    "3. **Evaluation on ImageNet**: Compare SPQR against EMQ, SNIP, and InfoQ on ImageNet using ResNet-18 and MobileNetV2. Measure Top-1 accuracy, model size, and inference latency.",
+    "4. **Ablation Study**: Analyze the impact of spectral decay thresholds on quantization performance. Test varying thresholds (e.g., 90%, 95%, 99%) to identify optimal configurations.",
+    "5. **Generalization to Vision Transformers**: Extend SPQR to ViT-Base and DeiT-Small models, evaluating Top-1 accuracy and computational efficiency."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Spectral Analysis Overhead**: SVD computation may introduce additional overhead, though this is mitigated by performing it only once per layer.",
+    "2. **Generalization to Large Models**: The method may face scalability challenges with very large models like LLMs, where SVD becomes computationally expensive.",
+    "3. **Correlation Assumption**: The assumption that spectral decay rates correlate well with quantization sensitivity may not hold for all architectures or tasks.",
+    "4. **Hardware Constraints**: While SPQR is designed for single-GPU deployment, its effectiveness on specialized hardware (e.g., TPUs) remains untested."
+  ]
+}

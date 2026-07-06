@@ -1,0 +1,81 @@
+{
+  "Name": "spectral_routing_bounds",
+  "Title": "Spectral Stability-Bounded Routing: PAC-Bayes Guarantees for Latency-Constrained Adaptive Inference",
+  "Short Hypothesis": "We hypothesize that adaptive layer-skipping and early-exit decisions in neural networks can be formulated as a sequential decision problem where routing actions are certified via PAC-Bayes bounds on activation perturbation magnitude. By deriving spectral stability radii for layer-skip operations and enforcing these as strict inequality constraints during inference, we can guarantee end-to-end latency budgets while maintaining formal accuracy certificates—without requiring expensive per-sample calibration or parallel sampling. This is the right setting because: (1) existing early-exit methods use ad-hoc confidence thresholds with no latency guarantees, (2) layer-skipping approaches lack mechanistic bounds on hidden-state corruption, and (3) training-free routing avoids the compute overhead of per-input optimization. We test this by comparing certified latency adherence and accuracy-latency Pareto frontiers against uncertified baselines on vision transformers and LLMs.",
+  "Related Work": "Early-exit methods (Huang et al., ICLR 2020; Xin et al., 2021) use confidence scores to trigger exits but provide no formal latency guarantees. Layer-skipping work (Li et al., 2023; Ran et al., 2023) achieves speedups but relies on heuristic thresholds without bounding hidden-state perturbation. Mixed-precision inference (AMP-ViT, SNIP) adapts precision but operates orthogonally to routing. Recent training-free quantization (EMQ) demonstrates that proxies can be evolved without retraining, but these are not integrated with latency-aware routing. PAC-Bayes bounds (McAllester, 2003; Germain et al., 2016) provide generalization guarantees but have not been applied to characterize layer-skip stability in latency-critical settings. Our contribution isolates one high-impact mechanism: we derive Lipschitz constants for layer-skip operations via spectral analysis of Jacobians, embed these as enforceable routing constraints, and demonstrate that *amortized* spectral estimation (computed once per layer, reused across samples) incurs negligible overhead while providing strict latency certificates. This is fundamentally different from prior work because we (1) formalize routing as constrained sequential optimization, (2) couple PAC-Bayes theory to layer-skip decisions, and (3) enforce latency guarantees as hard constraints, not post-hoc measurements.",
+  "Abstract": "Adaptive inference methods (early-exit, layer-skipping) accelerate neural networks by conditionally skipping computation, but existing approaches lack formal latency guarantees and rely on uncalibrated confidence thresholds. We propose **Spectral Routing Bounds (SRB)**, a training-free framework that certifies layer-skip decisions via PAC-Bayes stability guarantees. The key insight is that each skip operation induces bounded perturbation to hidden states; we quantify this perturbation via spectral analysis of layer Jacobians and derive per-layer stability radii. During inference, routing decisions are constrained to respect these radii, ensuring that cumulative hidden-state corruption remains bounded and latency stays within prescribed budgets. Our framework operates in three stages: (1) **Offline spectral estimation** (amortized, single-pass per layer): compute Lipschitz constants via power iteration on Jacobian-vector products, storing only the spectral radius per layer. (2) **Online routing** (per-sample, single-pass): at each layer, evaluate a learned routing function; if the decision would violate the spectral stability radius, enforce a skip-rejection constraint. (3) **Latency certification**: aggregate per-layer perturbation bounds to prove end-to-end accuracy degradation stays below a target threshold, with wall-clock latency measured directly. We validate on ImageNet-scale ViTs and LLaMA-7B, demonstrating that SRB achieves tighter accuracy-latency Pareto frontiers than confidence-threshold baselines while maintaining formal latency certificates. We provide exact overhead accounting: spectral estimation costs ~2% FLOPs (amortized), routing evaluation costs <1% per-layer, and certification is deterministic (no sampling). Code and telemetry are released for reproducibility.",
+  "Experiments": [
+    {
+      "name": "Offline Spectral Estimation",
+      "description": "For each layer in a pretrained ViT-B/32 and LLaMA-7B, compute the spectral radius of the Jacobian via power iteration (10 iterations, restarted weekly). Use a held-out calibration set (5K ImageNet samples or 100 LLaMA prompts). Store per-layer Lipschitz constants L_i. Measure wall-clock cost of spectral estimation and verify it is <2% of total inference time when amortized over 1M samples. Record exact hardware specs (GPU model, memory bandwidth) and report FLOPs explicitly.",
+      "metrics": [
+        "Spectral radius L_i per layer",
+        "Amortized cost (FLOPs + wall-clock)",
+        "Calibration set size sensitivity",
+        "Spectral stability over time (weekly re-estimation variance)"
+      ]
+    },
+    {
+      "name": "PAC-Bayes Bound Derivation and Verification",
+      "description": "For each layer, derive a PAC-Bayes bound on the expected accuracy drop when a skip is performed. Use the spectral radius L_i to bound the norm of perturbation: ||h_skip - h_full|| <= L_i * epsilon_i, where epsilon_i is the input perturbation magnitude (set to 0 for full skips, calibrated on held-out data). Aggregate bounds across layers to derive end-to-end accuracy loss certificate. On held-out test set (10K ImageNet), measure empirical accuracy drop for different skip patterns and verify it stays within the derived bound (with 95% confidence). Report the tightness of the bound (ratio of empirical to theoretical loss).",
+      "metrics": [
+        "Per-layer perturbation bound ||h_skip - h_full||",
+        "End-to-end accuracy loss certificate",
+        "Empirical vs. theoretical loss ratio",
+        "Confidence interval coverage"
+      ]
+    },
+    {
+      "name": "Online Routing with Spectral Constraints",
+      "description": "Implement a routing function: for each layer i, learn a binary routing decision r_i ∈ {0, 1} (1 = execute, 0 = skip) via a lightweight MLP trained on the calibration set to maximize accuracy subject to latency budget. At inference time, enforce the constraint: if r_i = 0 (skip), verify that cumulative perturbation magnitude Σ_j<i ||h_skip_j - h_full_j|| + L_i * epsilon_i <= Δ_total (a global perturbation budget derived from the PAC-Bayes bound). If violated, force r_i = 1 (execute). Measure: (1) how often the constraint is active (rejection rate), (2) wall-clock latency per sample, (3) accuracy on ImageNet-100 and CIFAR-100 (subsampled for speed).",
+      "metrics": [
+        "Constraint rejection rate (%)",
+        "Wall-clock latency per sample (ms)",
+        "Accuracy on ImageNet-100, CIFAR-100",
+        "Latency variance (std dev across 1K samples)"
+      ]
+    },
+    {
+      "name": "Accuracy-Latency Pareto Frontier",
+      "description": "Sweep the global perturbation budget Δ_total from 0 (no skips, full accuracy) to 0.5 (aggressive skipping). For each Δ_total, run inference on 10K test samples and record: (1) achieved latency (wall-clock), (2) accuracy. Plot Pareto frontier for SRB vs. baselines: (a) confidence-threshold early-exit (no bounds), (b) fixed layer-skip schedule, (c) random routing. Report the area under the Pareto curve (AUC) and the maximum speedup at 99% accuracy retention.",
+      "metrics": [
+        "Latency (ms/sample)",
+        "Accuracy (%)",
+        "Pareto AUC",
+        "Max speedup at 99% accuracy",
+        "Latency budget adherence (% samples meeting target)"
+      ]
+    },
+    {
+      "name": "LLaMA-7B Token-Level Latency",
+      "description": "Extend SRB to autoregressive decoding: for each token generation step, apply layer-skipping decisions constrained by spectral stability. Measure end-to-end latency for 100-token generation on a batch of 32 prompts. Report: (1) time-to-first-token (TTFT), (2) tokens-per-second (TPS), (3) accuracy measured as perplexity on WikiText-103 (held-out). Compare against baseline LLaMA-7B and confidence-threshold early-exit variants. Enforce strict latency budget (e.g., 50ms per token) and report how many samples meet it.",
+      "metrics": [
+        "TTFT (ms)",
+        "TPS",
+        "Perplexity on WikiText-103",
+        "% samples meeting latency budget",
+        "Memory peak (GB)"
+      ]
+    },
+    {
+      "name": "Overhead Accounting and Reproducibility",
+      "description": "Provide exact hardware specs (GPU: A100/H100, CPU, memory bandwidth). Run all experiments with 5 random seeds. Report mean and std dev of latency, accuracy, and spectral radius estimation. Measure overhead of routing function evaluation per layer (<1% target). Release raw telemetry: per-sample latency logs, per-layer skip decisions, empirical vs. theoretical loss for each sample. Provide deterministic, reproducible code (no randomness in routing except seed-controlled training).",
+      "metrics": [
+        "Hardware specs and reproducibility checklist",
+        "Multi-seed variance (std dev)",
+        "Routing overhead per layer (%)",
+        "Code and telemetry artifact availability"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "**Spectral estimation cost**: Power iteration can be expensive if layers are wide. Mitigation: use Hutchinson trace estimation (O(1) samples) or Lanczos; amortize over 1M samples; verify <2% overhead empirically.",
+    "**Tightness of PAC-Bayes bounds**: Bounds may be loose, yielding conservative routing decisions and limited speedup. Mitigation: empirically validate tightness on held-out data; if loose, use empirical risk minimization with cross-validation instead of pure PAC-Bayes.",
+    "**Generalization across domains**: Spectral radii estimated on ImageNet may not transfer to out-of-distribution inputs (e.g., adversarial examples). Mitigation: test on CIFAR-10, corrupted ImageNet (ImageNet-C), and report stability radius under structured perturbations.",
+    "**Sequential routing dependency**: Decisions at layer i affect feasibility at layer i+1. If early skips are aggressive, later layers may be forced to execute, limiting speedup. Mitigation: formulate as a global optimization problem (not greedy); use dynamic programming or beam search for offline routing.",
+    "**Limited applicability to RNNs/GRUs**: Spectral analysis assumes feedforward layers; recurrent dependencies require different stability analysis. Scope: focus on transformers and CNNs; note RNNs as future work.",
+    "**Calibration set size sensitivity**: Small calibration sets may yield unstable spectral estimates. Mitigation: measure sensitivity to calibration set size (sweep 100–10K samples); report confidence intervals.",
+    "**Latency variance**: Wall-clock latency depends on hardware state, cache, etc. Mitigation: run on isolated GPU; report variance over 1K samples; use deterministic hardware (A100/H100) and report exact specs.",
+    "**Comparison fairness**: Baselines (early-exit, fixed schedules) are not optimized for latency. Mitigation: tune baseline hyperparameters on the same calibration set; report best-case baseline performance."
+  ]
+}

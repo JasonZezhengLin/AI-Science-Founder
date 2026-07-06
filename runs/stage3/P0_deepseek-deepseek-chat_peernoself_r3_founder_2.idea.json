@@ -1,0 +1,18 @@
+{
+  "Name": "temporal_stability_inference",
+  "Title": "Temporal Stability-Aware Inference: Reducing Latency via Activation Dynamics",
+  "Short Hypothesis": "Activations with low temporal variation across layers or timesteps can be approximated or skipped without significant accuracy loss, enabling efficient latency-aware inference.",
+  "Related Work": "Existing work focuses on token-level optimization (e.g., token pruning, merging) or precision allocation (e.g., mixed-precision inference). While methods like Token Expand-Merge and Spectral Quantization Routing address efficiency, they do not exploit temporal dynamics. Our proposal distinguishes itself by leveraging temporal activation stability, a novel dimension for latency-aware optimization.",
+  "Abstract": "Latency-aware inference is critical for deploying machine learning models in real-world applications. While token-level and precision-based optimizations have shown promise, they overlook the temporal dynamics of activations during inference. We hypothesize that activations with low temporal variation across layers or timesteps can be approximated or skipped without significant accuracy loss. We propose Temporal Stability-Aware Inference (TSAI), a training-free framework that dynamically identifies and skips stable activations, reducing computational overhead. TSAI computes temporal variation metrics (e.g., activation gradients, cosine similarity) across layers or timesteps and applies a threshold-based skipping policy. Experiments on vision and language tasks demonstrate that TSAI achieves significant latency reductions while maintaining accuracy, outperforming existing token-level and precision-based methods.",
+  "Experiments": [
+    "Experiment 1: Temporal Variation Metrics - Measure temporal variation of activations across layers/timesteps using cosine similarity, gradient norms, and spectral decay rates. Evaluate their correlation with accuracy loss when skipping activations.",
+    "Experiment 2: Skipping Policy - Implement a threshold-based skipping policy for activations with low temporal variation. Test different thresholds on CIFAR-10 and GLUE benchmarks.",
+    "Experiment 3: Latency vs. Accuracy Trade-off - Compare TSAI against token pruning (e.g., Token Expand-Merge) and mixed-precision inference (e.g., Spectral Quantization Routing) on latency and accuracy metrics.",
+    "Experiment 4: Robustness Analysis - Evaluate TSAI under distributional shifts (e.g., WILDS benchmarks) to assess its generalization capability."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk 1: Skipping too many activations may lead to significant accuracy loss, especially in tasks requiring fine-grained details.",
+    "Risk 2: Temporal variation metrics may not generalize across diverse architectures or tasks.",
+    "Limitation: The framework may introduce additional overhead for computing temporal variation metrics, potentially offsetting latency gains."
+  ]
+}

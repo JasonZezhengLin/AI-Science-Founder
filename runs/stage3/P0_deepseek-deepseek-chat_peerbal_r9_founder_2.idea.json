@@ -1,0 +1,20 @@
+{
+  "Name": "jacobian_layer_skipping",
+  "Title": "Jacobian-Based Layer Skipping: Training-Free Inference via Spectral Stability Bounds",
+  "Short Hypothesis": "The spectral properties of layer Jacobians can be used to dynamically skip layers during inference while maintaining model accuracy and enforcing strict latency budgets.",
+  "Related Work": "Recent work has explored spectral properties for efficient inference, such as Spectral Latent Steering (test-time optimization) and Spectral Quantization Routing (mixed-precision routing). Our proposal distinguishes itself by focusing on layer-skipping using Jacobian spectral stability bounds, a novel direction not yet explored. Unlike heuristic layer-skipping methods, our approach is grounded in PAC-Bayes theory and enforces deterministic latency guarantees.",
+  "Abstract": "We propose Jacobian-Based Layer Skipping (JLS), a training-free framework for efficient inference that dynamically skips layers based on the spectral stability of their Jacobians. We hypothesize that layers with well-conditioned Jacobians contribute minimally to the final output and can be skipped without significant accuracy loss. JLS computes the spectral properties of layer Jacobians on-the-fly using randomized SVD and maps them to a skipping policy that enforces strict latency budgets. We theoretically ground our approach in PAC-Bayes bounds, linking spectral stability to generalization robustness under layer skipping. Evaluated on single-GPU setups across tasks like image classification and language modeling, JLS achieves superior throughput-accuracy trade-offs compared to static and heuristic layer-skipping baselines. By providing a transparent, reproducible pathway for resource-efficient inference, JLS bridges the gap between foundational optimization theory and practical, scalable deployment.",
+  "Experiments": [
+    "Validate the hypothesis by measuring the correlation between Jacobian spectral properties and layer-skipping tolerance on standard benchmarks (e.g., CIFAR-10, ImageNet, GLUE).",
+    "Implement JLS using randomized SVD for on-the-fly Jacobian spectral computation and evaluate its throughput-accuracy trade-offs against static and heuristic layer-skipping baselines.",
+    "Perform ablation studies to isolate the impact of PAC-Bayes bounds and spectral stability diagnostics on latency and accuracy.",
+    "Evaluate robustness under structured perturbations (e.g., adversarial attacks) and domain shifts (e.g., WILDS benchmarks).",
+    "Metrics: Throughput (tokens/second), accuracy (top-1, F1), perturbation overhead (FLOPs), latency variance."
+  ],
+  "Risk Factors and Limitations": [
+    "Jacobian computation overhead may negate latency gains if not optimized.",
+    "Spectral properties may not generalize well across diverse tasks or architectures.",
+    "PAC-Bayes bounds may be too conservative, limiting practical utility.",
+    "Layer-skipping may introduce brittleness under adversarial conditions."
+  ]
+}

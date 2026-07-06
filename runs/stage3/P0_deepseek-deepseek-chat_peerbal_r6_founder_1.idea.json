@@ -1,0 +1,19 @@
+{
+  "Name": "curvature_aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing via Hessian Diagnostics",
+  "Short Hypothesis": "The local curvature of the activation space, quantified by Hessian eigenvalues, provides a robust diagnostic for precision allocation in mixed-precision inference, enabling dynamic adaptation to input distributions without training or calibration.",
+  "Related Work": "Existing methods for mixed-precision inference, such as Spectral Quantization Routing (SQR), rely on activation covariance geometry to allocate precision. While effective, these approaches do not explicitly consider second-order curvature information, which can provide deeper insights into quantization sensitivity. Our proposal distinguishes itself by leveraging Hessian-based curvature diagnostics, offering a novel pathway for precision allocation grounded in second-order optimization theory.",
+  "Abstract": "Mixed-precision inference offers significant computational savings but often relies on static profiling or heuristic calibration, limiting adaptability to dynamic input distributions. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates precision based on the local curvature of the activation space. By estimating Hessian eigenvalues on-the-fly using randomized numerical linear algebra, CAPR identifies tokens residing in high-curvature regions that require higher precision for stable computation. We theoretically ground this mechanism with PAC-Bayes bounds linking Hessian conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, CAPR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized curvature diagnostics, CAPR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Experiment 1: Hessian Estimation Efficiency - Validate the runtime efficiency of randomized Hessian eigenvalue estimation on single-GPU setups using synthetic datasets. Metrics: Wall-clock time, memory overhead.",
+    "Experiment 2: Precision Allocation - Evaluate the precision allocation policy on WILDS benchmarks, comparing CAPR to static mixed-precision baselines. Metrics: Accuracy, throughput, latency.",
+    "Experiment 3: Generalization Stability - Measure the generalization stability of CAPR under distribution shifts using PAC-Bayes bounds. Metrics: Risk bounds, empirical risk.",
+    "Experiment 4: Ablation Study - Ablate the impact of Hessian-based diagnostics by comparing CAPR to a covariance-based variant (similar to SQR). Metrics: Accuracy, throughput, latency."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk 1: Hessian estimation may introduce computational overhead, limiting the feasibility of real-time inference.",
+    "Risk 2: The theoretical bounds may not tightly capture the empirical generalization behavior, reducing the practical utility of the diagnostics.",
+    "Limitation 1: The approach assumes access to second-order information, which may not be feasible in all architectures.",
+    "Limitation 2: The framework is currently limited to single-GPU setups, requiring further optimization for distributed environments."
+  ]
+}

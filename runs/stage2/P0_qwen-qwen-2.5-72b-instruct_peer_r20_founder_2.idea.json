@@ -1,0 +1,20 @@
+{
+  "Name": "LatencyAwareGeometricRouting",
+  "Title": "Latency-Aware Geometric Routing for Adaptive Inference",
+  "Short Hypothesis": "We hypothesize that dynamic, latency-aware routing of tokens through a neural network based on real-time geometric diagnostics can significantly enhance the throughput-accuracy trade-off under strict latency constraints. By leveraging the spectral condition number and Fisher discriminant ratio of hidden state subspaces, we can adaptively route tokens through fewer layers or prune attention heads, ensuring strict wall-clock latency targets while maintaining or improving model accuracy.",
+  "Related Work": "Recent works such as Spectral Quantization Routing (SQR) and Training-Free Geometric Interference Cancellation (GIC) have explored the use of geometric diagnostics for dynamic precision allocation and interference cancellation, respectively. However, these methods focus on specific aspects of inference optimization (e.g., precision allocation, noise cancellation) and do not address the broader challenge of adaptive routing under strict latency constraints. Our proposal integrates these geometric insights into a unified, latency-aware routing framework that dynamically adjusts the computational path of tokens based on real-time diagnostics, ensuring both efficiency and accuracy.",
+  "Abstract": "We propose Latency-Aware Geometric Routing (LAGR), a training-free framework for adaptive inference in neural networks. LAGR dynamically routes tokens through the network based on real-time geometric diagnostics, ensuring strict wall-clock latency targets while maintaining or improving model accuracy. By leveraging the spectral condition number and Fisher discriminant ratio of hidden state subspaces, LAGR adaptively routes tokens through fewer layers or prunes attention heads. We evaluate LAGR on single-GPU setups across a variety of benchmarks, demonstrating superior throughput-accuracy trade-offs compared to static and heuristic baselines. Our method provides a transparent, mathematically grounded approach to latency-constrained inference, bridging foundational optimization theory with practical, scalable deployment.",
+  "Experiments": [
+    "Compute the spectral condition number and Fisher discriminant ratio of hidden state subspaces for a variety of input tokens during inference.",
+    "Design a dynamic routing policy that routes tokens through fewer layers or prunes attention heads based on the computed geometric diagnostics.",
+    "Evaluate the throughput and accuracy of LAGR on single-GPU setups using WILDS benchmarks under strict latency constraints.",
+    "Compare LAGR against static and heuristic mixed-precision baselines, measuring the throughput-accuracy Pareto frontier.",
+    "Conduct ablation studies to isolate the impact of different geometric diagnostics on the routing policy and overall performance."
+  ],
+  "Risk Factors and Limitations": [
+    "The computational overhead of real-time geometric diagnostics might exceed the latency budget in very resource-constrained environments.",
+    "The dynamic routing policy might introduce instability if not properly calibrated, leading to suboptimal routing decisions.",
+    "The method assumes that the spectral condition number and Fisher discriminant ratio are reliable proxies for inference stability and computational difficulty, which may not hold under all conditions.",
+    "The framework's effectiveness might vary across different model architectures and task domains, requiring further validation and adaptation."
+  ]
+}

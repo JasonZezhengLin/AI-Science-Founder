@@ -1,0 +1,20 @@
+{
+  "Name": "spectral_dynamic_layer_skipping",
+  "Title": "Spectral Dynamic Layer Skipping: Jacobian-Guided Latency-Aware Inference",
+  "Short Hypothesis": "Integrating spectral analysis of activations with Jacobian-based layer skipping can dynamically optimize inference efficiency while maintaining strict latency constraints and minimizing hidden-state perturbation.",
+  "Related Work": "Existing works like DySL-VLA and DASH explore dynamic layer skipping for efficient inference, while Spectral Quantization Routing investigates precision allocation based on activation geometry. Our proposal integrates these ideas by using spectral diagnostics to guide Jacobian-based layer skipping, ensuring strict latency constraints and minimal perturbation. This approach is novel and not explored in current literature.",
+  "Abstract": "We propose Spectral Dynamic Layer Skipping (SDLS), a novel framework that integrates spectral analysis of activations with Jacobian-based layer skipping to optimize inference efficiency dynamically. SDLS leverages the local geometry of activations to determine which layers can be skipped without significant performance degradation, ensuring strict latency constraints and minimizing hidden-state perturbation. We hypothesize that the spectral decay rate and Jacobian sensitivity of activations serve as direct proxies for skip sensitivity. Tokens residing in well-conditioned, rapidly decaying subspaces are robust to layer skipping, while ill-conditioned tokens require full computation. SDLS computes these geometric diagnostics on-the-fly using randomized SVD, mapping them to a skip-switching policy that enforces strict latency budgets. We theoretically ground the skipping mechanism with PAC-Bayes bounds that link spectral conditioning to generalization stability under skipping noise. Evaluated on single-GPU setups across WILDS benchmarks, SDLS achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic layer-skipping baselines.",
+  "Experiments": [
+    "Evaluate SDLS on WILDS benchmarks using single-GPU setups, comparing throughput-accuracy Pareto frontiers with DySL-VLA and DASH.",
+    "Measure hidden-state perturbation overhead using Frobenius norm differences between skipped and full computations.",
+    "Validate latency budgets by enforcing strict wall-clock constraints and measuring compliance.",
+    "Conduct ablation studies to isolate the impact of spectral diagnostics and Jacobian sensitivity on skipping decisions.",
+    "Assess robustness under structured perturbations and domain shifts using stability radii."
+  ],
+  "Risk Factors and Limitations": [
+    "Potential performance degradation due to incorrect skipping decisions.",
+    "High computational overhead for on-the-fly spectral diagnostics.",
+    "Limited applicability to models with highly interdependent layers.",
+    "Difficulty in generalizing across diverse architectures and tasks."
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "Name": "dynamic_layer_scheduling",
+  "Title": "Dynamic Layer Scheduling for Optimized Memory Bandwidth Utilization in Deep Learning Inference",
+  "Short Hypothesis": "Dynamic scheduling of layer execution based on real-time profiling can significantly enhance memory bandwidth utilization and overall inference throughput on GPUs.",
+  "Related Work": "Previous works have focused on optimizing individual kernels and multi-tenant scenarios but have not extensively explored the impact of execution order on memory bandwidth. This proposal seeks to fill that gap by introducing a dynamic scheduling framework that adapts to the specific memory and computational characteristics of each layer in a model.",
+  "Abstract": "Deep learning models often suffer from performance bottlenecks due to suboptimal memory bandwidth utilization during inference. This proposal introduces a novel framework for dynamic layer scheduling that leverages real-time profiling data to optimize the execution order of layers based on their memory access patterns. By identifying the best execution sequence to minimize cache misses and maximize memory throughput, we aim to enhance overall inference performance on GPUs. This approach will be validated through a series of experiments comparing standard static layer scheduling against our dynamic method across various model architectures. Metrics such as wall-clock latency, throughput (tokens-per-second), and memory bandwidth utilization will be analyzed to quantify improvements. These findings will contribute to the development of more efficient deep learning inference systems, particularly in resource-constrained environments.",
+  "Experiments": [
+    "Implement a baseline static scheduling for layer execution and compare it with the proposed dynamic scheduling.",
+    "Profile memory access patterns and cache utilization during inference on a set of popular models (e.g., ResNet, BERT) using nvprof/Nsight.",
+    "Measure wall-clock latency, throughput (tokens-per-second), and memory bandwidth utilization for both scheduling methods across various batch sizes.",
+    "Evaluate performance on different GPUs to assess the generalizability of the approach."
+  ],
+  "Risk Factors and Limitations": "Potential overhead from the profiling process may reduce performance gains. The approach might also be sensitive to specific model architectures, and results may not generalize across all types of networks. Implementation complexity could introduce additional bugs that would need to be ironed out in the validation phase."
+}

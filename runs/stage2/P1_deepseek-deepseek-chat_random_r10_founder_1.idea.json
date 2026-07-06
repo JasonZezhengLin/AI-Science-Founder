@@ -1,0 +1,19 @@
+{
+  "Name": "adaptive_kv_cache_layout",
+  "Title": "Adaptive KV-Cache Layout Optimization for Transformer Inference on Commodity GPUs",
+  "Short Hypothesis": "Adaptively reorganizing the KV-cache layout at runtime based on profiled access patterns can significantly reduce memory bandwidth usage and improve inference latency without sacrificing accuracy.",
+  "Related Work": "Existing KV-cache optimization techniques focus on static layouts or compression methods (e.g., AMP-ViT, SNIP). These approaches often fail to account for the dynamic and input-dependent nature of transformer inference. Our proposal distinguishes itself by introducing a runtime adaptive KV-cache layout reorganization strategy, grounded in profiled access patterns.",
+  "Abstract": "Transformer models have become the backbone of modern NLP, but their inference efficiency is often bottlenecked by KV-cache memory bandwidth. We propose an adaptive KV-cache layout optimization technique that dynamically reorganizes the cache based on profiled access patterns. By leveraging runtime profiling data, our method identifies and exploits locality in attention head accesses, reducing memory bandwidth usage and improving inference latency. We implement our approach as a CUDA kernel extension, enabling seamless integration with existing transformer frameworks. Our experiments on commodity GPUs demonstrate significant latency reductions across a range of transformer models, with minimal impact on accuracy.",
+  "Experiments": [
+    "Profile KV-cache access patterns during inference for various transformer models (e.g., GPT-2, BERT) on a commodity GPU using Nsight Compute.",
+    "Develop a CUDA kernel that dynamically reorganizes the KV-cache layout based on profiled access patterns.",
+    "Measure the impact of adaptive layout reorganization on memory bandwidth usage, inference latency (p50/p99), and throughput (tokens/second).",
+    "Compare the performance of our approach against static KV-cache layouts and existing compression methods (e.g., AMP-ViT, SNIP).",
+    "Evaluate the accuracy impact of our approach on standard NLP benchmarks (e.g., GLUE, SQuAD)."
+  ],
+  "Risk Factors and Limitations": [
+    "The overhead of runtime profiling and layout reorganization may offset latency gains for certain workloads.",
+    "The effectiveness of adaptive layout optimization may vary across different transformer architectures and input sequences.",
+    "The proposed technique requires access to low-level CUDA programming and may not be easily portable to other hardware platforms."
+  ]
+}

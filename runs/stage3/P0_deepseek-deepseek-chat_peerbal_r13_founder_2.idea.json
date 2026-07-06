@@ -1,0 +1,20 @@
+{
+  "Name": "jacobian_layer_skipping_spectral_stability",
+  "Title": "Jacobian-Driven Layer Skipping for Spectral Stability in Training-Free Inference",
+  "Short Hypothesis": "The spectral stability of a neural network's Jacobian can be leveraged to dynamically skip layers during inference, reducing latency while preserving accuracy, without requiring additional training or calibration.",
+  "Related Work": "Existing work on layer skipping focuses on heuristic-based approaches or requires extensive training to learn skip policies. Spectral Quantization Routing (SQR) dynamically allocates precision based on activation geometry, but it does not address layer skipping. JPmHC introduces Jacobian-spectrum preserving hyper-connections for stability but focuses on training-phase optimization. This proposal uniquely combines Jacobian-driven spectral stability analysis with training-free layer skipping, offering a novel approach to latency reduction.",
+  "Abstract": "Deep neural networks often suffer from high inference latency due to their depth and complexity. While layer skipping has been proposed to mitigate this, existing methods rely on heuristic rules or require costly training to learn skip policies. We introduce a novel training-free framework that leverages the spectral stability of the network's Jacobian to dynamically skip layers during inference. By analyzing the Jacobian's condition number and spectral decay, we identify layers that can be safely skipped without degrading accuracy. Our approach computes these diagnostics on-the-fly using randomized SVD, mapping them to a skip policy that enforces strict latency budgets. We theoretically ground our method in PAC-Bayes bounds, linking spectral stability to generalization under layer skipping. Empirical evaluations on single-GPU setups across multiple benchmarks demonstrate that our approach achieves superior throughput-accuracy trade-offs compared to heuristic and training-based baselines. This work provides a transparent, reproducible pathway for resource-efficient inference without additional training or calibration.",
+  "Experiments": [
+    "Evaluate on standard benchmarks (e.g., ImageNet, WILDS) to measure accuracy and latency trade-offs.",
+    "Compare against heuristic-based layer skipping methods (e.g., SkipNet) and training-based approaches (e.g., Deeplite).",
+    "Measure spectral stability metrics (e.g., condition number, spectral decay) during inference to validate the proposed diagnostics.",
+    "Assess the impact of different Jacobian computation methods (e.g., randomized SVD, full SVD) on latency and accuracy.",
+    "Conduct ablation studies to isolate the contribution of spectral stability analysis to the overall performance."
+  ],
+  "Risk Factors and Limitations": [
+    "The computational overhead of Jacobian analysis may offset some latency gains.",
+    "The method assumes that spectral stability correlates well with layer skipping feasibility, which may not hold for all architectures or tasks.",
+    "The effectiveness of the approach may degrade under extreme latency constraints or highly dynamic input distributions.",
+    "The theoretical bounds may be too conservative in practice, limiting the applicability of the method."
+  ]
+}

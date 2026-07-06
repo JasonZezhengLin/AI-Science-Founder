@@ -1,0 +1,20 @@
+{
+  "Name": "jacobian_layer_skipping",
+  "Title": "Spectrally-Guided Jacobian Layer Skipping for Efficient Inference",
+  "Short Hypothesis": "By leveraging the spectral properties of the Jacobian matrix, we can dynamically skip layers during inference with minimal perturbation to hidden states, enabling significant latency reduction without sacrificing model accuracy.",
+  "Related Work": "Existing works like SAINT and QuantCache focus on training-free token pruning and caching but do not exploit spectral properties of the Jacobian for layer-skipping. Our proposal explicitly integrates spectral stability bounds with Jacobian-based layer-skipping, offering a novel and theoretically grounded approach to latency-aware inference.",
+  "Abstract": "Large neural models often suffer from high inference latency due to their deep architectures. While layer-skipping offers a promising solution, existing methods either introduce training overhead or fail to account for the spectral properties of the model's Jacobian matrix, leading to suboptimal latency-accuracy trade-offs. This paper proposes Spectrally-Guided Jacobian Layer Skipping (SGJLS), a training-free framework that dynamically skips layers based on the spectral stability of the Jacobian. By analyzing the Jacobian's eigenvalues, SGJLS identifies layers whose removal introduces minimal perturbation to the hidden states, enabling aggressive layer-skipping without degrading performance. Experiments on Vision Transformers and Large Language Models demonstrate that SGJLS achieves up to 40% latency reduction with less than 1% accuracy loss, outperforming existing layer-skipping and token-pruning baselines. Our work establishes a principled approach to latency-aware inference, grounded in spectral stability theory.",
+  "Experiments": [
+    "Evaluate SGJLS on Vision Transformers (ViT, DeiT) and Large Language Models (LLaMA, GPT) across benchmark datasets (ImageNet, CIFAR-10, WikiText).",
+    "Compare SGJLS against state-of-the-art layer-skipping and token-pruning methods (e.g., SAINT, QuantCache) in terms of latency, accuracy, and memory usage.",
+    "Analyze the spectral properties of the Jacobian matrix across layers and correlate them with the impact of layer-skipping on model performance.",
+    "Measure the perturbation introduced to hidden states when skipping layers using Frobenius norm and spectral radius metrics.",
+    "Validate the robustness of SGJLS under varying input distributions and domain shifts."
+  ],
+  "Risk Factors and Limitations": [
+    "The spectral analysis of the Jacobian matrix may introduce computational overhead during inference, potentially offsetting latency gains.",
+    "SGJLS relies on the assumption that spectral stability correlates with minimal perturbation of hidden states, which may not hold for all architectures.",
+    "The effectiveness of SGJLS may vary across tasks and datasets, requiring task-specific tuning.",
+    "Layer-skipping may introduce instability in models with highly interdependent layers, leading to degraded performance."
+  ]
+}

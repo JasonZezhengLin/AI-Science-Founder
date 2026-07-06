@@ -1,0 +1,19 @@
+{
+  "Name": "curvature_aware_sparsity",
+  "Title": "Curvature-Aware Sparsity: Training-Free Dynamic Attention Routing via Hessian Geometry",
+  "Short Hypothesis": "The Hessian curvature of attention weights serves as a robust proxy for sparsity allocation, enabling training-free dynamic attention routing that preserves task-critical information while reducing computational overhead.",
+  "Related Work": "Existing sparse attention methods rely on static sparsity patterns or heuristic routing mechanisms, which often fail to adapt to the dynamic geometry of attention weights. Ride the Wave (Zhang et al., 2026) introduces a curvature-aware dynamic budgeting mechanism but focuses on video generation and lacks formal geometric grounding. Spectral Latent Steering (founder_2) uses spectral projections for test-time optimization but does not address attention sparsity. Our proposal uniquely leverages Hessian curvature to dynamically allocate sparsity, providing formal guarantees via PAC-Bayes bounds and explicit condition number constraints.",
+  "Abstract": "Sparse attention mechanisms have emerged as a promising approach to reduce the computational burden of transformer models. However, existing methods often rely on static sparsity patterns or heuristic routing mechanisms, leading to suboptimal performance and unpredictable latency. We propose Curvature-Aware Sparsity (CAS), a training-free framework that dynamically allocates attention sparsity based on the Hessian curvature of attention weights. By profiling the Hessian curvature on-the-fly using randomized matrix-free estimators, CAS identifies task-critical attention heads that require full precision and allocates sparsity to less sensitive heads. We theoretically ground CAS in PAC-Bayes bounds, linking Hessian curvature to generalization stability under sparsity perturbations. Extensive experiments on language modeling and image classification tasks demonstrate that CAS achieves superior throughput-accuracy trade-offs compared to static and heuristic sparse attention baselines. By replacing opaque sparsity allocation with formalized curvature diagnostics, CAS provides a transparent, reproducible pathway for resource-efficient transformer inference.",
+  "Experiments": [
+    "Experiment 1: Evaluate CAS on the WILDS benchmarks, comparing throughput and accuracy against static sparse attention baselines (e.g., BigBird, Longformer). Metrics: Throughput (tokens/sec), Accuracy (%), Sparsity Allocation Variance.",
+    "Experiment 2: Validate PAC-Bayes bounds on Hessian curvature-based sparsity allocation. Metrics: Empirical Risk vs. PAC-Bayes Bound Gap, Hessian Condition Number Distribution.",
+    "Experiment 3: Ablation study on the impact of Hessian curvature estimation methods (matrix-free vs. full Hessian) on CAS performance. Metrics: Estimation Error (%), Runtime Overhead (ms), Accuracy (%).",
+    "Experiment 4: Test CAS on multi-modal tasks (e.g., CLIP) to assess its generalizability across different attention mechanisms. Metrics: Cross-Modal Retrieval Accuracy (%), Throughput (tokens/sec)."
+  ],
+  "Risk Factors and Limitations": [
+    "Hessian curvature estimation may introduce computational overhead, potentially offsetting sparsity gains.",
+    "CAS assumes that Hessian curvature is a reliable proxy for sparsity allocation, which may not hold for all tasks or architectures.",
+    "The framework relies on matrix-free estimators, which may introduce noise and affect sparsity allocation stability.",
+    "CAS is evaluated on single-GPU setups; scalability to multi-GPU or distributed environments remains unexplored."
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "Name": "adaptive_mixed_precision_gpu_inference",
+  "Title": "Adaptive Mixed-Precision Optimization for GPU Inference",
+  "Short Hypothesis": "Can we develop a hardware-aware adaptive mixed-precision (AMP) framework that dynamically adjusts precision for different layers and operations during inference to maximize throughput and minimize latency on a variety of GPU architectures?",
+  "Related Work": "Recent works such as TurboMind (Zhang et al., 2025) and SNIP (Pan et al., 2026) have explored adaptive mixed-precision techniques for training and inference. TurboMind focuses on generalizable and efficient mixed-precision pipelines for LLMs, while SNIP introduces a fine-grained adaptive mixed-precision training framework for LLMs. However, these works often rely on pre-defined precision configurations or heuristic-based methods that may not generalize well across different models and hardware. Our proposal aims to develop a more dynamic and adaptive framework that can optimize precision on-the-fly based on real-time hardware metrics and model characteristics.",
+  "Abstract": "Mixed-precision inference techniques have become essential for optimizing the performance of large language models (LLMs) and vision transformers (ViTs) on GPUs. However, existing methods often rely on pre-defined precision configurations or heuristic-based approaches that may not generalize well across different models and hardware architectures. In this work, we propose an adaptive mixed-precision (AMP) framework that dynamically adjusts precision for different layers and operations during inference. Our framework leverages real-time hardware metrics such as occupancy, memory bandwidth, and arithmetic intensity to optimize precision on-the-fly. We evaluate our framework on a variety of models, including BERT, GPT-2, and ViT, across multiple GPU architectures (NVIDIA RTX 4090, A100, and V100). Our experiments demonstrate that our adaptive approach can achieve up to 40% higher throughput and 30% lower latency compared to fixed-precision methods, while maintaining or improving model accuracy.",
+  "Experiments": [
+    "1. **Baseline Benchmarking**: Measure the baseline performance (throughput and latency) of BERT, GPT-2, and ViT models using fixed-precision (FP16 and FP32) on NVIDIA RTX 4090, A100, and V100 GPUs. Collect metrics such as occupancy, memory bandwidth, and arithmetic intensity.",
+    "2. **Dynamic Precision Adjustment**: Implement the adaptive mixed-precision (AMP) framework that dynamically adjusts precision based on real-time hardware metrics. This involves profiling each layer and operation to determine the optimal precision for maximum throughput and minimum latency.",
+    "3. **A/B Latency Races**: Conduct A/B latency races under fixed accuracy budgets to compare the performance of the AMP framework against fixed-precision methods. Report p50/p99 latency and throughput under batching.",
+    "4. **Energy Efficiency Evaluation**: Measure the energy consumption of the models under the AMP framework and compare it with fixed-precision methods to evaluate the energy efficiency gains.",
+    "5. **Model Accuracy Analysis**: Ensure that the adaptive precision adjustments do not degrade model accuracy. Compare the accuracy of the models using the AMP framework with their fixed-precision counterparts.",
+    "6. **Cross-GPU Validation**: Validate the performance and numerical stability of the AMP framework across different GPU architectures to ensure generalizability."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Complexity of Real-Time Profiling**: Real-time profiling and dynamic precision adjustment can introduce additional overhead, which may affect overall performance.",
+    "2. **Model-Specific Optimizations**: The effectiveness of the AMP framework may vary across different models, requiring model-specific tuning and optimization.",
+    "3. **Hardware Variability**: Performance may vary across different GPU architectures, and the framework may need to be adapted for each specific hardware configuration.",
+    "4. **Stability and Robustness**: Ensuring the stability and robustness of the AMP framework in real-world scenarios, especially under varying workloads and input data, may pose challenges."
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "Name": "rate_distortion_neural_compression",
+  "Title": "Optimal Neural Network Compression via Rate-Distortion Theory",
+  "Short Hypothesis": "The optimal compression of neural networks can be characterized by rate-distortion theory, where the distortion measure is task-specific and the rate corresponds to the bits-per-weight needed to maintain predictive sufficiency.",
+  "Related Work": "Existing work on neural network compression often focuses on empirical methods like pruning and quantization (e.g., Spectral Quantization Routing, Geometric Signal Separation). While these methods are effective, they lack a theoretical foundation that connects compression to information-theoretic limits. Recent works like 'Deep learning and the information bottleneck principle' (Tishby & Zaslavsky, 2015) and 'Information-Theoretic Generalization Bounds for Deep Neural Networks' (He & Goldfeld, 2024) have begun to bridge this gap, but they do not explicitly frame compression as a rate-distortion problem. Our proposal distinguishes itself by deriving explicit rate-distortion bounds for neural network compression and providing practical compression strategies that approach these bounds.",
+  "Abstract": "Neural network compression is a critical challenge in deploying large models on resource-constrained devices. However, existing compression methods often rely on empirical heuristics without a clear connection to information-theoretic limits. In this work, we propose a novel framework for neural network compression based on rate-distortion theory. We derive explicit bounds on the bits-per-weight required to maintain predictive sufficiency under task-specific distortion measures. Our framework connects compression to the information bottleneck principle, providing a theoretical foundation for pruning and quantization strategies. We validate our approach through experiments on benchmark datasets, demonstrating that our compression strategies achieve state-of-the-art performance while approaching the derived theoretical limits. Our work bridges the gap between theory and practice, offering a principled approach to neural network compression that is grounded in information theory.",
+  "Experiments": [
+    {
+      "Name": "Rate-Distortion Bounds for Pruning",
+      "Description": "Derive rate-distortion bounds for pruning neural networks under task-specific distortion measures. Evaluate the bounds on benchmark datasets using various pruning strategies.",
+      "Metrics": [
+        "Bits-per-weight",
+        "Test accuracy",
+        "Distortion-to-rate ratio"
+      ]
+    },
+    {
+      "Name": "Quantization Strategies",
+      "Description": "Develop quantization strategies based on rate-distortion theory and compare them to existing quantization methods.",
+      "Metrics": [
+        "Bits-per-weight",
+        "Test accuracy",
+        "Distortion-to-rate ratio"
+      ]
+    },
+    {
+      "Name": "Information Bottleneck Analysis",
+      "Description": "Analyze the relationship between compression and the information bottleneck principle by measuring mutual information between layers and task outputs.",
+      "Metrics": [
+        "Mutual information",
+        "Compression ratio"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "Theoretical bounds may be difficult to compute exactly for large, complex networks.",
+    "Task-specific distortion measures may not generalize across different tasks or datasets.",
+    "Practical compression strategies may not always achieve the derived theoretical limits due to implementation constraints."
+  ]
+}

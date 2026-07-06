@@ -1,0 +1,20 @@
+{
+  "Name": "CurvatureAwarePrecisionRouting",
+  "Title": "Curvature-Aware Precision Routing for Efficient Mixed-Precision Training",
+  "Short Hypothesis": "We hypothesize that dynamically adjusting numerical precision based on the local curvature of the loss landscape can significantly improve the efficiency and accuracy of mixed-precision training. By leveraging spectral diagnostics to identify well-conditioned and ill-conditioned regions, we can allocate higher precision to critical parts of the model, ensuring stable optimization and reducing computational overhead.",
+  "Related Work": "Existing work in mixed-precision training, such as APTQ [1] and CAGE [6], focuses on static or heuristic-based precision allocation. APTQ uses Hessian trace for sensitivity analysis, but it does not adapt to the local curvature during training. CAGE introduces a curvature-aware gradient estimation for quantization, but it does not dynamically adjust precision levels. Our proposal builds on these ideas by introducing a dynamic, curvature-aware precision routing mechanism that adapts to the changing loss landscape during training.",
+  "Abstract": "Mixed-precision training offers significant computational benefits but often relies on static or heuristic-based precision allocation, which can lead to suboptimal performance. We propose Curvature-Aware Precision Routing (CAPR), a novel framework that dynamically adjusts numerical precision based on the local curvature of the loss landscape. CAPR leverages spectral diagnostics, such as the Hessian condition number and gradient covariance, to identify well-conditioned and ill-conditioned regions of the model. By allocating higher precision to critical parts of the model, CAPR ensures stable optimization and reduces computational overhead. We theoretically ground CAPR with PAC-Bayes bounds and demonstrate its effectiveness on single-GPU setups across a range of benchmarks, achieving a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines.",
+  "Experiments": [
+    "1. **Spectral Diagnostics**: Compute the Hessian condition number and gradient covariance for each layer during training to identify well-conditioned and ill-conditioned regions.",
+    "2. **Precision Allocation**: Based on the spectral diagnostics, dynamically allocate higher precision (e.g., FP32) to ill-conditioned regions and lower precision (e.g., FP16) to well-conditioned regions.",
+    "3. **Training Stability**: Monitor the training stability and convergence using metrics such as loss trajectory, validation accuracy, and gradient norm. Compare these metrics with static and heuristic mixed-precision baselines.",
+    "4. **Computational Efficiency**: Measure the computational efficiency in terms of wall-clock time and memory usage. Evaluate the performance on single-GPU setups using benchmarks such as CIFAR-10, CIFAR-100, and ImageNet.",
+    "5. **Generalization Performance**: Evaluate the generalization performance using test accuracy and PAC-Bayes bounds to ensure that the dynamic precision allocation does not degrade model performance."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Computational Overhead**: The additional overhead of computing spectral diagnostics may slow down training, especially in resource-constrained environments.",
+    "2. **Sensitivity to Hyperparameters**: The performance of CAPR may be sensitive to the choice of hyperparameters used for spectral diagnostics.",
+    "3. **Scalability**: The method may not scale well to very large models or distributed training setups without further optimization.",
+    "4. **Generalization to Different Architectures**: The effectiveness of CAPR may vary across different neural network architectures and datasets, requiring further empirical validation."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "Name": "jacobian_layer_skipping",
+  "Title": "Jacobian-Based Layer Skipping for Latency-Aware Inference",
+  "Short Hypothesis": "Dynamic layer skipping based on Jacobian analysis can achieve strict latency bounds in inference while maintaining accuracy, leveraging PAC-Bayes frameworks for theoretical guarantees.",
+  "Related Work": "Existing work on layer skipping focuses on static or heuristic approaches, often neglecting theoretical guarantees or precise latency bounds. PAC-Bayes frameworks have been used for generalization bounds but not specifically for latency-aware inference. This proposal uniquely combines Jacobian-based analysis with PAC-Bayes to provide a theoretically grounded, dynamic layer-skipping method.",
+  "Abstract": "We propose a novel approach to latency-aware inference using Jacobian-based layer skipping. By analyzing the Jacobian of intermediate layers, we dynamically skip layers that contribute minimally to the output, strictly bounding inference latency. This method is training-free and leverages PAC-Bayes frameworks to provide theoretical guarantees on accuracy-latency trade-offs. Experiments on standard benchmarks demonstrate that our approach achieves state-of-the-art latency reduction while maintaining competitive accuracy, offering a principled and practical solution for real-time inference.",
+  "Experiments": [
+    "Benchmark on CIFAR-10 and ImageNet using ResNet architectures, comparing latency and accuracy against static layer-skipping and baseline models.",
+    "Evaluate Jacobian-based skipping criteria by varying thresholds and measuring impact on accuracy and latency.",
+    "Validate PAC-Bayes theoretical bounds by comparing empirical results with derived guarantees.",
+    "Test robustness under structured perturbations (e.g., noise, adversarial attacks) to ensure stability."
+  ],
+  "Risk Factors and Limitations": [
+    "Jacobian computation may introduce overhead, though we aim to amortize this cost.",
+    "Theoretical guarantees may not hold under extreme domain shifts.",
+    "Dynamic skipping may not generalize well to all architectures."
+  ]
+}

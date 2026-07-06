@@ -1,0 +1,19 @@
+{
+  "Name": "task_aware_rate_distortion",
+  "Title": "Task-Aware Rate-Distortion Bounds for Model Compression",
+  "Short Hypothesis": "The optimal compression rate for a neural network can be derived by explicitly incorporating task-specific distortion measures, yielding tighter bounds than generic rate-distortion approaches.",
+  "Related Work": "Existing work on model compression (e.g., EMQ, AMP-ViT) focuses on empirical techniques without theoretical guarantees. Rate-distortion theory has been applied to generic compression (e.g., Lossy Compression with Gaussian Diffusion) but not to task-specific scenarios. This proposal distinguishes itself by introducing task-aware distortion measures and deriving achievable bounds for task-specific compression.",
+  "Abstract": "Model compression techniques such as quantization and pruning are widely used to reduce the computational and memory costs of neural networks. However, existing approaches lack theoretical guarantees on the optimal compression rate for a given downstream task. In this work, we propose a task-aware rate-distortion framework for model compression, where the distortion measure is explicitly tied to the downstream task performance (e.g., classification accuracy). We derive achievable bounds on the compression rate for a given task-specific distortion threshold, leveraging tools from information theory and statistical learning theory. Our analysis reveals that task-aware compression yields tighter bounds than generic rate-distortion approaches, particularly for tasks with low intrinsic dimensionality. We validate our theoretical findings through experiments on image classification and natural language processing tasks, demonstrating that task-aware compression achieves superior performance compared to existing methods.",
+  "Experiments": [
+    "Derive task-aware rate-distortion bounds for image classification (CIFAR-10, ImageNet) and NLP tasks (GLUE benchmark).",
+    "Compare task-aware compression bounds to generic rate-distortion bounds, measuring the gap in achievable rates.",
+    "Implement task-aware compression algorithms (e.g., quantization, pruning) guided by the derived bounds.",
+    "Evaluate downstream task performance (accuracy, F1 score) vs. compression rate, comparing to state-of-the-art methods (e.g., EMQ, AMP-ViT).",
+    "Analyze the impact of task-specific distortion measures on compression efficiency."
+  ],
+  "Risk Factors and Limitations": [
+    "Task-aware distortion measures may be difficult to define for complex tasks.",
+    "Deriving tight bounds may require simplifying assumptions that limit practical applicability.",
+    "Experiments are limited to specific tasks (image classification, NLP) and may not generalize to other domains."
+  ]
+}

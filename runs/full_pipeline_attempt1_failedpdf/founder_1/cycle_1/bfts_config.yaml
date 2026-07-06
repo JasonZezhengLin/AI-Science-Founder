@@ -1,0 +1,51 @@
+agent:
+  code:
+    max_tokens: 12000
+    model: deepseek/deepseek-chat
+    temp: 1.0
+  data_preview: false
+  expose_prediction: false
+  feedback:
+    max_tokens: 8192
+    model: deepseek/deepseek-chat
+    temp: 0.5
+  k_fold_validation: 1
+  multi_seed_eval:
+    num_seeds: 1
+  num_workers: 1
+  search:
+    debug_prob: 0.0
+    max_debug_depth: 1
+    num_drafts: 1
+  stages:
+    stage1_max_iters: 1
+    stage2_max_iters: 1
+    stage3_max_iters: 1
+    stage4_max_iters: 1
+  steps: 1
+  type: parallel
+  vlm_feedback:
+    max_tokens: null
+    model: deepseek/deepseek-chat
+    temp: 0.5
+copy_data: true
+data_dir: runs/full_pipeline/founder_1/cycle_1/data
+debug:
+  stage4: false
+desc_file: runs/full_pipeline/founder_1/cycle_1/idea.json
+eval: null
+exec:
+  agent_file_name: runfile.py
+  format_tb_ipython: false
+  timeout: 1200
+exp_name: run
+experiment:
+  num_syn_datasets: 1
+generate_report: false
+goal: null
+log_dir: runs/full_pipeline/founder_1/cycle_1/logs
+preprocess_data: false
+report:
+  model: deepseek/deepseek-chat
+  temp: 1.0
+workspace_dir: runs/full_pipeline/founder_1/cycle_1

@@ -1,0 +1,16 @@
+{
+  "Name": "spectral_latency_aware_inference",
+  "Title": "Spectral Latency-Aware Inference: Training-Free Test-Time Optimization via Norm-Preserving Subspace Projection",
+  "Short Hypothesis": "We hypothesize that restricting test-time optimization to a low-rank, norm-preserving subspace can ensure strict computational budgets while preserving the optimization landscape's geometry, leading to efficient and latency-aware inference.",
+  "Related Work": "Our proposal builds upon recent works such as Spectral Quantization Routing, Training-Free Geometric Interference Cancellation, and Geometric Signal Separation, which have shown the potential of spectral methods for efficient and robust inference. However, our approach differs in its focus on test-time optimization and latency-awareness, and its use of norm-preserving subspace projection to ensure strict computational budgets.",
+  "Abstract": "We propose Spectral Latency-Aware Inference, a training-free framework that restricts test-time optimization to a low-rank, norm-preserving subspace. Our approach ensures strict computational budgets while preserving the optimization landscape's geometry, leading to efficient and latency-aware inference. We theoretically ground our method in information-theoretic bounds and demonstrate its effectiveness on mathematical reasoning and code generation tasks, reducing hidden-state perturbation overhead by over 70% and enforcing deterministic latency bounds.",
+  "Experiments": [
+    "Evaluate the proposed method on mathematical reasoning and code generation tasks, comparing its performance to full-space perturbation baselines and other state-of-the-art methods.",
+    "Assess the effectiveness of the norm-preserving subspace projection in reducing hidden-state perturbation overhead and enforcing deterministic latency bounds.",
+    "Investigate the impact of the proposed method on the optimization landscape's geometry and the resulting inference efficiency."
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed method may not be effective for all types of tasks or models, and may require careful tuning of hyperparameters.",
+    "The use of norm-preserving subspace projection may introduce additional computational overhead, which could impact the overall efficiency of the method."
+  ]
+}

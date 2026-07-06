@@ -1,0 +1,19 @@
+{
+  "Name": "curvature-aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: Training-Free Adaptive Inference via Spectral Curvature Diagnostics",
+  "Short Hypothesis": "The local curvature of the loss landscape, quantified via Hessian conditioning and gradient covariance decay, serves as a deterministic proxy for precision allocation in training-free adaptive inference, enabling resource-efficient routing decisions that preserve generalization stability.",
+  "Related Work": "Recent work has explored training-free precision routing via activation covariance geometry (Spectral Quantization Routing) and zero-training test-time optimization via norm-preserving subspace projection (Spectral Latent Steering). However, these approaches do not explicitly leverage curvature diagnostics for precision routing. Our proposal distinguishes itself by formalizing the link between curvature-aware diagnostics and precision allocation, providing explicit stability radii and PAC-Bayes generalization bounds under precision switching.",
+  "Abstract": "This paper introduces Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates numerical precision based on spectral curvature diagnostics of the loss landscape. We hypothesize that the local curvature, quantified via Hessian conditioning and gradient covariance decay, serves as a deterministic proxy for precision allocation, enabling resource-efficient routing decisions that preserve generalization stability. CAPR computes these curvature diagnostics on-the-fly using randomized SVD, mapping them to a precision-switching policy that enforces strict latency budgets. We theoretically ground the routing mechanism with PAC-Bayes bounds that link curvature conditioning to generalization stability under precision switching. Evaluated on single-GPU setups across WILDS benchmarks, CAPR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized risk bounds, CAPR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Experiment 1: Validate the hypothesis that local curvature diagnostics (Hessian conditioning, gradient covariance decay) correlate with precision sensitivity. Use randomized SVD to compute curvature diagnostics on-the-fly and evaluate their correlation with task performance under varying precision levels.",
+    "Experiment 2: Implement CAPR and compare its throughput-accuracy Pareto frontier with static and heuristic mixed-precision baselines on WILDS benchmarks. Measure wall-clock latency, memory usage, and task performance under natural distribution shifts.",
+    "Experiment 3: Assess the robustness of CAPR to adversarial inputs and out-of-distribution contexts. Evaluate task performance and generalization stability under controlled perturbations.",
+    "Experiment 4: Perform ablation studies to isolate the impact of curvature diagnostics on routing decisions. Compare CAPR with variants that omit curvature diagnostics or use alternative proxies."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk 1: On-the-fly computation of curvature diagnostics may introduce overhead that offsets the benefits of precision routing.",
+    "Risk 2: The PAC-Bayes bounds linking curvature conditioning to generalization stability may be too loose to provide practical guarantees.",
+    "Limitation 1: CAPR assumes that curvature diagnostics can be accurately estimated using randomized SVD, which may not hold for all architectures or tasks.",
+    "Limitation 2: The framework is validated on single-GPU setups, and its scalability to multi-GPU or distributed environments remains unexplored."
+  ]
+}

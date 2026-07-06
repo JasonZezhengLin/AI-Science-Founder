@@ -1,0 +1,19 @@
+{
+  "Name": "jacobian_layer_skipping",
+  "Title": "Jacobian-Based Layer Skipping for Latency-Aware Inference",
+  "Short Hypothesis": "Jacobian norms of token activations provide a computationally efficient proxy for token importance, enabling dynamic layer skipping while maintaining inference quality under strict latency budgets.",
+  "Related Work": "Existing work on training-free inference focuses on PCA/SVD-based techniques for latency-aware routing (e.g., Spectral Quantization Routing, Geometric Signal Separation). These methods introduce non-trivial computational overhead and are often limited to specific tasks like in-context learning. Our approach leverages Jacobian norms, which are computationally cheaper to compute and generalize across tasks, providing a novel pathway for latency-aware inference.",
+  "Abstract": "We propose Jacobian-Based Layer Skipping (JLS), a training-free framework that dynamically routes tokens through fewer layers based on the spectral stability and gradient alignment of their activations. By computing Jacobian norms of token activations, we identify tokens that are robust to layer skipping, enabling efficient inference while maintaining accuracy. We ground our approach in PAC-Bayes theory, linking spectral stability to generalization under perturbation. Evaluated on single-GPU setups across diverse benchmarks, JLS achieves superior throughput-accuracy Pareto frontiers compared to existing methods, enforcing strict latency budgets without heuristic control mechanisms.",
+  "Experiments": [
+    "Benchmark JLS against Spectral Quantization Routing and Geometric Signal Separation on WILDS and adversarial ICL benchmarks.",
+    "Measure inference latency, accuracy retention, and Jacobian norm stability under controlled perturbations.",
+    "Evaluate the impact of layer skipping on hidden-state perturbation overhead.",
+    "Quantify the computational cost of Jacobian norm computation compared to PCA/SVD-based methods.",
+    "Validate theoretical PAC-Bayes bounds on generalization under perturbation."
+  ],
+  "Risk Factors and Limitations": [
+    "Jacobian computation may introduce overhead for very large models.",
+    "Layer skipping may degrade performance for tasks requiring deep reasoning.",
+    "Theoretical bounds may not hold under extreme distributional shifts."
+  ]
+}

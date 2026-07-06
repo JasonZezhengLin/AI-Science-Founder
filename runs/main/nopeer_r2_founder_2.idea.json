@@ -1,0 +1,20 @@
+{
+  "Name": "latency_aware_layer_skipping",
+  "Title": "Latency-Aware Layer Skipping via Jacobian-Based Stability Bounds",
+  "Short Hypothesis": "Training-free, latency-aware inference can be achieved by leveraging Jacobian-based stability bounds to dynamically skip layers without compromising accuracy.",
+  "Related Work": "Existing work on layer-skipping focuses on training-based methods or heuristic approaches, which often introduce overhead or require parallelization. This proposal distinguishes itself by integrating PAC-Bayes frameworks with Jacobian-based stability bounds to enforce latency-aware, training-free inference with minimal perturbation to hidden states.",
+  "Abstract": "Latency-aware inference is critical for deploying machine learning models in resource-constrained environments. This paper introduces a novel approach to training-free, latency-aware inference by leveraging Jacobian-based stability bounds to dynamically skip layers without compromising accuracy. Our method integrates PAC-Bayes frameworks to enforce strict latency guarantees and minimize perturbation to hidden states. We propose a Jacobian-based layer-skipping framework that dynamically adjusts the inference path based on stability criteria, ensuring compute-frugal execution. Experimental results demonstrate that our approach achieves state-of-the-art accuracy-latency trade-offs on benchmark datasets, with minimal overhead and memory bandwidth usage.",
+  "Experiments": [
+    "Evaluate the proposed method on CIFAR-10, ImageNet, and GLUE benchmarks.",
+    "Compare accuracy-latency trade-offs against state-of-the-art layer-skipping methods.",
+    "Measure perturbation cost and memory bandwidth usage during inference.",
+    "Validate the robustness of the method under structured perturbations and domain shifts.",
+    "Quantify multi-seed variance to ensure reproducibility."
+  ],
+  "Risk Factors and Limitations": [
+    "Potential instability in Jacobian-based stability bounds under extreme perturbations.",
+    "Limited applicability to architectures with highly interdependent layers.",
+    "Scalability challenges for very deep networks due to increased computational overhead.",
+    "Dependence on precise hardware specifications for latency guarantees."
+  ]
+}

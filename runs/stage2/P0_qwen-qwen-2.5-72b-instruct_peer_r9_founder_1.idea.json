@@ -1,0 +1,19 @@
+{
+  "Name": "CurvatureAwareRouting",
+  "Title": "Curvature-Aware Precision Routing for Efficient and Robust Deep Learning Inference",
+  "Short Hypothesis": "By dynamically allocating numerical precision based on the curvature and spectral properties of hidden activations, we can achieve efficient and robust deep learning inference with strict latency and memory constraints.",
+  "Related Work": "Recent work has explored the use of mixed-precision training and inference to optimize resource usage, but these methods often rely on static profiling or costly calibration. Spectral Quantization Routing (SQR) and Tri-Accel have shown promise in dynamically adjusting precision, but they do not fully leverage the local curvature and spectral properties of activations. Our proposal builds on these ideas by integrating curvature-aware diagnostics with precision routing, providing a more mathematically transparent and efficient solution.",
+  "Abstract": "Mixed-precision inference is a powerful technique for optimizing deep learning models, but it often relies on static profiling or costly calibration. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates numerical precision based on the curvature and spectral properties of hidden activations. By computing local activation covariances and spectral decay rates on-the-fly using randomized SVD, CAPR maps these diagnostics to a precision-switching policy that enforces strict latency and memory budgets. Theoretical grounding is provided with PAC-Bayes bounds linking spectral conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, CAPR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines.",
+  "Experiments": [
+    "Compute the local activation covariances and spectral decay rates using randomized SVD for various hidden layers in a ResNet-18 model.",
+    "Implement a precision-switching policy based on the computed diagnostics, dynamically adjusting the numerical precision for each layer during inference.",
+    "Evaluate the performance of CAPR on the WILDS benchmarks, comparing it to static mixed-precision baselines in terms of throughput, accuracy, and memory usage.",
+    "Conduct ablation studies to isolate the impact of curvature and spectral decay rate diagnostics on precision allocation and overall performance.",
+    "Measure the computational overhead of the curvature and spectral diagnostics, ensuring it remains within acceptable bounds for real-time inference."
+  ],
+  "Risk Factors and Limitations": [
+    "The computational overhead of computing local activation covariances and spectral decay rates might be higher than expected, potentially impacting real-time inference performance.",
+    "The precision-switching policy might not always accurately capture the optimal precision levels for all layers, leading to suboptimal performance in some cases.",
+    "The theoretical bounds linking spectral conditioning to generalization stability under quantization noise might not hold for all model architectures or datasets, requiring further empirical validation."
+  ]
+}

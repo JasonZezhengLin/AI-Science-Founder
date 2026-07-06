@@ -1,0 +1,20 @@
+{
+  "Name": "AdaptiveMixedPrecisionInferenceForTransformersOnGPU",
+  "Title": "Adaptive Mixed-Precision Inference for Transformers on GPU: Optimizing Latency and Accuracy",
+  "Short Hypothesis": "Adaptive mixed-precision inference can significantly improve the latency and accuracy of transformer models on GPUs by dynamically adjusting the precision of different layers based on real-time performance metrics.",
+  "Related Work": "Existing works like AMP-ViT, SNIP, and FlexiQ have explored adaptive mixed-precision quantization for vision transformers and LLMs, but they lack a comprehensive, hardware-aware approach for transformers on GPUs. AMP-ViT and SNIP focus on specific model types or training phases, while FlexiQ is designed for vision models. Our proposal aims to bridge this gap by integrating hardware-specific optimizations and real-time performance metrics to dynamically adjust precision during inference.",
+  "Abstract": "Transformer models, while highly effective, face significant computational and memory challenges, especially during inference. Adaptive mixed-precision (AMP) quantization can mitigate these issues by dynamically adjusting the precision of different layers. However, existing approaches often lack hardware-aware optimizations and real-time performance metrics. This paper introduces a novel framework for adaptive mixed-precision inference on GPUs, tailored for transformer models. Our framework, named AMP-Transformer, dynamically adjusts the precision of each layer based on real-time performance metrics such as latency, throughput, and memory bandwidth. We achieve this through a combination of hardware-specific optimizations, including kernel-level throughput engineering, memory-bandwidth utilization, and tensor-core occupancy. Experiments on various transformer models, including BERT and T5, demonstrate significant improvements in latency and accuracy compared to fixed-precision and existing adaptive methods.",
+  "Experiments": [
+    "1. Baseline Evaluation: Measure the baseline performance of transformer models (BERT, T5) on a single NVIDIA V100 GPU using full precision (FP32) and standard mixed-precision (FP16/INT8) configurations. Collect metrics such as latency, throughput, and memory bandwidth.",
+    "2. Adaptive Precision Selection: Implement an adaptive precision selection mechanism that dynamically adjusts the precision of each layer based on real-time performance metrics. Use a hardware profiler to collect metrics such as occupancy, achieved bandwidth, and warp stall reasons.",
+    "3. Hardware-Specific Optimizations: Optimize kernel-level operations, memory bandwidth utilization, and tensor-core occupancy to ensure efficient execution. Evaluate the impact of these optimizations on latency and throughput.",
+    "4. A/B Latency Races: Conduct A/B latency races under fixed accuracy budgets to compare the performance of our adaptive mixed-precision framework against fixed-precision and existing adaptive methods. Report p50/p99 latency, throughput under batching, and energy per token.",
+    "5. Robustness Testing: Test the robustness of the framework across different GPUs (e.g., V100, A100) and driver versions. Ensure consistent performance gains and report variance across runs."
+  ],
+  "Risk Factors and Limitations": [
+    "1. Overfitting to Specific Hardware: The adaptive precision selection mechanism may overfit to the specific hardware configuration used during training, limiting its generalizability.",
+    "2. Increased Complexity: The hardware-specific optimizations and real-time performance metrics may introduce additional complexity and overhead, potentially offsetting the performance gains.",
+    "3. Limited Model Coverage: The initial experiments will focus on BERT and T5, which may not generalize to other transformer models. Future work will explore the applicability to a broader range of models.",
+    "4. Profiler Overhead: The use of hardware profilers to collect real-time performance metrics may introduce additional overhead, which needs to be carefully managed to ensure minimal impact on performance."
+  ]
+}

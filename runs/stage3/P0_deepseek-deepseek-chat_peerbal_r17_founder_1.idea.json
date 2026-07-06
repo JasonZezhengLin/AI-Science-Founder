@@ -1,0 +1,19 @@
+{
+  "Name": "curvature_aware_routing",
+  "Title": "Curvature-Aware Precision Routing: Training-Free Subspace Diagnostics for Stable Quantization",
+  "Short Hypothesis": "The curvature of activation subspaces, quantified via Hessian conditioning and spectral decay, provides a deterministic proxy for quantization stability, enabling precision allocation without heuristic calibration.",
+  "Related Work": "Existing methods like Spectral Quantization Routing (SQR) and Precision-Allocated Sparse Attention (PASA) explore training-free precision allocation but rely on activation covariance or heuristic budgeting. This proposal distinguishes itself by explicitly linking Hessian conditioning and spectral decay to quantization stability, providing formal PAC-Bayes bounds and deterministic numerical stability guarantees.",
+  "Abstract": "Mixed-precision inference promises significant computational savings but often relies on heuristic calibration or static profiling, lacking theoretical guarantees. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates numerical precision based on explicit spectral diagnostics of activation subspaces. By quantifying Hessian conditioning and spectral decay, CAPR identifies tokens robust to low-precision computation and enforces higher precision for ill-conditioned regions. We theoretically ground the routing mechanism with PAC-Bayes bounds that link curvature to generalization stability under quantization noise. CAPR computes these diagnostics on-the-fly using randomized SVD, mapping them to a precision-switching policy that enforces strict latency budgets. Evaluated on single-GPU setups across WILDS benchmarks, CAPR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized risk bounds, CAPR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Experiment 1: Validate the correlation between Hessian conditioning/spectral decay and quantization robustness. Use randomized SVD to compute diagnostics on hidden states and measure accuracy degradation under varying precision levels.",
+    "Experiment 2: Implement CAPR on a single-GPU setup and evaluate its throughput-accuracy trade-offs on WILDS benchmarks. Compare against static and heuristic mixed-precision baselines.",
+    "Experiment 3: Test CAPR’s robustness to distribution shifts by evaluating on out-of-distribution datasets. Measure generalization stability using PAC-Bayes bounds derived from spectral diagnostics.",
+    "Experiment 4: Ablation study to isolate the contribution of curvature-aware routing versus other mixed-precision components. Quantify overhead reduction from using spectral diagnostics."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk 1: The on-the-fly computation of spectral diagnostics may introduce latency overhead, offsetting the benefits of precision switching.",
+    "Risk 2: The assumption that curvature proxies generalize across architectures and tasks may not hold universally.",
+    "Limitation 1: CAPR is designed for single-GPU setups and may not scale efficiently to multi-GPU or distributed environments.",
+    "Limitation 2: The theoretical bounds rely on idealized assumptions about noise and perturbation, which may not fully capture real-world conditions."
+  ]
+}

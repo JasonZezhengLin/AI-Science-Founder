@@ -1,0 +1,18 @@
+{
+  "Name": "latency_optimized_deep_learning_inference",
+  "Title": "Latency-Optimized Deep Learning Inference on Commodity GPUs via Adaptive Mixed-Precision Quantization and Efficient Memory Access",
+  "Short Hypothesis": "We hypothesize that by combining adaptive mixed-precision quantization with efficient memory access patterns and optimized kernel implementations, we can significantly reduce the latency of deep learning inference on commodity GPUs while maintaining accuracy.",
+  "Related Work": "Recent works such as SNIP, HiLoRA, EMQ, and AMP-ViT have explored mixed-precision quantization and training-free domain generalization for efficient deep learning inference. However, these works focus on specific aspects of the problem and do not provide a comprehensive solution that addresses both quantization and memory access. Our proposal builds upon these works and aims to provide a holistic approach to latency-optimized deep learning inference on commodity GPUs.",
+  "Abstract": "Deep learning models are increasingly being deployed on edge devices and commodity GPUs, where latency and memory constraints are significant challenges. To address these challenges, we propose a latency-optimized deep learning inference framework that combines adaptive mixed-precision quantization with efficient memory access patterns and optimized kernel implementations. Our framework, which we call LatencyOpt, uses a novel quantization-aware memory allocation scheme to minimize memory access overhead and maximizes the use of GPU resources. We evaluate LatencyOpt on a range of deep learning models and datasets, including ResNet, MobileNet, and ImageNet, and demonstrate significant reductions in latency and memory usage while maintaining accuracy.",
+  "Experiments": [
+    "Evaluate the performance of LatencyOpt on a range of deep learning models and datasets",
+    "Compare the latency and memory usage of LatencyOpt with state-of-the-art mixed-precision quantization methods",
+    "Investigate the impact of different quantization schemes and memory access patterns on latency and accuracy",
+    "Optimize the kernel implementations and memory allocation scheme to further improve performance"
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of the proposed framework may lead to increased development and deployment costs",
+    "The use of adaptive mixed-precision quantization may require significant tuning and calibration to achieve optimal results",
+    "The framework may not be compatible with all deep learning models and datasets, and may require significant modifications to accommodate specific use cases"
+  ]
+}

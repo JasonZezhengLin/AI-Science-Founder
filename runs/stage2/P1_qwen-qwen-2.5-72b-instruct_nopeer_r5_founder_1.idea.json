@@ -1,0 +1,35 @@
+{
+  "Name": "cuda_kernel_fusion_for_transformer_inference",
+  "Title": "CUDA Kernel Fusion for Optimized Transformer Inference on Commodity GPUs",
+  "Short Hypothesis": "Fusing multiple CUDA kernels into a single, optimized kernel can significantly reduce the latency and improve the throughput of transformer models during inference, especially on commodity GPUs.",
+  "Related Work": "Previous work has explored kernel optimization and fusion for deep learning models, but most efforts have focused on general-purpose DNNs or specific architectures like CNNs. Recent papers such as 'AutoGraph' and 'EvoEngineer' have addressed inter-operator parallelism and automated kernel optimization, respectively. However, there is a gap in the literature for specialized, fine-grained kernel fusion tailored to transformer models, which have unique computational patterns and memory access characteristics. This proposal aims to fill this gap by developing and evaluating a CUDA kernel fusion framework specifically for transformers.",
+  "Abstract": "Transformer models have become the backbone of many natural language processing tasks, but their inference on commodity GPUs is often limited by high latency and low throughput. This proposal explores the optimization of transformer inference through CUDA kernel fusion, a technique that combines multiple kernel operations into a single, more efficient kernel. By reducing the overhead of kernel launches and optimizing memory access, we hypothesize that kernel fusion can significantly reduce latency and improve throughput. We will develop a framework to automatically identify and fuse relevant kernel operations, and evaluate its performance using benchmarks on a commodity GPU. The proposed work will contribute to the field by providing a practical, hardware-faithful approach to optimizing transformer inference, with measurable speedups and reproducible results.",
+  "Experiments": [
+    {
+      "Description": "Baseline Measurement",
+      "Details": "Measure the baseline latency and throughput of a transformer model (e.g., BERT) using standard CUDA kernels on a commodity GPU. Collect metrics such as kernel launch overhead, memory bandwidth utilization, and arithmetic intensity.",
+      "Evaluation Metrics": "p50/p99 latency, throughput (tokens/sec), memory bandwidth, and arithmetic intensity."
+    },
+    {
+      "Description": "Kernel Fusion Implementation",
+      "Details": "Develop a CUDA kernel fusion framework that identifies and fuses multiple kernel operations (e.g., matrix multiplications, element-wise operations) into a single kernel. Use profiling tools to guide the fusion decisions based on memory access patterns and computational characteristics.",
+      "Evaluation Metrics": "Reduction in kernel launch overhead, improvement in memory bandwidth utilization, and overall latency and throughput improvements."
+    },
+    {
+      "Description": "A/B Latency Race",
+      "Details": "Conduct an A/B latency race between the baseline and fused kernel implementations under fixed accuracy budgets. Use a variety of batch sizes and sequence lengths to ensure the robustness of the results.",
+      "Evaluation Metrics": "p50/p99 latency, throughput (tokens/sec), and energy per token."
+    },
+    {
+      "Description": "Cross-Platform Evaluation",
+      "Details": "Evaluate the fused kernel performance on different GPU models and driver versions to ensure the robustness and reproducibility of the results. Report variance across runs and provide profiler screenshots to attribute performance gains.",
+      "Evaluation Metrics": "Consistency of latency and throughput improvements across different hardware configurations."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of identifying and fusing kernel operations may introduce additional overhead that could negate the benefits of fusion.",
+    "Transformer models have varying computational patterns, and the fusion strategy may need to be adapted for different models and tasks.",
+    "The performance gains may be limited by the specific hardware characteristics of commodity GPUs, such as memory bandwidth and compute capacity.",
+    "The reproducibility of results may be affected by variations in GPU driver versions and system configurations."
+  ]
+}

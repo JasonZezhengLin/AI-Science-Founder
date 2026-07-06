@@ -1,0 +1,17 @@
+{
+  "Name": "compressnet",
+  "Title": "Operational Bounds for Neural Network Compression: A Rate-Distortion Approach",
+  "Short Hypothesis": "We hypothesize that by framing neural network compression as a rate-distortion problem, we can derive operational bounds on the bits-per-weight needed to preserve predictive sufficiency, and design compression algorithms that achieve these bounds.",
+  "Related Work": "Previous work on neural network compression has focused on empirical methods such as quantization and pruning. In contrast, our approach is grounded in information-theoretic principles, and seeks to establish fundamental limits on compression rates. Recent advances in rate-distortion theory and the information bottleneck method provide a foundation for our work.",
+  "Abstract": "This proposal explores the application of rate-distortion theory to neural network compression. We seek to establish operational bounds on the bits-per-weight required to preserve predictive performance, and to design compression algorithms that achieve these bounds. Our approach is grounded in information-theoretic principles, and seeks to provide a fundamental understanding of the trade-offs between compression rate, distortion, and predictive performance.",
+  "Experiments": [
+    "Derive operational bounds on compression rates using rate-distortion theory",
+    "Design and evaluate compression algorithms that achieve these bounds",
+    "Evaluate the trade-offs between compression rate, distortion, and predictive performance on benchmark datasets"
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of neural networks may limit the applicability of rate-distortion theory",
+    "The lack of a clear distortion measure for neural networks may hinder the development of effective compression algorithms",
+    "The computational resources required to derive and evaluate operational bounds may be significant"
+  ]
+}

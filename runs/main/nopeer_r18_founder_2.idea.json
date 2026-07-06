@@ -1,0 +1,37 @@
+{
+  "Name": "jacobian_layer_skipping_multimodal",
+  "Title": "Jacobian-Guided Layer Skipping for Efficient Multi-Modal Transformer Inference",
+  "Short Hypothesis": "Jacobian-based layer-skipping can dynamically skip layers in multi-modal transformer models while minimizing hidden-state perturbation and adhering to strict latency budgets, enabling efficient inference without sacrificing accuracy.",
+  "Related Work": "Existing works on latency-aware layer-skipping (e.g., DySL-VLA, DASH) rely on dynamic scheduling mechanisms like MDPs or heuristic skipping strategies. While these methods reduce latency, they often overlook the impact of skipping on hidden-state perturbations, which is critical in multi-modal models. Our approach distinguishes itself by leveraging Jacobian-based perturbation analysis to make skipping decisions, ensuring minimal disruption to cross-modal alignment.",
+  "Abstract": "Multi-modal transformer models, such as vision-language models, achieve state-of-the-art performance but suffer from high inference latency due to their large computational demands. We propose a Jacobian-guided layer-skipping framework that dynamically skips layers based on perturbation-cost analysis, minimizing hidden-state disruption while adhering to strict latency budgets. Unlike prior works that rely on heuristic or MDP-based skipping strategies, our method leverages the Jacobian matrix to quantify the impact of skipping on hidden states, ensuring efficient inference without sacrificing accuracy. Experiments on benchmark datasets demonstrate significant latency reductions while maintaining competitive task performance, offering a practical solution for deploying multi-modal models in resource-constrained environments.",
+  "Experiments": [
+    {
+      "Description": "Evaluate the framework on CLIP and Flamingo models using benchmark datasets (e.g., COCO, VQA-v2). Measure latency reduction and task performance (accuracy, F1 score).",
+      "Metrics": [
+        "Latency (ms)",
+        "Accuracy",
+        "F1 Score"
+      ]
+    },
+    {
+      "Description": "Compare against baseline methods (e.g., DySL-VLA, DASH) in terms of latency, accuracy, and hidden-state perturbation.",
+      "Metrics": [
+        "Latency Reduction (%)",
+        "Accuracy Drop (%)",
+        "Perturbation Cost"
+      ]
+    },
+    {
+      "Description": "Ablation study to analyze the impact of Jacobian-based skipping decisions on cross-modal alignment.",
+      "Metrics": [
+        "Cross-Modal Alignment Score",
+        "Hidden-State Perturbation"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "Jacobian computation may introduce overhead, though we propose amortizing it through offline pre-computation.",
+    "The method assumes a linear relationship between perturbation and skipping impact, which may not hold for all layers.",
+    "Multi-modal models introduce additional complexity, as skipping decisions must preserve cross-modal alignment."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "Name": "compression_robustness_tradeoff",
+  "Title": "Rate-Distortion-Theoretic Bounds on Generalization Under Distribution Shifts",
+  "Short Hypothesis": "Compression schemes that minimize rate-distortion trade-offs under static distributions may degrade generalization under distribution shifts; quantifying this degradation through operational bounds can inform robust compression strategies.",
+  "Related Work": "Existing work on rate-distortion theory in model compression (e.g., Sefidgaran et al., 2022; Bu et al., 2021) focuses on static data distributions and does not explicitly address robustness to distribution shifts. Recent work on robustness (e.g., Spectral Quantization Routing) introduces geometric approaches but lacks theoretical grounding in rate-distortion bounds. Our proposal bridges these gaps by deriving operational bounds that link compression to robustness under dynamic distributions.",
+  "Abstract": "Compression schemes for machine learning models often optimize rate-distortion trade-offs under static data distributions, but their impact on generalization under distribution shifts remains poorly understood. We propose a novel framework that quantifies the robustness-compression trade-off using operational bounds derived from rate-distortion theory. Our approach extends traditional rate-distortion analysis to dynamic distributions by introducing a robustness penalty term that captures sensitivity to distribution shifts. We derive achievability and converse bounds for generalization under compression, showing that compression schemes that minimize distortion under static distributions may degrade robustness. Empirically, we validate these bounds on synthetic and real-world datasets, demonstrating that our framework can guide the design of compression schemes that balance efficiency and robustness. Our results provide a theoretical foundation for robust model compression and highlight the need for explicit robustness considerations in compression algorithms.",
+  "Experiments": [
+    "Synthetic Experiments: Generate datasets with controlled distribution shifts and evaluate generalization error under different compression schemes. Metrics: generalization error, robustness penalty.",
+    "Real-World Benchmarks: Test on WILDS datasets with natural distribution shifts. Metrics: accuracy drop under shifts, compression rate.",
+    "Compression Algorithms: Compare traditional rate-distortion schemes with our robustness-aware variants. Metrics: rate-distortion curves, robustness penalty.",
+    "Theoretical Validation: Derive and validate achievability and converse bounds using synthetic data. Metrics: bound tightness, empirical generalization error."
+  ],
+  "Risk Factors and Limitations": [
+    "Theoretical bounds may be loose in practice, limiting their practical utility.",
+    "Robustness penalty term may be difficult to estimate accurately.",
+    "Experiments may not capture the full range of real-world distribution shifts.",
+    "Focusing on theoretical bounds may limit immediate applicability to specific hardware or architectures."
+  ]
+}

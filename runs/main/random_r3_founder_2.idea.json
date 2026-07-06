@@ -1,0 +1,20 @@
+{
+  "Name": "jacobian_layer_skipping",
+  "Title": "Latency-Aware Jacobian-Based Layer Skipping for Efficient Transformer Inference",
+  "Short Hypothesis": "By dynamically computing the Jacobian matrix for each layer and using it to determine layer importance, we can skip less critical layers during inference to reduce latency while preserving model accuracy, without requiring retraining.",
+  "Related Work": "Existing work focuses on token pruning (e.g., SAINT) and caching (e.g., MixCache) for inference acceleration. These methods often introduce training overhead or fail to adapt dynamically across layers. Our proposal distinguishes itself by leveraging the Jacobian matrix to make layer-skipping decisions dynamically, ensuring latency-aware optimization without retraining or caching.",
+  "Abstract": "Transformer models achieve state-of-the-art performance across various tasks but suffer from high inference latency due to their deep architectures. While token pruning and caching offer promising solutions, they often require training overhead or fail to adapt dynamically across layers. In this work, we propose a training-free, latency-aware layer-skipping framework that leverages the Jacobian matrix to dynamically assess layer importance. By computing the Jacobian for each layer and using it to determine which layers to skip, our method reduces inference latency while preserving model accuracy. We introduce an adaptive thresholding mechanism that balances latency reduction and accuracy loss, ensuring optimal performance under strict wall-clock budgets. Experiments on Vision Transformers (ViTs) and Language Models (LLMs) demonstrate that our approach achieves significant latency reductions (up to 2x) with minimal accuracy loss (<1%). Our work establishes a novel, practical framework for efficient transformer inference without requiring retraining or complex caching mechanisms.",
+  "Experiments": [
+    "Experiment 1: Evaluate latency reduction and accuracy on ViT-B/16 and ViT-L/16 models using ImageNet-1K. Metrics: Inference latency (ms), Top-1 accuracy.",
+    "Experiment 2: Test on LLMs (e.g., GPT-2, LLaMA) using language modeling tasks. Metrics: Perplexity, Inference latency (ms).",
+    "Experiment 3: Compare with state-of-the-art token pruning (SAINT) and caching (MixCache) methods. Metrics: Latency-accuracy trade-off, FLOPs reduction.",
+    "Experiment 4: Ablation study on the impact of Jacobian computation frequency (e.g., per-token vs. per-batch). Metrics: Latency, Accuracy.",
+    "Experiment 5: Analyze the effect of adaptive thresholding on latency-accuracy trade-offs. Metrics: Latency, Accuracy, Threshold sensitivity."
+  ],
+  "Risk Factors and Limitations": [
+    "Jacobian computation introduces overhead, which may offset latency gains in some cases.",
+    "The method may struggle with highly dynamic inputs where layer importance changes rapidly.",
+    "Adaptive thresholding requires careful tuning to balance latency and accuracy.",
+    "Experiments are limited to ViTs and LLMs; generalization to other architectures (e.g., CNNs) is untested."
+  ]
+}

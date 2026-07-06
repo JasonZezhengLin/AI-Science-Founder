@@ -1,0 +1,19 @@
+{
+  "Name": "jacobian_layer_skipping",
+  "Title": "Jacobian-Based Training-Free Layer Skipping for Latency-Aware Inference",
+  "Short Hypothesis": "Jacobian-based saliency measures can be used to dynamically skip less important layers in neural network inference, reducing latency without significant accuracy loss.",
+  "Related Work": "Existing approaches like DySL-VLA and DASH use complex mechanisms (action importance, Markov Decision Processes) or require additional training. This proposal simplifies and generalizes these ideas by using Jacobian-based saliency, which is computationally efficient and training-free.",
+  "Abstract": "We propose a novel, training-free framework for latency-aware inference that dynamically skips less important layers based on Jacobian-based saliency measures. By computing the Jacobian of the network output with respect to intermediate activations, we identify layers that contribute minimally to the final prediction. This allows us to skip these layers at runtime, significantly reducing inference latency without sacrificing accuracy. Our approach leverages spectral stability bounds to ensure that skipping decisions do not degrade model performance. Experiments on vision and language models demonstrate that our method achieves up to 2x speedup with less than 1% accuracy drop, outperforming existing layer-skipping methods.",
+  "Experiments": [
+    "Evaluate on ResNet-50 and Vision Transformers (ViT) for image classification tasks.",
+    "Evaluate on BERT and GPT-2 for language modeling and text classification tasks.",
+    "Compare latency-accuracy trade-offs against state-of-the-art layer-skipping methods (DySL-VLA, DASH).",
+    "Measure computational overhead of Jacobian computation and skipping decisions.",
+    "Assess robustness to input variations and domain shifts."
+  ],
+  "Risk Factors and Limitations": [
+    "Jacobian computation may introduce overhead for very deep networks.",
+    "Skipping decisions may be less effective for tasks requiring fine-grained feature extraction.",
+    "The approach may not generalize to architectures with highly interdependent layers."
+  ]
+}

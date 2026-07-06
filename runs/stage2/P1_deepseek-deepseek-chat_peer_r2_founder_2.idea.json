@@ -1,0 +1,19 @@
+{
+  "Name": "mutual_information_compression_generalization",
+  "Title": "Information-Theoretic Compression: Quantifying the Trade-Off Between Model Size and Task-Relevant Information",
+  "Short Hypothesis": "The generalization performance of compressed models is fundamentally bounded by the mutual information between the compressed model weights and the task-relevant information in the training data.",
+  "Related Work": "Existing work on model compression (e.g., pruning, quantization) often focuses on empirical performance without a theoretical grounding. Recent studies like Steinke & Zakynthinou (2020) use conditional mutual information (CMI) to study generalization but do not explicitly connect it to compression. Our work extends this by framing compression as a rate-distortion problem, where the goal is to maximize mutual information between the compressed model and the task, while minimizing the bit-cost.",
+  "Abstract": "We propose an information-theoretic framework to understand the relationship between model compression and generalization. By framing compression as a rate-distortion problem, we derive bounds on the mutual information between the compressed model weights and the task-relevant information in the training data. Our approach provides a theoretical foundation for evaluating compression methods, predicting their generalization performance based on how well they preserve task-relevant information. We validate our framework through experiments on pruning and quantization, showing that methods which maximize mutual information achieve better generalization, even at higher compression rates. Our results suggest that mutual information serves as a key metric for designing efficient compression algorithms that maintain task performance.",
+  "Experiments": [
+    "Experiment 1: Pruning with Mutual Information Preservation - Compare standard pruning methods (e.g., magnitude pruning) to a mutual information-guided pruning strategy. Evaluate generalization performance on CIFAR-10 and ImageNet. Metrics: Test accuracy, mutual information between pruned weights and task-relevant information.",
+    "Experiment 2: Quantization with Rate-Distortion Trade-Off - Quantize model weights at different bit-widths and measure the mutual information between quantized weights and task-relevant information. Evaluate generalization on MNIST and CIFAR-100. Metrics: Test accuracy, bits-per-weight, mutual information.",
+    "Experiment 3: Information-Theoretic Compression Limits - Derive theoretical bounds on the bits-per-weight needed to preserve task-relevant information for different tasks and datasets. Compare empirical results to these bounds. Metrics: Achievable rate-distortion curves, mutual information.",
+    "Experiment 4: Robustness to Distribution Shifts - Evaluate the robustness of compressed models to distribution shifts (e.g., WILDS benchmarks) and correlate robustness with mutual information preservation. Metrics: Robustness accuracy, mutual information."
+  ],
+  "Risk Factors and Limitations": [
+    "Estimating mutual information in high-dimensional spaces is challenging and may introduce bias or variance.",
+    "The theoretical bounds derived may be loose in practice, limiting their practical utility.",
+    "The framework assumes a fixed task-relevant information source, which may not hold for multi-task or continual learning scenarios.",
+    "The computational cost of estimating mutual information during compression could be prohibitive for very large models."
+  ]
+}

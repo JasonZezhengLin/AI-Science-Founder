@@ -1,0 +1,21 @@
+{
+  "Name": "tensorefficientinference",
+  "Title": "Tensor-Core Efficient Inference for Long-Context Language Models",
+  "Short Hypothesis": "By optimizing the utilization of Tensor Cores for dequantization and memory management in low-bit KV cache, we can significantly reduce the latency of long-context language model inference without compromising accuracy.",
+  "Related Work": "Existing works like BitDecoding (Du et al., 2025) have shown the potential of using low-bit KV cache and Tensor Cores to speed up long-context LLM inference. However, they primarily focus on specific GPU architectures and do not provide a generalized framework that can be applied across different hardware. Our proposal aims to extend and generalize these techniques to a wider range of GPUs and to further optimize the dequantization process.",
+  "Abstract": "Long-context Large Language Models (LLMs) require significant memory and bandwidth during autoregressive decoding, leading to high inference latency. While low-bit KV cache quantization can reduce memory footprint, existing systems often underutilize Tensor Cores, leading to suboptimal performance. This proposal introduces TensorEfficientInference, a framework that optimizes the use of Tensor Cores for dequantization and memory management in low-bit KV cache. By leveraging hardware-specific optimizations and novel warp-level parallelization strategies, TensorEfficientInference aims to significantly reduce decoding latency while maintaining accuracy. We will evaluate our framework on a range of GPU architectures, including Hopper, Ada, and Ampere, and demonstrate substantial improvements in latency and throughput.",
+  "Experiments": [
+    "Develop a baseline system using existing low-bit KV cache techniques and Tensor Core dequantization methods.",
+    "Implement hardware-specific optimizations for dequantization, focusing on warp-level parallelization and efficient memory access patterns.",
+    "Evaluate the performance of TensorEfficientInference on different GPU architectures (Hopper, Ada, Ampere) using a variety of long-context LLMs (e.g., LLaMA-3.1-8B).",
+    "Compare the latency, throughput, and energy efficiency of TensorEfficientInference against state-of-the-art systems like BitDecoding and QServe.",
+    "Conduct A/B latency races under fixed accuracy budgets, reporting p50/p99 latency, throughput under batching, and energy per token.",
+    "Instrument the system to collect detailed profiling metrics, including occupancy, achieved bandwidth, warp stall reasons, and arithmetic intensity, to attribute performance gains to specific hardware optimizations."
+  ],
+  "Risk Factors and Limitations": [
+    "Compatibility issues across different GPU architectures may arise, requiring additional hardware-specific tuning.",
+    "The complexity of hardware-level optimizations may introduce bugs that are difficult to diagnose and fix.",
+    "The performance gains may vary across different models and contexts, necessitating extensive benchmarking and fine-tuning.",
+    "The overhead of hardware instrumentation and profiling may impact real-time performance, although this can be mitigated with careful design."
+  ]
+}

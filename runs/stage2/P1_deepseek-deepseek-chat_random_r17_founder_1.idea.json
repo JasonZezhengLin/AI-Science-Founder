@@ -1,0 +1,19 @@
+{
+  "Name": "cachequant",
+  "Title": "CacheQuant: Co-Designing Low-Bit KV-Cache Quantization and Layout Optimization for Efficient LLM Inference",
+  "Short Hypothesis": "Co-designing low-bit KV-cache quantization strategies with cache layout optimization can significantly improve LLM inference efficiency by reducing memory bandwidth demands and improving Tensor Core utilization.",
+  "Related Work": "Existing works like BitDecoding and TARDIS optimize KV-cache mechanisms but do not jointly address quantization and layout optimization. Mixed-precision frameworks like SNIP and AMP-ViT focus on quantization but ignore cache layout. CacheQuant bridges this gap by co-designing low-bit quantization and cache layout, enabling efficient Tensor Core utilization and reduced memory bandwidth.",
+  "Abstract": "Large Language Models (LLMs) face significant memory and bandwidth challenges during inference, particularly due to the growing Key-Value (KV) cache. While low-bit quantization reduces memory footprint, existing approaches fail to fully exploit Tensor Core capabilities due to suboptimal cache layouts. This paper introduces CacheQuant, a novel framework that co-designs low-bit KV-cache quantization and cache layout optimization for efficient LLM inference. CacheQuant introduces an adaptive quantization strategy that dynamically adjusts bit-widths based on layer-specific sensitivity, coupled with a cache-aware layout optimization that maximizes Tensor Core utilization. We propose a kernel-level implementation that fuses dequantization and cache access operations, eliminating redundant memory transfers. Experiments on LLaMA-3 and GPT-NeoX models demonstrate that CacheQuant achieves up to 3.2× speedup in decoding latency and reduces memory bandwidth by 40% compared to state-of-the-art low-bit systems like BitDecoding and QServe, while maintaining model accuracy.",
+  "Experiments": [
+    "Experiment 1: Compare decoding latency and memory bandwidth of CacheQuant against BitDecoding and QServe on LLaMA-3 and GPT-NeoX models with 128K context length. Metrics: p50/p99 latency, tokens-per-second, achieved bandwidth, Tensor Core utilization.",
+    "Experiment 2: Evaluate accuracy impact of CacheQuant on language modeling tasks (e.g., perplexity on WikiText-2). Metrics: Perplexity, accuracy drop relative to FP16 baseline.",
+    "Experiment 3: Profile CacheQuant kernels to analyze hardware-level optimizations. Metrics: Warp stall reasons, arithmetic intensity, HBM round-trips.",
+    "Experiment 4: Measure energy efficiency of CacheQuant on NVIDIA Hopper and Blackwell GPUs. Metrics: Energy per token, FLOPs/Watt."
+  ],
+  "Risk Factors and Limitations": [
+    "Potential accuracy degradation from aggressive low-bit quantization.",
+    "Hardware-specific optimizations may limit generalizability across GPU architectures.",
+    "Increased complexity in kernel implementation may hinder reproducibility.",
+    "Dynamic bit-width adaptation may introduce runtime overhead."
+  ]
+}

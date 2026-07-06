@@ -1,0 +1,20 @@
+{
+  "Name": "CurvatureAwarePrecisionRouting",
+  "Title": "Curvature-Aware Precision Routing for Resource-Efficient Inference",
+  "Short Hypothesis": "The local curvature of the activation manifold can serve as a robust indicator for precision allocation during inference, enabling dynamic and efficient mixed-precision strategies that minimize computational overhead while maintaining model accuracy.",
+  "Related Work": "Existing work in mixed-precision inference often relies on static profiling or heuristic methods to determine precision levels, which can be suboptimal under dynamic input distributions. Recent works such as Spectral Quantization Routing (SQR) and Precision-Aware Hierarchical In-Network Aggregation (PAHInA) have explored the use of activation geometry and precision-aware routing, but they do not fully leverage the local curvature of the activation manifold. Our proposal aims to fill this gap by introducing a curvature-aware precision routing framework that dynamically adjusts precision based on real-time curvature diagnostics.",
+  "Abstract": "Mixed-precision inference is a promising approach for reducing computational overhead in machine learning models, but existing methods often rely on static profiling or heuristic rules that do not adapt to dynamic input distributions. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates numerical precision based on the local curvature of the activation manifold. By computing the Hessian condition number and spectral decay rate of hidden states on-the-fly, CAPR identifies regions of the activation space that are robust to low-precision computation and those that require higher precision. We theoretically ground this approach with PAC-Bayes bounds that link curvature to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, CAPR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines, providing a transparent and mathematically grounded pathway for resource-efficient inference.",
+  "Experiments": [
+    "1. **Curvature Diagnostics**: Compute the Hessian condition number and spectral decay rate of hidden states for a diverse set of input distributions. Use randomized SVD to efficiently estimate these metrics.",
+    "2. **Precision Allocation**: Develop a precision-switching policy that maps curvature diagnostics to precision levels. Ensure that the policy enforces strict latency budgets.",
+    "3. **Evaluation on WILDS Benchmarks**: Test CAPR on a variety of WILDS benchmarks, including natural and adversarial distribution shifts. Compare the throughput-accuracy trade-off with static and heuristic mixed-precision baselines.",
+    "4. **Stability Analysis**: Conduct a systematic ablation study to evaluate the impact of different curvature metrics (e.g., Hessian condition number vs. spectral decay rate) on model stability and accuracy.",
+    "5. **PAC-Bayes Verification**: Derive PAC-Bayes bounds to link curvature diagnostics to generalization stability under quantization noise. Validate these bounds empirically on the test sets."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Computational Overhead**: The real-time computation of curvature diagnostics may introduce additional computational overhead, which needs to be carefully managed to ensure it remains within acceptable bounds.",
+    "2. **Generalization to Different Models**: The effectiveness of curvature-aware precision routing may vary across different model architectures and tasks. We will need to validate the approach on a diverse set of models and datasets.",
+    "3. **Robustness to Adversarial Attacks**: The curvature-based metrics may be sensitive to adversarial perturbations. We will need to evaluate the robustness of CAPR under adversarial conditions.",
+    "4. **Scalability**: The proposed framework is designed for single-GPU setups. Extending it to multi-GPU or distributed settings may require additional considerations and optimizations."
+  ]
+}

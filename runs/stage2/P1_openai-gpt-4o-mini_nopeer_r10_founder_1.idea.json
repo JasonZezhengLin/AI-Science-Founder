@@ -1,0 +1,19 @@
+{
+  "Name": "profiling_based_layer_skipping",
+  "Title": "Layer-Skipping Inference: Dynamic Profiling for Efficient ML Execution",
+  "Short Hypothesis": "Dynamic profiling of GPU performance metrics can inform layer-skipping strategies in deep learning models to optimize latency without significant accuracy loss.",
+  "Related Work": "Existing frameworks, such as Unified Operator Fusion and AutoKernel, focus on kernel optimization but do not explore dynamic layer skipping based on real-time hardware profiling. This proposal introduces a novel method to adaptively skip layers during inference, dependent on the current profiling state of the GPU, thus reducing unnecessary computation.",
+  "Abstract": "In this proposal, we investigate the potential of dynamic layer skipping in deep learning models to enhance inference efficiency on commodity GPUs. By leveraging real-time profiling data such as GPU occupancy, memory bandwidth utilization, and arithmetic intensity, we aim to intelligently skip certain layers during inference that contribute minimal value to the final prediction. This adaptive mechanism will not only improve latency but also optimize energy consumption, making it suitable for deployment in latency-critical applications. We will implement this strategy in a profiler-aware inference engine and conduct thorough evaluations across various neural network architectures such as CNNs and transformers. The expected outcomes will showcase significant reductions in inference time while maintaining accuracy, demonstrating the viability of profiling-based layer skipping as a practical optimization technique.",
+  "Experiments": [
+    "Implement a baseline inference engine without layer skipping and measure p50/p99 latency and throughput.",
+    "Integrate a profiling module that collects GPU performance metrics during inference.",
+    "Design a decision algorithm that analyzes profiling data and makes layer-skipping decisions based on thresholds.",
+    "Evaluate the performance of the modified inference engine on standard datasets, comparing latency, throughput, and accuracy against the baseline.",
+    "Conduct ablation studies to determine the impact of various profiling metrics on layer skipping decisions."
+  ],
+  "Risk Factors and Limitations": [
+    "Accuracy may be impacted if important layers are skipped too frequently.",
+    "Dynamic profiling may introduce overhead that counters the benefits of layer skipping.",
+    "The method may not generalize well across all model architectures or hardware configurations."
+  ]
+}

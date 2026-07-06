@@ -1,0 +1,42 @@
+{
+  "Name": "mutual_information_compression",
+  "Title": "Mutual Information-Guided Compression of Neural Networks: A Rate-Distortion Perspective",
+  "Short Hypothesis": "The mutual information between hidden representations and task labels serves as a precise guide for allocating bits in neural network compression, enabling optimal rate-distortion trade-offs.",
+  "Related Work": "Existing work on model compression often relies on heuristic methods or uniform quantization, lacking a rigorous information-theoretic foundation. While Steinke et al. (2020) explored conditional mutual information for generalization, and InfoCL (Song et al., 2023) leveraged mutual information for continual learning, no prior work has systematically applied mutual information to guide compression decisions. This proposal distinguishes itself by framing compression as a rate-distortion problem, explicitly optimizing bit allocation based on mutual information between representations and task labels.",
+  "Abstract": "Neural network compression is typically approached through heuristic methods, lacking a principled foundation. We propose an information-theoretic framework for compression that leverages mutual information (MI) between hidden representations and task labels to guide bit allocation. By treating compression as a rate-distortion problem, we derive optimal bit allocation strategies that minimize task-relevant distortion under a total bit budget. Our approach involves estimating MI using variational bounds, identifying layers and units where MI is highest, and allocating more bits to these regions. We validate our framework on image classification and language modeling tasks, demonstrating superior compression efficiency compared to uniform quantization and heuristic methods. Our results show that MI-guided compression achieves lower task-specific distortion at equivalent bit rates, providing a theoretically grounded and empirically effective approach to model compression.",
+  "Experiments": [
+    {
+      "Description": "Estimate mutual information between hidden representations and task labels using variational bounds.",
+      "Metrics": [
+        "Mutual Information Estimate"
+      ]
+    },
+    {
+      "Description": "Compare compression efficiency of MI-guided bit allocation vs. uniform quantization on CIFAR-10.",
+      "Metrics": [
+        "Accuracy",
+        "Bits-per-weight",
+        "Distortion"
+      ]
+    },
+    {
+      "Description": "Validate the framework on a language modeling task (GPT-2) using WikiText-2 dataset.",
+      "Metrics": [
+        "Perplexity",
+        "Bits-per-weight"
+      ]
+    },
+    {
+      "Description": "Analyze the relationship between MI estimates and compression performance across different layers.",
+      "Metrics": [
+        "Mutual Information",
+        "Layer-wise Accuracy"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "Estimating mutual information accurately in high-dimensional spaces remains challenging.",
+    "The framework may require computationally expensive MI estimation for large models.",
+    "The approach assumes task labels are available during compression, limiting its applicability in unsupervised scenarios."
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "Name": "LatencyOptimizedMixedPrecisionInference",
+  "Title": "Latency-Optimized Adaptive Mixed-Precision Inference for Edge Devices",
+  "Short Hypothesis": "Can we develop a novel adaptive mixed-precision inference framework that dynamically adjusts precision levels to minimize latency while maintaining model accuracy for edge devices?",
+  "Related Work": "Existing works, such as SNIP, EMQ, and AMP-ViT, focus on training and post-training mixed-precision quantization, but they do not address the unique challenges of latency-critical inference on edge devices. HOBBIT and DyMoE introduce mixed-precision expert offloading and dynamic quantization, respectively, but they do not provide a comprehensive solution for end-to-end latency optimization. Our proposal aims to bridge this gap by integrating adaptive precision management with latency-aware resource allocation.",
+  "Abstract": "This paper introduces a novel framework, Latency-Optimized Adaptive Mixed-Precision Inference (LOAMI), designed to minimize inference latency while maintaining model accuracy on edge devices. LOAMI dynamically adjusts the precision of model parameters and activations based on real-time latency and resource constraints. We propose a three-tiered approach: (1) token-level dynamic precision adjustment, (2) layer-level adaptive prefetching, and (3) sequence-level cost-aware caching. LOAMI uses a hybrid reinforcement learning and Lyapunov optimization to balance latency, memory usage, and accuracy. Extensive experiments on edge devices demonstrate that LOAMI achieves up to a 4.5x speedup in inference time while maintaining or improving model accuracy compared to state-of-the-art methods.",
+  "Experiments": [
+    "Evaluate the performance of LOAMI on a variety of edge devices (e.g., Raspberry Pi, NVIDIA Jetson) using different models (e.g., BERT, MobileNet, ViT).",
+    "Compare LOAMI's latency and accuracy with state-of-the-art mixed-precision inference methods (e.g., HOBBIT, DyMoE, SNIP).",
+    "Conduct ablation studies to analyze the impact of each component (token-level adjustment, layer-level prefetching, sequence-level caching) on overall performance.",
+    "Measure the memory footprint and power consumption of LOAMI to ensure it is suitable for resource-constrained environments.",
+    "Evaluate the robustness of LOAMI under varying network conditions and input data distributions."
+  ],
+  "Risk Factors and Limitations": "1. The dynamic adjustment of precision levels may introduce additional computational overhead, which needs to be carefully managed to avoid latency increases. 2. The reinforcement learning component may require significant training time to converge, which could be a bottleneck for deployment. 3. The framework's performance may degrade in highly dynamic environments with frequent changes in network conditions and input data. 4. The proposed approach is limited to models that can be effectively quantized, and some models may not benefit as much from mixed-precision inference."
+}

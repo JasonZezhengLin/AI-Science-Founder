@@ -1,0 +1,18 @@
+{
+  "Name": "dynamo",
+  "Title": "DYNAMO: Dynamic Jacobian-Guided Layer Skipping and Token Pruning for Training-Free Latency-Aware Inference",
+  "Short Hypothesis": "By dynamically quantifying layer sensitivity via Jacobian matrices and pruning tokens based on their contribution to the final output, we can achieve training-free, latency-aware inference in transformer-based models without sacrificing accuracy.",
+  "Related Work": "Existing work includes SAINT (token pruning), LiteStage (layer skipping), and SimMLP (training-free MLPs). DYNAMO distinguishes itself by combining Jacobian-based layer-skipping and task-aware token pruning into a unified, training-free framework, enabling dynamic adaptation to varying computational demands.",
+  "Abstract": "Transformer-based models, while powerful, suffer from high inference latency due to their quadratic complexity in self-attention and redundant computations across layers. Existing methods for latency-aware inference often rely on static or heuristic-based approaches, failing to adapt dynamically to varying computational demands. This paper introduces DYNAMO, a novel framework that combines Jacobian-based layer-skipping with task-aware dynamic token pruning to achieve training-free, latency-aware inference. DYNAMO dynamically quantifies layer sensitivity using Jacobian matrices and prunes tokens based on their contribution to the final output, enabling adaptive inference without additional training. Experiments on ViTs, LLMs, and VLMs demonstrate that DYNAMO achieves up to 2.5× speedup with minimal accuracy loss, outperforming state-of-the-art methods. Our framework offers a generalizable solution for efficient inference in transformer-based models.",
+  "Experiments": [
+    "Experiment 1: Layer Sensitivity Analysis. Evaluate the correlation between Jacobian-based sensitivity scores and actual layer importance in ViTs, LLMs, and VLMs. Metric: Spearman correlation coefficient.",
+    "Experiment 2: Dynamic Token Pruning. Test the effectiveness of task-aware token pruning on ImageNet (ViTs), LLaVA (VLMs), and GPT-3 (LLMs). Metrics: Accuracy, latency reduction.",
+    "Experiment 3: End-to-End Inference. Compare DYNAMO against SAINT, LiteStage, and SimMLP on ViTs, LLMs, and VLMs. Metrics: Accuracy, latency, memory usage.",
+    "Experiment 4: Robustness to Domain Shifts. Evaluate DYNAMO's performance on out-of-distribution datasets (e.g., CIFAR-10 for ViTs, MMLU for LLMs). Metrics: Accuracy drop, latency consistency."
+  ],
+  "Risk Factors and Limitations": [
+    "Jacobian computation overhead may offset latency gains in extremely resource-constrained settings.",
+    "Token pruning may degrade performance in tasks requiring fine-grained attention (e.g., semantic segmentation).",
+    "Dynamic adaptation introduces variability in latency, which may not be suitable for real-time applications with strict deadlines."
+  ]
+}

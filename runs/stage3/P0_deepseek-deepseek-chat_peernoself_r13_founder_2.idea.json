@@ -1,0 +1,18 @@
+{
+  "Name": "latency-aware_layer-skipping",
+  "Title": "Latency-Aware Layer-Skipping via Jacobian-Based Spectral Stability Bounds",
+  "Short Hypothesis": "Jacobian-based spectral stability bounds can enable training-free, latency-aware layer-skipping mechanisms that enforce strict wall-clock budgets while minimizing hidden-state perturbation.",
+  "Related Work": "Existing approaches like Spectral Quantization Routing (SQR) and Training-Free Geometric Interference Cancellation focus on mixed-precision inference and geometric filtering but do not address layer-skipping directly. Our proposal leverages Jacobian-based spectral stability bounds to introduce a novel layer-skipping mechanism, distinct from these methods.",
+  "Abstract": "We propose a novel training-free framework for latency-aware layer-skipping in deep neural networks, utilizing Jacobian-based spectral stability bounds. Our approach computes these bounds on-the-fly using randomized SVD, mapping them to a layer-skipping policy that enforces strict wall-clock budgets. We theoretically ground the mechanism with PAC-Bayes bounds that link spectral stability to generalization stability under perturbation. Evaluated on single-GPU setups across WILDS benchmarks, our method achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic layer-skipping baselines. By replacing qualitative fragility claims with formalized risk bounds, our framework provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Evaluate the layer-skipping mechanism on WILDS benchmarks using single-GPU setups.",
+    "Compare throughput-accuracy Pareto frontiers against static and heuristic layer-skipping baselines.",
+    "Measure hidden-state perturbation and stability using spectral stability bounds.",
+    "Validate theoretical PAC-Bayes bounds linking spectral stability to generalization stability under perturbation."
+  ],
+  "Risk Factors and Limitations": [
+    "The randomized SVD computation might introduce additional overhead.",
+    "The layer-skipping mechanism might not generalize well to all architectures.",
+    "Strict wall-clock budgets might limit the applicability in highly dynamic environments."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "Name": "curvature_aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: Training-Free Inference via Deterministic Spectral Estimators",
+  "Short Hypothesis": "Precision allocation in neural networks can be optimized using deterministic spectral estimators derived from activation geometry, ensuring numerical stability and computational efficiency without training.",
+  "Related Work": "Existing methods like Spectral Quantization Routing (SQR) focus on activation geometry but lack explicit numerical stability analysis. Our proposal integrates PAC-Bayes generalization bounds and deterministic spectral estimators, providing a more rigorous and transparent framework.",
+  "Abstract": "We propose Curvature-Aware Precision Routing (CAPR), a training-free framework for optimizing precision allocation in neural networks. CAPR leverages deterministic spectral estimators derived from activation geometry to allocate numerical precision dynamically. By integrating PAC-Bayes generalization bounds and explicit numerical stability analysis, CAPR ensures computational efficiency and robustness under precision switching. We demonstrate the effectiveness of CAPR on single-GPU setups across various benchmarks, achieving superior throughput-accuracy Pareto frontiers compared to existing methods. Our approach bridges foundational optimization theory with practical deployment constraints, offering a mathematically transparent and resource-efficient solution for precision routing.",
+  "Experiments": [
+    "Evaluate CAPR on single-GPU setups across WILDS benchmarks.",
+    "Compare CAPR with static and heuristic mixed-precision baselines.",
+    "Measure throughput, accuracy, and numerical stability using spectral diagnostics.",
+    "Validate PAC-Bayes generalization bounds under quantization noise."
+  ],
+  "Risk Factors and Limitations": [
+    "Potential overhead from deterministic spectral estimators.",
+    "Limited applicability to architectures with highly irregular activation geometries.",
+    "Dependence on accurate PAC-Bayes bounds for generalization stability."
+  ]
+}

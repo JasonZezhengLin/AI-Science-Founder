@@ -1,0 +1,18 @@
+{
+  "Name": "training-free_spectral_routing_mixed_precision",
+  "Title": "Spectral Routing for Training-Free Mixed-Precision Quantization",
+  "Short Hypothesis": "Spectral decomposition of weight matrices can serve as a training-free proxy for determining optimal mixed-precision configurations, leveraging the intrinsic structure of the model to allocate bit-widths efficiently.",
+  "Related Work": "Existing mixed-precision quantization methods often rely on heuristic proxies or computationally expensive search algorithms. Training-free approaches like EMQ and SliM-LLM have improved efficiency but still lack a mechanistic understanding of how quantization affects model performance. Recent work on spectral decomposition (e.g., Intrinsic Structure as a Proxy for Saliency) suggests that the principal components of weight matrices are critical for model accuracy. Our proposal builds on these insights by using spectral diagnostics to guide bit-width allocation, offering a mathematically transparent and deterministic approach to mixed-precision quantization.",
+  "Abstract": "Mixed-precision quantization (MPQ) is a powerful technique for compressing deep neural networks, but determining the optimal bit-width configuration remains a challenge. Current methods often rely on heuristic proxies or computationally expensive search algorithms, limiting their scalability and interpretability. We propose a novel training-free approach that leverages spectral decomposition of weight matrices to guide bit-width allocation. By identifying the principal components of each layer, we can allocate higher precision to the most critical weights while aggressively quantizing less important ones. This approach provides a mathematically transparent and deterministic framework for MPQ, ensuring numerical stability and efficient resource utilization. We validate our method on a range of vision and language models, demonstrating significant improvements in accuracy-efficiency trade-offs compared to state-of-the-art methods.",
+  "Experiments": [
+    "Experiment 1: Spectral Analysis and Bit-width Allocation. Perform singular value decomposition (SVD) on the weight matrices of each layer. Allocate higher precision (e.g., 8-bit) to the top-k singular values and lower precision (e.g., 4-bit) to the remaining weights. Evaluate the impact on model accuracy and inference speed.",
+    "Experiment 2: Comparison with Heuristic Proxies. Compare our spectral routing approach with existing heuristic proxies (e.g., Hessian-based methods) on a range of models, including ResNet, MobileNet, and LLaMA. Metrics: accuracy, memory usage, and inference time.",
+    "Experiment 3: Robustness to Noise. Introduce controlled noise to the weight matrices and observe the impact of spectral routing on model performance. Metrics: robustness score and accuracy degradation.",
+    "Experiment 4: Scalability to Large Models. Apply spectral routing to large language models (LLMs) and evaluate its effectiveness in reducing memory usage while maintaining accuracy. Metrics: perplexity and memory footprint."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of spectral routing may vary across different architectures and tasks, potentially limiting its generalizability.",
+    "SVD computation can be computationally expensive for very large models, although we mitigate this by performing decomposition only once per layer.",
+    "The method assumes that the principal components are the most critical for model performance, which may not hold for all layers or tasks."
+  ]
+}

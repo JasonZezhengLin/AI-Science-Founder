@@ -1,0 +1,22 @@
+{
+  "Name": "curvature_aware_spectral_routing",
+  "Title": "Curvature-Aware Spectral Routing: Training-Free Precision Allocation via Hessian-Eigenvalue Geometry",
+  "Short Hypothesis": "The local curvature of the loss landscape, as captured by the Hessian eigenvalue spectrum, provides a deterministic proxy for numerical precision requirements during inference. By computing Hessian eigenvalues on-the-fly using randomized numerical linear algebra, we can allocate precision tiers dynamically based on curvature severity, ensuring computational efficiency without sacrificing model accuracy.",
+  "Related Work": "Existing approaches to mixed-precision inference, such as Spectral Quantization Routing (SQR), focus on activation covariance geometry but overlook the critical role of loss landscape curvature. While SQR uses activation covariance condition numbers to guide precision allocation, it fails to account for the local geometry of the optimization landscape, which is crucial for understanding model sensitivity to quantization noise. Our proposal explicitly incorporates Hessian eigenvalue diagnostics, bridging the gap between optimization theory and practical precision routing.",
+  "Abstract": "We introduce Curvature-Aware Spectral Routing (CASR), a training-free framework that dynamically allocates numerical precision during inference based on the local curvature of the loss landscape. CASR leverages randomized numerical linear algebra to efficiently compute Hessian eigenvalues on-the-fly, mapping them to precision tiers that balance computational efficiency and model accuracy. We hypothesize that regions of high curvature, characterized by large Hessian eigenvalues, require higher numerical precision to maintain stability, while low-curvature regions can safely operate at lower precision. We ground this approach in PAC-Bayes generalization bounds, linking Hessian eigenvalue magnitudes to quantization noise tolerance. Evaluated on single-GPU setups across WILDS benchmarks, CASR demonstrates superior throughput-accuracy trade-offs compared to existing mixed-precision methods. By integrating curvature diagnostics into precision routing, CASR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Evaluate CASR on WILDS benchmarks (e.g., Camelyon17, CivilComments) to measure throughput-accuracy trade-offs.",
+    "Compare CASR against Spectral Quantization Routing (SQR) and static mixed-precision baselines.",
+    "Perform ablation studies to isolate the impact of Hessian eigenvalue diagnostics on precision allocation.",
+    "Measure computational overhead of on-the-fly Hessian eigenvalue computation using randomized numerical linear algebra.",
+    "Assess model robustness to quantization noise in high-curvature vs. low-curvature regions.",
+    "Validate PAC-Bayes generalization bounds empirically across different precision tiers."
+  ],
+  "Risk Factors and Limitations": [
+    "On-the-fly Hessian eigenvalue computation may introduce non-negligible computational overhead.",
+    "The assumption that curvature severity directly correlates with precision requirements may not hold for all models or tasks.",
+    "Randomized numerical linear algebra methods may introduce approximation errors, potentially affecting precision allocation decisions.",
+    "The approach may be sensitive to the choice of hyperparameters in the randomized eigenvalue computation.",
+    "Single-GPU validation may limit the scalability of the approach to larger models or distributed setups."
+  ]
+}

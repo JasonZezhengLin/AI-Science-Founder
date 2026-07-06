@@ -1,0 +1,20 @@
+{
+  "Name": "kernel_fusion_profiling",
+  "Title": "Empirical Kernel Fusion Profiling for Efficient Inference on Commodity GPUs",
+  "Short Hypothesis": "Empirically tuning fused CUDA/Triton kernels and memory-bandwidth utilization based on profiler-measured metrics (occupancy, achieved bandwidth, arithmetic intensity) can lead to significant latency reductions and throughput improvements for inference on commodity GPUs, without relying on theoretical frameworks.",
+  "Related Work": "Existing work on efficient inference often relies on theoretical frameworks like PAC-Bayes bounds and spectral diagnostics (e.g., Spectral Quantization Routing, Spectral Latent Steering). These methods focus on geometric or spectral properties of activations but lack hardware-level profiling and empirical tuning. Our proposal distinguishes itself by prioritizing profiler-measured metrics and empirical tuning of kernel-level operations, ensuring reproducible benchmarks and end-to-end speedups.",
+  "Abstract": "We propose an empirical approach to optimizing fused CUDA/Triton kernels and memory-bandwidth utilization for efficient inference on commodity GPUs. By leveraging profiler-measured metrics such as occupancy, achieved bandwidth, and arithmetic intensity, we empirically tune kernel-level operations to maximize hardware efficiency. Our method focuses on reproducible benchmarks, nvprof/Nsight traces, and end-to-end speedups, ensuring that gains are attributed to specific hardware causes like coalesced loads, reduced HBM round-trips, and better register allocation. We conduct A/B latency races under fixed accuracy budgets, reporting p50/p99 latency, throughput under batching, and energy per token. Our contributions include faster dequantization kernels, cache-friendly skip schedules, and bandwidth-bound operations made compute-bound, each validated by before/after traces. This work bridges model compression with deployment systems engineering, offering shippable wins for practitioners.",
+  "Experiments": [
+    "Experiment 1: Profile baseline kernels for occupancy, achieved bandwidth, and arithmetic intensity using nvprof/Nsight. Identify bottlenecks such as uncoalesced loads, bank conflicts, and low arithmetic intensity.",
+    "Experiment 2: Implement fused CUDA/Triton kernels with empirically tuned tile sizes and memory-bandwidth utilization. Profile the optimized kernels and compare metrics to baseline.",
+    "Experiment 3: Conduct A/B latency races under fixed accuracy budgets, measuring p50/p99 latency, throughput under batching, and energy per token. Report variance across runs as measured jitter.",
+    "Experiment 4: Validate specific hardware causes for gains (e.g., coalesced loads, reduced HBM round-trips, better register allocation) using before/after traces.",
+    "Experiment 5: Deploy the optimized kernels on a single commodity GPU and measure end-to-end speedups. Ensure reproducibility through pinned driver/CUDA versions and archived trace files."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk 1: Empirical tuning may not generalize across different hardware configurations or driver versions.",
+    "Risk 2: Optimized kernels may introduce new bottlenecks or trade-offs not captured by initial profiling.",
+    "Limitation 1: The approach is hardware-specific and may require re-tuning for different GPUs.",
+    "Limitation 2: Gains may be marginal for already highly optimized kernels."
+  ]
+}

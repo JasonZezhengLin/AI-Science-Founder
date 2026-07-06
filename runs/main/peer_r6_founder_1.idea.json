@@ -1,0 +1,21 @@
+{
+  "Name": "curvature_aware_mixed_precision",
+  "Title": "Curvature-Aware Mixed-Precision Quantization via Training-Free Hessian Spectral Diagnostics",
+  "Short Hypothesis": "The spectral properties of the Hessian matrix provide a robust, training-free proxy for determining optimal layer-wise mixed-precision quantization configurations, enabling efficient resource allocation without costly calibration or retraining.",
+  "Related Work": "Existing mixed-precision quantization methods often rely on heuristic proxies or costly training-based search strategies, as seen in EMQ (Dong et al., 2023) and InfoQ (Akbulut et al., 2025). While these approaches improve efficiency, they lack a principled connection to the underlying optimization landscape. Our proposal leverages the Hessian's spectral properties—specifically, its condition number and eigenvalue decay—to directly quantify quantization sensitivity. This distinguishes our work by grounding precision allocation in formal optimization theory, avoiding the fragility of heuristic proxies and the computational overhead of training-based methods.",
+  "Abstract": "Mixed-precision quantization (MPQ) offers significant computational savings but requires precise layer-wise sensitivity estimation to avoid accuracy degradation. Current methods rely on heuristic proxies or costly training-based search, lacking theoretical grounding and scalability. We propose Curvature-Aware Mixed-Precision Quantization (CAMPQ), a training-free framework that leverages the spectral properties of the Hessian matrix to determine optimal bit-width configurations. By computing the Hessian's condition number and eigenvalue decay via randomized SVD, we derive a sensitivity score for each layer that predicts its robustness to quantization. These scores are used to formulate bit-width allocation as a constrained optimization problem, minimizing quantization error under a resource budget. Evaluated on single-GPU setups across vision and language benchmarks, CAMPQ achieves superior accuracy-efficiency trade-offs compared to state-of-the-art training-free and training-based MPQ methods. Our approach bridges optimization theory with practical deployment, offering a transparent, reproducible pathway for resource-efficient inference.",
+  "Experiments": [
+    "Compute Hessian spectra for each layer using randomized SVD, evaluating condition numbers and eigenvalue decay rates.",
+    "Develop a sensitivity scoring function based on Hessian spectral properties and validate its correlation with quantization error across ResNet, MobileNet, and Transformer architectures.",
+    "Formulate bit-width allocation as a constrained optimization problem, minimizing sensitivity scores under a resource budget (e.g., model size or BitOps).",
+    "Evaluate CAMPQ on ImageNet (ResNet, MobileNet) and WILDS benchmarks, comparing accuracy and efficiency against training-free (EMQ, InfoQ) and training-based (HAWQ, AdaQuant) baselines.",
+    "Perform ablation studies to isolate the impact of Hessian diagnostics versus alternative proxies (e.g., gradient norms, activation statistics).",
+    "Quantify computational overhead of Hessian estimation and its scalability to larger models."
+  ],
+  "Risk Factors and Limitations": [
+    "Hessian computation, even with randomized SVD, may incur non-negligible overhead for very large models.",
+    "The assumption that Hessian spectra generalize across diverse input distributions may not hold in all cases.",
+    "The framework relies on second-order optimization properties, which may not capture all aspects of quantization sensitivity.",
+    "The constrained optimization formulation may require tuning for different resource budgets and architectures."
+  ]
+}

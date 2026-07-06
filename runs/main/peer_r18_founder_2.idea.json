@@ -1,0 +1,42 @@
+{
+  "Name": "training_free_geometric_inference",
+  "Title": "Training-Free Geometric Inference: Leveraging Spectral Stability for Latency-Aware Optimization",
+  "Short Hypothesis": "Spectral stability of hidden states in neural networks can serve as a proxy for inference robustness, enabling training-free optimization of latency-critical tasks without compromising accuracy.",
+  "Related Work": "Existing methods for latency-aware inference often rely on static profiling or heuristic control mechanisms, which are brittle under dynamic input distributions and fail to enforce strict latency budgets. Recent work like Spectral Quantization Routing (SQR) and Geometric Signal Separation (GSS) has explored geometric properties of activations but focuses on quantization and noise filtering, respectively. Our proposal distinguishes itself by explicitly linking spectral stability to inference robustness and latency optimization, offering a mathematically grounded, training-free framework for dynamic compute allocation.",
+  "Abstract": "We propose a novel framework for training-free, latency-aware inference that leverages the spectral stability of hidden states in neural networks. By computing the spectral condition number and decay rate of activation covariances, we derive a dynamic precision and compute allocation policy that adapts to real-time input distributions while enforcing strict latency budgets. Our approach eliminates the need for costly calibration or heuristic control mechanisms, replacing them with formalized risk bounds derived from PAC-Bayes theory. We evaluate our method on single-GPU setups across diverse benchmarks, demonstrating superior throughput-accuracy trade-offs compared to existing static and heuristic baselines. This work bridges foundational optimization theory with practical, scalable inference, offering a reproducible pathway for resource-efficient deployment under natural distribution shifts.",
+  "Experiments": [
+    {
+      "Description": "Compute spectral condition numbers and decay rates of activation covariances using randomized SVD on hidden states across layers.",
+      "Metrics": [
+        "Condition Number",
+        "Spectral Decay Rate"
+      ]
+    },
+    {
+      "Description": "Evaluate dynamic precision and compute allocation policies on WILDS benchmarks, enforcing strict latency budgets.",
+      "Metrics": [
+        "Throughput",
+        "Accuracy",
+        "Latency Compliance"
+      ]
+    },
+    {
+      "Description": "Compare throughput-accuracy trade-offs with existing static and heuristic mixed-precision baselines.",
+      "Metrics": [
+        "Throughput-Accuracy Pareto Frontier"
+      ]
+    },
+    {
+      "Description": "Validate formalized risk bounds derived from PAC-Bayes theory under controlled distributional shifts.",
+      "Metrics": [
+        "Generalization Stability",
+        "Risk Bounds"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "Potential overhead from real-time spectral computation may negate latency savings.",
+    "Dynamic precision allocation may introduce instability in certain edge cases.",
+    "Theoretical bounds assume idealized conditions, which may not hold in practical scenarios."
+  ]
+}

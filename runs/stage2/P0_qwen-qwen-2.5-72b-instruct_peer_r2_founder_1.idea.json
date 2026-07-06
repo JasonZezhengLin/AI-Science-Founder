@@ -1,0 +1,27 @@
+{
+  "Name": "curvatureawareprecisionrouting",
+  "Title": "Curvature-Aware Precision Routing for Efficient and Stable Mixed-Precision Inference",
+  "Short Hypothesis": "Can a training-free, curvature-aware precision routing framework dynamically allocate numerical precision based on the local activation geometry, thereby improving both inference stability and computational efficiency?",
+  "Related Work": "Recent works such as Mix-GEMM [1] and SR-CurvANN [3] have explored the use of mixed-precision and curvature-aware methods, but they often rely on static profiling or costly calibration. Spectral Quantization Routing (SQR) [10] proposes a training-free framework for precision allocation, but it does not explicitly leverage curvature diagnostics for dynamic precision switching. Our proposal aims to fill this gap by integrating curvature analysis with precision routing to achieve both stability and efficiency.",
+  "Abstract": "Mixed-precision inference offers significant computational benefits but often lacks adaptive precision allocation mechanisms. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates numerical precision based on the local activation geometry. By computing real-time activation covariances and spectral decay rates, CAPR identifies well-conditioned and robust subspaces that can tolerate low-precision computation, while ill-conditioned subspaces are assigned higher precision. We theoretically ground the routing mechanism with PAC-Bayes bounds that link spectral conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, CAPR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized risk bounds, CAPR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Experiment 1: Precision Allocation Based on Activation Geometry",
+    " - Compute local activation covariances and spectral decay rates for different layers of a neural network.",
+    " - Map these geometric diagnostics to a precision-switching policy using a predefined threshold.",
+    " - Evaluate the impact of dynamic precision allocation on model accuracy and computational efficiency.",
+    "Experiment 2: PAC-Bayes Stability Analysis",
+    " - Derive PAC-Bayes bounds for the generalization stability of the model under quantization noise.",
+    " - Compare these bounds with empirical performance to validate the theoretical framework.",
+    "Experiment 3: Robustness to Distributional Shifts",
+    " - Test the model on WILDS benchmarks with varying degrees of distributional shifts.",
+    " - Measure the model's ability to maintain performance and computational efficiency under different conditions.",
+    "Experiment 4: Latency and Memory Efficiency",
+    " - Measure the wall-clock latency and memory usage of the model under different precision allocation policies.",
+    " - Compare the performance of CAPR with static and heuristic mixed-precision baselines."
+  ],
+  "Risk Factors and Limitations": [
+    " - The computational overhead of real-time activation covariance and spectral decay rate computation may be significant, especially for large models.",
+    " - The threshold for precision switching may need fine-tuning for different models and datasets.",
+    " - The PAC-Bayes bounds may not perfectly capture all sources of quantization noise, leading to suboptimal performance in some cases."
+  ]
+}

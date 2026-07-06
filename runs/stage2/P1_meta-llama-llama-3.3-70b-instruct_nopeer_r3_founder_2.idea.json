@@ -1,0 +1,18 @@
+{
+  "Name": "neural_network_compression",
+  "Title": "Information-Theoretic Limits of Neural Network Compression",
+  "Short Hypothesis": "The compressibility of neural networks is fundamentally limited by their mutual information with the task, and achieving optimal compression requires balancing rate and distortion under this constraint.",
+  "Related Work": "Existing work on neural network compression focuses on empirical methods such as pruning and quantization. However, these approaches lack a clear understanding of the fundamental limits of compression. Our proposal differs by applying rate-distortion theory to derive bounds on the compressibility of neural networks, providing a theoretical foundation for compression algorithms.",
+  "Abstract": "This proposal explores the information-theoretic limits of neural network compression. We apply rate-distortion theory to derive bounds on the compressibility of neural networks, considering the trade-off between rate and distortion. Our approach provides a theoretical foundation for understanding the fundamental limits of neural network compression and guides the development of optimal compression algorithms. We will investigate the relationship between neural network architecture, task complexity, and compressibility, and evaluate our approach using distortion-rate curves and mutual information estimates.",
+  "Experiments": [
+    "Derive achievability and converse bounds for neural network compression using rate-distortion theory",
+    "Evaluate the compressibility of different neural network architectures and tasks using distortion-rate curves",
+    "Investigate the relationship between mutual information and compressibility using InfoNCE-style estimators",
+    "Compare the performance of our approach with existing empirical compression methods"
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of neural network models and tasks may limit the applicability of our approach",
+    "The accuracy of mutual information estimates and distortion-rate curves may be affected by the choice of estimators and metrics",
+    "The development of optimal compression algorithms based on our theoretical foundations may require significant computational resources"
+  ]
+}

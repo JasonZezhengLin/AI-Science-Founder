@@ -1,0 +1,19 @@
+{
+  "Name": "curvature-aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: Deterministic Optimization via Geometric Subspace Diagnostics",
+  "Short Hypothesis": "The curvature of the optimization landscape in geometric subspaces can serve as a deterministic proxy for precision allocation, enabling training-free, resource-efficient routing without heuristic control mechanisms.",
+  "Related Work": "Recent work has explored mixed-precision inference and test-time optimization, such as Spectral Quantization Routing (SQR) and Spectral Latent Steering (SLS). SQR leverages activation covariance geometry for precision allocation, while SLS restricts test-time optimization to low-rank subspaces. Our proposal differs by explicitly linking precision allocation to curvature diagnostics in geometric subspaces, providing a deterministic, training-free framework that replaces heuristic control with formalized risk bounds.",
+  "Abstract": "Mixed-precision inference promises significant computational savings but often relies on heuristic control mechanisms or costly calibration. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that deterministically allocates numerical precision based on the curvature of the optimization landscape in geometric subspaces. By leveraging curvature diagnostics, such as Hessian conditioning and gradient covariance decay, CAPR identifies subspaces robust to low-precision computation and those requiring higher precision. We theoretically ground CAPR with PAC-Bayes bounds that link curvature to generalization stability under quantization noise. Empirically, we validate CAPR on single-GPU setups across WILDS benchmarks, demonstrating superior throughput-accuracy Pareto frontiers compared to static and heuristic mixed-precision baselines. CAPR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Experiment 1: Evaluate CAPR on WILDS benchmarks, comparing throughput and accuracy against static and heuristic mixed-precision baselines. Metrics: Accuracy, latency, memory usage.",
+    "Experiment 2: Validate curvature diagnostics by measuring Hessian conditioning and gradient covariance decay in geometric subspaces. Metrics: Condition number, spectral decay rate.",
+    "Experiment 3: Test the robustness of CAPR under natural distribution shifts. Metrics: Generalization gap, quantization noise sensitivity.",
+    "Experiment 4: Compare CAPR with Spectral Quantization Routing (SQR) and Spectral Latent Steering (SLS) on mathematical reasoning and code generation tasks. Metrics: Accuracy, hidden-state perturbation overhead."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk: Curvature diagnostics may introduce computational overhead, potentially offsetting precision allocation benefits.",
+    "Limitation: CAPR is designed for single-GPU setups and may not scale efficiently to multi-GPU environments.",
+    "Risk: The theoretical bounds linking curvature to generalization stability may not hold under extreme quantization conditions.",
+    "Limitation: CAPR assumes access to Hessian information, which may not be feasible in all practical scenarios."
+  ]
+}

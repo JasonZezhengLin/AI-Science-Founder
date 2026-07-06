@@ -1,0 +1,16 @@
+{
+  "Name": "jacobian_layer_skipping_inference",
+  "Title": "Latency-Aware Inference via Jacobian-Based Layer Skipping in Neural Networks",
+  "Short Hypothesis": "Implementing a Jacobian-based layer-skipping mechanism can significantly enhance latency-aware inference by minimizing hidden-state perturbation, while maintaining accuracy and adhering to strict wall-clock limits.",
+  "Related Work": "Existing literature primarily addresses latency reduction through approximate computing or model compression. Notable works like 'Accelerating TinyML Inference' and 'Localized Intelligence with Built In Confidentiality' emphasize resource constraints but lack a systematic framework for Jacobian-based layer skipping that enforces strict latency budgets, differentiating our approach significantly.",
+  "Abstract": "In this proposal, we introduce a novel Jacobian-based layer-skipping framework designed to optimize latency-aware inference in machine learning models. By leveraging the Jacobian matrix to identify less critical layers during inference, we minimize hidden-state perturbation and enforce strict wall-clock budgets. This paper aims to empirically validate the framework against established benchmarks, demonstrating that the proposed method can achieve a superior throughput-accuracy balance compared to traditional architectures. We hypothesize that our approach will reduce inference latency while maintaining classification accuracy within acceptable limits. We will conduct a series of experiments across different network architectures to assess the impact of layer skipping on performance metrics, including throughput, accuracy, and memory bandwidth utilization.",
+  "Experiments": [
+    "Implement a Jacobian-based layer-skipping mechanism in popular architectures (e.g., ResNet, MobileNet).",
+    "Evaluate throughput and accuracy across various inference tasks (e.g., CIFAR-10 classification) under strict latency constraints.",
+    "Compare performance metrics with baseline models performing full inference to quantify improvements in latency and resource utilization."
+  ],
+  "Risk Factors and Limitations": [
+    "Potential degradation in accuracy if critical layers are skipped too aggressively.",
+    "Challenges in dynamically adjusting the layer-skipping mechanism based on varying computational constraints."
+  ]
+}

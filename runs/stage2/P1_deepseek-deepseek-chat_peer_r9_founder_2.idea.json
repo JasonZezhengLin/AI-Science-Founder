@@ -1,0 +1,19 @@
+{
+  "Name": "task_aware_hierarchical_rate_distortion_compression",
+  "Title": "Task-Aware Hierarchical Rate-Distortion Compression for Deep Models",
+  "Short Hypothesis": "Deep models can be compressed more efficiently by hierarchically allocating bits to layers based on their task-specific mutual information, achieving better rate-distortion trade-offs while preserving generalization.",
+  "Related Work": "Recent work by Bu et al. (2021) shows that model compression can improve population risk by reducing generalization error, while Tsur et al. (2023) propose a method for estimating the rate-distortion function without prior knowledge of the source distribution. Our work extends these insights by introducing a hierarchical compression framework that dynamically allocates bits based on task-specific mutual information, formalizing trade-offs between compression, generalization, and task performance.",
+  "Abstract": "Deep model compression often focuses on minimizing the bits-per-weight while preserving overall model performance. However, not all layers contribute equally to task-specific outcomes, suggesting that a hierarchical compression strategy could yield better rate-distortion trade-offs. We propose Task-Aware Hierarchical Rate-Distortion Compression (TAHRDC), a framework that dynamically allocates compression resources based on the task-specific mutual information of each layer. By estimating the mutual information between layer activations and task labels, TAHRDC prioritizes layers that are most informative for the task, achieving superior compression efficiency without sacrificing generalization. We derive theoretical bounds linking task-specific mutual information to achievable compression rates and validate our approach on image classification and natural language processing tasks. Results show that TAHRDC outperforms uniform compression baselines in both compression ratio and task performance, offering a principled, information-theoretic approach to deep model compression.",
+  "Experiments": [
+    "Estimate mutual information between layer activations and task labels using InfoNCE-style estimators.",
+    "Apply hierarchical quantization and pruning based on task-specific mutual information.",
+    "Evaluate compression efficiency (bits-per-weight), task performance (accuracy/F1 score), and generalization (test loss) on CIFAR-10 and GLUE benchmarks.",
+    "Compare against uniform compression baselines and state-of-the-art methods.",
+    "Analyze the trade-off between compression rate, distortion, and task performance using rate-distortion curves."
+  ],
+  "Risk Factors and Limitations": [
+    "Mutual information estimation may be computationally expensive for large models.",
+    "Task-specific compression may not generalize well to multi-task settings.",
+    "Hierarchical allocation requires layer-wise analysis, which could increase implementation complexity."
+  ]
+}

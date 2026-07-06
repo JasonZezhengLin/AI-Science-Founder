@@ -1,0 +1,34 @@
+{
+  "Name": "EfficientTestTimeQuantization",
+  "Title": "Efficient Test-Time Quantization for Latency-Bounded Inference in Language Models",
+  "Short Hypothesis": "By dynamically adjusting the precision of hidden states based on real-time activation geometry, we can achieve significant latency and memory savings without compromising accuracy in language model inference.",
+  "Related Work": "Recent works have explored test-time optimization and mixed-precision inference, but they often rely on static profiling or costly calibration. For example, [1] proposes a training-free framework for spectral latent steering, while [2] introduces geometric interference cancellation for in-context learning. However, these methods do not dynamically adapt to the input distribution or provide a clear, hardware-efficient mechanism for precision allocation.",
+  "Abstract": "We propose Efficient Test-Time Quantization (ETTQ), a training-free framework that dynamically allocates numerical precision based on real-time activation geometry. By computing the local covariance condition number and spectral decay rate of hidden states using randomized SVD, ETTQ maps these geometric diagnostics to a precision-switching policy that enforces strict latency budgets. We theoretically ground the routing mechanism with PAC-Bayes bounds that link spectral conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, ETTQ achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized risk bounds, ETTQ provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    {
+      "Name": "Activation Geometry Analysis",
+      "Description": "Compute the local covariance condition number and spectral decay rate of hidden states for a variety of input distributions using randomized SVD.",
+      "Metrics": "Condition number, spectral decay rate, computational overhead"
+    },
+    {
+      "Name": "Precision Allocation Policy Evaluation",
+      "Description": "Evaluate the precision allocation policy by mapping the geometric diagnostics to precision levels and measuring the impact on latency and accuracy.",
+      "Metrics": "Latency, tokens-per-second, accuracy on WILDS benchmarks"
+    },
+    {
+      "Name": "Dynamic Early-Exit Strategies",
+      "Description": "Implement dynamic early-exit strategies based on the condition number and spectral decay rate, and measure the throughput-accuracy trade-off.",
+      "Metrics": "Throughput, accuracy, early-exit rate"
+    },
+    {
+      "Name": "Robustness to Distribution Shifts",
+      "Description": "Test the robustness of ETTQ under out-of-distribution inputs and adversarial attacks, and compare it to static and heuristic mixed-precision baselines.",
+      "Metrics": "Accuracy retention, robustness score, computational efficiency"
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of ETTQ may vary across different model architectures and input distributions.",
+    "The computational overhead of real-time activation geometry analysis needs to be minimized to maintain low latency.",
+    "The theoretical bounds linking spectral conditioning to generalization stability may not fully capture all practical scenarios."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "Name": "kv_cache_layout_optimization",
+  "Title": "Optimizing KV-Cache Layout for Efficient Transformer Inference",
+  "Short Hypothesis": "By reorganizing the KV-cache layout to better align with memory access patterns and tensor-core utilization, we can achieve significant reductions in latency and improvements in throughput for transformer inference on modern GPUs.",
+  "Related Work": "Previous work on transformer optimization has focused on techniques like quantization, sparsity, and layer-skipping. However, the specific layout of the KV-cache and its impact on memory-bandwidth utilization and tensor-core occupancy has not been thoroughly explored. This proposal distinguishes itself by focusing on the hardware-level implications of KV-cache layout and providing empirical evidence of its impact on inference efficiency.",
+  "Abstract": "Transformer models have revolutionized natural language processing, but their deployment efficiency remains a challenge, particularly in terms of memory-bandwidth utilization and tensor-core occupancy. This paper proposes a novel approach to optimizing the KV-cache layout to better align with memory access patterns and tensor-core utilization. We hypothesize that such optimizations can lead to significant reductions in latency and improvements in throughput for transformer inference on modern GPUs. Through detailed profiling and benchmarking, we demonstrate the effectiveness of our approach, showing measurable improvements in wall-clock latency and tokens-per-second on real hardware. Our contributions include a new KV-cache layout strategy, empirical validation of its impact on inference efficiency, and reproducible benchmarks that practitioners can deploy immediately.",
+  "Experiments": [
+    "Profile baseline transformer inference to measure current KV-cache memory access patterns, tensor-core utilization, and latency.",
+    "Implement and profile multiple KV-cache layout strategies, including row-major, column-major, and block-based layouts.",
+    "Measure the impact of each layout on memory-bandwidth utilization, tensor-core occupancy, and overall inference latency.",
+    "Conduct A/B latency races under fixed accuracy budgets to compare the performance of different layouts.",
+    "Evaluate the impact of layout changes on p50/p99 latency, throughput under batching, and energy per token.",
+    "Provide detailed nvprof/Nsight traces to attribute gains to specific hardware causes (e.g., coalesced loads, reduced HBM round-trips)."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of the KV-cache layout optimization may vary across different GPU architectures.",
+    "The proposed optimizations may introduce additional complexity in the implementation of transformer models.",
+    "The impact of layout changes on inference latency may be model-dependent, requiring further tuning for different architectures."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "Name": "curvature-aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: Training-Free Representation Geometry for Efficient Mixed-Precision Inference",
+  "Short Hypothesis": "By leveraging curvature-aware precision routing based on training-free representation geometry, we can achieve efficient mixed-precision inference with minimal computational overhead, while maintaining numerical stability and generalization guarantees.",
+  "Related Work": "Existing work on mixed-precision inference often relies on heuristic approaches or extensive training to determine precision levels. Recent advances in curvature-aware optimization (e.g., Niu et al., 2026) have shown the potential of leveraging geometric properties for scalable computation. Our proposal distinguishes itself by introducing a training-free framework that uses curvature diagnostics and spectral estimators to route precision levels, ensuring both computational efficiency and theoretical guarantees.",
+  "Abstract": "Mixed-precision inference offers a promising avenue for reducing computational costs in deep learning, but current methods often rely on heuristic or training-intensive approaches. This paper introduces Curvature-Aware Precision Routing (CAPR), a novel framework that leverages training-free representation geometry to dynamically route precision levels during inference. CAPR employs deterministic spectral estimators and pre-execution diagnostic loops to quantify gradient covariance decay, Hessian conditioning, and feature entanglement. These diagnostics inform a precision routing protocol that replaces heuristic fragility claims with formalized stability radii and explicit condition number constraints. By enforcing coarse-grained, block-level precision tiering, CAPR guarantees strict overhead bounds and preserves deterministic execution pathways. Empirical validation on standard benchmarks demonstrates that CAPR achieves significant computational savings while maintaining numerical stability and generalization performance. Our work bridges theoretical ML with scalable inference, emphasizing architectural coherence and algorithmic guarantees over low-level hardware synchronization.",
+  "Experiments": [
+    "Conduct diagnostic loops to quantify gradient covariance decay, Hessian conditioning, and feature entanglement on standard benchmarks (e.g., CIFAR-10, ImageNet).",
+    "Implement and evaluate the precision routing protocol, comparing computational overhead and inference accuracy against baseline mixed-precision methods.",
+    "Validate numerical stability and generalization performance through multi-seed variance quantification and systematic ablation protocols.",
+    "Assess the impact of coarse-grained, block-level precision tiering on computational efficiency and deterministic execution pathways."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of curvature diagnostics may vary across different architectures and datasets, potentially limiting generalizability.",
+    "Precision routing introduces additional computational overhead during the diagnostic phase, which could offset some of the savings achieved during inference.",
+    "The framework relies on accurate spectral estimation and curvature diagnostics, which may be challenging in high-dimensional settings.",
+    "Enforcing coarse-grained, block-level precision tiering might lead to suboptimal precision allocation in certain cases."
+  ]
+}

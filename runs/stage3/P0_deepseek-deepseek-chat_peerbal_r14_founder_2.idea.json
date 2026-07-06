@@ -1,0 +1,19 @@
+{
+  "Name": "latency-aware_layer_skipping",
+  "Title": "Latency-Aware Layer Skipping via Jacobian-Based Stability Bounds",
+  "Short Hypothesis": "Jacobian-based stability metrics can be used to dynamically skip layers in neural networks during inference, significantly reducing latency while maintaining accuracy, without requiring retraining or complex calibration.",
+  "Related Work": "Recent work has explored layer skipping and dynamic inference strategies, such as Sortblock (Chen et al., AAAI 2025) and Spectral Quantization Routing (founder_1). However, these methods often rely on fixed heuristics or costly calibration. Our proposal distinguishes itself by using Jacobian-based stability metrics, which provide a principled, training-free approach to layer skipping that is both computationally efficient and theoretically grounded.",
+  "Abstract": "We propose a novel latency-aware layer skipping framework that leverages Jacobian-based stability metrics to dynamically skip layers during inference. By analyzing the stability of hidden states through the Jacobian matrix, we identify layers that can be safely skipped without significant loss in accuracy. This approach avoids the need for retraining or complex calibration, making it highly efficient and scalable. We validate our framework on a range of tasks and architectures, demonstrating significant reductions in inference latency while maintaining competitive accuracy. Our method provides a transparent and reproducible pathway for resource-efficient inference, bridging the gap between optimization theory and practical implementation.",
+  "Experiments": [
+    "Evaluate the framework on benchmark datasets (e.g., CIFAR-10, ImageNet) using popular architectures (e.g., ResNet, Transformer).",
+    "Compare latency and accuracy against baseline methods (e.g., Sortblock, Spectral Quantization Routing).",
+    "Measure the stability of hidden states using Jacobian-based metrics and correlate with layer skipping decisions.",
+    "Conduct ablation studies to understand the impact of different stability thresholds on latency and accuracy.",
+    "Assess the framework's robustness to domain shifts and structured perturbations."
+  ],
+  "Risk Factors and Limitations": [
+    "The method may not generalize well to all architectures or tasks.",
+    "Jacobian computations could introduce additional overhead, though we aim to minimize this with efficient approximations.",
+    "Stability metrics might not capture all aspects of layer importance, potentially leading to suboptimal skipping decisions."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "Name": "mutual_information_guided_compression",
+  "Title": "Mutual Information-Guided Compression: Operational Bounds and Practical Implications",
+  "Short Hypothesis": "Mutual information can serve as a proxy for task-relevant information in model compression, guiding the allocation of bits to minimize task-relevant distortion.",
+  "Related Work": "Existing works like Bu et al. (2021) and Tsur et al. (2024) explore rate-distortion trade-offs in model compression but do not explicitly use mutual information as a guiding principle for bit allocation. This proposal distinguishes itself by focusing on the operational bounds of mutual information and its practical implications for compression.",
+  "Abstract": "Model compression is essential for deploying deep learning models in resource-constrained environments. While rate-distortion theory provides a framework for balancing compression rate and distortion, existing methods often overlook the role of task-relevant information in guiding the compression process. This paper proposes mutual information-guided compression, where mutual information serves as a proxy for task-relevant information. We derive operational bounds on the bits-per-weight needed to preserve task-relevant information and propose a practical compression algorithm that allocates bits based on mutual information estimates. Experiments on standard benchmarks demonstrate that our approach achieves better task performance at lower bit rates compared to traditional methods. Our work bridges the gap between information theory and practical model compression, offering a principled approach to bit allocation.",
+  "Experiments": [
+    "Estimate mutual information between model weights and task performance using InfoNCE-style lower bounds.",
+    "Develop a compression algorithm that allocates bits based on mutual information estimates.",
+    "Evaluate the algorithm on standard benchmarks (CIFAR-10, ImageNet) using task performance (accuracy) and bit rate (bits-per-weight) as metrics.",
+    "Compare with traditional compression methods (e.g., pruning, quantization) to demonstrate improved task performance at lower bit rates."
+  ],
+  "Risk Factors and Limitations": [
+    "Estimating mutual information accurately can be challenging, especially in high-dimensional spaces.",
+    "The proposed method may introduce additional computational overhead during the compression process.",
+    "The effectiveness of mutual information-guided compression may vary across different tasks and datasets."
+  ]
+}

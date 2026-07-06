@@ -1,0 +1,18 @@
+{
+  "Name": "latency_aware_layer_skipping",
+  "Title": "Latency-Aware Layer Skipping via Jacobian Sensitivity for Efficient Inference",
+  "Short Hypothesis": "Selectively skipping layers based on Jacobian sensitivity can significantly reduce inference latency without compromising accuracy in deep neural networks.",
+  "Related Work": "Existing work on layer skipping primarily focuses on static pruning or heuristic-based approaches, often lacking theoretical grounding or empirical validation in latency-sensitive settings. This proposal distinguishes itself by leveraging Jacobian sensitivity as a principled criterion for dynamic layer skipping, explicitly targeting latency-aware inference.",
+  "Abstract": "This paper proposes a novel latency-aware layer-skipping framework for deep neural networks, leveraging Jacobian sensitivity as a principled criterion for selective layer skipping. The hypothesis is that skipping layers with low Jacobian sensitivity can significantly reduce inference latency without compromising accuracy. We introduce a lightweight Jacobian-based sensitivity metric, computed during inference, to dynamically determine which layers can be skipped. Empirical validation on benchmark datasets demonstrates that our approach achieves a significant reduction in inference latency while maintaining competitive accuracy. The framework is designed to be computationally frugal, making it suitable for real-time applications. Our results highlight the potential of Jacobian-based layer skipping as a practical and theoretically grounded approach to efficient inference.",
+  "Experiments": [
+    "Experiment 1: Evaluate the impact of Jacobian-based layer skipping on inference latency and accuracy using benchmark datasets (e.g., CIFAR-10, ImageNet). Metrics: Latency reduction, accuracy drop.",
+    "Experiment 2: Compare the proposed approach with existing layer-skipping methods (e.g., static pruning, heuristic-based skipping). Metrics: Latency reduction, accuracy drop, computational overhead.",
+    "Experiment 3: Analyze the sensitivity of the Jacobian-based metric to different network architectures and layer depths. Metrics: Sensitivity score, latency reduction.",
+    "Experiment 4: Validate the framework in a real-time inference scenario (e.g., video processing). Metrics: Real-time latency, accuracy, computational overhead."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk: The Jacobian-based sensitivity metric may introduce additional computational overhead, potentially offsetting latency gains. Mitigation: Optimize the metric computation to minimize overhead.",
+    "Risk: The approach may not generalize well to all network architectures or datasets. Mitigation: Conduct extensive empirical validation across diverse architectures and datasets.",
+    "Limitation: The framework relies on the assumption that layers with low Jacobian sensitivity are less critical for accuracy, which may not hold for all cases. Mitigation: Incorporate additional criteria (e.g., layer importance) to refine the skipping decision."
+  ]
+}

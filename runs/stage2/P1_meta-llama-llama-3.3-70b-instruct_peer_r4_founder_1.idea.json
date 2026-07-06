@@ -1,0 +1,18 @@
+{
+  "Name": "hardware_faithful_optimization",
+  "Title": "Hardware-Faithful Optimization of Machine Learning Inference on Commodity GPUs",
+  "Short Hypothesis": "By optimizing machine learning inference kernels for commodity GPUs and evaluating their performance using hardware-faithful metrics, we can achieve significant improvements in wall-clock latency and throughput without sacrificing accuracy.",
+  "Related Work": "Recent works such as Spectral Latent Steering and Spectral Quantization Routing have proposed various methods for optimizing machine learning inference, but they often rely on theoretical bounds and lack hardware-faithful evaluation. Our approach focuses on optimizing inference kernels for commodity GPUs and evaluating their performance using metrics such as wall-clock latency, throughput, and energy per token.",
+  "Abstract": "This proposal presents a novel approach to optimizing machine learning inference on commodity GPUs. By focusing on kernel-level throughput engineering and hardware-faithful evaluation, we aim to achieve significant improvements in wall-clock latency and throughput without sacrificing accuracy. Our approach involves optimizing fused CUDA/Triton kernels, memory-bandwidth utilization, KV-cache layout, and tensor-core occupancy, and evaluating their performance using metrics such as wall-clock latency, throughput, and energy per token. We will conduct experiments on a variety of machine learning models and datasets, and report results using hardware-faithful metrics.",
+  "Experiments": [
+    "Optimize fused CUDA/Triton kernels for machine learning inference on commodity GPUs",
+    "Evaluate the performance of optimized kernels using hardware-faithful metrics such as wall-clock latency, throughput, and energy per token",
+    "Conduct experiments on a variety of machine learning models and datasets, including image classification, natural language processing, and speech recognition",
+    "Report results using hardware-faithful metrics, including p50/p99 latency, throughput under batching, and energy per token"
+  ],
+  "Risk Factors and Limitations": [
+    "The optimization process may require significant computational resources and expertise in CUDA/Triton kernel optimization",
+    "The evaluation metrics used may not capture all aspects of system performance, and additional metrics may be needed to fully understand the impact of the optimizations",
+    "The results may not generalize to all types of machine learning models and datasets, and additional experiments may be needed to fully understand the applicability of the approach"
+  ]
+}

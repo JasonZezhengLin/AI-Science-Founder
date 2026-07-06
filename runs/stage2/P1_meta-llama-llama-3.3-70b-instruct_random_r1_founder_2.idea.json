@@ -1,0 +1,18 @@
+{
+  "Name": "information_theoretic_model_compression",
+  "Title": "Information-Theoretic Bounds for Model Compression: A Rate-Distortion Approach",
+  "Short Hypothesis": "We hypothesize that by applying information-theoretic principles, specifically rate-distortion theory, we can derive fundamental bounds on the compressibility of deep learning models, and design novel compression algorithms that achieve these bounds, thereby reducing the bit-cost of model deployment.",
+  "Related Work": "Recent works such as EMQ, AMP-ViT, and SNIP have explored mixed-precision quantization and adaptive precision training for efficient model deployment. However, these approaches lack a rigorous information-theoretic foundation, and often rely on heuristics or empirical methods. Our proposal differs from existing work by providing a principled, theory-driven approach to model compression, focusing on the fundamental limits of compressibility rather than solely on empirical performance.",
+  "Abstract": "This proposal explores the application of information-theoretic principles to model compression in deep learning. We aim to derive fundamental bounds on the compressibility of neural networks using rate-distortion theory, and design novel compression algorithms that achieve these bounds. Our approach will provide a rigorous, theory-driven framework for model compression, enabling the development of more efficient and effective compression methods. We will evaluate our approach using distortion-rate frontiers, code efficiency relative to entropy, and generalization framed through compression (PAC-Bayes and MDL as two views of the same bound).",
+  "Experiments": [
+    "Derive information-theoretic bounds on the compressibility of deep learning models using rate-distortion theory",
+    "Design and implement novel compression algorithms that achieve these bounds",
+    "Evaluate the performance of our compression algorithms using distortion-rate frontiers and code efficiency metrics",
+    "Compare our approach to existing empirical methods for model compression"
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of deriving information-theoretic bounds for deep learning models may be high",
+    "The novel compression algorithms may not achieve the theoretical bounds in practice due to implementation limitations",
+    "The evaluation metrics used may not fully capture the trade-offs between compression and performance"
+  ]
+}

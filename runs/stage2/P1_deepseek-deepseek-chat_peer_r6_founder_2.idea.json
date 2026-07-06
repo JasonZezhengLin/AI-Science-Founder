@@ -1,0 +1,29 @@
+{
+  "Name": "task_aware_compression_mi",
+  "Title": "Task-Aware Model Compression via Mutual Information Optimization",
+  "Short Hypothesis": "Optimizing mutual information between the original and compressed model representations can achieve task-aware compression that preserves task-relevant information while minimizing redundancy, leading to better generalization and efficiency.",
+  "Related Work": "Existing work on model compression (e.g., Prob-AMC, InfoPrune) uses MI for compression but does not focus on task-aware optimization. Rate-distortion theory (e.g., Rate-Distortion Optimization in AI) provides a theoretical foundation but lacks practical MI-based implementations. Our proposal unifies these approaches by explicitly optimizing MI for task-aware compression.",
+  "Abstract": "Model compression is essential for deploying deep neural networks in resource-constrained environments. However, existing methods often fail to preserve task-relevant information, leading to degraded performance. We propose a task-aware compression framework that optimizes mutual information (MI) between the original and compressed model representations. By estimating MI using the Donsker-Varadhan formulation, we guide adaptive quantization and pruning to preserve task-relevant information while minimizing redundancy. Our approach is grounded in information theory and provides theoretical guarantees on compression efficiency. Experiments on image classification and NLP tasks demonstrate that our method achieves superior compression ratios with minimal performance degradation, outperforming state-of-the-art methods in both efficiency and accuracy.",
+  "Experiments": [
+    {
+      "Description": "Evaluate compression on CIFAR-10 and ImageNet using ResNet-18.",
+      "Metrics": "Accuracy, compression ratio, bits-per-weight.",
+      "Intervention": "Adaptive quantization guided by MI optimization."
+    },
+    {
+      "Description": "Test pruning on NLP tasks using BERT.",
+      "Metrics": "F1 score, model size reduction.",
+      "Intervention": "Pruning based on MI between layers and task output."
+    },
+    {
+      "Description": "Compare with state-of-the-art methods (e.g., Prob-AMC, InfoPrune).",
+      "Metrics": "Accuracy, compression ratio, computational overhead.",
+      "Intervention": "Full MI-guided compression framework."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "MI estimation may be computationally expensive for large models.",
+    "Task-aware compression requires task-specific fine-tuning, which may limit generalization.",
+    "Theoretical guarantees rely on assumptions that may not hold in practice."
+  ]
+}

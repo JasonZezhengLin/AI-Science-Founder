@@ -1,0 +1,19 @@
+{
+  "Name": "task-aware_bit_allocation_for_nn_compression",
+  "Title": "Task-Aware Bit Allocation for Neural Network Compression via Mutual Information Minimization",
+  "Short Hypothesis": "The optimal bit allocation for compressing a neural network can be derived by minimizing the task-relevant information loss, quantified by mutual information between the compressed representations and the task output.",
+  "Related Work": "Existing work on neural network compression often focuses on heuristic pruning or quantization methods without explicit consideration of task-relevant information loss. Information-theoretic approaches, such as the information bottleneck principle, provide theoretical insights but do not directly guide practical bit allocation. This proposal bridges this gap by deriving actionable bit allocation strategies based on task-aware mutual information minimization.",
+  "Abstract": "Neural network compression is crucial for deploying deep models in resource-constrained environments. However, existing compression methods often rely on heuristic strategies without explicit consideration of task-relevant information loss. This paper proposes a principled approach to neural network compression by framing it as a task-aware bit allocation problem under a distortion constraint. We derive optimal bit allocation strategies by minimizing the task-relevant information loss, quantified by mutual information between the compressed representations and the task output. Our approach leverages information-theoretic tools, including mutual information estimators and rate-distortion theory, to guide practical compression schemes. We validate our method on benchmark datasets and architectures, demonstrating superior compression efficiency and task performance compared to existing methods.",
+  "Experiments": [
+    "Experiment 1: Derive task-aware bit allocation strategies for different layers of a neural network using mutual information estimators (e.g., InfoNCE) and validate the compression efficiency on CIFAR-10 and ImageNet datasets. Metrics: Compression ratio, task accuracy, and mutual information loss.",
+    "Experiment 2: Compare the proposed bit allocation strategy with state-of-the-art pruning and quantization methods (e.g., magnitude pruning, TensorRT) on ResNet and VGG architectures. Metrics: Compression ratio, task accuracy, and inference latency.",
+    "Experiment 3: Analyze the sensitivity of bit allocation to different layers by varying the mutual information thresholds and measuring the impact on task performance. Metrics: Layer-wise mutual information, task accuracy, and compression ratio.",
+    "Experiment 4: Evaluate the robustness of the compressed models to adversarial attacks and distribution shifts. Metrics: Adversarial robustness (e.g., PGD attack success rate) and generalization performance on out-of-distribution data."
+  ],
+  "Risk Factors and Limitations": [
+    "The mutual information estimators may introduce bias or variance, affecting the accuracy of bit allocation.",
+    "The proposed method assumes task-relevant information can be reliably quantified, which may not hold for all tasks or datasets.",
+    "The computational cost of estimating mutual information for large neural networks could be prohibitive.",
+    "The method may not generalize well to architectures with complex dependencies between layers (e.g., transformers)."
+  ]
+}

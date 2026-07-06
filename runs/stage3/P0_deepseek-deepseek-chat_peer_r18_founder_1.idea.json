@@ -1,0 +1,18 @@
+{
+  "Name": "curvature_precision_routing",
+  "Title": "Curvature-Aware Adaptive Precision Routing via Deterministic Activation Geometry Diagnostics",
+  "Short Hypothesis": "The local curvature of activation manifolds, quantified by Hessian conditioning and gradient covariance decay, provides a precise, training-free proxy for adaptive numerical precision allocation, enabling efficient mixed-precision inference without heuristic calibration.",
+  "Related Work": "Existing precision routing methods rely on static profiling or heuristic calibration (e.g., Spectral Quantization Routing). While Geometric Signal Separation explores PCA-based filtering, it does not address precision allocation. Our proposal uniquely integrates curvature diagnostics (Hessian conditioning, gradient covariance) with deterministic precision routing, offering a mathematically transparent alternative.",
+  "Abstract": "Mixed-precision inference promises significant computational savings but often relies on heuristic calibration or costly profiling. We propose a training-free framework that dynamically allocates numerical precision based on deterministic activation curvature diagnostics. By quantifying local Hessian conditioning and gradient covariance decay, we identify subspaces robust to low-precision computation and enforce strict latency budgets through curvature-aware precision switching. We ground our approach in PAC-Bayes bounds linking curvature stability to generalization under quantization noise. Evaluated on single-GPU setups across natural language and vision benchmarks, our framework achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic baselines. By replacing opaque fragility claims with formalized curvature diagnostics, we provide a reproducible pathway for resource-efficient inference.",
+  "Experiments": [
+    "Experiment 1: Measure Hessian conditioning and gradient covariance decay across model layers and token positions. Evaluate their correlation with quantization sensitivity using Spearman rank correlation.",
+    "Experiment 2: Implement curvature-aware precision routing, dynamically allocating precision tiers based on curvature diagnostics. Compare throughput and accuracy against static and heuristic baselines on GLUE and CIFAR-10.",
+    "Experiment 3: Validate PAC-Bayes generalization bounds by quantifying the relationship between curvature stability and model robustness under quantization noise.",
+    "Experiment 4: Conduct ablation studies to isolate the impact of Hessian conditioning vs. gradient covariance on precision allocation decisions."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk: Curvature diagnostics may introduce computational overhead, offsetting precision savings. Mitigation: Optimize diagnostics using randomized SVD and sparse Hessian approximations.",
+    "Limitation: The framework assumes smooth activation manifolds, which may not hold for highly non-convex models.",
+    "Risk: PAC-Bayes bounds may be overly conservative, limiting practical utility. Mitigation: Explore tighter bounds under specific curvature regimes."
+  ]
+}

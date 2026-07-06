@@ -1,0 +1,29 @@
+{
+  "Name": "LatencyAwarePACBayesOptimization",
+  "Title": "Latency-Aware PAC-Bayes Optimization for Real-Time Edge Inference",
+  "Short Hypothesis": "We hypothesize that a novel PAC-Bayes framework, integrated with latency-aware optimization, can significantly improve the accuracy-latency tradeoff in real-time edge inference tasks, while maintaining computational tractability.",
+  "Related Work": "Related work has explored various techniques for latency-critical inference, including model compression (Martínez et al., 2025), task-oriented computation offloading (Li et al., 2025), and dynamic model partitioning (Li et al., 2025). However, these approaches often lack a principled theoretical foundation for balancing accuracy and latency. PAC-Bayes theory (Warrell et al., 2022) provides a strong theoretical framework for generalization bounds, but its application to latency-critical tasks remains underexplored. This proposal aims to bridge this gap by developing a latency-aware PAC-Bayes optimization framework.",
+  "Abstract": "This proposal introduces a novel framework for latency-aware PAC-Bayes optimization, specifically designed for real-time edge inference tasks. By integrating PAC-Bayes generalization bounds with latency constraints, we aim to optimize the accuracy-latency tradeoff in a computationally tractable manner. Our approach leverages Jacobian-based layer-skipping and adaptive thresholding to minimize hidden-state perturbation, ensuring strict wall-clock budgets. We validate our framework through experiments on resource-constrained devices, demonstrating superior performance compared to existing methods.",
+  "Experiments": [
+    {
+      "Description": "Evaluate the performance of our latency-aware PAC-Bayes optimization framework on a set of real-world edge inference tasks, including object detection and text generation, on ARM and RISC-V platforms.",
+      "Method": "Implement the proposed framework on edge devices and compare it against state-of-the-art methods (e.g., Doppeladler, LAB) in terms of accuracy and latency. Use metrics such as F1-score, inference latency, and energy consumption.",
+      "Metrics": "F1-score, inference latency, energy consumption"
+    },
+    {
+      "Description": "Conduct ablation studies to isolate the impact of different components of our framework, such as the PAC-Bayes bounds, Jacobian-based layer-skipping, and adaptive thresholding.",
+      "Method": "Systematically disable and enable each component and measure the changes in accuracy and latency. Analyze the tradeoffs and identify the most effective configurations.",
+      "Metrics": "Accuracy, latency"
+    },
+    {
+      "Description": "Assess the robustness of our framework under varying computational and memory constraints.",
+      "Method": "Vary the computational resources and memory available on the edge devices and evaluate the framework's ability to maintain performance. Use a range of resource-constrained scenarios to test the robustness.",
+      "Metrics": "Accuracy, latency, memory usage"
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The computational complexity of PAC-Bayes optimization may pose challenges in real-time settings, requiring careful engineering to ensure tractability.",
+    "The effectiveness of the proposed framework may vary across different edge devices and tasks, necessitating extensive validation across a diverse set of scenarios.",
+    "The tradeoff between accuracy and latency may not always be optimal, and finding the right balance may require fine-tuning of parameters."
+  ]
+}

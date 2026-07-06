@@ -1,0 +1,19 @@
+{
+  "Name": "kernel_fusion_and_optimization",
+  "Title": "Empirical Kernel Fusion and Optimization for Efficient GPU Inference",
+  "Short Hypothesis": "By systematically profiling and fusing frequently used GPU kernels in machine learning inference workloads, we can achieve significant latency reductions and throughput improvements, directly measurable on commodity GPUs.",
+  "Related Work": "Existing works, such as Astra and AutoKernel, utilize LLMs for optimizing GPU kernels but primarily focus on high-level abstractions. This proposal distinguishes itself by prioritizing low-level kernel fusion and optimization techniques based on empirical profiling, allowing for direct measurement of performance gains on hardware.",
+  "Abstract": "In the realm of machine learning inference, optimizing GPU kernel performance is crucial for achieving real-time processing speeds. This proposal investigates the potential of empirical kernel fusion, where frequently invoked kernels are combined to reduce function call overhead and improve memory locality. By conducting a series of controlled experiments on commodity GPUs, we will identify common kernel pairs that, when fused, lead to lower latencies and increased throughput. The methodology will involve profiling existing kernels using tools like nvprof and Nsight to collect detailed metrics on execution time, memory access patterns, and occupancy. We hypothesize that kernel fusion can lead to performance improvements that are both statistically significant and practically deployable, enabling faster inference without sacrificing accuracy. Results will be validated through A/B testing, measuring p50/p99 latencies and tokens-per-second across a range of machine learning tasks. This research aims to contribute a practical framework for kernel optimization that can be immediately applied within existing machine learning systems.",
+  "Experiments": [
+    "1. Identify frequently used kernel pairs in popular machine learning models (e.g., transformers, CNNs).",
+    "2. Develop fused kernel implementations for selected pairs and compare them against their individual counterparts.",
+    "3. Profile both the original and fused kernels using nvprof and Nsight to gather metrics on latency, memory bandwidth utilization, and occupancy.",
+    "4. Perform A/B testing under controlled conditions, measuring p50/p99 latencies and throughput for both configurations across varying batch sizes.",
+    "5. Analyze the results to quantify the performance gains achieved through kernel fusion."
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed kernel fusion may not yield significant improvements for all kernel pairs, leading to potential wasted effort on non-viable optimizations.",
+    "Profiling results may vary across different GPU architectures, limiting generalizability.",
+    "The complexity of certain kernels may hinder effective fusion without recompiling or redesigning substantial portions of the code."
+  ]
+}

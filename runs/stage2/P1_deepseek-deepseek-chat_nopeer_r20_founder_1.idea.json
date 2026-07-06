@@ -1,0 +1,20 @@
+{
+  "Name": "memory_aware_kernel_fusion",
+  "Title": "Memory-Aware Kernel Fusion for Efficient LLM Inference",
+  "Short Hypothesis": "Dynamic kernel fusion guided by profiled memory-bandwidth and compute-utilization metrics can optimize the entire LLM inference pipeline (prefill + decoding) on commodity GPUs, achieving significant speedups without relying on architecture-specific features.",
+  "Related Work": "BitDecoding (Du et al., 2025) optimizes long-context LLM decoding by leveraging Tensor Cores for low-bit KV cache decoding, but it focuses narrowly on decoding and relies on specific GPU architectures. Our proposal generalizes across phases and GPUs, using profiled metrics to guide kernel fusion for balanced resource utilization.",
+  "Abstract": "Large Language Models (LLMs) face significant memory and compute challenges during inference, particularly in long-context scenarios. While recent work has optimized specific phases (e.g., decoding) or leveraged architecture-specific features, a holistic approach remains unexplored. We propose Memory-Aware Kernel Fusion, a novel strategy that dynamically balances memory bandwidth and compute utilization across both prefill and decoding phases. By profiling memory-bandwidth and compute-utilization metrics, we guide kernel fusion decisions to optimize resource allocation on commodity GPUs. Our method avoids reliance on architecture-specific features, ensuring broad applicability. Experiments on LLaMA-3.1-8B with 128K context demonstrate a 2.5× speedup in end-to-end inference latency compared to state-of-the-art baselines, with minimal accuracy loss. We provide detailed profiler traces, including occupancy, achieved bandwidth, and warp stall reasons, to attribute gains to specific hardware causes.",
+  "Experiments": [
+    "Baseline Comparison: Compare end-to-end inference latency (p50/p99) and throughput against BitDecoding and FlashDecoding-v2 on LLaMA-3.1-8B with 128K context.",
+    "Profiler Traces: Collect occupancy, achieved bandwidth, warp stall reasons, and arithmetic intensity for prefill and decoding phases, attributing gains to specific hardware causes.",
+    "A/B Latency Races: Conduct A/B tests under fixed accuracy budgets to measure speedups from kernel fusion.",
+    "Hardware Agnosticism: Evaluate on multiple GPU architectures (Ampere, Ada, Hopper) to demonstrate generalizability.",
+    "Energy Efficiency: Measure energy per token to quantify efficiency gains."
+  ],
+  "Risk Factors and Limitations": [
+    "Kernel fusion may introduce overhead in dynamic decision-making, potentially offsetting gains.",
+    "Profiling metrics may not generalize well across all GPU architectures.",
+    "The approach relies heavily on accurate profiler measurements, which can vary across driver versions.",
+    "Long-context scenarios may still face memory bottlenecks despite optimization."
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "Name": "information-theoretic_compression_bounds",
+  "Title": "Information-Theoretic Compression Bounds for Neural Networks",
+  "Short Hypothesis": "We hypothesize that the fundamental bit-cost of preserving task-relevant information in neural networks can be characterized by a rate-distortion function, and practical compression methods can be evaluated against this theoretical limit.",
+  "Related Work": "Recent work in mixed-precision quantization (e.g., EMQ, SNIP) and information-theoretic bounds (e.g., Bottlenecks CLUB) has explored efficient compression and theoretical limits. However, these approaches either focus on empirical proxies or lack a unified framework connecting practical methods to fundamental limits. Our proposal bridges this gap by directly linking neural network compression to rate-distortion theory, providing a theoretical foundation for evaluating compression methods.",
+  "Abstract": "This paper proposes a novel framework for characterizing the fundamental bit-cost of preserving task-relevant information in neural networks using rate-distortion theory. We derive achievable bounds on the bits-per-weight required to maintain predictive accuracy under a given distortion constraint. Our approach provides a unified theoretical foundation for evaluating practical compression methods, such as quantization and pruning, against these fundamental limits. We introduce estimators for task-relevant information and distortion measures, enabling empirical validation of our bounds. Experiments on benchmark datasets demonstrate that our framework can guide the design of compression methods, achieving near-optimal performance while maintaining task accuracy. Our results offer new insights into the trade-offs between compression efficiency and predictive sufficiency, advancing the understanding of neural network compressibility.",
+  "Experiments": [
+    {
+      "Description": "Derive achievable bounds on bits-per-weight for various neural network architectures using rate-distortion theory.",
+      "Metrics": "Bits-per-weight, distortion measure (e.g., mean squared error)"
+    },
+    {
+      "Description": "Implement estimators for task-relevant information and validate their accuracy on benchmark datasets.",
+      "Metrics": "Mutual information estimates, correlation with task accuracy"
+    },
+    {
+      "Description": "Evaluate practical compression methods (e.g., quantization, pruning) against the derived bounds.",
+      "Metrics": "Compression ratio, task accuracy, distortion measure"
+    },
+    {
+      "Description": "Conduct ablation studies to analyze the impact of different distortion measures on compression performance.",
+      "Metrics": "Bits-per-weight, task accuracy, distortion measure"
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The theoretical bounds may be too conservative for practical applications.",
+    "Estimators for task-relevant information may introduce bias or variance.",
+    "The choice of distortion measure may not capture all aspects of task-relevant information.",
+    "The framework may not generalize well to all neural network architectures or tasks."
+  ]
+}

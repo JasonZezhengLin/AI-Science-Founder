@@ -1,0 +1,18 @@
+{
+  "Name": "LatencyAwareLayerSkipping",
+  "Title": "Latency-Aware Layer Skipping for Efficient Inference in Vision Transformers",
+  "Short Hypothesis": "By dynamically skipping layers in Vision Transformers (ViTs) based on real-time latency constraints, we can achieve a Pareto-optimal trade-off between inference latency and accuracy.",
+  "Related Work": "Recent works such as KVTuner and Cocktail focus on optimizing KV cache quantization for LLMs, while FlexiQ and OA-LAMA explore adaptive mixed-precision quantization for latency-accuracy trade-offs. However, these methods do not address the dynamic nature of inference latency constraints, especially in real-time applications. Our work introduces a latency-aware layer-skipping mechanism that adapts to varying latency requirements, ensuring optimal performance under different conditions.",
+  "Abstract": "Vision Transformers (ViTs) have revolutionized computer vision but come with high computational and memory demands. Existing optimization techniques, such as mixed-precision quantization and KV cache optimization, often focus on static models and do not adapt to real-time latency constraints. We propose Latency-Aware Layer Skipping (LALS), a dynamic mechanism that skips layers in ViTs based on real-time latency requirements. LALS uses a Jacobian-based layer-skipping framework to identify and skip layers that contribute minimally to the final output, while maintaining a strict wall-clock budget. Our approach ensures that the model can adapt to varying latency constraints, achieving a Pareto-optimal trade-off between inference latency and accuracy. Experiments on various ViT models and datasets demonstrate that LALS significantly reduces inference time with minimal accuracy loss, outperforming existing methods in latency-critical scenarios.",
+  "Experiments": [
+    "1. **Layer Sensitivity Analysis**: Measure the sensitivity of each layer in ViT models (e.g., ViT, DeiT, Swin) to perturbations using Jacobian norms. This will help identify layers that can be safely skipped without significant accuracy loss.",
+    "2. **Latency-Aware Skipping Policy**: Develop a policy that dynamically skips layers based on real-time latency constraints. This policy will use the sensitivity analysis results to determine the optimal set of layers to skip for a given latency budget.",
+    "3. **Evaluation Metrics**: Use standard metrics such as accuracy, inference time, and memory usage to evaluate the performance of LALS. Compare LALS against baseline models and state-of-the-art optimization techniques.",
+    "4. **Real-World Deployment**: Test the performance of LALS in real-world scenarios, such as real-time video processing and mobile devices, to ensure its practicality and robustness."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Layer Interdependencies**: Skipping certain layers might lead to unexpected interactions and performance degradation, especially in deep models.",
+    "2. **Dynamic Latency Constraints**: Real-time latency constraints can be highly variable, making it challenging to design a robust and adaptive skipping policy.",
+    "3. **Model-Specific Tuning**: The effectiveness of LALS may vary across different ViT models and datasets, requiring model-specific adjustments and fine-tuning."
+  ]
+}

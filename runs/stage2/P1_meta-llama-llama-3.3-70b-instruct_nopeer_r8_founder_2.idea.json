@@ -1,0 +1,18 @@
+{
+  "Name": "rdt_model_compression",
+  "Title": "Information-Theoretic Model Compression via Rate-Distortion Theory",
+  "Short Hypothesis": "Model compression can be formulated as a rate-distortion problem, where the goal is to find the optimal tradeoff between compression rate and distortion, and this tradeoff can be characterized using information-theoretic limits.",
+  "Related Work": "Previous work has studied model compression using rate-distortion theory, but most of these works focus on specific compression algorithms or techniques. In contrast, this proposal takes a more fundamental approach, seeking to establish information-theoretic limits on model compression and understand the tradeoffs between compression rate and distortion. The work of Berivan Isik et al. (2021) and Yibo Yang et al. (2021) are notable exceptions, but they do not provide a comprehensive framework for understanding the information-theoretic limits of model compression.",
+  "Abstract": "This proposal seeks to establish a comprehensive framework for understanding the information-theoretic limits of model compression. We formulate model compression as a rate-distortion problem, where the goal is to find the optimal tradeoff between compression rate and distortion. Using tools from rate-distortion theory, we derive information-theoretic limits on model compression and characterize the tradeoffs between compression rate and distortion. We also propose a novel compression algorithm that achieves these limits and demonstrate its effectiveness on several benchmark datasets. Our work provides a fundamental understanding of the limits of model compression and has implications for the design of efficient compression algorithms.",
+  "Experiments": [
+    "Derive information-theoretic limits on model compression using rate-distortion theory",
+    "Propose a novel compression algorithm that achieves these limits",
+    "Evaluate the performance of the proposed algorithm on several benchmark datasets, including CIFAR-10 and ImageNet",
+    "Compare the performance of the proposed algorithm with existing compression algorithms, including pruning and quantization"
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed framework may not be applicable to all types of models or datasets",
+    "The derivation of information-theoretic limits may require strong assumptions about the model or data distribution",
+    "The proposed compression algorithm may not be efficient in practice, requiring significant computational resources or memory"
+  ]
+}

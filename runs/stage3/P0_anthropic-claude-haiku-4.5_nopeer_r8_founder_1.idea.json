@@ -1,0 +1,91 @@
+{
+  "Name": "spectral_curvature_precision_routing",
+  "Title": "Spectral Curvature-Aware Precision Routing: Training-Free Layer-Wise Quantization via Hessian Geometry and PAC-Bayes Bounds",
+  "Short Hypothesis": "Layer-wise precision requirements in neural networks are fundamentally determined by local loss landscape geometry (Hessian eigenvalue distribution and conditioning) rather than activation magnitudes or weight statistics. By developing a training-free diagnostic framework that computes block-level Hessian spectral properties from pre-trained weights and forward activations, we can derive deterministic, theoretically-grounded precision routing schedules with formal PAC-Bayes generalization guarantees—eliminating heuristic sensitivity calibration and enabling single-pass inference routing without gradient-based tuning.",
+  "Related Work": "Existing mixed-precision inference methods (QAT, PTQ) rely on empirical sensitivity metrics (activation ranges, gradient statistics) or learned routing policies requiring calibration data. Recent work (e.g., ZipML, BRECQ) uses post-training quantization with heuristic layer selection but lacks formal generalization bounds. Concurrently, curvature-aware optimization (natural gradient, second-order methods) exploits Hessian information for training efficiency, but these insights remain unexploited for inference-time precision allocation. Our proposal uniquely bridges these: (1) we operationalize Hessian geometry as a *training-free diagnostic* (no gradient backprop required), (2) we couple spectral conditioning to formal PAC-Bayes bounds on quantization error, (3) we enforce strict block-level precision tiering with explicit overhead accounting, and (4) we validate via deterministic numerical stability analysis rather than empirical tuning. This is fundamentally distinct from prior work because it replaces ad-hoc sensitivity metrics with mathematically rigorous, geometry-grounded routing that requires only forward-pass activations and pre-trained weights.",
+  "Abstract": "Mixed-precision inference promises efficiency gains, yet current methods lack principled frameworks for determining layer-wise precision schedules. We propose a training-free, spectral-geometric approach to precision routing that leverages Hessian eigenvalue distributions to predict quantization sensitivity without gradient computation. Our key insight: layers with ill-conditioned loss geometry (high Hessian condition numbers, clustered eigenvalues) require higher precision, while well-conditioned layers tolerate aggressive quantization. We develop a diagnostic pipeline: (1) compute block-level Hessian approximations via power iteration on Gauss-Newton estimates, (2) extract spectral conditioning metrics (condition number, effective rank, eigenvalue decay rate), (3) derive precision thresholds via PAC-Bayes generalization bounds that formally relate Hessian conditioning to quantization-induced loss increase, (4) implement coarse-grained, deterministic precision tiering (e.g., FP32→FP16→INT8 by layer). Critically, all diagnostics execute pre-inference with O(1) amortized overhead per layer. We validate on transformer models (BERT, GPT-2) and CNNs (ResNet), demonstrating that spectral-predicted precision schedules match or exceed empirical sensitivity-based methods while providing formal generalization guarantees. We further establish stability radii: explicit bounds on maximum quantization noise each layer tolerates without exceeding target accuracy loss. Our framework enables single-GPU practitioners to deploy mixed-precision inference with mathematical transparency and reproducible routing decisions.",
+  "Experiments": [
+    {
+      "name": "Spectral Hessian Computation Validation",
+      "description": "On BERT-base and ResNet-50: (1) Compute block-level Hessian approximations via power iteration (k=5 iterations, Gauss-Newton approximation to avoid full Hessian), (2) extract eigenvalue spectra for each transformer block and residual layer, (3) compute conditioning metrics (condition number κ, effective rank r_eff, spectral decay exponent α from λ_i ∝ i^{-α}), (4) measure computational cost (wall-clock time, FLOPs) and validate O(1) amortized overhead claim. Success metric: Hessian computation completes in <5% of inference time; spectral metrics exhibit clear layer-wise variation correlated with downstream precision requirements.",
+      "metrics": [
+        "Condition number κ per layer",
+        "Effective rank r_eff",
+        "Spectral decay exponent α",
+        "Wall-clock diagnostic time",
+        "FLOPs overhead per layer"
+      ]
+    },
+    {
+      "name": "PAC-Bayes Precision Threshold Derivation",
+      "description": "Derive formal generalization bounds relating Hessian conditioning to quantization error: for layer ℓ with condition number κ_ℓ and quantization noise magnitude ε_ℓ, establish PAC-Bayes bound on loss increase Δℒ_ℓ ≤ f(κ_ℓ, ε_ℓ, δ, n) where δ is confidence and n is batch size. Specifically: (1) assume quantization introduces additive Gaussian noise with variance σ²_ℓ ∝ ε_ℓ, (2) use Hessian eigenvalue distribution to bound loss curvature locally, (3) apply PAC-Bayes framework to relate parameter perturbation to generalization gap, (4) solve for precision threshold: select bit-width b_ℓ such that ε_ℓ(b_ℓ) satisfies Δℒ_ℓ ≤ target_loss_increase. Success metric: derived thresholds are deterministic, reproducible across runs, and match empirical precision-loss curves within 1 bit-width of optimal (oracle) allocation.",
+      "metrics": [
+        "PAC-Bayes bound tightness (ratio of bound to empirical loss increase)",
+        "Precision threshold accuracy (bits predicted vs. empirical)",
+        "Bound coverage (fraction of runs where empirical loss increase ≤ bound)"
+      ]
+    },
+    {
+      "name": "Precision Routing vs. Empirical Sensitivity Baselines",
+      "description": "Compare spectral-predicted precision schedules against: (1) uniform quantization (all layers FP16 or INT8), (2) empirical sensitivity-based routing (layer-wise gradient norm magnitudes, KL divergence of activation distributions), (3) learned routing (small LoRA adapter trained on calibration set to predict precision per layer). For each method: (1) allocate total bit-budget (e.g., average 10 bits/layer), (2) apply layer-wise precision schedule, (3) measure end-task accuracy (GLUE for BERT, ImageNet for ResNet), (4) measure latency and memory footprint on single GPU. Success metric: spectral routing achieves accuracy within 0.5% of oracle (empirically-tuned) precision allocation while providing formal theoretical guarantees; latency/memory match or exceed empirical baselines.",
+      "metrics": [
+        "Task accuracy (GLUE F1 for BERT, ImageNet top-1 for ResNet)",
+        "Accuracy drop vs. FP32 baseline",
+        "Latency (ms/sample)",
+        "Peak memory usage (GB)",
+        "Bit-budget efficiency (accuracy per average bit-width)"
+      ]
+    },
+    {
+      "name": "Stability Radius Validation",
+      "description": "For each layer, compute formal stability radius: maximum quantization noise r_ℓ such that loss increase ≤ δ (e.g., 0.1% top-1 accuracy drop). (1) Use Hessian conditioning to analytically derive r_ℓ, (2) empirically verify by systematically increasing quantization noise (via reduced bit-width or controlled noise injection) until accuracy drop reaches δ, (3) compare analytical radius to empirical threshold. Success metric: analytical stability radius predicts empirical threshold within ±20% relative error; tighter bounds on well-conditioned layers.",
+      "metrics": [
+        "Analytical stability radius r_ℓ (quantization noise magnitude)",
+        "Empirical stability threshold",
+        "Relative error (|analytical - empirical| / empirical)",
+        "Correlation between κ_ℓ and r_ℓ"
+      ]
+    },
+    {
+      "name": "Ablation: Spectral Diagnostic Components",
+      "description": "Isolate contributions of individual diagnostic components: (1) condition number alone vs. full spectral profile, (2) Gauss-Newton Hessian vs. full Hessian approximation (via limited memory BFGS), (3) power iteration with k=1, 3, 5, 10 iterations, (4) block-level vs. per-layer precision routing. For each variant: measure diagnostic overhead, precision schedule stability, and final task accuracy. Success metric: condition number + effective rank captures ≥90% of predictive power; k=5 iterations provides diminishing returns; block-level routing incurs <2% overhead vs. per-layer.",
+      "metrics": [
+        "Diagnostic overhead (FLOPs, wall-clock)",
+        "Precision schedule variance across random seeds",
+        "Task accuracy",
+        "Correlation of each spectral metric with empirical precision sensitivity"
+      ]
+    },
+    {
+      "name": "Cross-Architecture Generalization",
+      "description": "Test spectral routing framework on diverse architectures: (1) Transformers (BERT, GPT-2, Vision Transformer), (2) CNNs (ResNet-18/50, MobileNet), (3) hybrid architectures (ELECTRA, DeiT). For each: compute spectral diagnostics, derive precision schedule, apply quantization, measure accuracy. Success metric: spectral routing framework generalizes across architectures without retuning; precision schedules exhibit consistent patterns (e.g., early layers require lower precision, later layers higher precision for transformers).",
+      "metrics": [
+        "Task accuracy across architectures",
+        "Precision schedule consistency (correlation of κ_ℓ and assigned bit-width across models)",
+        "Diagnostic overhead per architecture"
+      ]
+    },
+    {
+      "name": "Numerical Stability and Reproducibility",
+      "description": "Validate deterministic execution and numerical stability: (1) run spectral diagnostics 10 times per model with different random seeds (for power iteration initialization), (2) measure variance in computed eigenvalues, condition numbers, and derived precision thresholds, (3) verify reproducibility (identical precision schedules across runs), (4) analyze numerical precision requirements (FP32 vs. FP64 for Hessian computation), (5) document all algorithmic constants and hyperparameters (power iteration tolerance, spectral decay model, PAC-Bayes confidence δ). Success metric: <1% variance in precision thresholds across runs; deterministic routing decisions; explicit numerical guardrails documented.",
+      "metrics": [
+        "Variance of condition number estimates across seeds",
+        "Variance of precision thresholds",
+        "Reproducibility (bit-exact equality of schedules)",
+        "Numerical precision sensitivity (FP32 vs. FP64 impact)"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "Hessian approximation quality: Power iteration and Gauss-Newton approximations may underestimate true Hessian conditioning in highly non-convex regions. Mitigation: empirically validate against limited-memory BFGS Hessian estimates on subset of layers; establish confidence intervals around spectral estimates.",
+    "PAC-Bayes bound looseness: Theoretical bounds may be conservative, leading to over-provisioning of precision. Mitigation: calibrate PAC-Bayes constants empirically; compare bound predictions to empirical loss increases and measure tightness ratio; explore tighter bounds (e.g., compression-based PAC-Bayes).",
+    "Assumption of local quadratic loss landscape: PAC-Bayes analysis assumes locally quadratic loss near inference point. For highly non-convex regions or out-of-distribution inputs, this assumption breaks. Mitigation: restrict analysis to well-trained models; measure assumption validity via Hessian eigenvalue decay; document applicability scope.",
+    "Limited to inference-time routing: Framework does not optimize training-time precision allocation or fine-tuning strategies. Scope is strictly inference. Mitigation: clearly delineate inference vs. training; future work can extend to joint optimization.",
+    "Block-level vs. per-layer granularity: Coarse-grained precision tiering may miss fine-grained optimization opportunities (e.g., per-head precision in attention). Mitigation: empirically quantify accuracy loss from block-level routing; provide ablation showing per-layer overhead; justify coarse granularity via computational constraints.",
+    "Computational overhead of Hessian estimation: Even with power iteration, Hessian computation adds latency. For latency-critical deployments, diagnostic overhead may be prohibitive. Mitigation: amortize diagnostics over multiple inferences; cache spectral estimates; measure wall-clock overhead explicitly; provide speedup analysis.",
+    "Generalization to quantization-aware training: Framework is training-free but may not align with QAT-optimized models. Mitigation: test on both PTQ and QAT-prepared models; document precision differences; explore transfer of spectral diagnostics to QAT settings.",
+    "Limited theoretical guarantees for extreme quantization: PAC-Bayes bounds may become loose under aggressive quantization (e.g., 2-bit). Mitigation: establish empirical regime where bounds remain tight (e.g., ≥4 bits); document bound degradation at lower bit-widths.",
+    "Sensitivity to batch composition: Spectral diagnostics depend on forward activations, which may vary with batch statistics. Mitigation: compute diagnostics on representative calibration batch; measure sensitivity to batch size/composition; recommend batch normalization or layer normalization for stability.",
+    "Scalability to very large models: Hessian computation scales as O(n²) in model dimension; power iteration may be slow for billion-parameter models. Mitigation: focus initial validation on models ≤1B parameters; provide complexity analysis; explore low-rank Hessian approximations for larger models."
+  ]
+}

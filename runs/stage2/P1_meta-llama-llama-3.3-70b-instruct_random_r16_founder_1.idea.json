@@ -1,0 +1,19 @@
+{
+  "Name": "hardware_optimized_quantization",
+  "Title": "Hardware-Optimized Quantization for Deep Learning Inference on Commodity GPUs",
+  "Short Hypothesis": "By optimizing quantization techniques for deep learning inference on commodity GPUs, we can achieve significant improvements in latency and throughput while maintaining model accuracy. We hypothesize that a hardware-faithful evaluation approach, considering factors such as kernel-level throughput engineering and memory-bandwidth utilization, can lead to more effective quantization methods.",
+  "Related Work": "Recent works such as SNIP, AMP-ViT, and EMQ have explored mixed-precision training and quantization techniques for deep learning models. However, these approaches often rely on theoretical bounds or simulations, rather than hardware-faithful evaluation. Our proposal distinguishes itself by focusing on kernel-level optimizations and hardware-faithful evaluation to achieve practical and reproducible results.",
+  "Abstract": "This proposal aims to develop hardware-optimized quantization techniques for deep learning inference on commodity GPUs. By leveraging kernel-level throughput engineering and hardware-faithful evaluation, we seek to improve the latency and throughput of deep learning models while maintaining their accuracy. Our approach will involve optimizing quantization methods for specific hardware architectures, considering factors such as memory-bandwidth utilization, cache hierarchy, and warp scheduling. We will evaluate our techniques using reproducible benchmarks and provide detailed analysis of the results, including occupancy, achieved bandwidth, and arithmetic intensity.",
+  "Experiments": [
+    "Optimize quantization methods for ResNet-50 and BERT models on NVIDIA GeForce RTX 3080 and AMD Radeon RX 6800 XT GPUs",
+    "Evaluate the impact of different quantization schemes (e.g., uniform, non-uniform, and adaptive) on model accuracy and latency",
+    "Investigate the effects of kernel fusion, loop unrolling, and register blocking on quantization performance",
+    "Compare the performance of our hardware-optimized quantization techniques with state-of-the-art methods, such as SNIP and AMP-ViT",
+    "Conduct ablation studies to identify the most significant factors contributing to the performance improvements"
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of modern GPU architectures may limit the effectiveness of our optimization techniques",
+    "The need for hardware-faithful evaluation may require significant computational resources and expertise",
+    "The proposed approach may not generalize to other hardware platforms or deep learning models"
+  ]
+}

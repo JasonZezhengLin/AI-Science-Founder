@@ -1,0 +1,18 @@
+{
+  "Name": "curvature_aware_quantization",
+  "Title": "Curvature-Aware Mixed-Precision Quantization for Deep Neural Networks",
+  "Short Hypothesis": "We hypothesize that incorporating curvature-aware precision routing into mixed-precision quantization can lead to improved accuracy and efficiency in deep neural networks, by adaptively allocating precision to the most sensitive components of the network.",
+  "Related Work": "Recent works such as EMQ, SNIP, and AMP-ViT have explored mixed-precision quantization and adaptive precision allocation. However, these methods often rely on heuristic-based approaches or manual configurations, which can be suboptimal. Our proposal builds upon these works by introducing a curvature-aware precision routing framework that leverages geometric subspace diagnostics and deterministic optimization proxies to allocate precision in a more principled and efficient manner.",
+  "Abstract": "This proposal introduces a novel curvature-aware mixed-precision quantization framework for deep neural networks. By incorporating geometric subspace diagnostics and deterministic optimization proxies, our approach adaptively allocates precision to the most sensitive components of the network, leading to improved accuracy and efficiency. We demonstrate the effectiveness of our framework through extensive experiments on various benchmark datasets and models, showcasing significant improvements in accuracy and efficiency compared to state-of-the-art mixed-precision quantization methods.",
+  "Experiments": [
+    "Evaluate the proposed curvature-aware mixed-precision quantization framework on benchmark datasets such as ImageNet and CIFAR-10, using various deep neural network architectures.",
+    "Compare the performance of our framework with state-of-the-art mixed-precision quantization methods, including EMQ, SNIP, and AMP-ViT.",
+    "Investigate the impact of different curvature-aware routing strategies on the accuracy and efficiency of our framework.",
+    "Analyze the computational overhead and memory requirements of our framework, and explore techniques to further optimize its performance."
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed framework may require significant computational resources and memory to compute the curvature-aware routing, which could limit its applicability to large-scale deep neural networks.",
+    "The effectiveness of our framework may depend on the specific deep neural network architecture and dataset used, and may require careful tuning of hyperparameters to achieve optimal performance.",
+    "The proposed framework may not be compatible with all existing deep learning frameworks and libraries, which could limit its adoption and usability."
+  ]
+}

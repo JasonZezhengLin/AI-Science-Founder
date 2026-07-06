@@ -1,0 +1,21 @@
+{
+  "Name": "CurvatureAwarePrecisionRouting",
+  "Title": "Curvature-Aware Precision Routing for Mixed-Precision Optimization in Single-GPU Deployments",
+  "Short Hypothesis": "We hypothesize that the local curvature of the loss landscape can serve as a robust indicator for optimal precision allocation during mixed-precision training and inference. By dynamically adjusting numerical precision based on curvature diagnostics, we can achieve a superior throughput-accuracy trade-off, ensuring strict latency and memory constraints are met without requiring extensive calibration or retraining.",
+  "Related Work": "Existing methods for mixed-precision optimization often rely on static profiling, heuristic decision-making, or computationally expensive fine-tuning. Recent works like KVTuner (Li et al., 2025) and MoQAE (Tao et al., 2025) have explored layer-wise sensitivity and quantization-aware experts but lack a principled approach to curvature-based precision allocation. Our proposal distinguishes itself by integrating curvature diagnostics with precision routing, providing a mathematically transparent and resource-efficient solution.",
+  "Abstract": "Mixed-precision optimization is crucial for efficient deployment of deep neural networks (DNNs) on resource-constrained devices. However, existing methods often require extensive calibration or retraining, leading to suboptimal performance under dynamic input distributions. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically adjusts numerical precision based on real-time curvature diagnostics of the loss landscape. By computing local curvature metrics such as the Hessian condition number and gradient covariance, CAPR identifies regions of the input space where lower precision is safe and where higher precision is necessary. This approach ensures strict latency and memory constraints are met while maintaining or even improving model accuracy. Evaluated on single-GPU setups across WILDS benchmarks, CAPR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. We provide theoretical bounds linking curvature diagnostics to PAC-Bayes generalization under quantization noise, establishing a transparent and reproducible pathway for resource-efficient inference.",
+  "Experiments": [
+    "Compute local curvature metrics (Hessian condition number and gradient covariance) for each layer during the forward pass of the model.",
+    "Implement a precision routing policy that dynamically adjusts the numerical precision (e.g., 16-bit, 32-bit) based on the curvature diagnostics.",
+    "Evaluate the model's performance in terms of accuracy, latency, and memory usage on a single-GPU setup using WILDS benchmarks.",
+    "Conduct ablation studies to isolate the impact of curvature diagnostics on precision allocation.",
+    "Compare CAPR with static mixed-precision baselines and heuristic approaches, measuring the throughput-accuracy trade-off.",
+    "Perform multi-seed variance quantification to ensure robustness and reproducibility of results."
+  ],
+  "Risk Factors and Limitations": [
+    "The computation of curvature metrics may introduce additional overhead, which needs to be carefully managed to maintain real-time performance.",
+    "The effectiveness of curvature diagnostics may vary across different model architectures and datasets, requiring careful validation.",
+    "The theoretical bounds linking curvature to PAC-Bayes generalization need to be rigorously derived and validated.",
+    "The approach assumes that curvature diagnostics are reliable indicators of quantization sensitivity, which may not always hold in practice."
+  ]
+}

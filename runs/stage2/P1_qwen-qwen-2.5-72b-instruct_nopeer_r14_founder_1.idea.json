@@ -1,0 +1,20 @@
+{
+  "Name": "OptimizedSparseMatrixMultiplication",
+  "Title": "Optimizing Sparse Matrix Multiplication for Efficient Large Language Model Inference on GPUs",
+  "Short Hypothesis": "By developing a novel GPU kernel that leverages unstructured sparsity and optimized memory access patterns, we can significantly reduce the inference latency and memory footprint of large language models (LLMs) on commodity GPUs.",
+  "Related Work": "Existing work in GPU kernel optimization for deep learning, such as Astra (Wei et al., 2025) and Coruscant (Joo et al., 2025), focuses on using LLMs and specialized formats to generate optimized kernels. However, these approaches often do not fully exploit the potential of unstructured sparsity, which can offer better accuracy retention at higher sparsity levels. Our proposal aims to bridge this gap by designing a GPU kernel that efficiently handles unstructured sparsity, reducing memory footprint and accelerating matrix multiplications in LLM inference.",
+  "Abstract": "Large language models (LLMs) are computationally intensive and require efficient GPU kernels to achieve fast inference. While structured sparsity is commonly used for hardware efficiency, unstructured sparsity offers better accuracy retention at higher sparsity levels. However, current GPU kernels struggle to efficiently handle unstructured sparsity. We propose a novel GPU kernel that leverages unstructured sparsity and optimized memory access patterns to reduce the inference latency and memory footprint of LLMs. Our approach includes a bitmap-based sparse format for reduced memory footprint, efficient decompression, and tensor core execution. We evaluate our kernel on a range of LLMs and demonstrate significant speedups and reduced memory usage compared to existing methods.",
+  "Experiments": [
+    "1. **Kernel Design and Implementation**: Develop a novel GPU kernel that supports unstructured sparsity using a bitmap-based format. Optimize memory access patterns to minimize global memory reads and writes.",
+    "2. **Performance Profiling**: Use Nsight and nvprof to profile the kernel and identify bottlenecks. Measure achieved bandwidth, warp stall reasons, and arithmetic intensity.",
+    "3. **A/B Latency Races**: Conduct A/B latency races between our optimized kernel and existing state-of-the-art kernels (e.g., cuBLAS, Flash-LLM) on a fixed accuracy budget. Report p50/p99 latency and throughput under batching.",
+    "4. **Memory Footprint Analysis**: Measure the memory footprint of our kernel compared to existing methods. Use memory bandwidth utilization metrics to ensure that the kernel is memory-efficient.",
+    "5. **Energy Efficiency**: Evaluate the energy per token using power consumption measurements. Compare the energy efficiency of our kernel to existing methods."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Complexity of Unstructured Sparsity**: Handling unstructured sparsity can be more complex than structured sparsity, which may introduce additional overhead.",
+    "2. **Memory Bandwidth Limitations**: The effectiveness of our kernel may be limited by the memory bandwidth of the GPU, especially for very sparse matrices.",
+    "3. **Generalization to Different Models**: The performance gains may vary across different LLMs and hardware configurations. Extensive testing is required to ensure broad applicability.",
+    "4. **Hardware Dependency**: Our kernel is optimized for commodity GPUs and may require additional tuning for specialized hardware."
+  ]
+}

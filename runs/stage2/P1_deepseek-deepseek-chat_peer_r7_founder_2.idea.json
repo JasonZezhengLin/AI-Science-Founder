@@ -1,0 +1,19 @@
+{
+  "Name": "task_relevant_mutual_information_compression",
+  "Title": "Task-Relevant Mutual Information as a Guide for Adaptive Model Compression",
+  "Short Hypothesis": "The mutual information between intermediate layer representations and the task output serves as a precise proxy for layer-wise compression limits, enabling theoretically grounded, adaptive compression policies that preserve task-relevant information while minimizing redundancy.",
+  "Related Work": "Previous work includes Steinke & Zakynthinou (2020), who used Conditional Mutual Information (CMI) to study generalization, and InfoCL (Song et al., 2023), which leveraged mutual information for continual learning. However, these approaches do not explicitly connect task-relevant mutual information to compression limits. Our proposal distinguishes itself by focusing on intermediate layer representations and deriving compression policies based on task-specific mutual information, which has not been explored in prior work.",
+  "Abstract": "Model compression is crucial for deploying machine learning models in resource-constrained environments, yet existing methods often rely on heuristic or task-agnostic approaches. We propose a novel framework that leverages the mutual information between intermediate layer representations and the task output to guide adaptive compression. By estimating task-relevant mutual information for each layer, we derive theoretically grounded compression policies that preserve task-critical information while minimizing redundancy. We validate our approach through experiments on vision and language models, demonstrating that our method achieves superior compression-performance trade-offs compared to existing baselines. Our results provide a principled, information-theoretic foundation for adaptive model compression.",
+  "Experiments": [
+    "Estimate task-relevant mutual information for intermediate layers of pre-trained models (e.g., ResNet, BERT) using InfoNCE-based estimators.",
+    "Derive layer-wise compression policies based on mutual information thresholds, applying quantization or pruning to layers with lower task-relevant mutual information.",
+    "Evaluate compressed models on downstream tasks (e.g., image classification, text classification) using accuracy and compression ratio metrics.",
+    "Compare against baselines such as uniform quantization, magnitude pruning, and task-agnostic compression methods.",
+    "Analyze the relationship between task-relevant mutual information and compression performance, validating the hypothesis that layers with higher mutual information are less compressible."
+  ],
+  "Risk Factors and Limitations": [
+    "Task-relevant mutual information estimation may be computationally expensive for very deep models.",
+    "The approach assumes a clear separation of task-relevant and redundant information, which may not hold for all tasks.",
+    "The effectiveness of the method may vary across different architectures and tasks, requiring task-specific tuning."
+  ]
+}

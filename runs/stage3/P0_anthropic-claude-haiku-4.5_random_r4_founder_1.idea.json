@@ -1,0 +1,97 @@
+{
+  "Name": "curvature_aware_spectral_routing",
+  "Title": "Spectral Curvature Routing: Training-Free Precision Assignment via Hessian-Aligned Geometric Diagnostics and PAC-Bayes Generalization Bounds",
+  "Short Hypothesis": "We hypothesize that layer-wise precision assignment in mixed-precision quantization can be determined a priori via deterministic spectral diagnostics of Hessian conditioning and gradient covariance geometry, without training. Specifically, layers exhibiting high Hessian conditioning (ill-posed curvature) should receive higher precision, while well-conditioned layers tolerate aggressive quantization. By formally anchoring precision routing to condition number estimates and deriving PAC-Bayes generalization bounds under precision perturbation, we can eliminate heuristic fragility and replace it with mathematically rigorous stability radii. This is the correct setting because: (1) Hessian structure directly encodes sensitivity to weight perturbations from quantization; (2) spectral diagnostics are training-free and deterministic; (3) PAC-Bayes bounds provide formal generalization guarantees absent in existing proxies; (4) explicit condition number constraints enable reproducible, hardware-agnostic routing.",
+  "Related Work": "Recent work (EMQ, SNIP, AMP-ViT) proposes training-free MQ proxies based on activation ranges, gradient norms, or Fisher information, but these remain empirically motivated and lack formal generalization guarantees. Critically, existing methods do not rigorously quantify the relationship between layer geometry and precision requirements, instead relying on correlation studies post-hoc. Our work differs by: (1) deriving formal PAC-Bayes bounds that explicitly relate Hessian conditioning to quantization-induced loss increase; (2) using deterministic spectral estimators (power iteration, Lanczos) rather than heuristic proxies; (3) establishing explicit condition number thresholds below which bit-width reduction is theoretically safe; (4) providing training-free pre-execution diagnostics that certify routing decisions before any inference. This is not a trivial extension—it fundamentally reframes MQ as a curvature-aware geometric problem with formal stability guarantees, rather than a correlation-based heuristic search.",
+  "Abstract": "Mixed-precision quantization (MQ) achieves efficiency gains but requires principled per-layer bit-width assignment. Existing training-free approaches employ heuristic proxies (gradient norms, activation ranges, Fisher information) that lack formal generalization guarantees and exhibit poor correlation with actual quantization accuracy across diverse architectures. We propose Spectral Curvature Routing (SCR), a training-free framework that assigns precision deterministically via Hessian-aligned geometric diagnostics and rigorous PAC-Bayes generalization bounds. Our core insight is that layer-wise precision requirements are fundamentally determined by Hessian conditioning: ill-conditioned layers (high curvature) amplify weight perturbations from quantization and require higher precision, while well-conditioned layers tolerate aggressive quantization with bounded loss increase. We develop a two-stage pipeline: (1) Pre-execution Spectral Diagnostics: compute layer-wise Hessian condition numbers via efficient power iteration and Lanczos methods (training-free, single-GPU feasible); (2) Curvature-Aware Routing: derive PAC-Bayes generalization bounds that formally relate condition number to quantization error, establishing explicit bit-width thresholds. We validate SCR on Vision Transformers and LLMs, demonstrating that condition-number-derived routing outperforms existing proxies in accuracy-efficiency Pareto optimality. Critically, we provide formal stability radii and confidence intervals, replacing underspecified claims with mathematically rigorous routing decisions. Our framework operates entirely pre-training, requires <5% computational overhead, and delivers reproducible, architecture-agnostic precision assignments with explicit theoretical guarantees.",
+  "Experiments": [
+    {
+      "name": "Baseline Spectral Diagnostics Validation",
+      "description": "For each layer in Vision Transformer (ViT-Base, ViT-Large) and LLM (LLaMA-7B, LLaMA-13B), compute: (1) Hessian condition number κ via power iteration (10 iterations, single-GPU, <2% overhead); (2) gradient covariance rank via Lanczos (truncated to top-20 eigenvalues); (3) activation range and Fisher information as baseline proxies. Plot κ vs. layer depth and architecture type. Establish baseline correlation between κ and post-quantization accuracy degradation across uniform bit-widths (INT8, INT4, INT2).",
+      "metrics": [
+        "Hessian condition number κ per layer",
+        "Spectral rank of gradient covariance",
+        "Correlation between κ and accuracy drop (Spearman/Pearson)",
+        "Computational overhead (% of inference time)"
+      ]
+    },
+    {
+      "name": "PAC-Bayes Bound Derivation and Empirical Verification",
+      "description": "Derive PAC-Bayes generalization bound: for layer ℓ with Hessian condition κ_ℓ and quantization perturbation ‖δ_ℓ‖ ≤ ε_ℓ, bound excess loss L(θ + δ) - L(θ) ≤ O(κ_ℓ · ε_ℓ² + log(1/δ)/m). Set bit-width b_ℓ such that quantization noise ε_ℓ(b_ℓ) satisfies bound with confidence 1-δ. For each layer, empirically quantize at progressively lower bit-widths and measure actual loss increase. Plot empirical loss increase vs. PAC-Bayes bound prediction; compute gap ratio and confidence interval.",
+      "metrics": [
+        "PAC-Bayes bound tightness (ratio of empirical to theoretical loss increase)",
+        "Coverage: fraction of layers where empirical loss ≤ bound (target: >95%)",
+        "Bit-width assignment per layer derived from bound",
+        "Confidence interval width at δ=0.05"
+      ]
+    },
+    {
+      "name": "Curvature-Aware Routing vs. Heuristic Proxies",
+      "description": "Implement four routing strategies: (1) SCR (condition-number-based, PAC-Bayes-certified); (2) Gradient norm proxy (∝ 1/‖∇L‖); (3) Fisher information (empirical Hessian diagonal); (4) Activation range (max|a|). For each strategy, assign bit-widths to minimize model size while maintaining accuracy within ε=1% of full-precision baseline. Evaluate on: ImageNet (ViT), MMLU/HellaSwag (LLaMA). Report: (a) accuracy-efficiency Pareto frontier; (b) routing agreement (% layers with same bit-width); (c) ablation: remove PAC-Bayes bound constraint from SCR, measure accuracy degradation.",
+      "metrics": [
+        "Top-1 accuracy on ImageNet (ViT)",
+        "MMLU/HellaSwag accuracy (LLaMA)",
+        "Model size reduction (%)",
+        "Routing agreement between SCR and baselines (%)",
+        "Ablation: accuracy drop when removing PAC-Bayes constraint"
+      ]
+    },
+    {
+      "name": "Architectural Generalization and Transfer",
+      "description": "Train spectral diagnostic model on one architecture (ViT-Base), derive routing strategy. Apply routing to: (1) different ViT sizes (ViT-Small, ViT-Large, ViT-Huge); (2) different transformer architectures (BERT, RoBERTa, LLaMA variants); (3) different domains (vision, language). Measure: does condition-number-based routing transfer without retraining diagnostics? Report accuracy preservation and bit-width consistency.",
+      "metrics": [
+        "Accuracy preservation across architectures (%)",
+        "Bit-width assignment consistency (Spearman correlation)",
+        "Diagnostic overhead amortized across models (% per new model)"
+      ]
+    },
+    {
+      "name": "Stability Radius and Precision Switching Boundaries",
+      "description": "For each layer, compute explicit stability radius r_ℓ: maximum perturbation ‖δ_ℓ‖ such that loss increase ≤ τ (threshold, e.g., 0.5% relative). Map r_ℓ to bit-width via quantization noise model ε(b) ≈ 2^{-b}·range. Establish per-layer bit-width thresholds: b_ℓ^* = argmin{b : ε(b) ≤ r_ℓ}. Validate: quantize at b_ℓ^* and measure actual loss increase; confirm <τ with high probability.",
+      "metrics": [
+        "Stability radius r_ℓ per layer",
+        "Bit-width threshold b_ℓ^* derived from stability radius",
+        "Empirical loss increase at b_ℓ^* (% relative to full precision)",
+        "Fraction of layers respecting stability guarantee (target: >95%)"
+      ]
+    },
+    {
+      "name": "Computational Overhead and Scalability",
+      "description": "Profile SCR diagnostics on single GPU (V100, A100): measure time to compute Hessian condition numbers (power iteration, Lanczos) and PAC-Bayes bounds for models of increasing size. Report: (1) absolute overhead (seconds, % of inference); (2) scaling with model size (FLOPs, memory); (3) comparison to baseline proxies. Ensure overhead <5% of inference time.",
+      "metrics": [
+        "Total diagnostic time (seconds)",
+        "Overhead as % of single inference pass",
+        "Scaling exponent with model size",
+        "Memory footprint of diagnostic state"
+      ]
+    },
+    {
+      "name": "Ablation: Impact of Spectral Truncation and Lanczos Rank",
+      "description": "Vary Lanczos truncation rank (top-k eigenvalues: k=5,10,20,50) and power iteration steps (5,10,20,50). Measure: (1) condition number estimate stability (variance across random initializations); (2) routing decision consistency (% layers with same bit-width); (3) final accuracy. Establish minimal k and iteration count for stable routing.",
+      "metrics": [
+        "Condition number estimate variance (coefficient of variation)",
+        "Routing consistency (%)",
+        "Accuracy at minimal diagnostic budget",
+        "Recommended minimal k and iteration count"
+      ]
+    },
+    {
+      "name": "Multi-Seed Variance Quantification",
+      "description": "Run SCR pipeline 10 times with different random seeds (for power iteration initialization, Lanczos restart sequences). For each seed, derive routing strategy and quantize model. Report: (1) mean and confidence interval of final accuracy; (2) variance in bit-width assignments; (3) robustness of PAC-Bayes bounds across seeds.",
+      "metrics": [
+        "Accuracy mean ± 95% CI across seeds",
+        "Bit-width assignment variance (std dev)",
+        "PAC-Bayes bound variance (% of mean)"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "Hessian computation via power iteration may be numerically unstable for extremely ill-conditioned layers; mitigation: employ reorthogonalization (Lanczos), explicit condition number capping (κ_max = 10^6), and validation via Cholesky factorization.",
+    "PAC-Bayes bounds may be loose in practice; mitigation: empirically tighten bounds via data-dependent refinements (e.g., empirical Bernstein bounds), and validate tightness across diverse architectures.",
+    "Spectral diagnostics assume static layer structure; dynamic architectures (adaptive computation, pruning) may invalidate diagnostics; mitigation: focus on static transformers initially, extend to adaptive architectures as future work.",
+    "Single-GPU feasibility requires efficient Lanczos implementation; large models (>100B) may exceed memory; mitigation: employ block-wise diagnostics (per attention head, per feed-forward block), amortize overhead.",
+    "Transfer of routing across architectures may fail for fundamentally different designs (CNNs vs. Transformers); mitigation: validate transfer within architecture families first, then explore cross-family generalization.",
+    "PAC-Bayes bounds depend on sample complexity m (training set size); bounds may be vacuous for small m; mitigation: use empirical Bernstein bounds to tighten dependence, validate on realistic dataset sizes.",
+    "Quantization noise model ε(b) ≈ 2^{-b}·range is simplified; actual quantization error depends on activation distribution, clipping, and rounding; mitigation: empirically calibrate noise model per layer, validate predictions on real quantized models."
+  ]
+}

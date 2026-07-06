@@ -1,0 +1,18 @@
+{
+  "Name": "adaptive_kernel_fusion",
+  "Title": "Adaptive Kernel Fusion for Real-Time GPU Performance Optimization in Machine Learning Inference",
+  "Short Hypothesis": "Adaptive kernel fusion can significantly reduce the latency of GPU inference tasks by dynamically merging multiple kernel executions based on real-time profiling, providing a practical method to enhance throughput and efficiency.",
+  "Related Work": "While existing literature, such as 'Astra' and 'AutoKernel', explores LLM-based techniques and autonomous optimization for GPU kernels, they primarily focus on static or semi-static optimization strategies. In contrast, this proposal emphasizes real-time profiling and adaptive execution, allowing for on-the-fly adjustments and optimizations that account for varying workload characteristics and hardware states.",
+  "Abstract": "This proposal introduces a novel approach to optimize GPU kernel performance for machine learning inference by implementing an 'adaptive kernel fusion' strategy. Unlike traditional methods that rely on pre-defined kernel configurations, our approach utilizes real-time profiling data to dynamically fuse multiple kernel operations, reducing the overhead associated with separate kernel launches. By leveraging empirical measurements and focused optimizations, we aim to achieve substantial speedups in inference times while maintaining the accuracy of models. The proposed experiments will involve a detailed analysis of kernel execution patterns, occupancy metrics, and memory bandwidth utilization, validated through concrete benchmarks on commodity GPUs. The anticipated results will demonstrate the effectiveness of adaptive kernel fusion in improving throughput and reducing latency across various machine learning applications, paving the way for more efficient deployment of AI models in real-world scenarios.",
+  "Experiments": [
+    "Implement baseline kernels for common ML tasks (e.g., matrix multiplication, convolution) and profile them under various configurations.",
+    "Develop an adaptive kernel fusion framework that dynamically merges these baseline kernels based on real-time profiling data.",
+    "Conduct A/B tests comparing the adaptive kernel fusion approach against baseline execution on multiple GPUs, measuring p50/p99 latency, throughput under batching, and energy per token.",
+    "Analyze occupancy and memory bandwidth metrics pre- and post-fusion to assess the impact on resource utilization."
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of implementing real-time profiling could lead to increased overhead if not optimized.",
+    "Dynamic kernel fusion may introduce unforeseen inaccuracies if not carefully managed, potentially affecting model performance.",
+    "The approach may be limited by the inherent architecture of certain GPUs, which may not support all types of kernel fusions effectively."
+  ]
+}

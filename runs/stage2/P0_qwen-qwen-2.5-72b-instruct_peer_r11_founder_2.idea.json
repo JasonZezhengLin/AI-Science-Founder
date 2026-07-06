@@ -1,0 +1,21 @@
+{
+  "Name": "LatencyBoundedAdaptiveQuantization",
+  "Title": "Latency-Bounded Adaptive Quantization for Efficient Inference in Deep Neural Networks",
+  "Short Hypothesis": "We hypothesize that dynamically adjusting the numerical precision of hidden states based on real-time activation geometry can significantly improve the throughput-accuracy trade-off in deep neural network inference while strictly enforcing latency budgets.",
+  "Related Work": "Recent works have explored training-free methods for mixed-precision inference, such as Spectral Quantization Routing (SQR) [3] and Geometric Signal Separation (GSS) [4]. SQR uses the local covariance condition number and spectral decay rate to allocate precision, but it relies on randomized SVD, which can introduce computational overhead. GSS focuses on signal separation using PCA, but it does not explicitly address latency constraints. Our proposal builds on these ideas by integrating adaptive precision allocation with latency-aware optimization, ensuring that the system remains within strict wall-clock bounds.",
+  "Abstract": "Mixed-precision inference offers significant latency and memory gains but often fails to adapt to dynamic input distributions without costly calibration. We propose Latency-Bounded Adaptive Quantization (LBAQ), a training-free framework that dynamically adjusts numerical precision based on real-time activation geometry. LBAQ computes the local covariance condition number and spectral decay rate of hidden states on-the-fly to identify tokens that can tolerate low-precision computation. By integrating this with a latency-aware scheduler, LBAQ ensures strict wall-clock latency targets while optimizing the throughput-accuracy trade-off. We theoretically ground LBAQ with PAC-Bayes bounds linking spectral conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, LBAQ outperforms static and heuristic mixed-precision baselines, providing a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Compute the local covariance condition number and spectral decay rate of hidden states using a single-pass randomized SVD.",
+    "Map these geometric diagnostics to a precision-switching policy that dynamically adjusts the numerical precision of hidden states.",
+    "Integrate the precision-switching policy with a latency-aware scheduler that enforces strict wall-clock latency targets.",
+    "Evaluate the performance of LBAQ on single-GPU setups using WILDS benchmarks, comparing it to static and heuristic mixed-precision baselines.",
+    "Measure the throughput-accuracy Pareto frontier and compute the variance in hidden-state perturbation overhead.",
+    "Conduct ablation studies to isolate the impact of different components of LBAQ, such as the precision-switching policy and the latency-aware scheduler."
+  ],
+  "Risk Factors and Limitations": [
+    "The single-pass randomized SVD might introduce computational overhead, which could affect the latency budget.",
+    "The precision-switching policy might not always accurately predict the optimal precision for all tokens, leading to suboptimal performance.",
+    "The performance of LBAQ might be sensitive to the choice of hyperparameters, such as the threshold for the spectral decay rate.",
+    "The assumption that the local covariance condition number and spectral decay rate are good proxies for quantization sensitivity might not hold for all types of neural networks or input distributions."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "Name": "spectral_quantization_routing",
+  "Title": "Spectral Quantization Routing: Training-Free Precision Allocation via Activation Covariance Geometry",
+  "Short Hypothesis": "We hypothesize that the local covariance condition number and spectral decay rate of hidden states serve as direct proxies for quantization sensitivity, enabling training-free precision allocation and strict latency budgets in mixed-precision inference.",
+  "Related Work": "Our proposal builds upon and distinguishes from recent works such as Spectral Latent Steering and Geometric Signal Separation by introducing a novel, training-free framework that dynamically allocates numerical precision based on real-time activation geometry, theoretically grounded in PAC-Bayes bounds and evaluated on single-GPU setups across WILDS benchmarks.",
+  "Abstract": "Mixed-precision inference promises significant latency and memory gains but typically relies on static profiling or costly calibration, failing to adapt to dynamic input distributions. We propose Spectral Quantization Routing (SQR), a training-free framework that dynamically allocates numerical precision based on real-time activation geometry. By computing local covariance condition numbers and spectral decay rates of hidden states, SQR maps these geometric diagnostics to a precision-switching policy that enforces strict latency budgets. We theoretically ground SQR in PAC-Bayes bounds, linking spectral conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, SQR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines.",
+  "Experiments": [
+    "Evaluate SQR on single-GPU setups across WILDS benchmarks, measuring throughput, accuracy, and latency.",
+    "Compare SQR to static and heuristic mixed-precision baselines, assessing the impact of dynamic precision allocation on inference efficiency and robustness.",
+    "Investigate the effect of varying spectral decay rates and covariance condition numbers on SQR's precision-switching policy, analyzing the trade-offs between latency, accuracy, and computational overhead."
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed framework relies on accurate estimation of local covariance condition numbers and spectral decay rates, which may be sensitive to noise or outliers in the input data.",
+    "SQR's precision-switching policy may introduce additional computational overhead due to the repeated computation of geometric diagnostics, potentially impacting real-time inference performance.",
+    "Theoretical bounds and empirical evaluations may not generalize to all possible input distributions or hardware configurations, requiring further testing and validation."
+  ]
+}

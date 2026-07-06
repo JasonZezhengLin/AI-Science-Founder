@@ -1,0 +1,20 @@
+{
+  "Name": "InfoTheoreticMPQ",
+  "Title": "Information-Theoretic Mixed-Precision Quantization via Rate-Distortion Optimization",
+  "Short Hypothesis": "By formulating mixed-precision quantization as a rate-distortion optimization problem, we can derive a theoretically grounded method to allocate bit-widths that minimize information loss while maintaining model performance.",
+  "Related Work": "Recent works in mixed-precision quantization (MPQ) have explored various heuristics and training-free methods to optimize bit-width allocation. Notably, EMQ [1] uses an evolving algorithm to find better proxies, AMP-ViT [2] addresses activation asymmetry in vision transformers, and SNIP [3] uses loss and weight divergence metrics for adaptive precision in large language models. However, these methods often lack a rigorous information-theoretic foundation. Our proposal aims to bridge this gap by formulating MPQ as a rate-distortion optimization problem, leveraging mutual information and entropy to derive a principled bit-width allocation strategy.",
+  "Abstract": "Mixed-precision quantization (MPQ) is a crucial technique for reducing the computational and memory footprint of deep neural networks. However, existing methods often rely on heuristics and local sensitivity metrics, which may not capture the global impact of quantization. In this work, we propose an information-theoretic framework for MPQ that formulates the problem as a rate-distortion optimization. We use mutual information and entropy to quantify the information loss due to quantization and derive a principled method to allocate bit-widths across layers. Our approach involves a single forward pass to compute the mutual information between layer outputs and the final task, followed by an integer linear programming (ILP) formulation to minimize total information loss under a given budget. We evaluate our method on various architectures and datasets, demonstrating superior performance in terms of both compression ratio and model accuracy compared to existing state-of-the-art methods.",
+  "Experiments": [
+    "Compute the mutual information between each layer's output and the final task using InfoNCE-style lower bounds.",
+    "Use the computed mutual information to formulate the rate-distortion optimization problem as an ILP.",
+    "Solve the ILP to obtain the optimal bit-width allocation for each layer.",
+    "Evaluate the quantized models on standard benchmarks (e.g., ImageNet for vision models, GLUE for NLP models) to measure the trade-off between compression ratio and accuracy.",
+    "Compare the performance of our method against existing state-of-the-art MPQ techniques, including EMQ, AMP-ViT, and SNIP."
+  ],
+  "Risk Factors and Limitations": [
+    "The computation of mutual information may be computationally expensive, especially for large models.",
+    "The ILP formulation may not scale well to very large models with many layers.",
+    "The derived bit-width allocation may not always generalize well to different datasets or tasks.",
+    "The theoretical assumptions underlying the rate-distortion optimization may not hold in all practical scenarios."
+  ]
+}

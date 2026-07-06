@@ -1,0 +1,17 @@
+{
+  "Name": "information-theoretic_quantization_sensitivity",
+  "Title": "Quantization Sensitivity as an Information-Theoretic Measure: A Rate-Distortion Approach to Adaptive Precision Allocation",
+  "Short Hypothesis": "Quantization sensitivity in neural networks can be quantified as the mutual information between the task-relevant features and the quantization noise, enabling adaptive precision allocation that minimizes distortion while respecting bit-rate constraints.",
+  "Related Work": "Existing works on quantization focus on static precision allocation or heuristic sensitivity measures, often lacking theoretical grounding. Recent work like 'Spectral Quantization Routing' explores geometric proxies for quantization sensitivity but does not connect it to information-theoretic limits. Our proposal distinguishes itself by framing quantization sensitivity as a mutual information problem, enabling a principled, rate-distortion approach to adaptive precision allocation.",
+  "Abstract": "Quantization is a critical technique for reducing the computational and memory cost of neural networks. However, determining the optimal precision allocation for each layer or neuron remains a challenge. We propose a novel information-theoretic framework that quantifies quantization sensitivity as the mutual information between the task-relevant features and the quantization noise. By viewing quantization as a lossy source coding problem, we derive a rate-distortion tradeoff that minimizes task-relevant distortion under bit-rate constraints. We introduce an estimator for this mutual information that can be computed efficiently during inference, enabling dynamic precision allocation. Our experiments demonstrate that this approach outperforms static and heuristic methods across a range of tasks, achieving superior accuracy-bitrate tradeoffs. We provide theoretical bounds on the optimality of our method and show its robustness to distribution shifts. This work bridges information theory with practical quantization strategies, offering a principled path to efficient inference.",
+  "Experiments": [
+    "Experiment 1: Quantization Sensitivity Estimation - Estimate mutual information between task-relevant features and quantization noise for each layer in a neural network. Use InfoNCE-style lower bounds for efficient estimation. Evaluate estimation accuracy by comparing to brute-force mutual information computation on small networks.",
+    "Experiment 2: Adaptive Precision Allocation - Implement adaptive precision allocation based on the estimated quantization sensitivity. Compare against static quantization baselines on CIFAR-10 and ImageNet. Metrics: accuracy, bit-rate, and distortion-rate curves.",
+    "Experiment 3: Robustness to Distribution Shifts - Evaluate the robustness of the adaptive precision allocation method under distribution shifts using the WILDS benchmark. Metrics: accuracy drop, bit-rate stability, and mutual information consistency."
+  ],
+  "Risk Factors and Limitations": [
+    "The mutual information estimator may introduce computational overhead, potentially offsetting the benefits of quantization.",
+    "The method relies on accurate estimation of task-relevant features, which may be challenging in complex tasks or architectures.",
+    "The theoretical bounds assume certain properties of the data distribution, which may not hold in practice."
+  ]
+}

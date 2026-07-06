@@ -1,0 +1,18 @@
+{
+  "Name": "gpu_inference_optimization",
+  "Title": "Hardware-Faithful Optimization of Machine Learning Inference on Commodity GPUs",
+  "Short Hypothesis": "By applying kernel-level throughput engineering and empirically tuned heuristics, we can significantly improve the performance of machine learning inference on commodity GPUs, achieving a 20% reduction in latency and a 15% increase in throughput.",
+  "Related Work": "Existing research, such as AMP-ViT and SNIP, has focused on optimizing machine learning models using adaptive mixed-precision quantization and subbyte precision training. However, these methods often rely on theoretical bounds or simulations, rather than hardware-faithful evaluation. Our proposal builds upon the existing work by providing a comprehensive analysis of kernel-level optimizations and their impact on real-world performance.",
+  "Abstract": "This proposal presents a novel approach to optimizing machine learning inference on commodity GPUs. By focusing on kernel-level throughput engineering and empirically tuned heuristics, we aim to improve the performance of machine learning models on commodity GPUs. Our approach involves optimizing fused CUDA/Triton kernels, memory-bandwidth utilization, and tensor-core occupancy. We will evaluate our approach using a range of machine learning models and datasets, providing a detailed analysis of the results and their implications for real-world applications.",
+  "Experiments": [
+    "Optimizing fused CUDA/Triton kernels for machine learning inference using nvprof and Nsight tools",
+    "Evaluating the impact of memory-bandwidth utilization on performance using achieved bandwidth and arithmetic intensity metrics",
+    "Analyzing the effect of tensor-core occupancy on performance using occupancy and warp stall reasons metrics",
+    "Comparing our approach to existing optimization techniques, such as quantization and sparsity, using p50/p99 latency and throughput metrics"
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of optimizing kernel-level throughput engineering",
+    "The need for specialized hardware and software expertise",
+    "The potential for limited generalizability to other hardware platforms"
+  ]
+}

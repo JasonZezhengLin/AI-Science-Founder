@@ -1,0 +1,19 @@
+{
+  "Name": "curvatureawareprecisionrouting",
+  "Title": "Curvature-Aware Precision Routing for Efficient Mixed-Precision Training",
+  "Short Hypothesis": "Curvature-aware precision routing can dynamically allocate numerical precision during training based on the local geometry of the optimization landscape, leading to more efficient and stable training with mixed-precision. This approach will reduce computational overhead and memory usage while maintaining or improving model accuracy.",
+  "Related Work": "Existing work in mixed-precision training often relies on static profiling or heuristic methods to assign precision levels, which can be inflexible and suboptimal. Recent works like Tri-Accel (2025) and Spectral Quantization Routing (under review) have explored dynamic precision allocation and geometric diagnostics, but they do not fully leverage the curvature of the optimization landscape. Our proposal builds on these ideas by incorporating curvature-aware mechanisms to ensure more adaptive and efficient precision routing.",
+  "Abstract": "We propose Curvature-Aware Precision Routing (CAPR), a novel framework for dynamic precision allocation during mixed-precision training of deep neural networks. CAPR leverages the local curvature of the optimization landscape to dynamically adjust the precision of weights and activations. By computing the spectral condition number and gradient covariance decay, CAPR identifies regions of the optimization space that are robust to low-precision computation and those that require higher precision. This approach ensures strict computational and memory budgets while maintaining or improving model accuracy. We theoretically ground CAPR with PAC-Bayes bounds and provide empirical validation on single-GPU setups using common benchmarks, demonstrating superior throughput-accuracy trade-offs compared to static and heuristic mixed-precision methods.",
+  "Experiments": [
+    "1. **Curvature Estimation**: Compute the spectral condition number and gradient covariance decay for each layer using randomized SVD. This will provide a measure of the local curvature and stability of the optimization landscape.",
+    "2. **Precision Allocation**: Based on the curvature metrics, dynamically allocate precision levels to weights and activations. Layers with well-conditioned, rapidly decaying spectra will be assigned lower precision, while those with ill-conditioned spectra will be allocated higher precision.",
+    "3. **Training and Evaluation**: Train models using CAPR on single-GPU setups with standard benchmarks (e.g., CIFAR-10, ImageNet). Evaluate the model accuracy, training time, and memory usage compared to static mixed-precision and full-precision baselines.",
+    "4. **Ablation Studies**: Perform ablation studies to isolate the impact of curvature metrics on precision allocation. Evaluate the performance of models trained with and without curvature-aware routing.",
+    "5. **PAC-Bayes Analysis**: Conduct PAC-Bayes analysis to quantify the generalization bounds under different precision allocation policies. This will provide theoretical guarantees for the robustness of the models trained with CAPR."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Computational Overhead**: The additional overhead of computing curvature metrics and performing precision allocation could potentially offset the gains in training efficiency. Optimizing the computational pipeline will be crucial.",
+    "2. **Generalization**: While curvature-aware metrics are theoretically grounded, their practical generalization to different architectures and datasets needs to be validated.",
+    "3. **Numerical Stability**: Ensuring numerical stability during the dynamic precision allocation process is essential to prevent issues like gradient vanishing or exploding."
+  ]
+}

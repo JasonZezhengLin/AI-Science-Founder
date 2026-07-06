@@ -1,0 +1,20 @@
+{
+  "Name": "rate-distortion_theoretic_model_compression",
+  "Title": "Rate-Distortion Theoretic Model Compression: Bridging Information Theory and Deep Learning",
+  "Short Hypothesis": "By framing model compression as a lossy source coding problem under a distortion constraint, we can derive theoretically optimal bounds on the bits-per-weight needed to preserve predictive sufficiency, and develop practical algorithms that approach these bounds.",
+  "Related Work": "Recent work has explored information-theoretic approaches to model compression, such as rate-distortion bounds for generalization error (Sefidgaran et al., 2022) and population risk improvement with model compression (Bu et al., 2021). However, these studies often focus on specific aspects like generalization or empirical risk, without providing a unified framework for compression that connects to fundamental information-theoretic limits. Our proposal distinguishes itself by explicitly framing model compression as a lossy source coding problem, deriving operational bounds, and developing practical algorithms that approach these bounds.",
+  "Abstract": "Model compression is a critical technique for deploying deep learning models in resource-constrained environments. While empirical methods like pruning and quantization have shown promise, they often lack a theoretical foundation. In this work, we propose a novel framework for model compression based on rate-distortion theory. We frame the problem as a lossy source coding task, where the goal is to minimize the bits-per-weight while preserving predictive sufficiency. We derive theoretically optimal bounds on the bits-per-weight needed to achieve a given distortion level, and develop practical algorithms that approach these bounds. Our approach leverages information-theoretic tools such as entropy estimators, mutual-information lower bounds, and Fisher-information sensitivities to allocate bits where they reduce task-relevant distortion most. We validate our framework through extensive experiments on benchmark datasets, demonstrating that our methods achieve state-of-the-art compression rates while maintaining predictive performance. Our results provide a principled, information-theoretic foundation for model compression, bridging the gap between theory and practice.",
+  "Experiments": [
+    "Derive operational rate-distortion bounds for various model architectures and datasets using information-theoretic tools like entropy estimators and mutual-information lower bounds.",
+    "Develop practical compression algorithms (e.g., quantization, pruning) that approach the derived bounds, using Fisher-information sensitivities to allocate bits optimally.",
+    "Evaluate the proposed algorithms on benchmark datasets (e.g., CIFAR-10, ImageNet) using metrics such as bits-per-weight, task accuracy, and distortion-rate curves.",
+    "Compare the performance of the proposed methods against state-of-the-art compression techniques, demonstrating improvements in compression rates and predictive performance.",
+    "Analyze the theoretical bounds and practical performance under different distortion measures and source distributions, highlighting the robustness of the proposed framework."
+  ],
+  "Risk Factors and Limitations": [
+    "Theoretical bounds may be difficult to derive for complex, non-linear models, requiring simplifications that could limit their practical applicability.",
+    "Practical algorithms may not always achieve the theoretical bounds due to implementation constraints or suboptimal bit allocation strategies.",
+    "The proposed framework assumes a known distortion measure and source distribution, which may not always be available in real-world scenarios.",
+    "The computational cost of estimating information-theoretic quantities (e.g., entropy, mutual information) could be high, potentially limiting scalability to very large models."
+  ]
+}

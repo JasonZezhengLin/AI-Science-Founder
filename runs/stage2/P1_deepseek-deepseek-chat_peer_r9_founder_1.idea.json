@@ -1,0 +1,18 @@
+{
+  "Name": "kv_cache_layout_optimization",
+  "Title": "Efficient KV-Cache Layout Optimization for Transformer Inference via Hardware-Aware Profiling",
+  "Short Hypothesis": "Transformer inference latency can be significantly reduced by optimizing the KV-cache layout to minimize memory bandwidth usage and maximize tensor-core occupancy, guided by fine-grained hardware profiling.",
+  "Related Work": "Recent work has explored KV-cache optimizations primarily through software-level techniques like quantization and sparsity. However, these approaches often overlook the hardware-level implications of memory access patterns and tensor-core utilization. Our proposal distinguishes itself by directly optimizing the KV-cache layout based on empirical profiling data from NVIDIA Nsight and CUDA profilers, ensuring that gains are attributed to specific hardware bottlenecks.",
+  "Abstract": "Transformer models rely heavily on key-value (KV) caches to store intermediate activations during inference, which often becomes a bottleneck due to inefficient memory access patterns. We propose a hardware-aware KV-cache layout optimization framework that leverages fine-grained profiling data from NVIDIA Nsight and CUDA profilers to minimize memory bandwidth usage and maximize tensor-core occupancy. Our approach systematically explores different KV-cache layouts, including tiling strategies, memory alignment, and tensor-core utilization, and identifies the optimal configuration through empirical profiling. We validate our framework on a commodity GPU, demonstrating significant reductions in wall-clock latency and improvements in tokens-per-second throughput. Our method bridges the gap between model compression and deployment systems engineering, offering a practical, reproducible solution for efficient transformer inference.",
+  "Experiments": [
+    "Experiment 1: Profile baseline KV-cache layout using NVIDIA Nsight to measure memory bandwidth usage, tensor-core occupancy, and warp stall reasons.",
+    "Experiment 2: Implement different KV-cache layouts (e.g., tiling strategies, memory alignment) and profile each using CUDA profilers to identify the most efficient configuration.",
+    "Experiment 3: Compare wall-clock latency and tokens-per-second throughput of the optimized KV-cache layout against the baseline on a commodity GPU.",
+    "Experiment 4: Evaluate the impact of the optimized KV-cache layout on energy per token and p50/p99 latency under different batch sizes."
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed optimizations may be hardware-specific and not generalize across different GPU architectures.",
+    "The profiling process requires extensive computational resources and time, which could limit scalability.",
+    "The benefits of the optimized KV-cache layout may diminish with larger models or more complex architectures."
+  ]
+}

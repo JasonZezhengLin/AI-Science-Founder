@@ -1,0 +1,35 @@
+{
+  "Name": "OptimizedKernelFusionForInference",
+  "Title": "Optimized Kernel Fusion for Efficient Deep Learning Inference on GPUs",
+  "Short Hypothesis": "Fusing multiple CUDA kernels into a single kernel can significantly reduce the overhead and improve the performance of deep learning inference on GPUs. By systematically identifying and fusing compatible operations, we can achieve substantial speedups in wall-clock latency and tokens-per-second without compromising accuracy.",
+  "Related Work": "Recent works such as AutoGraph (Zhao et al., 2023) and EvoEngineer (Guo et al., 2025) have explored parallel kernel execution and automated CUDA kernel optimization, respectively. However, these approaches focus on either graph-level optimization or general-purpose kernel evolution, often at the expense of fine-grained control over specific hardware characteristics. Our proposal aims to bridge this gap by focusing on kernel-level fusion tailored to the specific hardware and workloads of deep learning inference, ensuring that the optimizations are both measurable and reproducible.",
+  "Abstract": "Deep learning inference on GPUs can be significantly accelerated by reducing the overhead associated with kernel launches and memory transfers. We propose a method for systematically fusing multiple CUDA kernels into a single kernel, thereby reducing the number of kernel launches and improving memory bandwidth utilization. Our approach involves profiling the inference pipeline to identify compatible operations that can be fused, followed by the generation and optimization of fused kernels. We evaluate our method using a variety of deep learning models and benchmark the performance gains in terms of wall-clock latency and tokens-per-second. Our results demonstrate that kernel fusion can achieve up to 2.5x speedup in inference time on commodity GPUs, making it a practical and effective technique for optimizing deep learning inference.",
+  "Experiments": [
+    {
+      "Description": "Profile the inference pipeline of popular deep learning models (e.g., BERT, ResNet) to identify operations that can be fused.",
+      "Method": "Use nvprof and Nsight to collect detailed performance metrics, including kernel launch overhead, memory bandwidth utilization, and arithmetic intensity.",
+      "Metrics": "Number of kernel launches, achieved bandwidth, warp stall reasons, and arithmetic intensity."
+    },
+    {
+      "Description": "Generate fused CUDA kernels for identified operations using a custom kernel fusion framework.",
+      "Method": "Implement a tool that takes the profiling results and automatically generates fused CUDA kernels, ensuring that the fused operations are executed in a single kernel launch.",
+      "Metrics": "Kernel launch overhead reduction, memory bandwidth utilization improvement, and overall throughput."
+    },
+    {
+      "Description": "Evaluate the performance of fused kernels on a variety of GPUs (e.g., NVIDIA Tesla V100, RTX 3090).",
+      "Method": "Run inference benchmarks on the fused kernels and compare the results with the baseline (unfused) kernels.",
+      "Metrics": "Wall-clock latency, tokens-per-second, and energy consumption per token."
+    },
+    {
+      "Description": "Conduct A/B latency races under fixed accuracy budgets to validate the performance gains.",
+      "Method": "Run inference tasks with fixed accuracy requirements and compare the latency and throughput of the fused kernels against the baseline.",
+      "Metrics": "p50/p99 latency, throughput under batching, and variance across runs."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of kernel fusion may vary across different models and hardware configurations.",
+    "Fused kernels may introduce additional complexity in terms of code maintenance and debugging.",
+    "The optimization process may require significant profiling and tuning to achieve optimal performance.",
+    "The proposed method may not be applicable to all types of operations, especially those with complex control flow or memory access patterns."
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "arm": "nopeer",
+  "round": 16,
+  "founder": "founder_1",
+  "persona_pair": "P0",
+  "model": "anthropic/claude-haiku-4.5",
+  "cross_founder_visibility": "0",
+  "channel_b_exclude_founder": "",
+  "literature_db_path": "experiments/freeze/literature_db.snapshot.json",
+  "persona_chars": 3255,
+  "peer_brief_chars": 0,
+  "workshop_desc_chars": 3462,
+  "idea_is_none": false
+}

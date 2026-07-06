@@ -1,0 +1,18 @@
+{
+  "Name": "curvature_aware_mixed_precision_quantization",
+  "Title": "Curvature-Aware Mixed Precision Quantization: A Training-Free Geometric Framework",
+  "Short Hypothesis": "By leveraging curvature-aware geometric representations and deterministic routing protocols, we can develop a mixed-precision quantization framework that enhances model accuracy without extensive training, addressing the existing gap in the correlation between quantization strategies and performance.",
+  "Related Work": "Existing frameworks primarily focus on heuristic-based or training-intensive approaches to mixed-precision quantization, often lacking robust empirical validation. Unlike EMQ, which is focused on evolving proxies, or SliM-LLM, which utilizes salience-driven methods, our approach emphasizes curvature-aware diagnostics to inform bit-width allocation, thus providing a mathematically grounded alternative that ensures stability and performance across diverse model architectures.",
+  "Abstract": "In this proposal, we present a novel curvature-aware mixed precision quantization (CMPQ) framework that integrates geometric insights with deterministic routing strategies to optimize bit-width allocation in deep neural networks. Our framework operates without the need for extensive training or heuristic-based adjustments, addressing the critical gap in understanding how quantization strategies influence model performance. Specifically, we utilize curvature diagnostics to assess the sensitivity of model weights and their impact on overall accuracy, allowing for informed and adaptive quantization. By employing a training-free methodology, CMPQ ensures that bit-width configurations are derived from rigorous mathematical principles, thereby enhancing the robustness and efficiency of the quantization process. Experiments will validate the effectiveness of CMPQ across various architectures, demonstrating its potential to outperform existing state-of-the-art methods in terms of accuracy-complexity trade-offs while maintaining strict computational overhead bounds.",
+  "Experiments": [
+    "1. Evaluate the curvature of model weights using Hessian and gradient diagnostics across different layers.",
+    "2. Implement deterministic bit-width allocation based on curvature insights and compare against existing mixed-precision methods like EMQ and SliM-LLM.",
+    "3. Assess the model performance (accuracy and computational efficiency) across standard datasets such as ImageNet and GLUE using the proposed CMPQ framework.",
+    "4. Quantify the stability and robustness of the CMPQ framework by measuring generalization bounds and sensitivity to perturbations in model parameters."
+  ],
+  "Risk Factors and Limitations": [
+    "1. The effectiveness of curvature diagnostics may vary across different model architectures, potentially leading to suboptimal bit-width allocations.",
+    "2. There may be unforeseen interactions between quantization and model performance that are not captured by the current framework.",
+    "3. Empirical validation may require significant computational resources, despite the emphasis on training-free methodologies."
+  ]
+}

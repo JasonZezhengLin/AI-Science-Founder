@@ -1,0 +1,15 @@
+=== C3 analysis on j003-ds at Wed Jun 24 06:14:26 PM CDT 2026 ===
+loaded 6 idea cells | models=['deepseek/deepseek-chat'] pairs=['P0'] arms=['peer', 'peerbal', 'peernoself'] rounds=[1]
+
+##### A2_channelB_excludeself  (deepseek/deepseek-chat x P0) #####
+  peer        n= 2  M1=0.107  M2_other=0.103  M2_self=0.148  M2_rand=0.064  M3=8.50  NAME=2/2
+  peernoself  n= 2  M1=0.138  M2_other=0.349  M2_self=0.113  M2_rand=0.035  M3=10.00  NAME=2/2
+
+##### A3_balanced_peerset  (deepseek/deepseek-chat x P0) #####
+  peerbal     n= 2  M1=0.145  M2_other=0.111  M2_self=0.283  M2_rand=0.045  M3=11.50  NAME=2/2
+  peer        n= 2  M1=0.107  M2_other=0.103  M2_self=0.148  M2_rand=0.064  M3=8.50  NAME=2/2
+
+wrote runs/stage3/.metrics_stage3.json
+NOTE: pilot N is small; treat all Stage-3 numbers as DESCRIPTIVE/【数据不足】 until full N per analysis_plan.md Stage-3 pre-registration.
+rendered Stage-3 section into cross_round_eval.md (1634 chars).
+=== C3 done; cross_round_eval.md Stage-3 section updated ===

@@ -1,0 +1,18 @@
+{
+  "Name": "gpu_memory_hierarchy_optimization",
+  "Title": "Optimizing GPU Memory Hierarchy for Deep Learning Workloads",
+  "Short Hypothesis": "By reorganizing the memory hierarchy and optimizing tensor core utilization, we can achieve significant speedups in deep learning inference on commodity GPUs without sacrificing accuracy.",
+  "Related Work": "Previous work has focused on optimizing individual components of the GPU memory hierarchy, but a comprehensive approach to optimizing the entire hierarchy for deep learning workloads is lacking. Our proposal builds upon existing research in GPU architecture and deep learning optimization, but takes a more holistic approach to optimizing the memory hierarchy.",
+  "Abstract": "This proposal outlines a research plan to optimize the GPU memory hierarchy for deep learning workloads. We will investigate novel techniques for reorganizing the memory hierarchy, optimizing tensor core utilization, and improving kernel-level throughput. Our approach will be empirically driven, using profiling tools and benchmarking to evaluate the effectiveness of our optimizations. We expect to achieve significant speedups in deep learning inference on commodity GPUs without sacrificing accuracy.",
+  "Experiments": [
+    "Implement and benchmark a range of deep learning models on a commodity GPU, using profiling tools to identify performance bottlenecks in the memory hierarchy.",
+    "Investigate novel techniques for reorganizing the memory hierarchy, such as optimizing data layouts and reducing memory traffic.",
+    "Optimize tensor core utilization using techniques such as kernel fusion and register blocking.",
+    "Evaluate the effectiveness of our optimizations using benchmarking and profiling tools, and attribute gains to specific hardware causes."
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of the GPU memory hierarchy and the deep learning workloads may make it challenging to identify and optimize the key performance bottlenecks.",
+    "The optimizations may not generalize to other GPU architectures or deep learning workloads.",
+    "The use of profiling tools and benchmarking may not capture all the relevant performance characteristics of the system."
+  ]
+}

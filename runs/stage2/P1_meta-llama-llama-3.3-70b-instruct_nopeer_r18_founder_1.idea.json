@@ -1,0 +1,18 @@
+{
+  "Name": "gpu_inference_optimization",
+  "Title": "Hardware-Aware Machine Learning Inference Optimization on Commodity GPUs",
+  "Short Hypothesis": "By applying kernel-level throughput engineering and hardware-aware model compression techniques, we can significantly improve the inference speed of machine learning models on commodity GPUs without sacrificing accuracy.",
+  "Related Work": "Previous work has focused on optimizing machine learning models for specific hardware platforms, but few have explored the potential of kernel-level optimizations and hardware-aware model compression on commodity GPUs. Our proposal builds upon existing research in model compression and kernel optimization, but with a focus on empirical, hardware-faithful evaluation and reproducibility.",
+  "Abstract": "This proposal presents a novel approach to optimizing machine learning inference on commodity GPUs. By combining kernel-level throughput engineering with hardware-aware model compression techniques, we aim to achieve significant speedups in inference time without sacrificing model accuracy. Our approach will be evaluated using rigorous, hardware-faithful benchmarks and profilers, with a focus on reproducing and reporting detailed, empirically-measured results.",
+  "Experiments": [
+    "Optimize existing machine learning models using kernel-level throughput engineering techniques, such as fused CUDA/Triton kernels and memory-bandwidth utilization",
+    "Apply hardware-aware model compression techniques, such as quantization and sparsity, to reduce model size and improve inference speed",
+    "Evaluate the optimized models using rigorous, hardware-faithful benchmarks and profilers, including nvprof and Nsight traces",
+    "Report detailed, empirically-measured results, including occupancy, achieved bandwidth, warp stall reasons, and arithmetic intensity"
+  ],
+  "Risk Factors and Limitations": [
+    "The optimization process may not result in significant speedups for all models or hardware configurations",
+    "The use of hardware-aware model compression techniques may compromise model accuracy",
+    "The evaluation process may be time-consuming and require significant computational resources"
+  ]
+}

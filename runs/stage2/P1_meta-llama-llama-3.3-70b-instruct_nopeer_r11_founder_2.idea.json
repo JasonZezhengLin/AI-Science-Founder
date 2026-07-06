@@ -1,0 +1,18 @@
+{
+  "Name": "info_bottleneck_compression",
+  "Title": "Operational Bounds on Neural Network Compression via Information Bottleneck",
+  "Short Hypothesis": "We hypothesize that by leveraging the information bottleneck method, we can derive operational bounds on the compression of neural networks that explicitly trade off between the distortion of the compressed model and the preservation of task-relevant information. This approach will provide a principled and quantifiable framework for neural network compression, moving beyond empirical heuristics.",
+  "Related Work": "Existing work on neural network compression has primarily focused on empirical methods such as pruning, quantization, and knowledge distillation. However, these approaches lack a clear understanding of the fundamental limits of compression and the trade-offs involved. Our proposal differs by grounding compression in information-theoretic principles, specifically the information bottleneck method, to derive achievable rates and distortion bounds.",
+  "Abstract": "This project proposes to investigate the application of the information bottleneck method to derive operational bounds on neural network compression. By framing compression as a problem of preserving task-relevant information under a distortion constraint, we aim to establish a principled framework for understanding the fundamental limits of neural network compression. Our approach will involve developing new estimators for task-relevant information and distortion, as well as deriving achievability and converse bounds on the compression rate. This will provide a quantitative understanding of the trade-offs between compression and predictive performance, enabling the development of more efficient and effective compression methods.",
+  "Experiments": [
+    "Develop and evaluate new estimators for task-relevant information and distortion in neural networks.",
+    "Derive achievability bounds on the compression rate using the information bottleneck method.",
+    "Conduct experiments to validate the derived bounds and compare them with empirical compression methods.",
+    "Investigate the application of the proposed framework to various neural network architectures and tasks."
+  ],
+  "Risk Factors and Limitations": [
+    "The development of accurate estimators for task-relevant information and distortion may be challenging.",
+    "The derived bounds may be loose or difficult to compute, limiting their practical applicability.",
+    "The approach may not be directly applicable to all types of neural networks or tasks."
+  ]
+}

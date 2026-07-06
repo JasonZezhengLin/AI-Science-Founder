@@ -1,0 +1,46 @@
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+INFO:backoff:Backing off search_for_papers(...) for 0.1s (requests.exceptions.HTTPError: 500 Server Error: Internal Server Error for url: https://api.semanticscholar.org/graph/v1/paper/search?query=information-theoretic+bounds+on+neural+network+compression&limit=10&fields=title%2Cauthors%2Cvenue%2Cyear%2Cabstract%2CcitationCount)
+INFO:backoff:Backing off search_for_papers(...) for 0.2s (requests.exceptions.HTTPError: 500 Server Error: Internal Server Error for url: https://api.semanticscholar.org/graph/v1/paper/search?query=information-theoretic+model+compression+rate-distortion+mutual+information+task-relevant&limit=10&fields=title%2Cauthors%2Cvenue%2Cyear%2Cabstract%2CcitationCount)
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+INFO:backoff:Backing off search_for_papers(...) for 0.1s (requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='api.semanticscholar.org', port=443): Read timed out. (read timeout=10))
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+INFO:backoff:Backing off search_for_papers(...) for 0.5s (requests.exceptions.HTTPError: 500 Server Error: Internal Server Error for url: https://api.semanticscholar.org/graph/v1/paper/search?query=information-theoretic+model+compression+rate-distortion+mutual+information+task-relevant+distortion&limit=10&fields=title%2Cauthors%2Cvenue%2Cyear%2Cabstract%2CcitationCount)
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+INFO:backoff:Backing off search_for_papers(...) for 0.3s (requests.exceptions.HTTPError: 500 Server Error: Internal Server Error for url: https://api.semanticscholar.org/graph/v1/paper/search?query=kernel-level+throughput+engineering+for+efficient+inference+CUDA+Triton+kernels+memory-bandwidth+utilization+KV-cache+layout+tensor-core+occupancy&limit=10&fields=title%2Cauthors%2Cvenue%2Cyear%2Cabstract%2CcitationCount)
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+slurmstepd: error: *** JOB 941069 ON m002 CANCELLED AT 2026-06-22T15:55:48 ***

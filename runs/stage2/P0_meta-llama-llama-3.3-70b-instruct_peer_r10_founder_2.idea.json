@@ -1,0 +1,16 @@
+{
+  "Name": "spectral_latent_steering",
+  "Title": "Spectral Latent Steering: Training-Free Test-Time Optimization via Norm-Preserving Subspace Projection",
+  "Short Hypothesis": "We hypothesize that restricting test-time optimization to a low-rank, norm-preserving subspace can achieve efficient and latency-aware inference, while preserving the optimization landscape's geometry.",
+  "Related Work": "Our proposal builds upon recent works such as Spectral Quantization Routing, Training-Free Geometric Interference Cancellation, and Geometric Signal Separation, which have demonstrated the effectiveness of spectral methods in training-free inference. However, our approach differs in its focus on norm-preserving subspace projection and its application to test-time optimization.",
+  "Abstract": "We propose Spectral Latent Steering (SLS), a training-free framework that restricts test-time optimization to a low-rank, norm-preserving subspace. By performing a single-pass PCA on initial layer activations, we identify the dominant spectral directions that govern implicit latent refinement. Subsequent test-time updates are projected onto this subspace, ensuring strict computational budgets while preserving the optimization landscape's geometry. We theoretically ground SLS in information-theoretic bounds, showing that low-rank projections capture the majority of gradient-aligned signal required for reasoning improvement.",
+  "Experiments": [
+    "Evaluate SLS on mathematical reasoning and code generation tasks, comparing its performance to full-space perturbation baselines.",
+    "Assess the computational overhead and latency of SLS, measuring its impact on hidden-state perturbation and wall-clock latency.",
+    "Investigate the effect of subspace dimensionality on SLS performance, exploring the trade-off between computational efficiency and optimization quality."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of SLS may depend on the quality of the initial layer activations and the choice of subspace dimensionality.",
+    "The method may not be suitable for tasks that require significant changes to the optimization landscape, such as those with complex or dynamic objectives."
+  ]
+}

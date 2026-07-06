@@ -1,0 +1,14 @@
+{
+  "Name": "adaptive_mixed_precision_inference",
+  "Title": "Dynamic Adaptive Mixed Precision for Low-Latency Inference in Edge AI",
+  "Short Hypothesis": "Real-time adaptive mixed precision can significantly enhance inference efficiency and reduce latency in resource-constrained Edge AI environments, challenging the traditional static quantization approaches.",
+  "Related Work": "Current literature, such as SNIP and EMQ, focuses on mixed precision during training or static quantization methods without addressing real-time adaptation for latency-critical applications. This proposal distinguishes itself by dynamically adjusting the precision at inference based on immediate resource availability and latency constraints.",
+  "Abstract": "As machine learning (ML) models become increasingly complex, deploying them in latency-critical environments, such as Edge AI, poses significant challenges. Traditional mixed-precision strategies often employ static quantization, which may not adapt to real-time conditions, leading to inefficiencies and potential latency overruns. This proposal introduces a novel framework for Dynamic Adaptive Mixed Precision (DAMP) that leverages real-time monitoring of computational resources and latency requirements to adjust quantization levels dynamically during inference. By employing a Jacobian-based layer-skipping mechanism, the framework optimizes throughput while ensuring strict adherence to latency budgets. Empirical evaluations will benchmark the performance of DAMP against existing static and adaptive mixed precision approaches, focusing on accuracy, latency, and computational efficiency across various edge devices. The insights gained will pave the way for more efficient deployment of ML models in resource-constrained, latency-sensitive applications.",
+  "Experiments": [
+    "Implement the DAMP framework with a focus on real-time monitoring of computational resources and latency constraints.",
+    "Evaluate the performance of DAMP against static mixed precision and other adaptive methods on various edge devices (e.g., Raspberry Pi, NVIDIA Jetson).",
+    "Measure inference latency, accuracy, and computational efficiency across different workloads and scenarios.",
+    "Analyze the impact of quantization levels on model performance, identifying optimal configurations for varying resource states."
+  ],
+  "Risk Factors and Limitations": "Potential limitations include the challenge of accurately predicting real-time latency requirements, which could lead to suboptimal precision adjustments. Additionally, the dynamic nature of the framework may introduce overhead that needs careful management to ensure it does not counteract the latency benefits."
+}

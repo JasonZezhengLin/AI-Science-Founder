@@ -1,0 +1,18 @@
+{
+  "Name": "hardware_aware_quantization",
+  "Title": "Hardware-Aware Quantization for Efficient Deep Learning Inference on Commodity GPUs",
+  "Short Hypothesis": "By leveraging kernel-level throughput engineering and hardware-aware model compression techniques, we can significantly improve the efficiency of deep learning inference on commodity GPUs without sacrificing accuracy.",
+  "Related Work": "Recent works such as SNIP, AMP-ViT, and EMQ have explored adaptive mixed-precision quantization and training-free proxies for mixed-precision quantization. However, these approaches focus on specific aspects of quantization and do not provide a comprehensive framework for hardware-aware quantization. Our proposal builds upon these works and aims to provide a more holistic approach to quantization, taking into account the underlying hardware architecture and its implications on inference efficiency.",
+  "Abstract": "This proposal presents a novel approach to quantization, focusing on hardware-aware model compression techniques to improve the efficiency of deep learning inference on commodity GPUs. By leveraging kernel-level throughput engineering and profiling tools, we aim to develop a comprehensive framework for quantization that takes into account the underlying hardware architecture and its implications on inference efficiency. Our approach will involve a combination of adaptive mixed-precision quantization, training-free proxies, and hardware-aware model compression techniques to achieve significant improvements in inference efficiency without sacrificing accuracy.",
+  "Experiments": [
+    "Implement and evaluate the proposed hardware-aware quantization framework on a range of deep learning models and datasets.",
+    "Compare the performance of the proposed framework with state-of-the-art quantization approaches, such as SNIP, AMP-ViT, and EMQ.",
+    "Conduct a thorough analysis of the hardware implications of the proposed framework, including kernel-level throughput, memory bandwidth utilization, and cache hierarchy optimization.",
+    "Evaluate the scalability of the proposed framework on multiple GPUs and driver versions."
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed framework may require significant modifications to existing deep learning models and training pipelines.",
+    "The hardware-aware approach may not be directly applicable to all types of deep learning models or hardware architectures.",
+    "The evaluation of the proposed framework may require significant computational resources and expertise in kernel-level throughput engineering and hardware-aware model compression techniques."
+  ]
+}

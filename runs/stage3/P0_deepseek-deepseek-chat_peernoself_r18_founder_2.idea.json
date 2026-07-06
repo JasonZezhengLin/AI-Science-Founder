@@ -1,0 +1,20 @@
+{
+  "Name": "latency-aware_spectral_stability_inference",
+  "Title": "Latency-Aware Inference via Spectral Stability Bounds: A Training-Free Approach",
+  "Short Hypothesis": "Spectral stability metrics, derived from activation covariances, can serve as effective proxies for inference difficulty, enabling dynamic compute allocation to enforce strict latency budgets without retraining.",
+  "Related Work": "Existing methods for latency-aware inference often rely on static profiling or costly calibration, which fail to adapt to dynamic input distributions. Training-free approaches like Spectral Quantization Routing (SQR) and Geometric Interference Cancellation have explored using geometric properties of activations for precision allocation and noise cancellation, but they do not explicitly link spectral stability to compute allocation. Our proposal extends these ideas by formalizing spectral stability bounds as a direct lever for dynamic compute-throttling.",
+  "Abstract": "We propose a novel training-free framework for latency-aware inference that leverages spectral stability metrics derived from activation covariances. Our hypothesis is that the spectral condition number and decay rate of hidden states serve as effective proxies for inference difficulty, allowing dynamic compute allocation to enforce strict latency budgets. By computing these metrics on-the-fly using randomized SVD, we map them to a compute-throttling policy that adaptively routes tokens through fewer layers or prunes attention heads when spectral stability exceeds a calibrated threshold. We provide theoretical PAC-Bayes bounds linking spectral conditioning to generalization stability under perturbation, establishing a transparent pathway for resource-efficient inference. Evaluated on single-GPU setups across adversarial benchmarks and natural domain shifts, our method achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic baselines.",
+  "Experiments": [
+    "Implement randomized SVD to compute spectral condition number and decay rate of hidden states on-the-fly.",
+    "Develop a compute-throttling policy that maps spectral stability metrics to dynamic layer skipping and attention head pruning.",
+    "Evaluate on adversarial benchmarks (e.g., WILDS) and natural domain shifts, measuring accuracy retention and throughput.",
+    "Compare with static and heuristic mixed-precision baselines, focusing on throughput-accuracy Pareto frontiers.",
+    "Validate theoretical PAC-Bayes bounds by measuring generalization stability under controlled perturbations."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of spectral stability metrics may vary across architectures and tasks.",
+    "Randomized SVD introduces computational overhead, which could offset latency gains.",
+    "The compute-throttling policy may require fine-tuning for different hardware setups.",
+    "Theoretical bounds assume certain smoothness conditions, which may not hold in all practical scenarios."
+  ]
+}

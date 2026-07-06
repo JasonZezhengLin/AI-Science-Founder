@@ -1,0 +1,19 @@
+{
+  "Name": "training-free_spectral_routing",
+  "Title": "Training-Free Spectral Routing for Mixed-Precision Inference via Activation Covariance Geometry",
+  "Short Hypothesis": "The local covariance condition number and spectral decay rate of hidden states serve as direct proxies for quantization sensitivity, enabling dynamic precision allocation without training or calibration.",
+  "Related Work": "Existing mixed-precision quantization methods either rely on costly differentiable optimization search or heuristic proxies like Hessian-based sensitivity. Recent work like EMQ (Dong et al., 2023) and InfoQ (Akbulut et al., 2025) have explored training-free proxies but focus on global sensitivity metrics rather than local activation geometry. Our proposal is distinct in leveraging real-time spectral diagnostics of activation covariances to dynamically route tokens to appropriate precision tiers, providing a mathematically transparent and deterministic framework for precision allocation.",
+  "Abstract": "Mixed-precision inference promises significant latency and memory gains but typically relies on static profiling or costly calibration, failing to adapt to dynamic input distributions. We propose Spectral Quantization Routing (SQR), a training-free framework that dynamically allocates numerical precision based on real-time activation geometry. We hypothesize that the local covariance condition number and spectral decay rate of hidden states serve as direct proxies for quantization sensitivity. Tokens residing in well-conditioned, rapidly decaying subspaces are robust to low-precision computation, while ill-conditioned tokens require higher precision. SQR computes these geometric diagnostics on-the-fly using randomized SVD, mapping them to a precision-switching policy that enforces strict latency budgets. We theoretically ground the routing mechanism with PAC-Bayes bounds that link spectral conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, SQR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized risk bounds, SQR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Evaluate SQR on WILDS benchmarks (e.g., Camelyon17, FMoW) under natural distribution shifts. Metrics: throughput (tokens/sec), accuracy (%), and precision allocation overhead (%).",
+    "Compare SQR against static mixed-precision baselines (e.g., uniform 8-bit) and heuristic proxies (e.g., Hessian-based sensitivity). Metrics: accuracy retention under quantization noise, latency reduction.",
+    "Validate the correlation between spectral diagnostics (covariance condition number, spectral decay rate) and quantization sensitivity. Metrics: Pearson correlation coefficient, mean squared error.",
+    "Measure the computational overhead of on-the-fly spectral diagnostics using randomized SVD. Metrics: runtime (ms), memory usage (MB)."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of spectral diagnostics may vary across architectures and tasks, potentially limiting generalizability.",
+    "On-the-fly computation of spectral diagnostics introduces computational overhead, which could offset latency gains in some scenarios.",
+    "The proposed PAC-Bayes bounds may be overly conservative, leading to suboptimal precision allocation in practice.",
+    "The framework assumes well-behaved activation geometry, which may not hold for all inputs or layers."
+  ]
+}

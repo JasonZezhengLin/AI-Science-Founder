@@ -1,0 +1,18 @@
+{
+  "Name": "task_aware_quantization_mutual_info",
+  "Title": "Task-Aware Quantization via Mutual Information Optimization",
+  "Short Hypothesis": "Optimal quantization bit-widths can be determined by maximizing the mutual information between the quantized model's intermediate representations and the task-specific output, leading to better task performance with minimal bits.",
+  "Related Work": "Existing quantization methods (e.g., AMP-ViT, EMQ, SNIP) focus on minimizing distortion or heuristic proxies for quantization accuracy. Recent information-theoretic approaches (e.g., Bu et al., 2021; Tsur et al., 2023) study mutual information in model compression but do not explicitly optimize for task-specific mutual information. This proposal bridges these gaps by framing quantization as a task-aware mutual information maximization problem.",
+  "Abstract": "Quantization is a key technique for compressing deep neural networks, but existing methods often rely on heuristic proxies or general distortion measures. We propose a novel information-theoretic approach to quantization that explicitly optimizes for task-specific mutual information. By maximizing the mutual information between the quantized model's intermediate representations and the task output, we derive adaptive bit-widths that preserve task-relevant information while minimizing bit usage. We introduce a differentiable estimator for task-specific mutual information and formulate quantization as a constrained optimization problem. Experiments on vision and language tasks demonstrate that our method achieves superior task performance with fewer bits compared to existing quantization techniques. Our approach provides a principled framework for task-aware compression, bridging information theory and practical model optimization.",
+  "Experiments": [
+    "Experiment 1: Quantize ResNet-50 on ImageNet using our task-aware mutual information optimization. Evaluate accuracy vs. bit-width compared to uniform quantization and AMP-ViT.",
+    "Experiment 2: Quantize a Transformer model on GLUE tasks. Measure task performance (e.g., accuracy, F1) vs. bit-width compared to SNIP and EMQ.",
+    "Experiment 3: Ablation study on the impact of the mutual information estimator. Compare performance with different estimators (e.g., InfoNCE, MINE).",
+    "Experiment 4: Visualize the learned bit-widths across layers to analyze how task-specific mutual information guides quantization."
+  ],
+  "Risk Factors and Limitations": [
+    "The mutual information estimator may introduce computational overhead during optimization.",
+    "The approach assumes task-specific labels are available during quantization, which may not always be the case.",
+    "The method may struggle with tasks where intermediate representations are highly nonlinear or non-Gaussian."
+  ]
+}

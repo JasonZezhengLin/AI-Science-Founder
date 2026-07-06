@@ -1,0 +1,17 @@
+{
+  "Name": "profile_driven_quantization",
+  "Title": "Profile-Driven Quantization for Optimized Machine Learning Inference on Commodity GPUs",
+  "Short Hypothesis": "By leveraging profile-driven kernel optimization and automated mixed-precision quantization, we can significantly improve the inference speed of machine learning models on commodity GPUs while maintaining accuracy.",
+  "Related Work": "Recent works such as EMQ, SNIP, and AMP-ViT have explored automated mixed-precision quantization for machine learning models. However, these methods rely on theoretical bounds or heuristic-based approaches, which may not translate to real-world performance. Our proposal differs by focusing on profile-driven kernel optimization and empirical evaluation on commodity GPUs.",
+  "Abstract": "This proposal introduces a novel approach to optimizing machine learning inference on commodity GPUs. By combining profile-driven kernel optimization with automated mixed-precision quantization, we aim to improve inference speed while maintaining accuracy. Our approach leverages empirical evaluation on commodity GPUs to identify performance bottlenecks and optimize kernel performance. We will conduct experiments on various machine learning models and evaluate the effectiveness of our approach using metrics such as latency, throughput, and energy efficiency.",
+  "Experiments": [
+    "Experiment 1: Profile-driven kernel optimization for convolutional neural networks (CNNs) on NVIDIA GeForce GPUs",
+    "Experiment 2: Automated mixed-precision quantization for recurrent neural networks (RNNs) on AMD Radeon GPUs",
+    "Experiment 3: Evaluation of the proposed approach on various machine learning models, including CNNs, RNNs, and transformers, on multiple GPU architectures"
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed approach may require significant computational resources for profiling and optimization",
+    "The effectiveness of the approach may vary depending on the specific machine learning model and GPU architecture",
+    "The approach may not be applicable to all types of machine learning models or GPU architectures"
+  ]
+}

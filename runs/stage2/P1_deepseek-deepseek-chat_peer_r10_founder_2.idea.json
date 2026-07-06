@@ -1,0 +1,18 @@
+{
+  "Name": "task_aware_rate_distortion",
+  "Title": "Task-Aware Rate-Distortion Optimization for Adaptive Model Compression",
+  "Short Hypothesis": "By learning a task-specific distortion measure directly from downstream performance, we can achieve adaptive model compression that optimally trades off compression rate with task-specific accuracy, outperforming generic rate-distortion methods.",
+  "Related Work": "Existing works on rate-distortion theory in model compression (e.g., Sefidgaran et al., 2022; Bu et al., 2021) focus on deriving theoretical bounds or optimizing compression schemes without explicitly considering task-specific distortion measures. Our proposal extends this literature by operationalizing task-aware distortion measures through learning, enabling adaptive compression tailored to specific tasks.",
+  "Abstract": "Rate-distortion theory provides a principled framework for model compression, but its practical application often relies on generic distortion measures that may not align with downstream task performance. We propose Task-Aware Rate-Distortion Optimization (TARDO), a novel approach that learns a task-specific distortion measure directly from downstream accuracy. TARDO frames the distortion measure as a learnable parameter, enabling adaptive compression that optimally trades off compression rate with task-specific performance. We derive a theoretical connection between the learned distortion measure and task-specific generalization bounds, showing that TARDO achieves tighter operational rate-distortion frontiers. Empirically, we evaluate TARDO on vision and language tasks, demonstrating superior compression-performance trade-offs compared to generic rate-distortion methods. Our results highlight the importance of task-aware distortion measures in practical model compression and provide a reproducible pathway for adaptive, task-aligned compression.",
+  "Experiments": [
+    "Experiment 1: Learn task-specific distortion measures for image classification tasks (CIFAR-10, ImageNet) using a neural network and compare compression-performance trade-offs with generic rate-distortion methods.",
+    "Experiment 2: Extend TARDO to multi-task settings (e.g., GLUE benchmark) by learning shared distortion measures across tasks and evaluating task-specific performance.",
+    "Experiment 3: Validate the theoretical connection between learned distortion measures and generalization bounds by measuring empirical generalization gaps across different compression rates.",
+    "Metrics: Task-specific accuracy (e.g., classification accuracy, F1 score), compression rate (bits-per-weight), and operational rate-distortion frontiers."
+  ],
+  "Risk Factors and Limitations": [
+    "Learning task-specific distortion measures may require additional computational overhead during training.",
+    "The effectiveness of TARDO may depend on the availability of task-specific performance metrics, limiting its applicability to tasks with well-defined evaluation criteria.",
+    "Theoretical guarantees may not hold in highly non-linear or non-convex task spaces."
+  ]
+}

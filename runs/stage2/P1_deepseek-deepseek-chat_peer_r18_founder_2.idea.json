@@ -1,0 +1,17 @@
+{
+  "Name": "task_adaptive_compression",
+  "Title": "Task-Adaptive Compression via Mutual Information-Guided Bit Allocation",
+  "Short Hypothesis": "The sufficiency of a compressed model for a task can be characterized by the mutual information between the compressed representation and the task output, enabling dynamic bit allocation that maintains performance under distribution shifts.",
+  "Related Work": "Recent work has applied rate-distortion theory to model compression, focusing on trade-offs between compression ratio and model performance (Isik et al., 2021; Bu et al., 2019). However, these approaches do not explicitly tie compression to task-specific sufficiency or adapt to dynamic task distributions. This proposal bridges this gap by using mutual information as a guiding metric for adaptive compression.",
+  "Abstract": "Model compression is a key technique for deploying machine learning models in resource-constrained environments. However, existing compression methods often fail to adapt to dynamic task distributions, leading to performance degradation under distribution shifts. We propose a task-adaptive compression framework that dynamically allocates bits based on the mutual information between the compressed representation and the task output. This approach ensures that the compressed model remains sufficient for the task even as the distribution changes. We theoretically ground our method in information-theoretic bounds on task-specific sufficiency and empirically validate it on standard benchmarks with controlled distribution shifts. Our results demonstrate that mutual information-guided bit allocation achieves superior performance compared to static compression baselines, particularly in dynamic environments.",
+  "Experiments": [
+    "Experiment 1: Measure the mutual information between compressed representations and task outputs on CIFAR-10 and ImageNet, comparing static compression methods (e.g., pruning, quantization) to our adaptive approach. Metrics: Accuracy, mutual information, bits-per-weight.",
+    "Experiment 2: Evaluate performance under controlled distribution shifts (e.g., domain adaptation benchmarks) to test the adaptability of our method. Metrics: Accuracy drop, mutual information retention.",
+    "Experiment 3: Ablation study on the impact of different mutual information estimators (e.g., InfoNCE, MINE) on compression performance. Metrics: Accuracy, bits-per-weight."
+  ],
+  "Risk Factors and Limitations": [
+    "Mutual information estimation may be computationally expensive, limiting scalability to very large models.",
+    "The method relies on the assumption that task-specific sensitivity can be accurately captured by mutual information, which may not hold for all tasks.",
+    "Dynamic bit allocation introduces additional complexity, potentially increasing inference latency."
+  ]
+}

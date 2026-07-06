@@ -1,0 +1,20 @@
+{
+  "Name": "training-free_geometric_disentanglement",
+  "Title": "Training-Free Geometric Disentanglement via Curvature-Aware Precision Routing",
+  "Short Hypothesis": "Geometric diagnostics such as curvature and spectral decay can disentangle task-specific representations without training, enabling downstream task adaptation via deterministic precision routing.",
+  "Related Work": "Spectral Quantization Routing (SQR) and Spectral Latent Steering (SLS) leverage spectral geometry for precision routing and inference efficiency but do not focus on disentanglement. Geometric Signal Separation explores subspace filtering for robustness but lacks curvature-aware diagnostics. This proposal bridges these gaps by introducing curvature-aware precision routing for disentanglement, explicitly isolating task-specific subspaces.",
+  "Abstract": "Representation disentanglement is a key challenge in machine learning, often requiring costly training or supervision. We propose a training-free framework that leverages curvature-aware geometric diagnostics to disentangle task-specific representations. By analyzing the curvature and spectral decay of hidden states, we identify geometrically distinct subspaces corresponding to different tasks. We introduce a deterministic precision routing mechanism that isolates these subspaces, enabling downstream task adaptation without retraining. Our approach replaces heuristic disentanglement claims with formalized geometric diagnostics, ensuring transparency and reproducibility. Evaluated on single-GPU setups across diverse benchmarks, our method achieves superior disentanglement performance while maintaining strict computational overhead bounds. This work bridges foundational geometric theory with practical representation disentanglement, offering a reproducible, training-free pathway for downstream task adaptation.",
+  "Experiments": [
+    "Curvature and Spectral Diagnostics: Compute curvature metrics (e.g., Hessian eigenvalues) and spectral decay rates for hidden states across different tasks. Use randomized SVD for efficient computation.",
+    "Subspace Isolation: Identify geometrically distinct subspaces via clustering in curvature-spectral space. Validate subspace distinctness using metrics like subspace alignment and cosine similarity.",
+    "Precision Routing: Implement a deterministic routing mechanism that allocates numerical precision based on subspace curvature. Use PAC-Bayes bounds to link curvature to precision sensitivity.",
+    "Downstream Task Adaptation: Evaluate disentanglement performance on downstream tasks (e.g., classification, regression) using metrics like task-specific accuracy and mutual information.",
+    "Computational Overhead: Measure latency and memory overhead, ensuring adherence to single-GPU constraints."
+  ],
+  "Risk Factors and Limitations": [
+    "Curvature computation may introduce overhead, though randomized SVD mitigates this.",
+    "Subspace isolation may fail for highly entangled tasks, requiring further geometric refinement.",
+    "The deterministic routing mechanism assumes well-separated subspaces, which may not hold for all tasks.",
+    "Evaluation on synthetic benchmarks may limit generalizability to real-world tasks."
+  ]
+}

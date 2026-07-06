@@ -1,0 +1,18 @@
+{
+  "Name": "hardware_efficient_quantization",
+  "Title": "Hardware-Efficient Neural Network Quantization with Adaptive Bitwidth Allocation",
+  "Short Hypothesis": "Adaptive bitwidth allocation can significantly improve the hardware efficiency of neural network quantization, leading to faster inference times and reduced energy consumption.",
+  "Related Work": "Recent works such as AMP-ViT, SNIP, and EMQ have explored mixed-precision quantization and adaptive bitwidth allocation for neural networks. However, these methods often rely on manual configurations, heuristic-based approaches, or training-based search methods, which can be time-consuming and may not generalize well to different hardware platforms. Our proposal differs from existing work by introducing a hardware-aware, adaptive bitwidth allocation framework that leverages profiling and optimization techniques to minimize inference latency and energy consumption.",
+  "Abstract": "This paper proposes a hardware-efficient neural network quantization framework with adaptive bitwidth allocation. Our approach leverages profiling and optimization techniques to minimize inference latency and energy consumption on commodity GPUs. We introduce a novel bitwidth allocation algorithm that adapts to the hardware characteristics of the target platform, taking into account factors such as memory bandwidth, tensor core occupancy, and arithmetic intensity. Our framework is evaluated on a range of neural network models and datasets, demonstrating significant improvements in hardware efficiency and inference speed compared to state-of-the-art quantization methods.",
+  "Experiments": [
+    "Evaluate the proposed framework on a range of neural network models (e.g., ResNet, MobileNet, ViT) and datasets (e.g., ImageNet, CIFAR-10)",
+    "Compare the hardware efficiency and inference speed of our framework with state-of-the-art quantization methods (e.g., AMP-ViT, SNIP, EMQ)",
+    "Investigate the impact of adaptive bitwidth allocation on inference latency and energy consumption using profiling tools (e.g., nvprof, Nsight)",
+    "Explore the trade-offs between accuracy, latency, and energy consumption using our framework and identify optimal bitwidth allocation strategies for different hardware platforms"
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed framework may require significant modifications to existing neural network models and quantization methods",
+    "The adaptive bitwidth allocation algorithm may not generalize well to different hardware platforms or neural network models",
+    "The framework may require additional computational resources and memory to store profiling data and optimize bitwidth allocation"
+  ]
+}

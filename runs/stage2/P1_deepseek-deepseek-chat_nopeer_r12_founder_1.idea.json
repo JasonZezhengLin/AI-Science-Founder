@@ -1,0 +1,37 @@
+{
+  "Name": "adaptive_kernel_fusion",
+  "Title": "Adaptive Kernel Fusion for Efficient Inference in Transformers",
+  "Short Hypothesis": "Dynamic, context-aware kernel fusion can significantly reduce latency and improve throughput in transformer inference by optimizing memory-bandwidth utilization and tensor-core occupancy based on real-time workload characteristics.",
+  "Related Work": "Existing work on kernel fusion primarily focuses on static fusion strategies that are predetermined during model compilation. While these approaches offer some improvements, they do not adapt to varying runtime conditions such as sequence length, batch size, or hardware state. Our proposal introduces a dynamic fusion mechanism that continuously profiles and adjusts kernel fusion strategies in real-time, distinguishing it from static methods and enabling more efficient utilization of hardware resources.",
+  "Abstract": "Transformer models have become the backbone of modern NLP, but their inference efficiency remains a critical challenge. This paper proposes an adaptive kernel fusion approach that dynamically adjusts fusion strategies based on real-time workload characteristics. By continuously profiling the runtime environment, including sequence length, batch size, and hardware state, our method optimizes memory-bandwidth utilization and tensor-core occupancy. We implement this approach in CUDA/Triton kernels and evaluate it on commodity GPUs. Our experiments demonstrate significant reductions in latency and improvements in throughput, validated by detailed profiling traces showing coalesced loads, reduced HBM round-trips, and better register allocation. The proposed method bridges model compression with deployment systems engineering, offering practical, measurable speedups for transformer inference.",
+  "Experiments": [
+    {
+      "description": "Baseline comparison with static fusion strategies",
+      "metrics": [
+        "p50/p99 latency",
+        "throughput under batching",
+        "energy per token"
+      ]
+    },
+    {
+      "description": "Real-time profiling and adaptive fusion",
+      "metrics": [
+        "achieved bandwidth",
+        "arithmetic intensity",
+        "warp stall reasons"
+      ]
+    },
+    {
+      "description": "A/B latency races under fixed accuracy budgets",
+      "metrics": [
+        "wall-clock latency",
+        "tokens-per-second"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "Potential overhead from continuous profiling may offset gains from adaptive fusion.",
+    "The approach may require significant tuning for different hardware configurations.",
+    "Limited applicability to non-transformer architectures or non-GPU hardware."
+  ]
+}

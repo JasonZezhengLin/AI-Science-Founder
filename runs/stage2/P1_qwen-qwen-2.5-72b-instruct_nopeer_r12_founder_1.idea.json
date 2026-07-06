@@ -1,0 +1,21 @@
+{
+  "Name": "OptimizedTransformerKernelFusion",
+  "Title": "Optimizing Transformer Inference Through CUDA Kernel Fusion and Dynamic Token-Level Pre-Gating",
+  "Short Hypothesis": "Fusing CUDA kernels and employing dynamic token-level pre-gating can significantly reduce inference latency and improve throughput for transformer models on commodity GPUs.",
+  "Related Work": "Previous work has explored various optimization techniques for transformer models, including PAISE (Lee et al., 2025) which leverages PIM technology to offload memory-intensive tasks, and AdaFuse (Li et al., 2026) which focuses on dynamic adapter inference. However, these approaches either require specialized hardware or focus on specific aspects of optimization. This proposal aims to integrate kernel fusion and token-level pre-gating to achieve a more comprehensive and hardware-agnostic optimization.",
+  "Abstract": "Transformer models, despite their powerful capabilities, suffer from high inference latency and memory bandwidth issues, particularly in autoregressive settings. This proposal introduces a novel approach that combines CUDA kernel fusion with dynamic token-level pre-gating to reduce latency and improve throughput on commodity GPUs. By profiling and optimizing kernel-level operations, we aim to minimize the overhead associated with multiple kernel launches and optimize memory access patterns. Our method will be evaluated on popular transformer models such as GPT-2 and BERT, using metrics such as P50/P99 latency, throughput, and energy per token. We hypothesize that this approach will lead to significant performance improvements, making transformer models more viable for real-time applications.",
+  "Experiments": [
+    "1. Baseline Profiling: Profile the baseline performance of transformer models (GPT-2, BERT) on a single GPU using nvprof and Nsight to identify kernel launch overhead and memory bottlenecks.",
+    "2. Kernel Fusion: Develop and implement a fused CUDA kernel that combines multiple operations (e.g., attention, feed-forward) into a single kernel launch. Measure the impact on latency and throughput.",
+    "3. Token-Level Pre-Gating: Implement a token-level pre-gating strategy that makes a global routing decision before processing each token. Evaluate the reduction in kernel launch overhead and the impact on latency.",
+    "4. Combined Optimization: Integrate both kernel fusion and token-level pre-gating into a single framework. Measure the combined effect on P50/P99 latency, throughput, and energy per token.",
+    "5. A/B Testing: Conduct A/B latency races under fixed accuracy budgets to compare the optimized model against the baseline. Report the percentage reduction in latency and improvement in throughput.",
+    "6. Variance Analysis: Analyze the variance across multiple runs to ensure consistent performance improvements and identify any sources of jitter or instability."
+  ],
+  "Risk Factors and Limitations": [
+    "1. Complexity of CUDA Kernel Development: Developing and optimizing fused CUDA kernels can be complex and time-consuming.",
+    "2. Token-Level Pre-Gating Overhead: The overhead of making global routing decisions for each token may introduce additional latency.",
+    "3. Hardware Variability: Performance may vary across different GPU models and driver versions, requiring extensive benchmarking.",
+    "4. Model-Specific Optimization: The effectiveness of the proposed optimizations may vary depending on the specific transformer model and task."
+  ]
+}

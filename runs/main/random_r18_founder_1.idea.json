@@ -1,0 +1,20 @@
+{
+  "Name": "geometric_subspace_routing",
+  "Title": "Geometric Subspace Routing for Training-Free Mixed-Precision Quantization",
+  "Short Hypothesis": "The curvature-aware precision routing framework, leveraging geometric subspace diagnostics and deterministic optimization proxies, can achieve superior mixed-precision quantization without training by explicitly quantifying gradient covariance decay, Hessian conditioning, and feature entanglement.",
+  "Related Work": "Existing methods like EMQ and InfoQ focus on evolving proxies or global information flow but lack a mechanistic understanding of how quantization affects model geometry. AMP-ViT and SNIP address specific challenges in ViTs and LLMs but rely on heuristic-based approaches. Our proposal distinguishes itself by integrating spectral quantization theory with low-overhead implementation, prioritizing mathematical transparency and architectural alignment over heuristic-driven methods.",
+  "Abstract": "Mixed-precision quantization (MPQ) offers a promising path to efficient deep learning deployment, but existing methods often rely on heuristic proxies or expensive training loops. We propose Geometric Subspace Routing (GSR), a training-free framework that leverages curvature-aware precision routing to optimize MPQ. GSR integrates geometric subspace diagnostics, such as gradient covariance decay and Hessian conditioning, with deterministic optimization proxies to allocate bit-widths based on formalized stability radii and PAC-Bayes generalization bounds. Our approach replaces heuristic fragility claims with explicit numerical stability analysis, ensuring resource efficiency and mathematical transparency. Experiments on ImageNet with ResNet and MobileNet families demonstrate that GSR achieves state-of-the-art accuracy-complexity trade-offs at significantly reduced computational overhead.",
+  "Experiments": [
+    "Evaluate GSR on ImageNet using ResNet-18, ResNet-50, and MobileNetV2. Compare quantization accuracy and computational efficiency against EMQ and InfoQ.",
+    "Measure gradient covariance decay and Hessian conditioning across different layers to validate the correlation between geometric diagnostics and quantization sensitivity.",
+    "Conduct ablation studies to isolate the impact of geometric subspace diagnostics versus deterministic proxies on MPQ performance.",
+    "Assess numerical stability by quantifying condition number constraints under precision switching.",
+    "Validate PAC-Bayes generalization bounds through multi-seed variance quantification."
+  ],
+  "Risk Factors and Limitations": [
+    "The framework assumes that geometric diagnostics can be accurately computed without training, which may not hold for all architectures.",
+    "The deterministic proxies may introduce computational overhead, although we enforce strict bounds.",
+    "The approach may struggle with extremely low bit-widths (e.g., 2-bit) where quantization noise dominates.",
+    "Generalization to non-vision tasks (e.g., NLP) requires further validation."
+  ]
+}

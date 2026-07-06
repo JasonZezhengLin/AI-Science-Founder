@@ -1,0 +1,87 @@
+{
+  "Name": "curvature_aware_attention_precision_routing",
+  "Title": "Spectral Curvature Routing for Attention-Precision Co-Optimization: Training-Free Diagnostics for Transformer Inference",
+  "Short Hypothesis": "Transformer attention mechanisms exhibit layer-dependent curvature heterogeneity that correlates with precision sensitivity in a theoretically predictable manner. By performing pre-execution spectral analysis of attention query-key covariance structure and gradient flow Hessian conditioning, we can deterministically route block-level precision assignments (FP32/BF16/FP8) without training, achieving Pareto-optimal throughput-accuracy tradeoffs while maintaining formal PAC-Bayes generalization guarantees. This hypothesis is best tested in transformers because: (1) attention's differentiable softmax exhibits well-characterized numerical instability zones, (2) layer-wise modularity enables block-level precision tiering without cross-layer recompilation, and (3) the query-key interaction structure admits closed-form spectral diagnostics unavailable in dense layers.",
+  "Related Work": "Existing work divides into three underexplored gaps: (1) Mixed-precision inference methods (e.g., INT8 quantization, QAT) rely on post-training calibration or heuristic layer-wise rules, lacking pre-execution theoretical guarantees. (2) Training-free routing (e.g., SNIP, GraSP) targets pruning/architecture search, not precision assignment, and do not account for attention's unique softmax curvature. (3) Attention efficiency work (e.g., FlashAttention, sparse attention) optimizes computation, not numerical precision under heterogeneous curvature. Our proposal uniquely combines: (a) deterministic pre-execution spectral diagnostics of attention query-key Hessian conditioning, (b) formal stability radius bounds derived from softmax curvature, (c) block-level precision routing coupled to these bounds via PAC-Bayes margin theory, and (d) empirical validation on single-GPU inference without retraining. This is not a trivial extension because it operationalizes the non-obvious connection between attention's local curvature geometry and global precision requirements through a novel training-free diagnostic loop.",
+  "Abstract": "We propose Spectral Curvature Routing (SCR), a training-free framework for deterministic, theoretically-grounded precision assignment in transformer inference. The core insight is that attention mechanisms exhibit layer-dependent numerical sensitivity that correlates with query-key covariance curvature and gradient Hessian conditioning in a mathematically predictable way. SCR performs three pre-execution diagnostics: (1) Compute per-layer query-key covariance eigenvalue spectra to quantify attention softmax curvature via condition number and effective rank; (2) Estimate gradient flow Hessian conditioning via power iteration on attention output feature covariance; (3) Derive precision stability radii by bounding softmax perturbation under reduced precision via first-order Taylor expansion. These diagnostics feed a deterministic routing policy: layers with high condition numbers and low effective rank are assigned FP32, intermediate layers receive BF16, and low-curvature layers use FP8, subject to strict overhead constraints. We validate SCR on LLaMA, Mistral, and BERT across multiple datasets, measuring: (a) inference throughput improvement vs. uniform precision, (b) perplexity/task accuracy preservation under precision switching, (c) empirical Hessian condition number vs. predicted stability radius correlation, and (d) amortized diagnostic overhead (< 2% total latency). Crucially, all precision assignments are determined before inference execution, enabling static compilation and hardware optimization. We prove PAC-Bayes generalization bounds showing that layers respecting derived stability radii maintain generalization margins with high probability, formalizing the precision-accuracy tradeoff.",
+  "Experiments": [
+    {
+      "name": "Experiment 1: Spectral Diagnostic Validation",
+      "description": "For LLaMA-7B and BERT-base, compute per-layer query-key covariance spectra on a held-out calibration set (500 examples from C4). For each layer l, compute: (a) condition number κ_l = λ_max / λ_min of Q_l K_l^T covariance, (b) effective rank r_eff,l = (Σ λ_i)^2 / Σ λ_i^2, (c) gradient Hessian condition number via power iteration on ∇_out Cov(attention_output). Plot condition number distributions across layers. Hypothesis: early and late layers show high curvature (κ > 100), middle layers show moderate curvature (κ ∈ [10, 100]).",
+      "metrics": [
+        "Layer-wise condition number κ_l",
+        "Effective rank r_eff,l",
+        "Hessian condition number estimates",
+        "Spectral decay rate (λ_i ∝ i^{-α})",
+        "Computational overhead of diagnostics (wall-clock time)"
+      ]
+    },
+    {
+      "name": "Experiment 2: Precision Stability Radius Derivation and Empirical Validation",
+      "description": "For each layer, derive precision stability radius δ_l by bounding softmax perturbation under reduced precision: ||softmax(Q_l K_l^T + ε) - softmax(Q_l K_l^T)||_2 ≤ C · κ_l · ||ε||_2 via first-order Taylor expansion. Set δ_l = (machine_epsilon / κ_l) · margin_factor. Empirically validate by: (a) computing attention outputs in FP32 (reference), (b) adding controlled Gaussian noise ||ε||_2 = δ_l to query/key before softmax, (c) measuring KL divergence of perturbed vs. reference attention weights. Hypothesis: empirical KL divergence matches theoretical bound prediction within 2× constant factor.",
+      "metrics": [
+        "Theoretical stability radius δ_l for each layer",
+        "Empirical KL divergence under perturbation",
+        "Ratio of empirical to theoretical bound",
+        "Correlation between κ_l and empirical sensitivity"
+      ]
+    },
+    {
+      "name": "Experiment 3: Deterministic Precision Routing Policy",
+      "description": "Implement routing policy: (a) Threshold condition numbers: high-curvature layers (κ > 50) → FP32, medium (κ ∈ [20, 50]) → BF16, low (κ < 20) → FP8. (b) Validate thresholds via grid search on perplexity loss: sweep κ thresholds {30, 50, 70} and {10, 20, 30} on validation set. (c) For each routing configuration, measure: inference latency (A100 GPU), peak memory, and task metrics (perplexity on wikitext-103, accuracy on GLUE). Hypothesis: routing based on spectral diagnostics achieves 1.5-2.5× speedup vs. uniform FP32 with < 2% accuracy loss.",
+      "metrics": [
+        "Inference latency (tokens/sec)",
+        "Peak memory usage",
+        "Perplexity (wikitext-103)",
+        "GLUE task accuracy (MNLI, QQP, SST-2)",
+        "Precision assignment distribution",
+        "Amortized diagnostic overhead"
+      ]
+    },
+    {
+      "name": "Experiment 4: PAC-Bayes Generalization Bound Verification",
+      "description": "For each layer l, compute margin-based PAC-Bayes bound: P(gen_error > emp_error + bound) ≤ δ, where bound depends on κ_l and layer precision tier. Specifically, for layers assigned FP8 vs. FP32, compute: (a) empirical loss on training set, (b) loss on held-out test set, (c) Lipschitz constant estimate L_l via gradient norm analysis, (d) margin γ_l derived from stability radius. Verify that test loss ≤ emp_loss + (L_l · δ_l / √n) + √(log(1/δ) / (2n)) with high probability. Hypothesis: layers violating this bound (test loss > predicted bound) correspond to κ_l underestimation; bound is tight within log factors.",
+      "metrics": [
+        "Empirical loss per layer",
+        "Test loss per layer",
+        "Predicted PAC-Bayes bound",
+        "Margin γ_l estimates",
+        "Fraction of layers violating bound",
+        "Tightness ratio (test_loss / bound)"
+      ]
+    },
+    {
+      "name": "Experiment 5: Ablation and Robustness Analysis",
+      "description": "Test robustness of diagnostics across: (a) different calibration set sizes (100, 500, 2000 examples) to validate stability of spectral estimates, (b) different model scales (BERT-base, LLaMA-7B, LLaMA-13B) to check generalization of thresholds, (c) different tasks (language modeling, QA, classification) to validate task-agnostic routing. For each ablation, measure: condition number stability (coefficient of variation across calibration subsets), threshold transferability (does LLaMA-7B routing transfer to LLaMA-13B?), and task-generalization gap (does routing trained on WikiText degrade on GLUE?). Hypothesis: condition numbers stabilize with ~300 examples; thresholds transfer across model scales with < 5% accuracy variance.",
+      "metrics": [
+        "Condition number coefficient of variation",
+        "Cross-model threshold transfer error",
+        "Task generalization gap",
+        "Diagnostic reproducibility across seeds"
+      ]
+    },
+    {
+      "name": "Experiment 6: Comparison to Baseline Precision Strategies",
+      "description": "Benchmark SCR against: (a) uniform FP32 (baseline), (b) uniform BF16, (c) uniform FP8, (d) heuristic layer-wise quantization (first/last layers FP32, middle BF16/FP8), (e) post-training quantization (PTQ) with static calibration. For each strategy, report: inference latency, memory, perplexity, accuracy, and total amortized cost (diagnostics + inference). Hypothesis: SCR achieves 1.8-2.2× speedup vs. uniform FP32 with comparable or better accuracy than PTQ, while maintaining zero training cost.",
+      "metrics": [
+        "Inference latency speedup",
+        "Memory reduction",
+        "Perplexity preservation",
+        "Task accuracy delta",
+        "Total amortized cost (diagnostic + inference time)",
+        "Pareto frontier position"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "**Spectral Estimation Noise**: Power iteration and covariance eigenvalue estimates may be noisy on small calibration sets; mitigation: employ Nyström approximation with explicit variance quantification and require ≥300 calibration examples with confidence interval reporting.",
+    "**Attention Softmax Assumption**: First-order Taylor expansion for softmax perturbation bounds assumes small perturbations; may break under extreme quantization (e.g., INT4). Mitigation: empirically validate Taylor approximation accuracy (Experiment 2) and restrict FP8 routing to layers with κ < 50.",
+    "**Hardware Precision Support**: Not all accelerators efficiently support mixed FP32/BF16/FP8 execution; FP8 support is recent (H100, Grace Hopper). Mitigation: test on A100 (BF16/FP32) and report path to H100; provide BF16-only variant as fallback.",
+    "**Generalization Beyond Attention**: Proposed diagnostics target attention mechanisms; dense feedforward layers may have different curvature-precision relationships. Mitigation: extend experiments to include feedforward layer analysis; propose separate routing for MLPs if curvature patterns differ.",
+    "**Calibration Data Dependence**: Spectral diagnostics depend on calibration set distribution; mismatch with deployment data could degrade routing. Mitigation: test on out-of-domain tasks (GLUE after WikiText calibration); quantify condition number shift under distribution change.",
+    "**Single-GPU Scalability**: Approach validated on single A100; multi-GPU or TPU inference may exhibit different numerical stability properties due to communication quantization. Mitigation: scope proposal to single-GPU inference; defer distributed routing to future work.",
+    "**Theoretical Bound Looseness**: PAC-Bayes bounds may be loose in practice, limiting predictive power. Mitigation: empirically measure tightness ratio (Experiment 4); use bounds as relative ranking rather than absolute threshold.",
+    "**Computational Overhead**: Spectral diagnostics (eigenvalue computation, Hessian estimation) could exceed 2% latency budget on very fast models. Mitigation: profile overhead on LLaMA-7B (Experiment 1); implement early termination if overhead exceeds 3%.",
+    "**Limited Theoretical Novelty**: PAC-Bayes bounds and condition number analysis are known; novelty is in application to attention precision routing. Mitigation: emphasize empirical validation and practical impact; position as rigorous engineering contribution rather than theoretical advance."
+  ]
+}

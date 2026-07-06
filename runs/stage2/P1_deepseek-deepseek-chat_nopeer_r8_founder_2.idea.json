@@ -1,0 +1,19 @@
+{
+  "Name": "task_specific_compression_limits",
+  "Title": "Task-Specific Information-Theoretic Limits for Neural Network Compression",
+  "Short Hypothesis": "The optimal compression of a neural network for a specific task is fundamentally bounded by the task-specific information it must preserve, and practical compression methods can be evaluated against these limits.",
+  "Related Work": "The Information Bottleneck principle (Tishby & Zaslavsky, 2015) provides a foundational framework for analyzing neural networks through mutual information. Recent work has extended these ideas to generalization bounds (He & Goldfeld, 2024) and adversarial robustness (Gao et al., 2024). However, existing approaches do not explicitly connect neural network compression to task-specific information-theoretic limits. Our proposal distinguishes itself by focusing on task-specific information preservation rather than generic sparsity or entropy reduction.",
+  "Abstract": "Neural network compression is a critical technique for deploying models on resource-constrained devices. However, existing methods often focus on generic sparsity or entropy reduction without considering the task-specific information that must be preserved. In this work, we derive task-specific information-theoretic limits for neural network compression, quantifying the minimum bits-per-weight required to preserve predictive sufficiency for a given task. We propose a framework to evaluate practical compression methods against these limits, using mutual information estimators to quantify task-specific information preservation. Our experiments demonstrate that state-of-the-art compression methods often fall short of these limits, revealing opportunities for improved compression strategies. This work provides a principled foundation for developing task-specific compression methods that approach fundamental information-theoretic bounds.",
+  "Experiments": [
+    "Derive task-specific information-theoretic limits for neural network compression using mutual information estimators and distortion measures.",
+    "Evaluate state-of-the-art compression methods (e.g., quantization, pruning) against these limits on benchmark tasks (e.g., CIFAR-10, ImageNet).",
+    "Develop and test novel compression strategies that explicitly optimize for task-specific information preservation, comparing their performance to existing methods.",
+    "Use mutual information estimators (e.g., InfoNCE) to quantify task-specific information preservation and distortion-rate curves to evaluate compression efficiency."
+  ],
+  "Risk Factors and Limitations": [
+    "Mutual information estimation may be computationally expensive and prone to bias, especially in high-dimensional settings.",
+    "Task-specific information-theoretic limits may be difficult to derive analytically for complex tasks, requiring approximations or assumptions.",
+    "Practical compression methods may be constrained by hardware limitations, which are not explicitly considered in this theoretical framework.",
+    "The proposed framework assumes access to task-specific distortion measures, which may not always be available or well-defined."
+  ]
+}

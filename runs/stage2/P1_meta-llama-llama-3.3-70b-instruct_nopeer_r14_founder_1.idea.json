@@ -1,0 +1,18 @@
+{
+  "Name": "gpu_memory_bandwidth_optimizer",
+  "Title": "Optimizing GPU Memory Bandwidth Utilization for Deep Learning Inference",
+  "Short Hypothesis": "Carefully optimizing GPU memory bandwidth utilization can lead to significant improvements in deep learning inference performance, and a data-driven approach can identify the most effective optimizations.",
+  "Related Work": "While there have been efforts to optimize GPU memory bandwidth utilization, they often focus on specific models or use cases. This proposal takes a more general approach, using a data-driven methodology to identify optimizations that can be applied broadly.",
+  "Abstract": "This project aims to optimize GPU memory bandwidth utilization for deep learning inference using a data-driven approach. We will use profiling tools to identify performance bottlenecks and develop optimizations to address them. Our goal is to achieve significant improvements in inference performance while maintaining accuracy. We will evaluate our approach using a range of deep learning models and datasets, and report results in terms of wall-clock latency, tokens-per-second, and energy per token.",
+  "Experiments": [
+    "Profile a range of deep learning models to identify performance bottlenecks",
+    "Develop and evaluate optimizations to address bottlenecks, such as coalesced loads, reduced HBM round-trips, and better register allocation",
+    "Evaluate the effectiveness of optimizations using A/B latency races under fixed accuracy budgets",
+    "Report results in terms of p50/p99 latency, throughput under batching, and energy per token"
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of modern GPU architectures may make it difficult to identify and optimize performance bottlenecks",
+    "The optimizations developed may not generalize across different models or use cases",
+    "The evaluation methodology may not capture all relevant factors affecting inference performance"
+  ]
+}

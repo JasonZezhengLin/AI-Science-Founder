@@ -1,0 +1,18 @@
+{
+  "Name": "pacbayes_spectral_layer_skipping",
+  "Title": "PAC-Bayes Layer Skipping: Training-Free Inference via Spectral Stability Bounds",
+  "Short Hypothesis": "Layer skipping during inference can be optimized by leveraging PAC-Bayes generalization bounds and spectral stability metrics, enabling latency-aware inference without retraining.",
+  "Related Work": "Recent work has explored training-free methods for efficient inference, such as Spectral Quantization Routing (SQR) and Geometric Signal Separation. These methods focus on precision allocation or subspace filtering but do not address layer skipping. Our proposal distinguishes itself by introducing PAC-Bayes theory and spectral stability metrics to enforce latency-aware layer skipping, offering a novel, theoretically grounded approach to efficient inference.",
+  "Abstract": "We propose PAC-Bayes Layer Skipping, a training-free framework that optimizes layer skipping during inference using PAC-Bayes generalization bounds and spectral stability metrics. By analyzing the spectral properties of hidden states and deriving PAC-Bayes bounds, we dynamically skip layers that contribute minimally to generalization performance while enforcing strict latency budgets. Our approach eliminates the need for retraining or heuristic calibration, offering a reproducible and computationally frugal pathway to latency-aware inference. We validate our method on single-GPU setups across WILDS benchmarks, demonstrating superior throughput-accuracy Pareto frontiers compared to static and heuristic baselines. By bridging PAC-Bayes theory with spectral analysis, our work provides a transparent and scalable solution for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Experiment 1: Validate spectral stability metrics by computing the condition number and spectral decay rate of hidden states across layers. Use randomized SVD for efficient computation.",
+    "Experiment 2: Derive PAC-Bayes bounds for layer skipping and evaluate their predictive power for generalization performance. Measure accuracy retention and latency reduction.",
+    "Experiment 3: Implement dynamic layer skipping based on spectral stability metrics and PAC-Bayes bounds. Compare throughput-accuracy Pareto frontiers against static and heuristic baselines on WILDS benchmarks.",
+    "Experiment 4: Analyze robustness under distributional shifts by measuring accuracy retention and subspace alignment stability across diverse datasets."
+  ],
+  "Risk Factors and Limitations": [
+    "Theoretical assumptions may not hold under extreme distributional shifts.",
+    "Randomized SVD introduces approximation errors that could affect spectral stability metrics.",
+    "Dynamic layer skipping may introduce additional overhead, potentially offsetting latency gains."
+  ]
+}

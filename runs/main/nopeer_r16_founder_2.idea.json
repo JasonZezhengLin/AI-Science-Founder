@@ -1,0 +1,18 @@
+{
+  "Name": "jacobian_layer_skipping",
+  "Title": "Training-Free Latency-Aware Inference via Jacobian-Based Layer Skipping",
+  "Short Hypothesis": "Dynamic layer skipping based on Jacobian stability can achieve latency-aware inference without training, while adhering to PAC-Bayes bounds.",
+  "Related Work": "Existing work on layer skipping (e.g., SkipNet, Adaptive Computation Time) typically requires training or complex heuristics. PAC-Bayes theory has been applied to generalization bounds but not to latency-aware inference. This proposal uniquely combines Jacobian stability analysis with PAC-Bayes bounds for training-free, latency-aware inference.",
+  "Abstract": "We propose a training-free, latency-aware inference framework that dynamically skips layers based on Jacobian stability. By analyzing the Jacobian of each layer with respect to the input, we identify layers that contribute minimally to the output and skip them during inference, reducing latency without sacrificing accuracy. We derive PAC-Bayes bounds to ensure the skipped layers do not degrade generalization performance. Our framework is computationally frugal, requiring only a single forward pass and Jacobian computation per input. Experiments on image classification and language modeling tasks demonstrate that our approach achieves significant latency reductions while maintaining competitive accuracy. This work bridges the gap between theoretical PAC-Bayes bounds and practical latency-aware inference, offering a novel solution for resource-constrained applications.",
+  "Experiments": [
+    "Experiment 1: Evaluate latency reduction and accuracy on CIFAR-10 and ImageNet using ResNet architectures. Metrics: Inference time, accuracy, and FLOPs.",
+    "Experiment 2: Test generalization performance on out-of-distribution datasets (e.g., CIFAR-10-C). Metrics: Accuracy drop and stability radius.",
+    "Experiment 3: Validate PAC-Bayes bounds on skipped layers. Metrics: Generalization gap and layer-wise Jacobian norm.",
+    "Experiment 4: Compare with existing layer-skipping methods (e.g., SkipNet, ACT). Metrics: Inference time, accuracy, and training-free overhead."
+  ],
+  "Risk Factors and Limitations": [
+    "Jacobian computation may introduce overhead for very deep networks.",
+    "PAC-Bayes bounds may be conservative, limiting the number of skipped layers.",
+    "Framework may not generalize well to tasks requiring fine-grained feature extraction."
+  ]
+}

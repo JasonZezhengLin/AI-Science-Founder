@@ -1,0 +1,38 @@
+{
+  "Name": "jacobian_layer_skipping",
+  "Title": "Jacobian-Based Layer Skipping for Training-Free Latency-Aware Inference",
+  "Short Hypothesis": "Layer skipping during inference can be optimized by leveraging the Jacobian matrix to identify and skip layers that minimally perturb the hidden state, thereby reducing latency without significant accuracy loss.",
+  "Related Work": "Existing methods for layer skipping often rely on heuristic-based approaches or training-dependent proxies, which either lack theoretical grounding or introduce additional training overhead. Recent work on training-free acceleration, such as SAINT and Sortblock, focuses on token pruning or caching but does not address layer skipping. Our proposal distinguishes itself by using the Jacobian matrix to quantify the impact of skipping each layer on the hidden state, providing a theoretically grounded, training-free approach to optimize layer skipping.",
+  "Abstract": "Latency-aware inference is critical for deploying machine learning models in real-time applications. Layer skipping offers a promising solution, but existing methods often rely on heuristic approaches or training-dependent proxies, limiting their effectiveness. We propose a novel, training-free framework for layer skipping that leverages the Jacobian matrix to quantify the impact of skipping each layer on the hidden state. By skipping layers that minimally perturb the hidden state, our approach reduces inference latency without significant accuracy loss. We evaluate our method on several benchmark models, demonstrating substantial latency reductions while maintaining competitive accuracy. Our framework provides a theoretically grounded, practical solution for latency-aware inference, bridging the gap between efficiency and performance.",
+  "Experiments": [
+    {
+      "Description": "Evaluate the impact of layer skipping on inference latency and accuracy using the Jacobian-based approach.",
+      "Metrics": [
+        "Latency (ms)",
+        "Top-1 Accuracy (%)"
+      ],
+      "Details": "For each layer in the model, compute the Jacobian matrix with respect to the hidden state. Skip layers with the smallest Jacobian norms and measure the resulting latency and accuracy."
+    },
+    {
+      "Description": "Compare the proposed method with existing layer skipping techniques.",
+      "Metrics": [
+        "Latency (ms)",
+        "Top-1 Accuracy (%)"
+      ],
+      "Details": "Implement and evaluate heuristic-based and training-dependent layer skipping methods on the same models and datasets. Compare the results with our Jacobian-based approach."
+    },
+    {
+      "Description": "Analyze the robustness of the proposed method to different model architectures and datasets.",
+      "Metrics": [
+        "Latency (ms)",
+        "Top-1 Accuracy (%)"
+      ],
+      "Details": "Test the Jacobian-based layer skipping approach on various model architectures (e.g., ResNet, Transformer) and datasets (e.g., ImageNet, CIFAR-10). Measure the consistency of latency reductions and accuracy preservation across different settings."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The computation of the Jacobian matrix may introduce additional overhead, potentially offsetting the latency gains from layer skipping.",
+    "The method may not generalize well to models with highly non-linear or complex architectures, where the Jacobian matrix may not accurately capture the impact of layer skipping.",
+    "The approach assumes that the hidden state perturbation is a reliable proxy for accuracy loss, which may not hold true for all models or tasks."
+  ]
+}

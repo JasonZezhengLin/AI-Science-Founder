@@ -1,0 +1,20 @@
+{
+  "Name": "LatencyAwareLayerSkipping",
+  "Title": "Latency-Aware Layer Skipping via Jacobian-Based Early Exit for Efficient Inference",
+  "Short Hypothesis": "We hypothesize that by dynamically skipping layers in deep neural networks based on the Jacobian of hidden states, we can enforce strict latency budgets while maintaining high accuracy. The Jacobian-based layer-skipping policy will ensure that the model's hidden state perturbation remains minimal, preserving the integrity of the inference process.",
+  "Related Work": "Existing work in adaptive inference, such as ePerceptive (Montanari et al., 2020) and VLA-Cache (Xu et al., 2025), focuses on energy-adaptive inference and token caching, respectively. However, these approaches do not explicitly address the need for strict latency enforcement in real-time systems. Spectral Quantization Routing (SQR) (founder_1, 2023) and Training-Free Geometric Interference Cancellation (founder_1, 2023) explore geometric and spectral properties for precision allocation and interference cancellation, but they do not propose a mechanism for dynamic layer skipping. Our proposal introduces a Jacobian-based layer-skipping policy that is specifically designed to enforce strict latency constraints while minimizing hidden-state perturbation.",
+  "Abstract": "We propose Latency-Aware Layer Skipping (LALS), a training-free framework that dynamically skips layers in deep neural networks to enforce strict latency budgets. LALS uses the Jacobian of hidden states to determine the impact of each layer on the overall model output. By skipping layers with minimal Jacobian impact, LALS ensures that hidden-state perturbation remains minimal, preserving the accuracy of the model. We theoretically ground the layer-skipping policy with PAC-Bayes bounds that link Jacobian norms to generalization stability under perturbation. Empirical evaluations on single-GPU setups across various benchmarks demonstrate that LALS achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic layer-skipping baselines.",
+  "Experiments": [
+    "1. **Jacobian Impact Analysis**: Compute the Jacobian of hidden states for each layer in a pre-trained model. Analyze the norm of the Jacobian to identify layers with minimal impact on the model output.",
+    "2. **Layer-Skipping Policy Development**: Develop a layer-skipping policy that dynamically skips layers based on the Jacobian norm. The policy will skip layers with Jacobian norms below a calibrated threshold.",
+    "3. **Latency-Accuracy Trade-off Evaluation**: Evaluate the latency-accuracy trade-off of the proposed layer-skipping policy on a single-GPU setup. Compare the performance of LALS with static and heuristic layer-skipping baselines across a range of benchmarks, including WILDS and adversarial ICL benchmarks.",
+    "4. **Perturbation Analysis**: Measure the hidden-state perturbation introduced by the layer-skipping policy. Use this analysis to ensure that the perturbation remains within acceptable bounds, preserving the model's accuracy.",
+    "5. **Theoretical Analysis**: Derive PAC-Bayes bounds that link the Jacobian norms of hidden states to generalization stability under perturbation. Validate these bounds through empirical experiments."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Hidden-State Perturbation**: The layer-skipping policy may introduce hidden-state perturbation, which could degrade model accuracy if not properly controlled.",
+    "2. **Calibration of Jacobian Thresholds**: Determining the optimal Jacobian threshold for layer-skipping may require extensive empirical tuning.",
+    "3. **Generalization to Different Models**: The effectiveness of the Jacobian-based layer-skipping policy may vary across different model architectures and datasets.",
+    "4. **Latency Overhead**: The additional computational cost of computing Jacobians may offset the latency gains achieved by layer skipping, particularly in resource-constrained environments."
+  ]
+}

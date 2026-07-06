@@ -1,0 +1,19 @@
+{
+  "Name": "pac_bayes_layer_skipping",
+  "Title": "PAC-Bayes Spectral Stability Bounds for Latency-Critical Inference via Training-Free Layer-Skipping",
+  "Short Hypothesis": "PAC-Bayes spectral stability bounds can enable training-free layer-skipping in neural networks, minimizing hidden-state perturbation while enforcing strict wall-clock latency budgets.",
+  "Related Work": "Existing work includes Spectral Quantization Routing (SQR), which uses PAC-Bayes bounds for precision allocation based on activation covariance geometry. Our proposal distinguishes by focusing on latency-critical inference via layer-skipping, leveraging Jacobian-based diagnostics to minimize perturbation and enforce strict latency budgets.",
+  "Abstract": "Latency-critical inference requires efficient, robust mechanisms to minimize computational overhead without compromising accuracy. We propose a training-free framework that leverages PAC-Bayes spectral stability bounds to enable layer-skipping in neural networks. By analyzing the Jacobian of hidden states, we identify layers where skipping introduces minimal perturbation, ensuring stability under strict wall-clock budgets. Our method dynamically routes tokens through fewer layers based on spectral diagnostics, enforcing latency targets without costly calibration. Evaluated on single-GPU setups across diverse benchmarks, our approach achieves a superior throughput-accuracy Pareto frontier. We provide theoretical bounds linking spectral stability to generalization under layer-skipping, offering a transparent, reproducible pathway for resource-efficient inference.",
+  "Experiments": [
+    "Evaluate on single-GPU setups across WILDS benchmarks.",
+    "Compare throughput-accuracy Pareto frontiers with static and heuristic layer-skipping baselines.",
+    "Measure hidden-state perturbation using Frobenius norm of Jacobian matrices.",
+    "Quantify latency reduction and accuracy retention under strict wall-clock budgets.",
+    "Validate theoretical bounds linking spectral stability to generalization under layer-skipping."
+  ],
+  "Risk Factors and Limitations": [
+    "Potential accuracy degradation in layers with high spectral instability.",
+    "Increased computational overhead from Jacobian diagnostics.",
+    "Limited applicability to architectures with non-smooth activation functions."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "Name": "spectral_stability_inference",
+  "Title": "Spectral Stability Bounds for Training-Free Latency-Aware Inference",
+  "Short Hypothesis": "The spectral condition number and decay rate of activation covariances can serve as precise, zero-overhead proxies for inference stability and computational difficulty, enabling strict latency enforcement without training.",
+  "Related Work": "Existing methods for latency-aware inference rely on static profiling (e.g., Fast3Dcache) or heuristic control mechanisms (e.g., SeaCache). While Spectral Quantization Routing (SQR) and Geometric Signal Separation explore activation geometry, they focus on quantization and robustness rather than latency enforcement. Our proposal uniquely combines spectral diagnostics with PAC-Bayes bounds to enforce deterministic latency budgets, bridging foundational theory and practical inference.",
+  "Abstract": "Training-free latency-aware inference remains a critical challenge in deploying machine learning models under strict computational constraints. We propose a novel framework that leverages the spectral condition number and decay rate of activation covariances as zero-overhead proxies for inference stability and computational difficulty. By performing a single-pass PCA on initial layer activations, we identify dominant spectral directions and project subsequent computations onto a low-rank, norm-preserving subspace. This enforces strict latency budgets while preserving the optimization landscape's geometry. We ground our approach in PAC-Bayes bounds, linking spectral conditioning to generalization stability under perturbation. Evaluated on single-GPU setups across adversarial benchmarks and natural domain shifts, our method achieves a superior throughput-accuracy Pareto frontier. By replacing heuristic stagnation detection with interpretable spectral diagnostics, we offer a reproducible, zero-training path to efficient inference.",
+  "Experiments": [
+    "1. Measure spectral condition number and decay rate of activation covariances across layers using randomized SVD.",
+    "2. Project computations onto a low-rank subspace derived from PCA and enforce deterministic latency budgets.",
+    "3. Evaluate on adversarial benchmarks (e.g., WILDS) and natural domain shifts, comparing throughput, accuracy, and hidden-state perturbation overhead.",
+    "4. Validate PAC-Bayes bounds by quantifying generalization stability under perturbation.",
+    "Metrics: Throughput (tokens/sec), accuracy (task-specific), perturbation overhead (FLOPs), and spectral diagnostics (condition number, decay rate)."
+  ],
+  "Risk Factors and Limitations": [
+    "1. Single-pass PCA may introduce computational overhead in extremely latency-sensitive scenarios.",
+    "2. Spectral diagnostics may not generalize to all architectures or tasks.",
+    "3. Strict latency enforcement could limit adaptability in highly dynamic environments."
+  ]
+}

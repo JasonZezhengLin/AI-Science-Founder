@@ -1,0 +1,20 @@
+{
+  "Name": "curvature-aware_sparse_routing",
+  "Title": "Curvature-Aware Sparse Attention Routing via Deterministic Hessian Proxies",
+  "Short Hypothesis": "By leveraging curvature-aware Hessian proxies to identify and route attention through only the most geometrically significant dimensions, we can achieve substantial computational savings while preserving model performance and interpretability.",
+  "Related Work": "Existing sparse attention methods (e.g., PASA) often rely on heuristic or probabilistic approaches, lacking geometric grounding. Spectral methods (e.g., SLS) focus on norm preservation but ignore curvature information. Our approach uniquely combines Hessian-based curvature analysis with deterministic routing for geometrically informed sparsity.",
+  "Abstract": "Attention mechanisms in transformers are computationally intensive, motivating various sparsification approaches. However, existing methods often sacrifice interpretability or rely on heuristic sparsity patterns. We propose Curvature-Aware Sparse Attention Routing (CASAR), a training-free framework that leverages Hessian proxies to identify and route attention through only the most geometrically significant dimensions. CASAR first computes low-rank Hessian approximations to quantify curvature information across attention heads. It then constructs deterministic routing paths based on curvature significance thresholds, ensuring both computational efficiency and geometric fidelity. By restricting attention updates to these curvature-informed subspaces, CASAR reduces computational overhead while preserving the optimization landscape's key geometric properties. We theoretically ground our approach in curvature-aware optimization theory, demonstrating provable bounds on approximation error and computational savings. Empirically, we show that CASAR maintains or improves performance on language modeling and vision tasks while reducing attention computation by up to 70%. Our approach offers a principled, interpretable alternative to heuristic sparsification methods, bridging the gap between optimization theory and efficient attention implementation.",
+  "Experiments": [
+    "Compare CASAR against full attention and heuristic sparse methods (e.g., PASA) on language modeling (Wikitext-2) and vision tasks (ImageNet).",
+    "Evaluate computational efficiency (FLOPs, latency) and model performance (perplexity, accuracy) across different curvature thresholds.",
+    "Analyze routing patterns across layers and heads to validate geometric significance.",
+    "Conduct ablation studies on Hessian approximation rank and routing determinism.",
+    "Measure robustness to input perturbations and generalization across domains."
+  ],
+  "Risk Factors and Limitations": [
+    "Hessian computation overhead might outweigh attention savings for small models.",
+    "Curvature thresholds may require task-specific tuning.",
+    "Deterministic routing could limit adaptability to diverse input patterns.",
+    "Low-rank Hessian approximations may miss important geometric information in some cases."
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "Name": "spectral_precision_routing",
+  "Title": "Spectral Precision Routing: Training-Free Mixed-Precision Assignment via Curvature-Aware Stability Radii",
+  "Short Hypothesis": "Layer-wise mixed-precision bit-width assignments can be deterministically derived from pre-execution spectral diagnostics of Hessian eigenspectra and gradient covariance structure, without training. By formalizing the relationship between curvature geometry and quantization noise propagation through PAC-Bayes stability bounds, we can assign block-level precision via explicit condition number constraints rather than empirical proxy correlation. This approach provides formal generalization guarantees while eliminating heuristic fragility.",
+  "Related Work": "Existing training-free mixed-precision methods (EMQ, AMP-ViT, SNIP) propose various proxies (gradient magnitude, activation range, Hessian diagonal) but lack formal theoretical justification for why these proxies correlate with quantization robustness. They treat precision assignment as a proxy-optimization problem rather than a geometric stability problem. Recent work on implicit regularization and PAC-Bayes bounds for quantization (Bartlett et al., Zhou et al.) establishes that generalization depends on Lipschitz constants and margin properties, but these insights have not been systematically applied to training-free precision routing. Our proposal bridges this gap by: (1) directly computing layer-wise Hessian condition numbers and gradient covariance decay rates from single forward/backward passes, (2) deriving formal stability radii that bound precision-induced perturbation propagation, (3) assigning precision via explicit PAC-Bayes margin constraints rather than empirical proxy tuning. This is fundamentally different from proxy-correlation approaches—we ground precision assignment in optimization geometry, not statistical correlation.",
+  "Abstract": "Mixed-precision quantization offers significant efficiency gains but requires principled bit-width assignment strategies. Existing training-free methods rely on heuristic proxies (gradient magnitude, activation statistics) whose correlation with quantization robustness remains poorly understood theoretically. We propose Spectral Precision Routing (SPR), a training-free framework that assigns layer-wise precision via explicit curvature-aware stability bounds. The key insight is that quantization noise propagation through a layer is governed by its Hessian eigenspectrum and gradient covariance structure. We develop a pre-execution diagnostic pipeline that: (1) computes layer-wise Hessian condition numbers and eigenspectrum decay rates via Hutchinson trace estimation and power iteration, (2) derives formal perturbation bounds on gradient flow under precision switching using matrix perturbation theory, (3) assigns block-level precision via explicit PAC-Bayes margin constraints that guarantee bounded generalization loss. Unlike proxy-based methods, SPR provides formal stability radii: explicit lower bounds on precision sufficiency. We validate on ImageNet-scale ViTs and LLMs, demonstrating that SPR matches or exceeds proxy-based methods while providing certified precision guarantees. Critically, we quantify amortized diagnostic overhead (<2% inference latency) and show that geometric diagnostics transfer across architectures, enabling one-shot precision assignment. Our framework operationalizes the theoretical connection between curvature geometry and quantization robustness, bridging implicit regularization theory with practical mixed-precision deployment.",
+  "Experiments": [
+    {
+      "name": "Experiment 1: Spectral Diagnostic Validation",
+      "description": "For each layer in a pre-trained ViT-Base and LLaMA-7B, compute: (1) Hessian condition number via Hutchinson trace estimation (50 Rademacher samples), (2) eigenspectrum decay rate via power iteration (20 iterations), (3) gradient covariance rank via SVD on 128 random batches. Correlate these diagnostics against layer-wise quantization sensitivity (measured via gradient signal-to-noise ratio under INT8, INT6, INT4 precision). Compute Spearman correlation and report per-layer R² values. Expected outcome: condition number and eigenspectrum decay should show ρ > 0.75 correlation with quantization sensitivity.",
+      "metrics": [
+        "Spearman correlation (diagnostic vs. sensitivity)",
+        "Per-layer R² values",
+        "Diagnostic overhead (wall-clock time)"
+      ]
+    },
+    {
+      "name": "Experiment 2: Stability Radius Derivation and Verification",
+      "description": "For each layer, derive formal perturbation bounds using matrix perturbation theory: Given layer output y = f(x) with Hessian H, quantization noise δ_q, bound ||∇L(y + δ_q)|| ≤ ||∇L(y)|| + κ(H) * ||δ_q||, where κ(H) is condition number. Set precision threshold such that ||δ_q|| < ε / κ(H) for target ε. Assign minimum bit-width satisfying this bound. Compare against empirical sensitivity: measure actual gradient perturbation under assigned precision vs. theoretical bound. Compute tightness ratio: empirical_perturbation / theoretical_bound.",
+      "metrics": [
+        "Bound tightness ratio (target: 0.5-1.0)",
+        "Number of layers assigned sub-INT8 precision",
+        "Fraction of layers where empirical perturbation < bound"
+      ]
+    },
+    {
+      "name": "Experiment 3: PAC-Bayes Margin Constraint Assignment",
+      "description": "Formulate precision assignment as PAC-Bayes optimization: Given layer-wise Rademacher complexity R_l and margin γ, assign precision via: bit_width_l = argmin{b : R_l(b) + √(log(1/δ) / 2m) < γ}. Estimate Rademacher complexity under precision b via gradient norm scaling: R_l(b) ∝ κ(H_l) * Δ_q(b), where Δ_q(b) is quantization noise. For each model, derive per-layer precision assignments and compare against: (1) uniform INT8, (2) EMQ proxy assignments, (3) oracle sensitivity-based assignments. Report ImageNet top-1 accuracy, FLOPs reduction, and memory footprint.",
+      "metrics": [
+        "Top-1 accuracy",
+        "FLOPs reduction (%)",
+        "Memory footprint (MB)",
+        "Precision distribution (% layers at each bit-width)"
+      ]
+    },
+    {
+      "name": "Experiment 4: Cross-Architecture Diagnostic Transfer",
+      "description": "Train SPR diagnostics on ViT-Base. Extract layer-wise condition numbers and eigenspectrum decay profiles. Apply learned precision assignments to: (1) ViT-Large, (2) DeiT-Base, (3) ResNet-50. Measure top-1 accuracy without recomputing diagnostics. Compare against recomputing diagnostics from scratch for each architecture. Report accuracy drop and diagnostic cost savings.",
+      "metrics": [
+        "Accuracy drop (%) vs. oracle per-architecture assignment",
+        "Diagnostic cost savings (% wall-clock time)",
+        "Transfer success rate (% architectures where transfer assignment ≤ 0.5% accuracy drop)"
+      ]
+    },
+    {
+      "name": "Experiment 5: Amortized Overhead and Determinism",
+      "description": "Measure end-to-end SPR pipeline overhead: (1) Hutchinson trace estimation (50 samples), (2) power iteration (20 iters), (3) precision assignment logic. Report wall-clock time on single GPU (A100, V100) and amortized cost per inference batch (10k batches). Verify determinism: run SPR 5 times on same model, report bit-width assignment variance (should be zero). Compare amortized overhead against: (1) EMQ proxy computation, (2) SNIP collection overhead.",
+      "metrics": [
+        "Diagnostic latency (ms)",
+        "Amortized overhead per batch (% inference time)",
+        "Assignment determinism (variance: 0)",
+        "Overhead comparison vs. EMQ and SNIP"
+      ]
+    },
+    {
+      "name": "Experiment 6: Ablation—Geometric Component Importance",
+      "description": "Isolate contribution of each diagnostic: (1) SPR-Full (all diagnostics), (2) SPR-NoHessian (gradient covariance only), (3) SPR-NoCovariance (Hessian only), (4) SPR-NoEigenspectrum (condition number only). For each variant, assign precision and measure ImageNet accuracy on ViT-Base. Report accuracy gaps and diagnostic cost reduction.",
+      "metrics": [
+        "Top-1 accuracy for each variant",
+        "Accuracy gap vs. SPR-Full (%)",
+        "Diagnostic cost reduction (% vs. full pipeline)"
+      ]
+    },
+    {
+      "name": "Experiment 7: Formal Stability Bound Empirical Verification",
+      "description": "For 50 randomly selected layers across ViT-Base, derive theoretical stability radius ε_th = κ(H_l) * bit_width_precision_to_noise(b). Empirically measure gradient perturbation under assigned precision via: (1) compute clean gradient ∇L_clean, (2) quantize layer weights to assigned precision, (3) compute quantized gradient ∇L_quant, (4) measure ||∇L_quant - ∇L_clean||. Compare empirical perturbation against ε_th. Report: (1) fraction of layers satisfying ε_empirical < ε_th, (2) average tightness ratio.",
+      "metrics": [
+        "Fraction of layers with ε_empirical < ε_th",
+        "Mean tightness ratio",
+        "95th percentile tightness ratio"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "Hessian estimation via Hutchinson trace may have high variance for very deep networks; mitigation: use multiple random samples (50+) and report confidence intervals.",
+    "Eigenspectrum decay rate estimation via power iteration may converge slowly for ill-conditioned matrices; mitigation: cap iterations at 20 and use Krylov subspace acceleration if needed.",
+    "Perturbation bounds may be loose due to worst-case matrix perturbation theory; mitigation: empirically calibrate tightness ratios and use empirical Rademacher complexity estimation to refine bounds.",
+    "PAC-Bayes margin constraints may assign overly conservative precision if Rademacher complexity estimates are pessimistic; mitigation: cross-validate margin thresholds on validation set.",
+    "Diagnostic pipeline assumes single forward/backward pass captures layer geometry; may miss batch normalization or layer normalization effects; mitigation: run diagnostics across multiple batches and report variance.",
+    "Transfer of diagnostics across architectures may fail if architectural structure significantly changes (e.g., attention head dimension); mitigation: validate transfer on similar architectures first, report transfer success rates.",
+    "Computational overhead of spectral methods may exceed claimed 2% on older GPUs; mitigation: profile on multiple hardware targets and provide fallback heuristics.",
+    "Method assumes access to pre-trained weights; not applicable to training-from-scratch scenarios; acknowledge this as a limitation and discuss future directions."
+  ]
+}

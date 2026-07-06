@@ -1,0 +1,18 @@
+{
+  "Name": "task_relevant_compression",
+  "Title": "Task-Relevant Compression: A Unified Information-Theoretic Framework for Model Compression",
+  "Short Hypothesis": "By framing model compression as a task-relevant rate-distortion problem, we can derive a unified information-theoretic framework that quantifies the minimum bit-cost required to achieve a specified predictive performance across various tasks, thereby identifying redundancy in model representations.",
+  "Related Work": "Existing literature primarily focuses on specific aspects of rate-distortion theory without a comprehensive approach to quantifying task-relevant information in model compression. Notable works like 'Probabilistic Automated Model Compression via Representation Mutual Information Optimization' emphasize mutual information but lack an overarching framework connecting task performance to rate-distortion bounds. This proposal distinguishes itself by providing a systematic method to derive operational bounds on the bit-cost of model representations while considering task-specific performance metrics.",
+  "Abstract": "In this proposal, we introduce a novel framework that connects task-relevant compression to rate-distortion theory, addressing the fundamental question of how much information is necessary to maintain predictive sufficiency in compressed models. We will formulate a rate-distortion function that incorporates task-specific performance metrics, such as classification accuracy or regression error, as the distortion measure. By employing mutual information estimators and deriving achievable rates, we aim to quantify the minimum bit-cost for various compression schemes. This framework not only provides theoretical insights into the compressibility of neural networks but also identifies redundancy in their representations, ultimately guiding the design of more efficient models. We will validate our approach through experiments on standard datasets, demonstrating that our method achieves superior compression ratios without significant performance degradation compared to state-of-the-art methods.",
+  "Experiments": [
+    "1. Derive the task-relevant rate-distortion function for a selected set of neural networks and establish the relationship between compression ratios and task performance metrics.",
+    "2. Implement a series of model compression techniques (e.g., pruning, quantization, and knowledge distillation) within the proposed framework and evaluate their performance against theoretical bounds.",
+    "3. Compare the performance of the proposed framework with existing compression methods on benchmark datasets (e.g., CIFAR-10, ImageNet) using metrics such as accuracy, bit-rate, and distortion.",
+    "4. Analyze the sensitivity of task performance to various levels of model compression to identify optimal trade-offs."
+  ],
+  "Risk Factors and Limitations": [
+    "1. The accuracy of mutual information estimators may affect the reliability of the derived bounds.",
+    "2. The complexity of deriving the task-relevant rate-distortion function may limit the generalizability of the framework to all types of models.",
+    "3. Certain assumptions regarding the source distribution and distortion measure may not hold in practical scenarios."
+  ]
+}

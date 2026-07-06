@@ -1,0 +1,19 @@
+{
+  "Name": "curvature-aware_routing",
+  "Title": "Curvature-Aware Deterministic Routing for Latency-Bounded Inference",
+  "Short Hypothesis": "By dynamically allocating computational resources based on curvature diagnostics of the optimization landscape, we can achieve deterministic latency bounds while maintaining or improving model performance during inference.",
+  "Related Work": "Existing methods, such as Spectral Latent Steering, focus on zero-training test-time optimization but often suffer from unpredictable latency and high perturbation overhead. Precision-Allocated Sparse Attention introduces curvature-aware dynamic budgeting but is limited to video generation tasks. Our proposal extends these ideas to a broader range of tasks, incorporating rigorous curvature diagnostics and deterministic routing protocols to ensure latency bounds and numerical stability.",
+  "Abstract": "We propose Curvature-Aware Deterministic Routing (CADR), a novel framework for latency-bounded inference that dynamically allocates computational resources based on curvature diagnostics of the optimization landscape. By profiling the curvature of the loss surface during inference, CADR identifies critical regions that require high-precision computation and allocates resources accordingly. This approach enforces deterministic latency bounds while maintaining or improving model performance. CADR replaces heuristic control mechanisms with interpretable curvature diagnostics, enabling transparent decision-making and numerical stability. We validate CADR on a range of tasks, including mathematical reasoning and code generation, demonstrating significant reductions in computational overhead while preserving or enhancing model accuracy.",
+  "Experiments": [
+    "Experiment 1: Curvature Profiling and Resource Allocation - Profile the curvature of the loss surface during inference and allocate computational resources based on curvature diagnostics. Evaluate the impact on model performance and computational overhead.",
+    "Experiment 2: Deterministic Latency Bounds - Implement deterministic latency bounds by enforcing strict resource allocation protocols based on curvature diagnostics. Measure the impact on wall-clock latency and model accuracy.",
+    "Experiment 3: Numerical Stability Analysis - Analyze the numerical stability of CADR by comparing it to existing methods. Measure the robustness of CADR to perturbations and its impact on model performance.",
+    "Evaluation Metrics: Model accuracy, computational overhead, wall-clock latency, numerical stability, and curvature diagnostics."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk 1: The curvature diagnostics may introduce additional computational overhead, potentially offsetting the benefits of dynamic resource allocation.",
+    "Risk 2: The deterministic latency bounds may limit the flexibility of resource allocation, potentially reducing model performance in certain scenarios.",
+    "Limitation 1: The approach may be task-specific, requiring adaptation for different types of models and tasks.",
+    "Limitation 2: The curvature diagnostics may not capture all aspects of the optimization landscape, potentially leading to suboptimal resource allocation."
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "Name": "curvature_routed_precision_inference",
+  "Title": "Curvature-Routed Precision Inference: Training-Free Spectral Diagnostics for Deterministic Block-Level Quantization",
+  "Short Hypothesis": "Layer-wise numerical stability during inference is fundamentally determined by local Hessian curvature structure, which can be estimated training-free via efficient spectral diagnostics on activation covariance matrices. By routing precision assignments (FP32/FP16/INT8) to block-level subspaces via curvature-aware routing functions with formal stability radius bounds, we can achieve provable quantization error control without retraining, outperforming heuristic mixed-precision schemes while maintaining strict computational overhead (< 2% amortized cost). This direction is essential because existing mixed-precision methods rely on empirical sensitivity analysis or post-training calibration, obscuring the mechanistic link between local geometry and precision requirements. Spectral estimation on forward activations provides the most direct, training-free window into this geometry without requiring gradient access or auxiliary fine-tuning.",
+  "Related Work": "Existing mixed-precision inference methods fall into three categories: (1) Post-training quantization (PTQ) using empirical sensitivity or entropy-based heuristics (e.g., BRECQ, OCS), which lack formal stability guarantees; (2) Quantization-aware training (QAT), which requires retraining and obscures training-free diagnostics; (3) Layer-wise adaptive schemes (e.g., AdaRound, ZeroQ) that optimize per-layer precision but lack mechanistic grounding in curvature structure. Recent work on Hessian-aware pruning (e.g., movement pruning, fisher pruning) demonstrates that curvature captures layer sensitivity, but these methods require gradient computation or training. PAC-Bayes quantization bounds exist (e.g., Zhou et al., Bartlett & Mendelson) but are rarely operationalized for dynamic routing. This proposal uniquely combines: (a) training-free spectral estimation of local curvature via activation covariance rank and condition number; (b) formal PAC-Bayes stability radius derivation linking curvature to quantization error tolerance; (c) deterministic block-level routing (not per-head or per-neuron) to guarantee hardware efficiency. Unlike prior work, we establish a closed-loop diagnostic→routing→verification pipeline with explicit overhead accounting and no retraining.",
+  "Abstract": "Mixed-precision inference accelerates deployment but requires principled precision assignment to balance accuracy and latency. Existing methods rely on empirical calibration or post-hoc tuning, obscuring the mechanistic link between layer geometry and quantization robustness. We propose Curvature-Routed Precision Inference (CRPI), a training-free framework that assigns block-level precision (FP32/FP16/INT8) via spectral diagnostics on activation covariance matrices. The core insight is that a layer's tolerance to quantization error is determined by its local Hessian conditioning—high curvature implies low tolerance. We estimate this conditioning training-free by computing the rank and condition number of activation covariance matrices during a single forward pass over calibration data. We then derive formal PAC-Bayes stability radius bounds that map curvature metrics to precision thresholds, guaranteeing quantization error remains within a user-specified tolerance. The routing function is deterministic and block-level (coarse-grained), ensuring < 2% amortized diagnostic overhead while preserving hardware efficiency. We validate CRPI on LLaMs, GPT-2, and vision transformers, demonstrating that curvature-routed precision matches or exceeds heuristic mixed-precision baselines while providing formal generalization guarantees. Crucially, we explicitly quantify diagnostic overhead, stability margins, and condition number trajectories across layers, operationalizing transparency mandates. This work bridges optimization theory (curvature-aware routing) with deployment constraints (deterministic, overhead-bounded inference), establishing a reproducible template for training-free adaptive quantization.",
+  "Experiments": [
+    {
+      "Experiment": "Spectral Diagnostic Validation",
+      "Description": "On LLaM-7B and GPT-2, compute activation covariance matrices C_l = (1/N) Σ_i h_i h_i^T for each layer l over a calibration set (500 samples). Estimate condition number κ_l = σ_max(C_l) / σ_min(C_l) and effective rank r_eff = (Σ_i σ_i)^2 / Σ_i σ_i^2 via truncated SVD (top-50 components). Hypothesis: layers with high κ_l and low r_eff exhibit higher sensitivity to quantization (measured by accuracy drop under INT8 vs FP32). Validation: correlate κ_l against empirically measured quantization sensitivity (via per-layer INT8 ablation). Report Spearman correlation ρ > 0.75 between κ_l and sensitivity.",
+      "Metrics": "Spearman correlation ρ between condition number and empirical quantization sensitivity; effective rank distribution across layers; computational cost of SVD (record wall-clock time for 50-component truncation per layer)"
+    },
+    {
+      "Experiment": "PAC-Bayes Stability Radius Derivation and Empirical Verification",
+      "Description": "Derive formal stability radius bound: for layer l with condition number κ_l, quantization error Δ_l, and weight norm ||W_l||_F, the generalization error is bounded by: ε_gen ≤ O(Δ_l · κ_l · ||W_l||_F / √N) + O(1/√N) (PAC-Bayes form). Set precision thresholds: if κ_l < κ_threshold, assign FP16; if κ_l < κ_threshold/2, assign INT8. Sweep κ_threshold ∈ {10, 50, 100, 200} and measure resulting accuracy on CIFAR-100 (vision) and WikiText-103 (language). Hypothesis: curvature-routed assignment matches or exceeds uniform mixed-precision (e.g., 50% FP16, 50% FP32) at same latency budget.",
+      "Metrics": "End-task accuracy under different κ_threshold values; latency reduction vs uniform baseline; empirical quantization error vs theoretical bound (ratio of actual error to PAC-Bayes bound); bound tightness factor α = actual_error / theoretical_bound"
+    },
+    {
+      "Experiment": "Block-Level Routing with Overhead Accounting",
+      "Description": "Implement deterministic routing at block granularity (e.g., transformer blocks, ResNet stages). For each block, compute diagnostic metrics (κ, r_eff) once during calibration. Routing function: f_route(κ_l, r_eff_l) = argmin_p {latency(p) : bound(κ_l, r_eff_l, p) ≤ ε_tol}, where p ∈ {FP32, FP16, INT8} and ε_tol is a user-specified error tolerance. Measure amortized overhead: (time_diagnostic + time_routing) / (time_inference_per_sample × num_samples). Hypothesis: overhead < 2% for typical batch sizes (16-128). Validate on LLaM-7B with 1000-sample calibration set.",
+      "Metrics": "Amortized diagnostic overhead (%) = (SVD + routing time) / (inference time × num_samples); latency breakdown by precision tier; memory overhead for storing κ, r_eff per layer"
+    },
+    {
+      "Experiment": "Ablation: Spectral Estimator Sensitivity",
+      "Description": "Test robustness of κ_l and r_eff to calibration set size, distribution shift, and SVD truncation rank. Vary: (a) calibration set size: 50, 100, 500, 1000 samples; (b) calibration distribution: in-distribution (CIFAR-100) vs out-of-distribution (Tiny ImageNet); (c) SVD truncation: top-10, 20, 50 components. For each variant, measure stability of routing decisions (% of layers with precision tier change). Hypothesis: routing decisions stabilize at ~200 samples and remain robust to moderate distribution shift.",
+      "Metrics": "Variance in κ_l and r_eff across calibration set sizes; Kendall τ correlation of routing assignments across distribution shifts; precision tier flip rate (% of layers changing assignment)"
+    },
+    {
+      "Experiment": "Comparison to Baselines",
+      "Description": "Compare CRPI against: (1) Uniform mixed-precision (50% FP16, 50% INT8); (2) Sensitivity-based routing (layer-wise gradient norm); (3) Entropy-based PTQ (BRECQ); (4) Random precision assignment. Measure on LLaM-7B, LLaM-13B, GPT-2, Vision Transformer (ViT-B). Metrics: accuracy, latency, memory footprint. Hypothesis: CRPI achieves ≥ 1% higher accuracy than heuristic baselines at same latency budget, with formal error bounds.",
+      "Metrics": "Accuracy (perplexity for LLM, top-1 for vision); latency (ms/sample); memory (MB); Pareto frontier: accuracy vs latency tradeoff curves; bound tightness (empirical error / PAC-Bayes bound)"
+    },
+    {
+      "Experiment": "Formal Stability Analysis",
+      "Description": "For selected layers, compute explicit condition number trajectories across blocks. Derive layer-specific stability radii: Δ_max(κ_l) = ε_tol / (c · κ_l · ||W_l||_F), where c is a problem-dependent constant. Plot Δ_max(κ_l) vs assigned precision bit-width; verify that quantization error Δ_l ≤ Δ_max(κ_l). Hypothesis: high-κ layers have tighter error budgets, necessitating FP32; low-κ layers tolerate INT8.",
+      "Metrics": "Stability radius Δ_max per layer; quantization error Δ_l vs stability radius (scatter plot); % of layers satisfying Δ_l ≤ Δ_max(κ_l); formal bound violations"
+    }
+  ],
+  "Risk Factors and Limitations": [
+    {
+      "Risk": "Spectral Estimation Noise on Small Calibration Sets",
+      "Mitigation": "Enforce minimum calibration set size (≥ 200 samples) and validate robustness via ablation. Use Eckart-Young theorem to bound SVD approximation error and incorporate into PAC-Bayes bound."
+    },
+    {
+      "Risk": "PAC-Bayes Bound Looseness",
+      "Mitigation": "Derive problem-specific constants empirically; compare bound to actual error to quantify tightness factor. Use empirical Bernstein bounds or Chernoff refinements if standard PAC-Bayes proves too loose."
+    },
+    {
+      "Risk": "Block-Level Routing May Miss Fine-Grained Sensitivity",
+      "Mitigation": "Conduct ablation comparing block-level vs layer-level routing; quantify accuracy loss from coarse granularity. Accept this as design tradeoff for overhead reduction."
+    },
+    {
+      "Risk": "Condition Number Estimation Instability for Rank-Deficient Activations",
+      "Mitigation": "Use regularized SVD (add small Tikhonov term λI to C_l) and report effective rank; validate that regularization does not distort routing decisions via sensitivity analysis."
+    },
+    {
+      "Risk": "Distribution Shift Between Calibration and Test Data",
+      "Mitigation": "Test on multiple calibration distributions; use robust spectral estimators (e.g., robust PCA); report routing stability under shift."
+    },
+    {
+      "Risk": "Limited Applicability to Non-Transformer Architectures",
+      "Mitigation": "Validate on CNNs (ResNet) and RNNs (LSTM) to demonstrate generality. Adapt block definition to architecture (conv blocks, LSTM cells)."
+    },
+    {
+      "Risk": "Hardware Efficiency Not Guaranteed at Inference Time",
+      "Mitigation": "Scope proposal to single-GPU inference; use standard NVIDIA libraries (cuBLAS) to ensure FP16/INT8 kernels are hardware-optimized. Report actual latency, not theoretical FLOP reduction."
+    }
+  ]
+}

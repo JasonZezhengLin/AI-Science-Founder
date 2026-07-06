@@ -1,0 +1,20 @@
+{
+  "Name": "task_relevant_compression_limits",
+  "Title": "Task-Relevant Compression Limits: A Rate-Distortion Perspective on Neural Representations",
+  "Short Hypothesis": "The compressibility of neural representations is fundamentally constrained by the mutual information between the representation and the task, and these limits can be characterized explicitly through rate-distortion theory.",
+  "Related Work": "Recent work has explored neural network compression through rate-distortion theory (e.g., Isik et al., 2021) and mutual information bounds (e.g., Nadjahi et al., 2024). However, these studies either focus on specific compression techniques (e.g., pruning) or provide loose bounds without explicit connections to task-relevant distortion. Our proposal distinguishes itself by directly linking compressibility to task-relevant mutual information and deriving operational bounds for different architectures and tasks.",
+  "Abstract": "Neural network compression is typically approached empirically, with techniques like pruning and quantization optimized for specific hardware or benchmarks. This work instead adopts an information-theoretic perspective, framing compression as a rate-distortion problem where the goal is to minimize the bit-cost of representations while preserving task-relevant information. We derive fundamental limits on the compressibility of neural representations by quantifying the mutual information between representations and task outputs. Using these limits, we characterize the optimal rate-distortion trade-offs for different architectures (e.g., CNNs, Transformers) and tasks (e.g., classification, regression). We validate our theoretical predictions through experiments on CIFAR-10, ImageNet, and language modeling tasks, demonstrating that our bounds tightly predict the performance of practical compression methods. Our results provide a principled foundation for understanding and improving neural network compression.",
+  "Experiments": [
+    "Derive rate-distortion bounds for CNNs and Transformers on CIFAR-10 and ImageNet, quantifying the mutual information between layers and task outputs.",
+    "Validate bounds by comparing theoretical predictions with empirical performance of pruning and quantization methods.",
+    "Extend analysis to language models (e.g., GPT-2), measuring compressibility of attention layers and feedforward networks.",
+    "Evaluate task-relevant distortion using classification accuracy, perplexity, and regression error.",
+    "Compare bounds across architectures and tasks to identify universal trends in compressibility."
+  ],
+  "Risk Factors and Limitations": [
+    "Estimating mutual information in high-dimensional spaces is challenging and may introduce bias.",
+    "Theoretical bounds may not account for practical constraints like hardware limitations.",
+    "Task-relevant distortion metrics may not fully capture the nuances of model performance.",
+    "Extension to non-standard architectures (e.g., MoE, SSMs) may require additional theoretical insights."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "Name": "information-theoretic_llm_compression",
+  "Title": "Information-Theoretic Compression of Large Language Models: Minimizing Bits-per-Weight while Preserving Task-Relevant Mutual Information",
+  "Short Hypothesis": "The fundamental limit of LLM compression can be characterized by the trade-off between bits-per-weight and task-relevant mutual information, and practical algorithms can approach this limit by allocating bits to weights that maximize mutual information with the task.",
+  "Related Work": "Recent work has explored mixed-precision quantization (e.g., EMQ, AMP-ViT) and adaptive compression frameworks (e.g., SNIP) but lacks a rigorous information-theoretic foundation. Conditional mutual information (CMI) has been used to study generalization (Steinke & Zakynthinou, 2020), but its application to LLM compression remains unexplored. This proposal bridges these gaps by framing LLM compression as a rate-distortion problem with mutual information as the distortion measure.",
+  "Abstract": "Large language models (LLMs) are computationally expensive to deploy, prompting the need for efficient compression techniques. While existing methods focus on heuristic-based quantization and pruning, they lack a principled understanding of the fundamental limits of compression. This paper proposes an information-theoretic framework for LLM compression, characterizing the trade-off between bits-per-weight and task-relevant mutual information. We derive achievable rate-distortion bounds and introduce a practical algorithm that allocates bits to weights based on their contribution to mutual information with the task. Our approach leverages mutual information estimators (e.g., InfoNCE) and Fisher-information sensitivities to guide compression. Experiments on benchmark LLMs demonstrate that our method achieves state-of-the-art compression ratios while preserving task performance, approaching the derived theoretical limits. This work provides a rigorous foundation for understanding and optimizing LLM compression.",
+  "Experiments": [
+    "Derive achievable rate-distortion bounds for LLM compression under a mutual information distortion measure.",
+    "Develop a practical compression algorithm that allocates bits based on mutual information estimates using InfoNCE-style estimators.",
+    "Evaluate on benchmark LLMs (e.g., LLaMA, GPT-2) across tasks (e.g., language modeling, classification) to measure compression ratio vs. task performance.",
+    "Compare with state-of-the-art quantization and pruning methods (e.g., SNIP, EMQ) in terms of bits-per-weight and task accuracy.",
+    "Analyze the sensitivity of mutual information estimates to different weight subsets and validate the theoretical bounds empirically."
+  ],
+  "Risk Factors and Limitations": [
+    "Mutual information estimation in high-dimensional spaces is challenging and may introduce bias or variance.",
+    "The proposed algorithm may incur additional computational overhead during bit allocation.",
+    "The theoretical bounds assume specific probabilistic models of the task and data, which may not hold in practice.",
+    "Task-specific mutual information may not generalize across diverse applications, limiting the method’s versatility."
+  ]
+}

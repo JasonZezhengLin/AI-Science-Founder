@@ -1,0 +1,19 @@
+{
+  "Name": "dynamic_compute_allocation_task_complexity",
+  "Title": "Dynamic Compute Allocation via Task Complexity Estimation in Training-Free Inference",
+  "Short Hypothesis": "Task complexity can be estimated in real-time using spectral stability bounds derived from activation geometry, enabling dynamic compute allocation (e.g., layer skipping or attention pruning) to enforce strict latency budgets without sacrificing performance.",
+  "Related Work": "Existing works like Spectral Quantization Routing and Geometric Signal Separation focus on precision allocation and noise filtering, respectively, but do not address dynamic compute allocation based on task complexity. This proposal distinguishes itself by introducing a task complexity estimator that leverages spectral stability bounds to dynamically throttle compute resources.",
+  "Abstract": "Training-free inference frameworks often struggle to balance latency and accuracy under dynamic task complexity. We propose a novel approach that dynamically allocates compute resources based on real-time task complexity estimation. Our framework leverages spectral stability bounds derived from activation geometry to assess inference stability and computational difficulty. Specifically, we introduce a task complexity estimator that uses the spectral condition number and Fisher discriminant ratio to determine when to route tokens through fewer layers or prune attention heads. This enables zero-overhead compute throttling while maintaining performance. Evaluated on single-GPU setups across diverse benchmarks, our method achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic baselines. Theoretical PAC-Bayes bounds link task complexity estimation to generalization stability under perturbation, providing a transparent pathway for resource-efficient inference.",
+  "Experiments": [
+    "Benchmark Selection: Evaluate on WILDS benchmarks and adversarial ICL tasks to test generalization under distributional shifts.",
+    "Task Complexity Estimation: Implement the task complexity estimator using randomized SVD to compute spectral condition numbers and Fisher discriminant ratios.",
+    "Dynamic Compute Allocation: Test dynamic layer skipping and attention pruning based on task complexity estimates.",
+    "Latency-Accuracy Trade-offs: Measure throughput-accuracy Pareto frontiers under strict latency budgets.",
+    "Generalization Stability: Validate PAC-Bayes bounds linking task complexity estimation to generalization stability under perturbation."
+  ],
+  "Risk Factors and Limitations": [
+    "Task complexity estimator may not generalize well across diverse tasks or architectures.",
+    "Dynamic compute allocation could introduce instability in certain scenarios.",
+    "Theoretical bounds may not fully capture practical performance trade-offs."
+  ]
+}

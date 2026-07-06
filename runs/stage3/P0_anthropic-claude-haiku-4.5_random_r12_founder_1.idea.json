@@ -1,0 +1,117 @@
+{
+  "Name": "curvature_aware_precision_routing",
+  "Title": "Deterministic Curvature-Aware Precision Routing: Training-Free Mixed-Precision Quantization via Spectral Hessian Diagnostics and Stability-Certified Bit-Width Assignment",
+  "Short Hypothesis": "Current training-free mixed-precision methods rely on heuristic proxies (gradient magnitudes, activation ranges) that decouple from loss landscape geometry, leading to unstable precision assignments. We hypothesize that explicit pre-execution spectral diagnostics of layer-wise Hessian curvature and gradient covariance decay can enable deterministic, theoretically-certified bit-width routing that provably bounds quantization error propagation. By formalizing precision assignment as a constrained optimization problem over curvature-aware stability radii, we can eliminate proxy fragility and replace it with PAC-Bayes generalization guarantees. This direction is essential because existing methods lack mechanistic transparency into *why* certain layers tolerate lower precision—a gap that spectral geometry directly addresses—and prior work has not systematically coupled Hessian conditioning to mixed-precision search in a training-free, deterministic setting.",
+  "Related Work": "Recent work (EMQ, SNIP, AMP-ViT) focuses on layer-wise bit-width search via proxy metrics (activation statistics, gradient norms) or heuristic thresholding, but these approaches: (1) lack formal justification for proxy-accuracy correlation; (2) do not mechanistically explain precision tolerance in terms of loss landscape curvature; (3) rely on data-dependent heuristics that may generalize poorly across datasets; (4) do not provide explicit stability bounds or generalization guarantees. Prior spectral quantization theory (e.g., condition number analysis) has been applied to weight matrices in isolation, but not integrated with layer-wise precision routing or coupled to gradient flow stability. Our proposal distinctly advances the field by: (1) formalizing precision assignment via Hessian spectral diagnostics as a pre-execution, training-free diagnostic; (2) deriving explicit stability radii that certify quantization error bounds under precision switching; (3) replacing proxy correlation with mechanistic curvature-based reasoning; (4) providing PAC-Bayes generalization bounds that formally justify bit-width choices; (5) ensuring deterministic, reproducible routing via spectral estimators rather than stochastic heuristics.",
+  "Abstract": "Mixed-precision quantization achieves competitive accuracy-efficiency trade-offs, but training-free bit-width assignment remains fragile: existing proxies (gradient magnitudes, activation ranges) lack mechanistic grounding in loss landscape geometry and offer no formal stability guarantees. We propose Curvature-Aware Precision Routing (CAPR), a deterministic training-free framework that assigns layer-wise bit-widths via spectral diagnostics of Hessian curvature and gradient covariance decay, replacing heuristic fragility with formal stability certification. Our core insight is that layers with well-conditioned Hessians and rapid gradient covariance decay tolerate lower precision without amplifying quantization error—a relationship we formalize via explicit stability radii and PAC-Bayes generalization bounds. CAPR operates in three stages: (1) Pre-execution Spectral Diagnostics: compute layer-wise Hessian condition numbers and gradient covariance eigenvalue decay rates via deterministic power iteration and Lanczos estimators, avoiding data-dependent heuristics; (2) Stability-Certified Routing: solve a constrained optimization problem that assigns bit-widths to maximize compression while respecting layer-specific stability radii derived from curvature; (3) Verification: validate assignments via formal PAC-Bayes bounds that certify generalization under precision switching. We evaluate CAPR on ResNets, Vision Transformers, and LLMs (BERT, OPT), demonstrating that curvature-based routing outperforms gradient/activation proxies while providing explicit condition number guarantees. By anchoring precision assignment to architectural loss landscape geometry rather than proxy correlation, CAPR establishes a reproducible, theoretically transparent foundation for training-free mixed-precision quantization.",
+  "Experiments": [
+    {
+      "name": "Experiment 1: Spectral Diagnostics Validation",
+      "description": "For each layer in ResNet-50 and ViT-Base, compute: (1) Hessian condition number κ via power iteration (50 iterations, FP32 precision); (2) gradient covariance eigenvalue spectrum via Lanczos (k=20 eigenvalues); (3) effective rank via eigenvalue decay rate α where λ_i ∝ i^(-α). Correlate these metrics against empirical quantization error (measured as MSE of layer outputs under 4-bit vs. 8-bit precision on ImageNet validation set, n=1000 samples). Report Pearson correlation coefficients and 95% confidence intervals across 5 random seeds. Hypothesis: layers with κ < 100 and α > 2 should exhibit <5% output MSE degradation under 4-bit precision.",
+      "evaluation_metrics": [
+        "Pearson correlation (κ vs. quantization error)",
+        "Pearson correlation (α vs. quantization error)",
+        "Effective rank distribution per layer",
+        "Condition number range [κ_min, κ_max] per architecture"
+      ]
+    },
+    {
+      "name": "Experiment 2: Stability Radius Certification",
+      "description": "For each layer, derive theoretical stability radius ρ_i = min(λ_min(H_i), σ_min(∇L)) / (κ_i * ||∇L||_2), where H_i is the Hessian, σ_min is the smallest singular value, and κ_i is the condition number. Assign bit-widths greedily: b_i = 8 if ρ_i > τ_high, b_i = 4 if τ_low < ρ_i ≤ τ_high, b_i = 2 if ρ_i ≤ τ_low (thresholds τ_high=0.1, τ_low=0.01 calibrated on a held-out validation set). Quantize entire networks using these assignments and measure: (1) top-1 accuracy on ImageNet (full validation set, n=50k); (2) average bit-width per layer; (3) total compression ratio. Compare against: (a) uniform 4-bit baseline; (b) EMQ (gradient magnitude proxy); (c) SNIP (layer-wise statistics). Report accuracy drop (Δ%), compression ratio, and average bit-width. Hypothesis: CAPR achieves <1% accuracy drop at 3.5× compression, outperforming gradient/activation proxies.",
+      "evaluation_metrics": [
+        "Top-1 accuracy drop vs. FP32 baseline",
+        "Compression ratio (bits saved / total bits)",
+        "Average bit-width per layer",
+        "Bit-width distribution histogram"
+      ]
+    },
+    {
+      "name": "Experiment 3: PAC-Bayes Generalization Bounds",
+      "description": "For each layer i with assigned bit-width b_i, compute a PAC-Bayes bound on generalization error: B_i ≤ E_train[L] + sqrt((κ_i * Δ_Q_i^2) / (2n)) + sqrt(log(2/δ) / (2n)), where Δ_Q_i is the quantization error bound derived from stability radius ρ_i, and n is the number of training samples used in spectral diagnostics. Aggregate per-layer bounds to network-level bound. Measure: (1) empirical validation error; (2) predicted bound value; (3) bound tightness ratio (bound / empirical error). Repeat across 5 random seeds with different diagnostic sample sizes (n ∈ {500, 1000, 2000}). Hypothesis: bounds should be within 2-3× of empirical error, validating theoretical certification.",
+      "evaluation_metrics": [
+        "PAC-Bayes bound value (per layer and network-level)",
+        "Empirical validation error",
+        "Bound tightness ratio",
+        "Bound coverage (% of seeds where empirical error < bound)"
+      ]
+    },
+    {
+      "name": "Experiment 4: Robustness to Data Distribution Shift",
+      "description": "Compute spectral diagnostics on ImageNet training set (n=1000 samples). Assign bit-widths using CAPR. Evaluate quantized networks on: (1) ImageNet validation (in-distribution); (2) ImageNet-C (corruption robustness); (3) ImageNet-A (adversarial examples); (4) a held-out domain (e.g., CIFAR-100). Measure top-1 accuracy on each. Compare against EMQ and SNIP, which retrain/readjust proxies per domain. Hypothesis: CAPR bit-widths remain stable across domains (accuracy drop <2% relative to in-distribution), validating that curvature-based routing generalizes better than heuristic proxies.",
+      "evaluation_metrics": [
+        "Top-1 accuracy on each domain",
+        "Accuracy drop vs. in-distribution baseline",
+        "Bit-width stability (% layers retaining same bit-width)",
+        "Cross-domain generalization gap"
+      ]
+    },
+    {
+      "name": "Experiment 5: Computational Overhead Quantification",
+      "description": "Measure wall-clock time for CAPR diagnostics on a single GPU (NVIDIA A100): (1) Lanczos eigenvalue computation (k=20) per layer; (2) power iteration for condition number (50 iterations); (3) bit-width assignment optimization (linear program, <100ms). Measure total diagnostic overhead as a percentage of inference latency on full ImageNet validation set. Hypothesis: diagnostic overhead should be <5% of inference time, ensuring amortized efficiency. Also measure memory overhead during diagnostics (peak GPU memory).",
+      "evaluation_metrics": [
+        "Lanczos time per layer (ms)",
+        "Power iteration time per layer (ms)",
+        "Total diagnostic time (s)",
+        "Diagnostic overhead as % of inference time",
+        "Peak GPU memory during diagnostics (GB)"
+      ]
+    },
+    {
+      "name": "Experiment 6: Ablation on Spectral Components",
+      "description": "Ablate CAPR by: (1) removing Hessian conditioning (use only gradient covariance decay α); (2) removing gradient covariance decay (use only κ); (3) using simplified eigenvalue estimators (power iteration only, no Lanczos); (4) replacing PAC-Bayes bounds with heuristic thresholds. For each ablation, measure top-1 accuracy, compression ratio, and bound tightness on ResNet-50. Hypothesis: full CAPR (with both κ and α, Lanczos estimators, and PAC-Bayes bounds) should outperform ablations by >1% accuracy at same compression.",
+      "evaluation_metrics": [
+        "Top-1 accuracy per ablation variant",
+        "Compression ratio",
+        "PAC-Bayes bound tightness (if applicable)",
+        "Bit-width distribution"
+      ]
+    },
+    {
+      "name": "Experiment 7: Multi-Architecture Validation",
+      "description": "Apply CAPR to diverse architectures: (1) ResNet-50 (CNNs); (2) ViT-Base (vision transformers); (3) BERT-Base (language transformers); (4) OPT-6.7B (large language models). For each, compute spectral diagnostics, assign bit-widths, and measure: (1) top-1 accuracy (ImageNet for vision, GLUE for BERT, perplexity for OPT); (2) compression ratio; (3) inference latency on CPU/GPU. Compare against uniform 4-bit and per-layer gradient proxy baselines. Hypothesis: CAPR should achieve consistent <1% accuracy drop across architectures at 3-4× compression.",
+      "evaluation_metrics": [
+        "Task-specific accuracy (ImageNet top-1, GLUE average, perplexity)",
+        "Compression ratio",
+        "Inference latency (ms)",
+        "Bit-width distribution per architecture"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    {
+      "risk": "Spectral Estimator Approximation Error",
+      "description": "Lanczos and power iteration are approximate eigenvalue estimators. For ill-conditioned layers (κ > 1000), approximation error could dominate, leading to inaccurate condition number estimates. Mitigation: (1) use higher-precision arithmetic (FP64) for spectral computations; (2) compare Lanczos estimates against full SVD on small subsets; (3) quantify approximation error bounds explicitly in PAC-Bayes terms.",
+      "severity": "Medium"
+    },
+    {
+      "risk": "Limited Diagnostic Sample Size",
+      "description": "Computing Hessian/gradient statistics on n=1000 samples may be insufficient for very large models (>1B parameters). Spectral estimates could be noisy, leading to unstable bit-width assignments. Mitigation: (1) use efficient Hessian-vector products (implicit differentiation) rather than full Hessian materialization; (2) validate that diagnostic sample size n ≥ 500 suffices empirically; (3) employ regularized spectral estimators (e.g., Tikhonov damping) to reduce noise.",
+      "severity": "Medium"
+    },
+    {
+      "risk": "PAC-Bayes Bound Looseness",
+      "description": "PAC-Bayes bounds are often loose in practice (bound >> empirical error). If bounds are >5× empirical error, they may not provide actionable certification. Mitigation: (1) use data-dependent PAC-Bayes bounds (e.g., empirical Bernstein bounds) to tighten; (2) calibrate bound constants empirically; (3) treat bounds as relative comparisons across layers rather than absolute guarantees.",
+      "severity": "Medium"
+    },
+    {
+      "risk": "Generalization to Unseen Domains",
+      "description": "Spectral diagnostics computed on ImageNet may not transfer to other domains (medical imaging, satellite imagery). Bit-width assignments could degrade on out-of-distribution data. Mitigation: (1) validate on multiple domains (ImageNet-C, CIFAR, domain-specific datasets); (2) show that curvature-based routing is more stable than heuristic proxies across domains; (3) discuss limitations when deploying to truly novel domains.",
+      "severity": "Medium"
+    },
+    {
+      "risk": "Computational Overhead for Very Large Models",
+      "description": "Lanczos and power iteration scale as O(layer_size^2) for dense layers. For LLMs with billion-parameter layers, diagnostic overhead could exceed 5% target. Mitigation: (1) restrict spectral diagnostics to weight matrices, not full Hessians; (2) use block-diagonal approximations for very large layers; (3) amortize diagnostics across inference batches.",
+      "severity": "Low-Medium"
+    },
+    {
+      "risk": "Sensitivity to Threshold Hyperparameters",
+      "description": "Bit-width assignment depends on thresholds τ_high and τ_low. Suboptimal thresholds could degrade performance. Mitigation: (1) calibrate thresholds on held-out validation set; (2) report sensitivity analysis (accuracy vs. threshold values); (3) derive principled threshold selection from PAC-Bayes bounds rather than heuristic tuning.",
+      "severity": "Low"
+    },
+    {
+      "risk": "Limited Novelty in Spectral Methods",
+      "description": "Hessian-based analysis and Lanczos eigenvalue estimation are well-established techniques. The novelty lies in *integrating* these with mixed-precision routing and *formalizing* stability certification, but the individual components are not novel. Mitigation: (1) emphasize the novel integration and theoretical certification aspects; (2) demonstrate empirical improvements over existing methods; (3) position contribution as mechanistic transparency and formal guarantees rather than algorithmic innovation.",
+      "severity": "Low"
+    }
+  ]
+}

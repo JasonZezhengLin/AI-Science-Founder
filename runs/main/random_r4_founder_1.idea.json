@@ -1,0 +1,19 @@
+{
+  "Name": "training-free_spectral_quantization",
+  "Title": "Spectral Sensitivity Analysis for Training-Free Mixed Precision Quantization",
+  "Short Hypothesis": "The spectral properties of layer-wise activations and weights can serve as a deterministic proxy for mixed precision quantization, enabling training-free bit-width allocation with minimal computational overhead.",
+  "Related Work": "Existing methods like EMQ and InfoQ rely on heuristics or evolutionary strategies for bit-width allocation, often requiring extensive calibration or training. Our approach leverages spectral decomposition to directly quantify layer sensitivity without training, distinguishing it by its mathematical transparency and computational efficiency.",
+  "Abstract": "Mixed precision quantization (MPQ) offers a promising path to efficient neural network inference, but existing methods often rely on heuristic or training-intensive approaches for bit-width allocation. We propose a novel, training-free framework that leverages spectral sensitivity analysis to determine optimal bit-width configurations. By decomposing layer-wise activations and weights into their spectral components, we quantify sensitivity through condition numbers and singular value distributions. This approach enables deterministic bit-width allocation with minimal computational overhead, ensuring both accuracy and efficiency. Our experiments on ResNet and MobileNet architectures demonstrate that spectral sensitivity analysis outperforms existing training-free proxies, achieving superior accuracy-complexity trade-offs.",
+  "Experiments": [
+    "Conduct spectral decomposition on layer-wise activations and weights of ResNet-18 and MobileNetV2 using Singular Value Decomposition (SVD).",
+    "Quantify sensitivity metrics (e.g., condition number, singular value decay rate) for each layer.",
+    "Formulate bit-width allocation as an Integer Linear Programming (ILP) problem, minimizing total sensitivity under a given resource budget.",
+    "Evaluate performance on ImageNet, comparing accuracy and inference speed against EMQ and InfoQ.",
+    "Conduct ablation studies to isolate the impact of spectral metrics on bit-width allocation."
+  ],
+  "Risk Factors and Limitations": [
+    "Spectral decomposition may introduce computational overhead for very large models.",
+    "The effectiveness of spectral metrics may vary across architectures or tasks.",
+    "The proposed method assumes layer-wise independence, potentially overlooking inter-layer dependencies."
+  ]
+}

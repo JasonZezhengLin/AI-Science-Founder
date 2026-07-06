@@ -1,0 +1,21 @@
+{
+  "Name": "DynamicPrecisionInference",
+  "Title": "Dynamic Precision Inference for Transformer Models on GPUs",
+  "Short Hypothesis": "By dynamically adjusting the precision of computation during inference, we can achieve significant speedups and energy savings without compromising model accuracy. This is particularly important for large transformer models where fixed precision can lead to suboptimal performance.",
+  "Related Work": "Recent works such as FlashInfer and SNIP have explored efficient kernel-level optimizations and adaptive precision for transformer models. FlashInfer focuses on customizable and efficient attention engines, while SNIP introduces a framework for adaptive mixed-precision training. However, these works do not address dynamic precision adjustments during inference, which can further optimize performance and energy efficiency.",
+  "Abstract": "Transformer models, particularly large language models (LLMs), are computationally intensive and require efficient inference to be practical for real-world applications. Existing methods often use fixed precision settings, which can lead to suboptimal performance and energy consumption. In this work, we propose Dynamic Precision Inference (DPI), a runtime framework that dynamically adjusts the precision of computations during inference to optimize latency, throughput, and energy efficiency. DPI integrates a lightweight profiler to monitor the execution of transformer models and a decision engine to select the most appropriate precision level for each layer and operation. We evaluate DPI on a variety of transformer models and demonstrate significant speedups and energy savings without compromising accuracy. Our experiments show that DPI can achieve up to 30% reduction in latency and 25% improvement in energy efficiency compared to fixed-precision baselines.",
+  "Experiments": [
+    "1. **Profiler Design and Integration**: Develop a lightweight profiler that can monitor the execution of transformer models in real-time. The profiler will collect metrics such as latency, throughput, energy consumption, and precision loss for each layer and operation.",
+    "2. **Decision Engine Development**: Design a decision engine that uses the profiler's data to dynamically adjust the precision of computations. The decision engine will consider factors such as layer sensitivity, activation distribution, and hardware capabilities to select the most appropriate precision level.",
+    "3. **Kernel Optimization**: Implement custom CUDA/Triton kernels that support dynamic precision adjustments. These kernels will be optimized for memory bandwidth utilization, tensor-core occupancy, and register allocation.",
+    "4. **Evaluation on Benchmarks**: Evaluate DPI on a variety of transformer models, including BERT, GPT-2, and T5, using benchmarks such as GLUE and SQuAD. Measure latency, throughput, energy consumption, and accuracy under different precision settings.",
+    "5. **A/B Latency Races**: Conduct A/B latency races between DPI and fixed-precision baselines under fixed accuracy budgets. Report p50/p99 latency, throughput under batching, and energy per token.",
+    "6. **Scalability and Robustness**: Test DPI's scalability and robustness across different GPUs and driver versions. Report variance across runs and ensure reproducibility through pinned driver/CUDA versions and archived trace files."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Overhead of Profiling**: The overhead of the profiler and decision engine could introduce additional latency, which may negate the benefits of dynamic precision adjustments.",
+    "2. **Precision Loss**: Dynamic precision adjustments might lead to precision loss in some layers, potentially affecting model accuracy. Careful tuning of the decision engine is required to mitigate this risk.",
+    "3. **Hardware Dependencies**: The performance gains of DPI may vary across different hardware configurations. Extensive testing on a range of GPUs is necessary to ensure generalizability.",
+    "4. **Complexity of Implementation**: The development of custom kernels and the integration of the profiler and decision engine could be complex and time-consuming. Rigorous testing and validation are essential to ensure reliability."
+  ]
+}

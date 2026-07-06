@@ -1,0 +1,19 @@
+{
+  "Name": "cuda_kernel_opt",
+  "Title": "Hardware-Aware Quantization and Sparsity for Optimized CUDA Kernels in Machine Learning",
+  "Short Hypothesis": "By applying hardware-aware quantization and sparsity techniques to CUDA kernels, we can achieve significant improvements in latency and throughput for machine learning workloads on commodity GPUs.",
+  "Related Work": "While there have been efforts to optimize machine learning models using quantization and sparsity, few have focused on the kernel-level optimizations for CUDA. This proposal builds upon existing work in quantization and sparsity, but with a unique focus on hardware-aware optimizations for CUDA kernels.",
+  "Abstract": "This proposal presents a novel approach to optimizing CUDA kernels for machine learning workloads using hardware-aware quantization and sparsity techniques. By leveraging the unique characteristics of commodity GPUs, we can create optimized kernels that achieve significant improvements in latency and throughput. Our approach involves profiling and optimizing CUDA kernels using nvprof and Nsight, and evaluating the performance using metrics such as tokens-per-second and wall-clock latency.",
+  "Experiments": [
+    "Profile and optimize a baseline CUDA kernel for a common machine learning workload",
+    "Apply hardware-aware quantization techniques to the kernel and evaluate performance",
+    "Apply hardware-aware sparsity techniques to the kernel and evaluate performance",
+    "Combine quantization and sparsity techniques and evaluate performance",
+    "Compare the performance of the optimized kernel to the baseline kernel using metrics such as tokens-per-second and wall-clock latency"
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of optimizing CUDA kernels may require significant expertise and resources",
+    "The performance gains may vary depending on the specific hardware and workload",
+    "The optimized kernel may not be compatible with all machine learning frameworks and libraries"
+  ]
+}

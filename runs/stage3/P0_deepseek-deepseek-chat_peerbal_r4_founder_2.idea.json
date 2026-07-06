@@ -1,0 +1,20 @@
+{
+  "Name": "latency-aware_jacobian_layer_skipping",
+  "Title": "Jacobian-Guided Latency-Aware Layer Skipping for Efficient Inference",
+  "Short Hypothesis": "Layer skipping based on Jacobian sensitivity can achieve significant latency reduction without compromising model accuracy, by dynamically identifying and skipping layers that contribute minimally to the output.",
+  "Related Work": "Existing layer-skipping methods often rely on heuristic or static policies, such as fixed thresholds or precomputed schedules (e.g., DySL-VLA, DASH). These approaches lack adaptability to dynamic input characteristics and fail to account for the nuanced impact of skipping on model outputs. Our proposal distinguishes itself by leveraging Jacobian sensitivity, a theoretically grounded measure of layer importance, to dynamically determine skip decisions in real-time. This ensures that skipped layers have minimal impact on the final output, enabling both latency savings and accuracy preservation.",
+  "Abstract": "Layer skipping is a promising technique for reducing inference latency in deep neural networks, but existing methods often rely on heuristic policies that lack theoretical grounding and fail to adapt to dynamic input characteristics. We propose a novel framework for latency-aware layer skipping guided by Jacobian sensitivity, a theoretically grounded measure of layer importance. Our approach dynamically identifies layers that contribute minimally to the output and skips them during inference, ensuring significant latency reduction without compromising accuracy. We validate our method on multiple benchmarks, demonstrating superior latency-accuracy trade-offs compared to existing layer-skipping techniques. By leveraging Jacobian sensitivity, our framework provides a reproducible and theoretically sound pathway to efficient inference.",
+  "Experiments": [
+    "Evaluate on standard benchmarks (e.g., CIFAR-10, ImageNet) using ResNet and Vision Transformer architectures.",
+    "Compare latency reduction and accuracy preservation against state-of-the-art layer-skipping methods (e.g., DySL-VLA, DASH).",
+    "Measure Jacobian sensitivity for each layer and validate its correlation with layer importance.",
+    "Test robustness under distribution shifts using WILDS benchmarks.",
+    "Evaluate computational overhead of Jacobian computation and its impact on latency savings."
+  ],
+  "Risk Factors and Limitations": [
+    "Jacobian computation may introduce additional overhead, potentially offsetting latency gains.",
+    "The method assumes smooth optimization landscapes; it may underperform in models with highly non-linear behavior.",
+    "Dynamic layer skipping may complicate hardware implementation due to irregular execution patterns.",
+    "Validation is limited to vision tasks; generalization to other domains (e.g., NLP) requires further investigation."
+  ]
+}

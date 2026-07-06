@@ -1,0 +1,14 @@
+{
+  "Name": "adaptive_kernel_quantization",
+  "Title": "Adaptive Kernel Quantization for Hardware-Focused Inference Optimization",
+  "Short Hypothesis": "By developing a novel adaptive kernel quantization method that leverages runtime metrics for dynamic precision adjustment, we can significantly improve inference performance on commodity GPUs, surpassing current static quantization methods.",
+  "Related Work": "While existing works like Magicube and QUICK focus on optimizing sparse matrix operations and addressing shared memory conflicts, they do not consider a fully adaptive approach that adjusts kernel precision based on real-time profiling metrics. Our proposal distinguishes itself by integrating runtime profiling to dynamically adjust quantization levels, allowing for an optimal balance between latency and accuracy without requiring extensive retraining.",
+  "Abstract": "The growing complexity of deep learning models necessitates efficient inference strategies that leverage hardware capabilities. Existing quantization techniques often apply static precision levels that do not account for the dynamic nature of model execution. In this proposal, we introduce a novel adaptive kernel quantization framework that dynamically adjusts the precision of model operators based on real-time profiling metrics, such as achieved bandwidth and occupancy. By instrumenting CUDA kernels to monitor performance metrics during inference, our method can intelligently allocate precision levels to different layers or operations based on their impact on overall latency and throughput. We hypothesize that this adaptive approach will provide significant improvements in wall-clock latency and tokens-per-second on commodity GPUs, leading to greater practical deployment efficacy in real-world applications. We will validate our method using reproducible benchmarks on NVIDIA GPUs, reporting detailed profiling data and wall-clock measurements to demonstrate performance gains.",
+  "Experiments": [
+    "Implement the adaptive kernel quantization framework using CUDA and Triton.",
+    "Conduct A/B latency races comparing static quantization methods (e.g., uniform precision across layers) against our adaptive method on various LLMs and vision models.",
+    "Measure wall-clock latency, throughput (tokens-per-second), and memory bandwidth utilization during inference.",
+    "Evaluate the impact of adaptive quantization on model accuracy across different layers and configurations."
+  ],
+  "Risk Factors and Limitations": "Potential risks include the overhead of runtime profiling impacting performance gains and the complexity of implementing the adaptive quantization framework. Limitations may arise from specific hardware configurations that may not fully support the proposed dynamic adjustments, requiring careful tuning for different GPU architectures."
+}

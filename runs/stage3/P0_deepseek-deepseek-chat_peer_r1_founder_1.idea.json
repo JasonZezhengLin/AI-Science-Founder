@@ -1,0 +1,30 @@
+{
+  "Name": "curvature_aware_routing",
+  "Title": "Curvature-Aware Precision Routing: Deterministic Optimization Proxies via Training-Free Representation Geometry",
+  "Short Hypothesis": "The local curvature of activation subspaces, quantified through Hessian conditioning and gradient covariance decay, serves as a deterministic proxy for precision sensitivity, enabling training-free precision allocation that outperforms heuristic and static approaches.",
+  "Related Work": "Recent works like Spectral Quantization Routing (SQR) and Spectral Latent Steering (SLS) have explored training-free precision allocation and test-time optimization using spectral diagnostics. However, these methods rely primarily on activation covariance geometry and PCA-based projections, neglecting the role of curvature in precision sensitivity. Our proposal distinguishes itself by explicitly leveraging Hessian conditioning and gradient covariance decay as deterministic proxies for precision allocation, providing a more formalized and theoretically grounded approach to precision routing.",
+  "Abstract": "Mixed-precision inference offers significant computational savings but often relies on heuristic or static precision allocation strategies that fail to adapt to dynamic input distributions. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that leverages the local curvature of activation subspaces—quantified through Hessian conditioning and gradient covariance decay—as deterministic proxies for precision sensitivity. By computing these curvature diagnostics on-the-fly using randomized numerical linear algebra techniques, CAPR dynamically allocates numerical precision to tokens based on their sensitivity to quantization noise. We theoretically ground our approach with PAC-Bayes bounds that link curvature metrics to generalization stability under precision switching. Evaluated on single-GPU setups across diverse benchmarks, CAPR achieves superior throughput-accuracy trade-offs compared to static and heuristic mixed-precision baselines. Our method replaces opaque fragility claims with formalized risk bounds, offering a transparent and reproducible pathway for resource-efficient inference.",
+  "Experiments": [
+    {
+      "Description": "Evaluate CAPR on WILDS benchmarks across different precision tiers (FP16, BF16, INT8).",
+      "Metrics": "Throughput (tokens/second), accuracy, latency, memory usage."
+    },
+    {
+      "Description": "Compare CAPR against static precision allocation and heuristic mixed-precision baselines.",
+      "Metrics": "Relative accuracy drop, throughput gain, latency reduction."
+    },
+    {
+      "Description": "Quantify the overhead of computing curvature diagnostics (Hessian conditioning, gradient covariance decay).",
+      "Metrics": "Diagnostic overhead (ms), diagnostic accuracy."
+    },
+    {
+      "Description": "Validate theoretical PAC-Bayes bounds through empirical generalization stability under precision switching.",
+      "Metrics": "Generalization gap, stability radius."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The computational overhead of computing curvature diagnostics may offset precision savings for certain architectures.",
+    "The effectiveness of curvature-aware routing may vary across different model architectures and tasks.",
+    "The theoretical PAC-Bayes bounds may not fully capture the empirical behavior of precision switching in all scenarios."
+  ]
+}

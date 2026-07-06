@@ -1,0 +1,20 @@
+{
+  "Name": "kernel_fusion_sparse_moe",
+  "Title": "Kernel Fusion for Sparse Mixture-of-Experts: Optimizing CUDA/Triton Kernels for Efficient LLM Inference",
+  "Short Hypothesis": "Kernel fusion of sparse Mixture-of-Experts (MoE) operations in CUDA/Triton can significantly reduce memory bandwidth and kernel launch overhead, leading to measurable speedups in LLM inference on commodity GPUs.",
+  "Related Work": "Existing work on MoE optimization focuses on structured sparsity (e.g., Coruscant) or general kernel optimization (e.g., FlashInfer). However, these approaches do not fully exploit the potential of kernel fusion for sparse MoE operations, which involve irregular memory access patterns and frequent kernel launches. Our proposal distinguishes itself by focusing on fused kernels tailored specifically for sparse MoE, leveraging Triton's flexibility to optimize memory access and reduce overhead.",
+  "Abstract": "Mixture-of-Experts (MoE) architectures are increasingly used in large language models (LLMs) to improve scalability and efficiency. However, MoE inference is often bottlenecked by memory bandwidth and kernel launch overhead due to irregular sparsity patterns and frequent kernel dispatches. We propose a novel kernel fusion approach for sparse MoE operations, implemented in CUDA/Triton, that combines expert routing, sparse matrix multiplication, and activation functions into a single kernel. Our method reduces memory bandwidth usage by optimizing data access patterns and minimizes kernel launch overhead by fusing multiple operations. We evaluate our approach on NVIDIA GPUs, demonstrating measurable speedups in end-to-end inference latency and throughput for MoE-based LLMs. Our contributions include a detailed profiling of fused kernel performance, a comparison with existing MoE implementations, and a reproducible benchmark suite for MoE inference optimization.",
+  "Experiments": [
+    "Implement fused CUDA/Triton kernels for sparse MoE operations, including expert routing, sparse matrix multiplication, and activation functions.",
+    "Profile kernel performance using Nsight Compute, measuring occupancy, achieved bandwidth, and warp stall reasons.",
+    "Compare end-to-end inference latency and throughput with state-of-the-art MoE implementations (e.g., Coruscant, FlashInfer) on NVIDIA GPUs.",
+    "Evaluate the impact of kernel fusion on memory bandwidth usage and kernel launch overhead using TaxBreak's overhead decomposition methodology.",
+    "Conduct a sensitivity analysis on sparsity levels and batch sizes to identify optimal configurations for fused kernels."
+  ],
+  "Risk Factors and Limitations": [
+    "The irregular sparsity patterns in MoE may limit the effectiveness of kernel fusion, especially for highly sparse matrices.",
+    "Fused kernels may introduce additional complexity, making them harder to maintain and debug.",
+    "The proposed optimizations may not generalize well to different GPU architectures or driver versions.",
+    "The benefits of kernel fusion may diminish at very large batch sizes where memory bandwidth is less of a bottleneck."
+  ]
+}

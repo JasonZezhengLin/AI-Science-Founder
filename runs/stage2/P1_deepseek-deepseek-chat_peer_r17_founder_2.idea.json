@@ -1,0 +1,19 @@
+{
+  "Name": "dynamic_rate_distortion_allocation",
+  "Title": "Dynamic Rate-Distortion Allocation for Efficient Inference",
+  "Short Hypothesis": "Activation subspaces with low task-relevant information can be processed with fewer computational resources without significantly impacting performance, enabling efficient inference.",
+  "Related Work": "Recent work has explored rate-distortion bounds in model compression (Sefidgaran et al., 2022) and generalization (Sefidgaran et al., 2022). However, these approaches do not dynamically adjust computational resources during inference based on the information content of activations. Our proposal bridges this gap by explicitly linking rate-distortion theory to computational allocation decisions.",
+  "Abstract": "We propose a novel framework for efficient inference that dynamically adjusts computational resources based on the rate-distortion characteristics of activations. Our key insight is that activation subspaces with low task-relevant information can be processed with fewer resources without significantly impacting performance. We derive a rate-distortion-inspired metric to quantify the task-relevant information in activations and use it to dynamically allocate computational resources (e.g., layer depth, attention heads) during inference. Our approach is theoretically grounded in rate-distortion theory and provides operational bounds on the computational savings achievable under a given distortion constraint. We evaluate our framework on standard benchmarks, demonstrating significant computational savings with minimal performance degradation. Our results highlight the importance of considering the information content of activations when optimizing inference efficiency.",
+  "Experiments": [
+    "Derive a rate-distortion-inspired metric to quantify task-relevant information in activations.",
+    "Develop a dynamic resource allocation mechanism based on the derived metric.",
+    "Evaluate the framework on standard benchmarks (e.g., CIFAR-10, ImageNet) using a transformer architecture.",
+    "Measure computational savings (e.g., FLOPs, latency) and performance degradation (e.g., accuracy) under different distortion constraints.",
+    "Compare to baseline methods that use static or heuristic resource allocation strategies."
+  ],
+  "Risk Factors and Limitations": [
+    "The rate-distortion-inspired metric may not accurately capture task-relevant information in all cases.",
+    "Dynamic resource allocation may introduce overhead that offsets computational savings.",
+    "The framework may require task-specific tuning for optimal performance."
+  ]
+}

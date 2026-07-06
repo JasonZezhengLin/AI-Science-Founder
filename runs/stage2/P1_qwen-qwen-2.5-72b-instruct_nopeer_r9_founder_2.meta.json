@@ -1,0 +1,12 @@
+{
+  "arm": "nopeer",
+  "round": 9,
+  "founder": "founder_2",
+  "persona_pair": "P1",
+  "model": "qwen/qwen-2.5-72b-instruct",
+  "cross_founder_visibility": "0",
+  "persona_chars": 2893,
+  "peer_brief_chars": 0,
+  "workshop_desc_chars": 3100,
+  "idea_is_none": false
+}

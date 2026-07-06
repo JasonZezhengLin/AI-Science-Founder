@@ -1,0 +1,13 @@
+{
+  "Name": "adaptive_precision_scheduling",
+  "Title": "Adaptive Precision Scheduling for GPU Inference: A Latency-Driven Approach",
+  "Short Hypothesis": "Dynamic scheduling of precision levels during inference can achieve better latency performance without sacrificing model accuracy, challenging the static mixed-precision strategies prevalent in current literature.",
+  "Related Work": "Existing works, such as Spectral Quantization Routing, focus on training-free precision allocation but often utilize static profiling, limiting adaptability to real-time variations in input distributions. This proposal distinguishes itself by suggesting a dynamic scheduling mechanism that considers latency while adapting to incoming data characteristics, providing a real-time optimization solution.",
+  "Abstract": "Machine learning models running on GPUs often face latency bottlenecks that static mixed-precision strategies fail to address effectively. This proposal introduces Adaptive Precision Scheduling (APS), a framework that dynamically adjusts the precision of computations based on real-time performance metrics and latency targets. By monitoring the achieved throughput and latency in real-time during inference, the system can route computations through lower or higher precision paths depending on the current workload and performance goals. This approach not only enhances the efficiency of resource utilization but also optimizes the latency-accuracy trade-off for dynamic workloads. We will empirically evaluate APS on a variety of models and datasets, demonstrating its superiority over existing static methods through measured latency improvements and reproducible benchmark results.",
+  "Experiments": [
+    "Conduct A/B tests comparing APS with static mixed-precision baselines across multiple models and datasets, measuring p50 and p99 latencies, throughput, and energy per token.",
+    "Profile latency and throughput for various input distributions and workloads, varying the precision allocation dynamically based on achieved performance.",
+    "Implement metrics to evaluate the trade-offs between accuracy and speed, ensuring that accuracy remains above a defined threshold during dynamic adjustments."
+  ],
+  "Risk Factors and Limitations": "Potential risks include overhead from the dynamic scheduling mechanism leading to increased latency in certain scenarios, and challenges in real-time performance monitoring under high load. Limitations may also arise from dependency on specific model architectures and GPU configurations."
+}

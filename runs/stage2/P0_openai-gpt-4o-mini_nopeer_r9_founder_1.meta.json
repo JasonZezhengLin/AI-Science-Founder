@@ -1,0 +1,12 @@
+{
+  "arm": "nopeer",
+  "round": 9,
+  "founder": "founder_1",
+  "persona_pair": "P0",
+  "model": "openai/gpt-4o-mini",
+  "cross_founder_visibility": "0",
+  "persona_chars": 3255,
+  "peer_brief_chars": 0,
+  "workshop_desc_chars": 3462,
+  "idea_is_none": false
+}

@@ -1,0 +1,118 @@
+{
+  "Name": "curvature_routing_quantization",
+  "Title": "Curvature-Aware Deterministic Precision Routing: A Training-Free Framework for Layer-Wise Bit Allocation via Spectral Hessian Diagnostics",
+  "Short Hypothesis": "We hypothesize that layer-wise quantization precision can be deterministically allocated at inference time without training or calibration by coupling spectral estimates of local Hessian curvature with formal PAC-Bayes generalization bounds. Specifically, we propose that layers exhibiting high gradient covariance decay and well-conditioned feature subspaces tolerate aggressive quantization (lower bit-width), while layers with steep loss landscapes require precision preservation. This addresses a critical gap: existing post-training quantization relies on heuristic sensitivity metrics (e.g., signal-to-noise ratios) lacking theoretical grounding, while training-based approaches incur prohibitive computational overhead. Our deterministic, training-free routing protocol operationalizes curvature diagnostics as formal stability certificates, enabling provably-safe precision switching with explicit condition number constraints—a capability absent in current literature.",
+  "Related Work": "Existing work partitions into three categories with distinct limitations: (1) Post-training quantization (PTQ) methods (e.g., BRECQ, OCS) employ heuristic sensitivity metrics and empirical calibration, lacking formal stability guarantees. (2) Quantization-aware training (QAT) incurs full retraining overhead, prohibitive for large models. (3) Recent geometric approaches (e.g., loss landscape analysis via Hessian eigenvalue spectra) provide mechanistic insights but remain descriptive rather than prescriptive—they diagnose but do not directly guide bit allocation. Our proposal uniquely bridges this gap by: (a) formalizing layer-wise precision allocation as a deterministic routing problem grounded in spectral curvature estimates, (b) deriving explicit PAC-Bayes bounds that quantify generalization loss under precision switching, (c) eliminating training/calibration entirely through pre-execution diagnostic loops, and (d) enforcing strict computational overhead bounds (single-pass spectral estimation) compatible with micro-grant constraints. We distinguish from prior curvature-aware quantization work (e.g., second-order sensitivity analysis) by replacing empirical Hessian computation with lightweight spectral proxies (Hutchinson trace estimation, power iteration) and by formalizing routing decisions within a theoretical framework rather than as post-hoc sensitivity rankings.",
+  "Abstract": "Mixed-precision inference offers substantial speedup and memory gains, yet optimal bit-width allocation remains an open problem. Current approaches rely on either expensive training-based methods or heuristic post-training sensitivity metrics lacking formal stability guarantees. We propose a novel training-free framework that determines layer-wise quantization precision deterministically via spectral diagnostics of local Hessian curvature. Our key insight is that gradient covariance decay and feature subspace conditioning directly bound the generalization loss under precision reduction—a relationship we formalize through PAC-Bayes analysis. We develop a lightweight diagnostic pipeline that: (1) estimates layer-wise Hessian conditioning via Hutchinson trace estimation and power iteration (O(1) overhead per layer), (2) computes feature entanglement metrics via singular value decay of activation covariance matrices, (3) derives formal stability radii under precision switching via curvature-aware perturbation bounds, and (4) routes quantization decisions through a deterministic allocation algorithm that maximizes compression while respecting explicit condition number constraints. Critically, all diagnostics execute pre-inference without training or calibration data. We validate on ResNets, ViTs, and LLaM-scale models, demonstrating that curvature-routed precision allocation matches or exceeds learned quantization schemes while eliminating training overhead. Theoretical contributions include: (a) explicit PAC-Bayes bounds for mixed-precision inference under spectral constraints, (b) formal characterization of when layer-wise precision switching preserves generalization, and (c) algorithmic guarantees on routing stability. Empirical validation quantifies amortized diagnostic overhead, multi-seed variance, and Pareto frontiers of accuracy-vs-compression across precision regimes.",
+  "Experiments": [
+    {
+      "name": "Spectral Diagnostic Validation",
+      "description": "For each layer in ResNet-50 and ViT-B/32: (1) Compute Hutchinson trace estimates of the Hessian (100 random samples) and power-iteration estimates of top-k eigenvalues (k=5). (2) Measure activation covariance matrix singular value decay (SVD of empirical covariance over 1000 test samples). (3) Compute feature entanglement score as ratio of top-10 to total singular values. (4) Correlate these diagnostics against ground-truth layer-wise quantization sensitivity (measured via per-layer INT8 quantization error on 1000 test samples). Metric: Spearman correlation between diagnostic scores and quantization sensitivity should exceed 0.8.",
+      "evaluation_metrics": [
+        "Spearman correlation",
+        "Kendall tau",
+        "per-layer MSE of predicted vs. actual quantization error"
+      ]
+    },
+    {
+      "name": "PAC-Bayes Bound Verification",
+      "description": "For each layer, derive a PAC-Bayes bound on generalization loss under precision reduction using the Hessian conditioning estimate. Specifically: (1) Compute condition number κ_ℓ for layer ℓ via spectral estimates. (2) Bound the perturbation from quantization as δ_ℓ ≈ (precision_reduction) / κ_ℓ^{-1}. (3) Apply PAC-Bayes theorem to derive confidence interval on test accuracy degradation. (4) Compare predicted bounds against empirical accuracy drop under uniform INT8 quantization. Metric: Tightness ratio = empirical_error / predicted_bound should be < 2.0 across 80% of layers.",
+      "evaluation_metrics": [
+        "bound tightness ratio",
+        "empirical vs. predicted accuracy degradation",
+        "false positive rate of bound violations"
+      ]
+    },
+    {
+      "name": "Deterministic Precision Routing Algorithm",
+      "description": "Implement the routing algorithm: (1) For each layer, compute stability radius r_ℓ = min(κ_ℓ^{-1}, feature_entanglement_penalty). (2) Allocate bit-widths greedily: assign INT8 to layers with r_ℓ > threshold_high, INT4 to r_ℓ ∈ [threshold_mid, threshold_high], mixed-precision (INT2 for activations, INT4 for weights) to r_ℓ < threshold_mid. (3) Thresholds are set to maximize total compression while ensuring no layer violates its PAC-Bayes bound. (4) Compare against: (a) uniform quantization (all INT8, INT4, INT2), (b) learned allocation via QAT, (c) heuristic sensitivity-based allocation (BRECQ). Metrics: Top-1 accuracy, model size, inference latency (FP32 baseline = 1.0x), compression ratio.",
+      "evaluation_metrics": [
+        "top-1 accuracy",
+        "model size (MB)",
+        "inference latency (relative)",
+        "compression ratio",
+        "accuracy drop vs. FP32 baseline"
+      ]
+    },
+    {
+      "name": "Overhead and Scalability Analysis",
+      "description": "Measure end-to-end diagnostic overhead: (1) Time Hutchinson trace estimation (100 samples). (2) Time SVD computation on activation covariance. (3) Time power iteration for eigenvalue estimates. (4) Sum total diagnostic time and express as fraction of single forward pass. (5) Repeat for models of varying size (ResNet-50, ResNet-152, ViT-B/32, ViT-L/14, LLaM-7B). Metric: Diagnostic overhead should be < 5% of a single forward pass, and scale sub-linearly with model parameters.",
+      "evaluation_metrics": [
+        "diagnostic time (seconds)",
+        "overhead as % of forward pass",
+        "scaling exponent with model size"
+      ]
+    },
+    {
+      "name": "Ablation: Diagnostic Component Importance",
+      "description": "Systematically ablate diagnostic components: (1) Routing using only Hessian conditioning (no feature entanglement). (2) Routing using only feature entanglement (no Hessian). (3) Routing using both (full method). (4) Routing using random precision assignment (baseline). For each, measure accuracy drop under a fixed target compression ratio (e.g., 4x). Metric: Accuracy drop should increase monotonically as diagnostic information is removed.",
+      "evaluation_metrics": [
+        "accuracy drop under fixed compression",
+        "variance across 5 random seeds"
+      ]
+    },
+    {
+      "name": "Cross-Architecture Generalization",
+      "description": "Train routing diagnostics on ResNet-50 (compute spectral estimates and thresholds). Apply learned thresholds to: (a) ResNet-101, (b) ResNet-152, (c) EfficientNet-B4, (d) ViT-B/32. Measure whether diagnostics transfer without recomputation. Metric: Accuracy drop should not degrade by > 1% relative to recomputed diagnostics.",
+      "evaluation_metrics": [
+        "accuracy drop on target model",
+        "relative degradation vs. recomputed diagnostics"
+      ]
+    },
+    {
+      "name": "Multi-Seed Variance Quantification",
+      "description": "Run full pipeline (diagnostic computation + routing + inference) 10 times with different random seeds (for Hutchinson sampling, power iteration initialization). Measure mean and confidence interval (95%) of: (1) Diagnostic scores per layer. (2) Allocated bit-widths per layer. (3) Final model accuracy. Metric: 95% confidence intervals should be tight (< 0.5% accuracy variance).",
+      "evaluation_metrics": [
+        "mean diagnostic score",
+        "95% CI width",
+        "bit-width stability",
+        "accuracy variance"
+      ]
+    },
+    {
+      "name": "Comparison Against State-of-the-Art Quantization",
+      "description": "Benchmark against: (1) BRECQ (post-training, heuristic). (2) OCS (post-training, learned). (3) QAT with mixed-precision (training-based). (4) Uniform INT8/INT4. On ImageNet classification: measure accuracy, latency, model size. Curvature-routed method should match or exceed BRECQ/OCS accuracy with zero training overhead.",
+      "evaluation_metrics": [
+        "top-1 accuracy",
+        "latency (ms/image)",
+        "model size (MB)",
+        "training time (hours)",
+        "inference time overhead vs. FP32"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    {
+      "risk": "Spectral estimates may be noisy for very small layers or layers with rank-deficient activations",
+      "mitigation": "Use regularized SVD (add small diagonal perturbation), increase Hutchinson sample count for layers with low effective rank, validate noise levels empirically"
+    },
+    {
+      "risk": "PAC-Bayes bounds may be loose, leading to overly conservative precision allocation",
+      "mitigation": "Empirically calibrate bound tightness constants via validation set; use data-dependent PAC-Bayes variants (e.g., Catoni's bound) which are typically tighter"
+    },
+    {
+      "risk": "Hessian-based diagnostics assume smooth loss landscape; may fail for ReLU networks with sharp transitions",
+      "mitigation": "Test on both smooth (softmax) and non-smooth (ReLU) architectures; use local smoothing proxies (e.g., Moreau envelope) if needed"
+    },
+    {
+      "risk": "Feature entanglement metric may not capture all aspects of quantization sensitivity (e.g., outlier magnitudes)",
+      "mitigation": "Augment with additional metrics: activation range statistics, weight distribution skewness; perform ablations to validate each component's contribution"
+    },
+    {
+      "risk": "Diagnostic overhead could exceed 5% on very large models if SVD is not optimized",
+      "mitigation": "Use randomized SVD with early stopping; cache spectral estimates if model is used repeatedly; enforce strict time budgets in implementation"
+    },
+    {
+      "risk": "Routing algorithm may not generalize across datasets or domains (e.g., ImageNet → medical imaging)",
+      "mitigation": "Evaluate on multiple datasets (CIFAR-10, ImageNet, medical imaging benchmarks); report per-dataset variance; investigate whether diagnostics are dataset-independent"
+    },
+    {
+      "risk": "Limited scalability: computational cost of spectral estimation may grow prohibitively for billion-parameter models",
+      "mitigation": "Use block-level diagnostics (estimate Hessian per residual block rather than per-layer); employ sketching techniques (e.g., random projections) for dimensionality reduction"
+    },
+    {
+      "risk": "Precision routing assumes independence between layers; may miss inter-layer quantization effects",
+      "mitigation": "Validate assumption empirically by comparing sequential quantization vs. joint optimization; if significant interactions exist, extend to pairwise diagnostics on critical layer pairs"
+    }
+  ]
+}

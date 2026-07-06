@@ -1,0 +1,34 @@
+{
+  "Name": "TrainingFreeLatencyAwareInference",
+  "Title": "Training-Free Latency-Aware Adaptive Inference for Large Language Models",
+  "Short Hypothesis": "We hypothesize that a training-free, latency-aware adaptive inference framework can dynamically adjust computational resources based on real-time activation geometry, ensuring strict wall-clock latency targets while maintaining high accuracy.",
+  "Related Work": "Recent works such as dLLM-Cache, DAEDAL, and CadLLM have explored training-free methods to improve the efficiency and performance of large language models (LLMs) and diffusion-based LLMs (dLLMs). These methods focus on caching, variable-length denoising, and confidence-aware calibration to reduce inference latency. However, they often lack a unified framework that dynamically adjusts computational resources based on real-time activation geometry. Our proposal aims to fill this gap by introducing a novel, training-free, latency-aware adaptive inference framework that leverages spectral geometry to optimize resource allocation.",
+  "Abstract": "We propose a training-free, latency-aware adaptive inference framework for large language models (LLMs) that dynamically adjusts computational resources based on real-time activation geometry. By computing local activation covariances and spectral condition numbers, our framework identifies tokens that are robust to low-precision computation and those that require higher precision. This allows for a precision-switching policy that enforces strict wall-clock latency targets without compromising accuracy. We theoretically ground our approach in PAC-Bayes bounds, linking spectral conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across diverse benchmarks, our method achieves a superior throughput-accuracy Pareto frontier compared to existing static and heuristic mixed-precision baselines.",
+  "Experiments": [
+    {
+      "Name": "Spectral Condition Number Analysis",
+      "Description": "Compute the local activation covariances and spectral condition numbers for a set of benchmark tasks and input distributions. Analyze the correlation between these metrics and the sensitivity of hidden states to quantization.",
+      "Metrics": "Spectral condition number, quantization sensitivity, and accuracy retention."
+    },
+    {
+      "Name": "Precision-Switching Policy Evaluation",
+      "Description": "Implement a precision-switching policy based on the spectral condition number and evaluate its impact on inference latency and accuracy. Compare the results with static and heuristic mixed-precision baselines.",
+      "Metrics": "Inference latency, throughput, and accuracy."
+    },
+    {
+      "Name": "Latency-Aware Dynamic Compute Throttling",
+      "Description": "Introduce a dynamic compute-throttling scheduler that adaptively routes tokens through fewer layers or prunes attention heads when subspace stability exceeds a calibrated threshold. Evaluate the performance under strict wall-clock latency targets.",
+      "Metrics": "Wall-clock latency, accuracy, and resource utilization."
+    },
+    {
+      "Name": "Adversarial and Out-of-Distribution Robustness",
+      "Description": "Test the robustness of the proposed framework under adversarial attacks and out-of-distribution inputs. Measure the accuracy retention and computational efficiency.",
+      "Metrics": "Robustness to adversarial attacks, out-of-distribution accuracy, and computational efficiency."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The spectral condition number may not capture all aspects of activation geometry, potentially leading to suboptimal precision switching.",
+    "The dynamic compute-throttling scheduler could introduce additional overhead, affecting overall latency.",
+    "The framework's performance may vary across different model architectures and input distributions, requiring extensive benchmarking and validation."
+  ]
+}

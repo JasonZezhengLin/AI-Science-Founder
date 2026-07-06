@@ -1,0 +1,19 @@
+{
+  "Name": "task_relevant_mutual_info_compression",
+  "Title": "Compression for Generalization: Optimizing Task-Relevant Mutual Information",
+  "Short Hypothesis": "Explicitly optimizing for task-relevant mutual information during model compression leads to better generalization performance compared to minimizing distortion alone, as it ensures the compressed model retains only the information necessary for the task.",
+  "Related Work": "Recent work in information-theoretic model compression focuses on rate-distortion bounds (e.g., 'Lossy Compression with Gaussian Diffusion') and generalization bounds (e.g., 'Rate-Distortion Theoretic Generalization Bounds for Stochastic Learning Algorithms'). However, these approaches do not explicitly optimize for task-relevant mutual information. Our proposal bridges this gap by aligning compression with the information bottleneck principle, ensuring that the compressed model retains only the information necessary for the task.",
+  "Abstract": "Model compression is a key technique for deploying deep learning models in resource-constrained environments. However, existing compression methods often focus on minimizing distortion or maximizing compression efficiency, without explicitly considering the task-relevance of the retained information. We propose a novel approach that optimizes for task-relevant mutual information during compression, ensuring that the compressed model retains only the information necessary for the task. We derive theoretical bounds on the bits-per-weight needed to preserve predictive sufficiency and validate our approach empirically on standard benchmarks. Our results show that optimizing for task-relevant mutual information leads to better generalization performance compared to minimizing distortion alone, providing a tighter operational bound on compression efficiency.",
+  "Experiments": [
+    "Compress ResNet-18 on CIFAR-10 using our proposed method and compare generalization performance with traditional quantization and pruning baselines.",
+    "Evaluate the trade-off between compression ratio and task-relevant mutual information on ImageNet using a pre-trained ViT model.",
+    "Measure the impact of task-relevant mutual information optimization on robustness to distribution shifts using the WILDS benchmarks.",
+    "Compare the proposed method with state-of-the-art compression techniques in terms of bits-per-weight and generalization error."
+  ],
+  "Risk Factors and Limitations": [
+    "Estimating task-relevant mutual information accurately may be challenging, especially for high-dimensional models.",
+    "The proposed method may introduce additional computational overhead during compression, though this is mitigated by using efficient estimators.",
+    "The theoretical bounds may be difficult to derive for complex architectures, requiring simplifying assumptions.",
+    "The approach may not generalize well to tasks where the task-relevant information is not easily separable from noise."
+  ]
+}

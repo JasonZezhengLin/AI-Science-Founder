@@ -1,0 +1,79 @@
+{
+  "config": "A",
+  "model": "deepseek/deepseek-chat",
+  "cap_usd": 9.0,
+  "started": "2026-07-05T18:34:38.849277",
+  "cumulative_before_run_usd": 0.0,
+  "founders": [
+    {
+      "founder_id": "founder_1",
+      "config": "A",
+      "stages": {
+        "ideation": {
+          "cost_usd": 0.00225315,
+          "started": "2026-07-05T18:34:38.851748",
+          "ended": "2026-07-05T18:35:02.696250",
+          "status": "completed",
+          "idea_title": "Dual-Objective Optimization for Robust and Interpretable Simple Models"
+        },
+        "experiment": {
+          "cost_usd": 0.00417348,
+          "started": "2026-07-05T18:35:02.701093",
+          "ended": "2026-07-05T18:36:30.156016",
+          "status": "completed",
+          "best_metric": 0.0,
+          "cycle_dir": "/home/zezhenglin/founder/runs/full_pipeline/founder_1/cycle_1"
+        },
+        "writeup_pdf": {
+          "cost_usd": 0.03247224,
+          "started": "2026-07-05T18:36:30.158534",
+          "ended": "2026-07-05T18:40:56.625566",
+          "status": "failed",
+          "pdf_path": null,
+          "text_path": null
+        }
+      },
+      "artifacts": {
+        "idea_json": "/home/zezhenglin/founder/runs/full_pipeline/founder_1/cycle_1/idea.json",
+        "experiment_result_json": "/home/zezhenglin/founder/runs/full_pipeline/founder_1/cycle_1/experiment_result.json"
+      },
+      "status": "failed_writeup",
+      "round_total_usd": 0.03889887
+    },
+    {
+      "founder_id": "founder_2",
+      "config": "A",
+      "stages": {
+        "ideation": {
+          "cost_usd": 0.00189152,
+          "started": "2026-07-05T18:40:56.628616",
+          "ended": "2026-07-05T18:41:09.921362",
+          "status": "completed",
+          "idea_title": "Causal Reasoning for Robust Machine Learning Under Distributional Shifts"
+        },
+        "experiment": {
+          "cost_usd": 0.00377597,
+          "started": "2026-07-05T18:41:09.925145",
+          "ended": "2026-07-05T18:42:01.721594",
+          "status": "completed",
+          "best_metric": 0.0,
+          "cycle_dir": "/home/zezhenglin/founder/runs/full_pipeline/founder_2/cycle_1"
+        },
+        "writeup_pdf": {
+          "cost_usd": 0.03336011,
+          "started": "2026-07-05T18:42:01.724271",
+          "ended": "2026-07-05T18:47:00.995852",
+          "status": "failed",
+          "pdf_path": null,
+          "text_path": null
+        }
+      },
+      "artifacts": {
+        "idea_json": "/home/zezhenglin/founder/runs/full_pipeline/founder_2/cycle_1/idea.json",
+        "experiment_result_json": "/home/zezhenglin/founder/runs/full_pipeline/founder_2/cycle_1/experiment_result.json"
+      },
+      "status": "failed_writeup",
+      "round_total_usd": 0.0390276
+    }
+  ]
+}

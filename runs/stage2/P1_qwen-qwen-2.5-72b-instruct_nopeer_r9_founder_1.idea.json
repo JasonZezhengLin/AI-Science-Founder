@@ -1,0 +1,20 @@
+{
+  "Name": "optimizing_gpu_inference_with_dynamic_tiling",
+  "Title": "Dynamic Tiling for GPU Inference Optimization",
+  "Short Hypothesis": "Dynamic tiling, where tile sizes are adjusted based on real-time profiling and workload characteristics, can significantly improve the performance and efficiency of deep learning inference on GPUs.",
+  "Related Work": "Existing work in GPU optimization for deep learning inference, such as TensorRT and Souffle, focuses on static optimizations and pre-defined tiling strategies. These approaches often fail to adapt to the dynamic nature of real-world workloads, leading to suboptimal performance. Our proposal introduces a dynamic tiling mechanism that adjusts tile sizes in real-time based on profiling data, thereby optimizing for both latency and throughput.",
+  "Abstract": "Deep learning inference on GPUs is often bottlenecked by inefficient memory access patterns and suboptimal kernel execution. Traditional approaches use static tiling strategies that do not account for the dynamic nature of real-world workloads. This proposal introduces a dynamic tiling mechanism that adjusts tile sizes based on real-time profiling and workload characteristics. By dynamically tuning the tile sizes, we aim to optimize memory access, reduce HBM round-trips, and improve kernel occupancy. We will evaluate this approach using a variety of deep learning models and benchmarks on an NVIDIA A100 GPU, comparing it against static tiling strategies and state-of-the-art frameworks like TensorRT and Souffle. Our preliminary results suggest that dynamic tiling can lead to significant performance improvements, particularly in latency-critical applications.",
+  "Experiments": [
+    "1. **Baseline Measurement**: Measure the performance of deep learning models using static tiling strategies with default tile sizes. Collect metrics such as wall-clock latency, throughput, achieved bandwidth, and warp stall reasons using nvprof and Nsight.",
+    "2. **Dynamic Tiling Implementation**: Develop a dynamic tiling mechanism that adjusts tile sizes based on real-time profiling data. This includes monitoring memory access patterns, kernel occupancy, and warp stall reasons. Implement this mechanism in a custom inference engine.",
+    "3. **A/B Latency Races**: Conduct A/B latency races between the static tiling and dynamic tiling implementations. Use the same models and benchmarks to ensure a fair comparison. Report p50/p99 latency, throughput under batching, and energy per token.",
+    "4. **Profiling and Ablation Studies**: Collect detailed profiling data for both static and dynamic tiling implementations. Analyze the impact of dynamic tiling on memory bandwidth utilization, register allocation, and bank conflicts. Perform ablation studies to attribute performance gains to specific hardware factors.",
+    "5. **Scalability and Robustness**: Test the dynamic tiling mechanism across different GPU architectures (e.g., RTX 3080, A100) and workloads. Evaluate the robustness of the mechanism under varying batch sizes and model complexities. Report variance across runs and ensure reproducibility."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Overfitting to Benchmarks**: The dynamic tiling mechanism may overfit to the specific benchmarks used in the experiments, leading to suboptimal performance on unseen workloads.",
+    "2. **Increased Overhead**: The real-time profiling and adjustment of tile sizes may introduce additional overhead, potentially offsetting the performance gains.",
+    "3. **Complexity of Implementation**: Implementing a dynamic tiling mechanism requires careful tuning and validation, which can be time-consuming and resource-intensive.",
+    "4. **Limited Generalizability**: The effectiveness of dynamic tiling may vary across different GPU architectures and models, limiting the generalizability of the approach."
+  ]
+}

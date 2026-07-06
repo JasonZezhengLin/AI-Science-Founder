@@ -1,0 +1,20 @@
+{
+  "Name": "curvature-aware_mixed-precision_routing",
+  "Title": "Curvature-Aware Mixed-Precision Routing for Efficient Model Inference",
+  "Short Hypothesis": "The curvature of the loss landscape can serve as a deterministic proxy for mixed-precision quantization, enabling efficient precision allocation without the need for training or calibration data.",
+  "Related Work": "Existing mixed-precision quantization methods rely on heuristic proxies or calibration data, often leading to suboptimal precision allocation (EMQ, SNIP). Recent works like InfoQ attempt to capture global information flow but still lack a rigorous mathematical foundation. Our approach uniquely leverages the curvature of the loss landscape, providing a deterministic, training-free proxy that aligns precision allocation with the underlying geometric properties of the model.",
+  "Abstract": "Mixed-precision quantization offers a promising avenue for efficient model inference, but existing methods often rely on heuristic proxies or calibration data, which can be suboptimal and impractical in privacy-sensitive scenarios. This paper introduces a novel curvature-aware mixed-precision routing framework that leverages the curvature of the loss landscape to deterministically allocate precision levels. By quantifying the local curvature via Hessian-based diagnostics, we establish a direct link between precision allocation and the model's geometric properties. Our approach eliminates the need for training or calibration data, providing a mathematically grounded and computationally efficient solution. We validate our framework on a range of vision and language models, demonstrating superior accuracy-efficiency trade-offs compared to state-of-the-art methods.",
+  "Experiments": [
+    "Experiment 1: Curvature Diagnostics - Compute the Hessian matrix for each layer of ResNet-18 and ViT-B/16 to quantify the local curvature. Use this curvature to rank layers by sensitivity.",
+    "Experiment 2: Precision Allocation - Assign higher precision to layers with higher curvature and lower precision to layers with lower curvature. Evaluate the accuracy on ImageNet and COCO datasets.",
+    "Experiment 3: Comparison with Baselines - Compare our method against EMQ, SNIP, and InfoQ in terms of accuracy, inference speed, and memory usage.",
+    "Experiment 4: Ablation Study - Ablate the curvature-based precision allocation to understand its impact on model performance.",
+    "Evaluation Metrics: Accuracy, FLOPs, memory usage, and inference time."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk 1: The Hessian computation may be computationally expensive for very large models.",
+    "Risk 2: The curvature-based proxy may not generalize well to models with non-convex loss landscapes.",
+    "Limitation 1: The method assumes that the curvature is a sufficient proxy for precision allocation, which may not hold for all architectures.",
+    "Limitation 2: The framework currently supports only post-training quantization and may not be directly applicable to training-time quantization."
+  ]
+}

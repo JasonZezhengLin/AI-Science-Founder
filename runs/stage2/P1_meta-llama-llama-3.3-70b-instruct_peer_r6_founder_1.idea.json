@@ -1,0 +1,18 @@
+{
+  "Name": "gpu_kernel_optimization",
+  "Title": "Optimizing Language Model Inference on Commodity GPUs through Kernel-Level Engineering",
+  "Short Hypothesis": "By optimizing kernel-level throughput and memory-bandwidth utilization, we can achieve significant speedups in language model inference on commodity GPUs without sacrificing accuracy.",
+  "Related Work": "Previous work has focused on optimizing language model architectures or using specialized hardware. Our proposal differs by focusing on kernel-level optimization and commodity GPUs, building on recent advances in efficient inference optimization, such as Spectral Latent Steering.",
+  "Abstract": "We propose a novel approach to optimizing language model inference on commodity GPUs through kernel-level engineering. Our approach involves optimizing fused CUDA/Triton kernels, memory-bandwidth utilization, KV-cache layout, and tensor-core occupancy to achieve significant speedups in language model inference. We will evaluate our approach using a range of language models and datasets, and demonstrate improvements in wall-clock latency, tokens-per-second, and energy per token.",
+  "Experiments": [
+    "Optimize kernel-level throughput by fusing CUDA/Triton kernels and reducing memory-bandwidth utilization",
+    "Evaluate the impact of KV-cache layout and tensor-core occupancy on inference speed",
+    "Conduct ablation studies to identify the most important factors contributing to speedups",
+    "Compare our approach to existing optimization methods, such as Spectral Latent Steering"
+  ],
+  "Risk Factors and Limitations": [
+    "Limited generalizability to all language models or datasets",
+    "Requires significant expertise in kernel-level optimization and commodity GPU architecture",
+    "Potential for increased energy consumption or thermal issues"
+  ]
+}

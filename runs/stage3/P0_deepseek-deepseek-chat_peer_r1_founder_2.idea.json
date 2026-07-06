@@ -1,0 +1,20 @@
+{
+  "Name": "spectral_robustness_probes",
+  "Title": "Spectral Robustness Probes: Training-Free Diagnosis of Neural Network Stability via Activation Geometry",
+  "Short Hypothesis": "The spectral properties of neural network activations during inference can serve as training-free, computationally efficient proxies for model robustness and generalization stability under distribution shifts.",
+  "Related Work": "Existing work on spectral analysis in neural networks focuses primarily on weight matrices (Rashid, 2026) or static layer-wise diagnostics (Katende, 2026). Recent approaches like Spectral Quantization Routing (founder_1) use spectral properties for precision allocation but don't generalize to broader robustness assessment. Our proposal differs by introducing a real-time, activation-based spectral diagnostic framework that requires neither training nor architectural changes, focusing specifically on robustness assessment rather than optimization.",
+  "Abstract": "We introduce Spectral Robustness Probes (SRP), a training-free framework for diagnosing neural network stability via real-time analysis of activation geometry. SRP computes spectral properties (condition number, singular value decay rate) of hidden states during inference, using these as proxies for model robustness under distribution shifts. By performing randomized SVD on activation matrices with negligible computational overhead, SRP provides interpretable metrics that correlate with generalization performance across domains. We validate SRP on WILDS benchmarks, demonstrating its ability to predict model failure modes under natural distribution shifts. Our approach offers a computationally efficient alternative to traditional robustness evaluation methods, requiring only a single forward pass per sample. Theoretical analysis links SRP metrics to PAC-Bayes generalization bounds, while empirical results show strong correlations between spectral diagnostics and actual robustness metrics across diverse architectures and tasks.",
+  "Experiments": [
+    "Single-forward-pass spectral analysis: Implement randomized SVD on hidden states to compute condition numbers and singular value decay rates during inference.",
+    "Robustness correlation study: Evaluate correlation between SRP metrics and actual robustness scores on WILDS benchmark datasets.",
+    "Failure prediction: Assess SRP's ability to predict model failures under distribution shifts using ROC analysis.",
+    "Computational efficiency: Measure inference time overhead of SRP compared to traditional robustness evaluation methods.",
+    "Cross-domain generalization: Test SRP's applicability across different architectures (CNNs, Transformers) and tasks (classification, regression)."
+  ],
+  "Risk Factors and Limitations": [
+    "Potential false positives/negatives in robustness prediction",
+    "Overhead may vary with model architecture and batch size",
+    "Limited applicability to extremely low-latency inference scenarios",
+    "Dependence on activation patterns may not capture all robustness aspects"
+  ]
+}

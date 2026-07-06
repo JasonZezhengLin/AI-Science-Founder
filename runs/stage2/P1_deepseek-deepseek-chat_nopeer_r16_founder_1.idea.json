@@ -1,0 +1,20 @@
+{
+  "Name": "kv_cache_optimization",
+  "Title": "Efficient KV-Cache Management for Long-Context LLM Inference via Hardware-Aware Kernel Fusion",
+  "Short Hypothesis": "By fusing KV-cache updates with attention computations in CUDA/Triton kernels and optimizing memory-bandwidth utilization, we can reduce latency and improve throughput for long-context LLM inference on commodity GPUs.",
+  "Related Work": "Existing KV-cache optimizations focus on compression or sparsity (e.g., FlashAttention, Sparse Attention), but these often introduce overhead or fail to fully exploit hardware capabilities. Our approach differs by directly fusing KV-cache updates with attention kernels, minimizing memory round-trips and leveraging tensor-core occupancy.",
+  "Abstract": "Long-context LLM inference faces significant bottlenecks due to inefficient KV-cache management, particularly in memory-bound operations. We propose a novel hardware-aware optimization that fuses KV-cache updates with attention computations in CUDA/Triton kernels. By reducing memory round-trips and improving tensor-core utilization, our method achieves measurable speedups in latency and throughput for long-context inference on commodity GPUs. We validate our approach through detailed profiling, including warp stall analysis, achieved bandwidth, and arithmetic intensity, demonstrating end-to-end improvements in p50/p99 latency and tokens-per-second metrics.",
+  "Experiments": [
+    "Implement fused KV-cache update and attention kernels in CUDA/Triton.",
+    "Profile baseline and optimized kernels using Nsight Compute, measuring warp stalls, HBM utilization, and arithmetic intensity.",
+    "Benchmark p50/p99 latency and tokens-per-second on a commodity GPU (e.g., NVIDIA A100) with long-context inputs (e.g., 8K tokens).",
+    "Compare energy per token and throughput under batching scenarios.",
+    "Validate robustness across multiple GPUs and driver versions, reporting variance as measured jitter."
+  ],
+  "Risk Factors and Limitations": [
+    "Fusion may increase register pressure, limiting occupancy.",
+    "Optimizations may not generalize to all GPU architectures.",
+    "Long-context inputs may expose edge cases in kernel design.",
+    "Profiling overhead could obscure real-world benefits."
+  ]
+}

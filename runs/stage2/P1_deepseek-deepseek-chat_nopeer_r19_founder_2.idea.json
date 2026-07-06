@@ -1,0 +1,20 @@
+{
+  "Name": "task_relevant_compression_continual_learning",
+  "Title": "Task-Relevant Compression for Continual Learning: An Information-Theoretic Approach",
+  "Short Hypothesis": "By dynamically allocating bits to preserve task-relevant information during model compression, we can enable efficient continual learning without catastrophic forgetting, achieving near-optimal compression while maintaining performance across tasks.",
+  "Related Work": "Existing works like 'An Information-Theoretic Justification for Model Pruning' and 'Information Compression in the AI Era' focus on applying rate-distortion theory to model compression but do not address continual learning. Continual learning literature typically uses architectural modifications or regularization techniques, but no work integrates information-theoretic compression with task-relevant information preservation across multiple tasks. This proposal bridges these gaps by leveraging the information bottleneck framework to dynamically allocate bits for task-relevant information, distinguishing it from prior work.",
+  "Abstract": "Continual learning aims to enable models to learn sequentially from multiple tasks without forgetting previously learned knowledge. However, existing approaches often rely on architectural modifications or regularization techniques, which can be computationally expensive or suboptimal. We propose a novel information-theoretic approach to continual learning that dynamically allocates bits during model compression to preserve task-relevant information. By framing the problem as a rate-distortion optimization with task-relevant distortion measures, we derive bounds on the bits required to maintain performance across tasks. Our approach leverages the information bottleneck framework to identify and prioritize information crucial for each task, enabling efficient compression without catastrophic forgetting. We validate our method on standard continual learning benchmarks, demonstrating its ability to achieve near-optimal compression while maintaining competitive performance across tasks. Our results highlight the potential of information-theoretic principles to address the challenges of continual learning.",
+  "Experiments": [
+    "Empirical validation on standard continual learning benchmarks (e.g., Split-MNIST, CIFAR-100) to evaluate task performance and compression efficiency.",
+    "Compare our approach against state-of-the-art continual learning methods (e.g., EWC, GEM) and compression techniques (e.g., pruning, quantization).",
+    "Measure task-relevant information preservation using mutual information estimators (e.g., InfoNCE) and task performance metrics (e.g., accuracy).",
+    "Analyze the trade-off between compression rate and task performance across multiple tasks using rate-distortion curves.",
+    "Evaluate generalization performance using PAC-Bayes bounds and MDL-based metrics."
+  ],
+  "Risk Factors and Limitations": [
+    "Theoretical assumptions about task-relevant information may not hold in complex real-world scenarios.",
+    "Mutual information estimation in high-dimensional spaces can be challenging and computationally expensive.",
+    "The approach may require task-specific distortion measures, limiting its generalizability.",
+    "Empirical validation may be constrained by the availability of continual learning benchmarks with diverse task structures."
+  ]
+}

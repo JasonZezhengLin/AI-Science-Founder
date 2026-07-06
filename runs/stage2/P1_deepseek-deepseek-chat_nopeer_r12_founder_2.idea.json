@@ -1,0 +1,20 @@
+{
+  "Name": "layerwise_bit_allocation_rate_distortion",
+  "Title": "Optimal Bit Allocation Across Neural Network Layers via Rate-Distortion Theory",
+  "Short Hypothesis": "Allocating bits across neural network layers based on their task-relevant information content minimizes task-relevant distortion, leading to more efficient compression.",
+  "Related Work": "Existing works like Isik et al. (2021) and Bu et al. (2019) explore model compression using rate-distortion theory but do not address layer-wise bit allocation. Our proposal fills this gap by introducing a principled framework for distributing bits across layers based on mutual information and task-relevant distortion.",
+  "Abstract": "Model compression is a critical technique for deploying neural networks in resource-constrained environments. While existing methods focus on overall compression ratios, they often overlook the varying contributions of different layers to the task. We propose a novel approach to optimize bit allocation across layers using rate-distortion theory and mutual information. Our method quantifies the task-relevant information in each layer and allocates bits to minimize task-relevant distortion. We derive theoretical bounds on the achievable compression rates and validate our approach through experiments on benchmark datasets. Results show that layer-wise bit allocation outperforms uniform compression, achieving higher accuracy at lower bit rates. This work bridges information theory with practical model compression, providing a principled framework for efficient neural network deployment.",
+  "Experiments": [
+    "Evaluate mutual information between each layer and the task output using InfoNCE-style estimators.",
+    "Derive rate-distortion bounds for each layer based on mutual information and task-relevant distortion.",
+    "Implement layer-wise bit allocation using quantization and pruning, guided by the derived bounds.",
+    "Compare performance with uniform compression baselines on CIFAR-10, ImageNet, and MNIST datasets.",
+    "Metrics: Task accuracy, compression ratio, and task-relevant distortion (e.g., KL divergence between original and compressed model outputs)."
+  ],
+  "Risk Factors and Limitations": [
+    "Estimating mutual information accurately may be challenging in high-dimensional spaces.",
+    "The method assumes task-relevant information can be quantified, which may not hold for all tasks.",
+    "Layer-wise bit allocation may increase implementation complexity compared to uniform compression.",
+    "Theoretical bounds depend on assumptions about the source distribution, which may not always hold in practice."
+  ]
+}

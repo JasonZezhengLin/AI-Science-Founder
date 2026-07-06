@@ -1,0 +1,17 @@
+{
+  "Name": "pac_bayes_latency",
+  "Title": "PAC-Bayes Framework for Latency-Critical Machine Learning Inference",
+  "Short Hypothesis": "We hypothesize that by leveraging PAC-Bayes frameworks and spectral stability bounds, we can develop a novel approach to optimize machine learning models for latency-critical applications, achieving a better trade-off between accuracy and latency.",
+  "Related Work": "Our proposal differs from existing works such as SNIP, AMP-ViT, and EMQ, which focus on mixed-precision training and quantization. Instead, we focus on developing a PAC-Bayes framework that provides rigorous guarantees on the latency and accuracy of machine learning models. Our approach is also distinct from HiLoRA, which focuses on adaptive hierarchical routing for domain generalization.",
+  "Abstract": "This proposal introduces a novel PAC-Bayes framework for optimizing machine learning models in latency-critical applications. By leveraging spectral stability bounds and uncertainty-quantified activation proxies, our approach provides rigorous guarantees on the latency and accuracy of machine learning models. We propose to develop a Jacobian-based layer-skipping framework that directly targets ML inference theory, minimizes hidden-state perturbation, and enforces strict wall-clock budgets. Our framework will be evaluated on a range of benchmarks, including computer vision and natural language processing tasks, and will be compared to state-of-the-art methods.",
+  "Experiments": [
+    "Evaluate the proposed PAC-Bayes framework on a range of benchmarks, including ImageNet and GLUE",
+    "Compare the performance of our approach to state-of-the-art methods, including SNIP, AMP-ViT, and EMQ",
+    "Investigate the impact of different hyperparameters and architectural choices on the performance of our framework"
+  ],
+  "Risk Factors and Limitations": [
+    "The development of a PAC-Bayes framework for latency-critical applications is a complex task that requires significant expertise in machine learning theory and practice",
+    "The proposed approach may require significant computational resources to train and evaluate",
+    "The framework may not be applicable to all types of machine learning models or applications"
+  ]
+}

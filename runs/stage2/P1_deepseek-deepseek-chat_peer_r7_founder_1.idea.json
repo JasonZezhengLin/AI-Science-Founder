@@ -1,0 +1,21 @@
+{
+  "Name": "profiling_guided_kernel_fusion",
+  "Title": "Profiling-Guided Kernel Fusion for Memory-Bandwidth-Optimized Transformer Inference",
+  "Short Hypothesis": "Transformer inference on commodity GPUs is primarily memory-bandwidth-bound, and profiling-guided kernel fusion can significantly reduce memory round-trips and improve tensor-core occupancy, leading to measurable wall-clock latency improvements.",
+  "Related Work": "Recent work has explored collaborative inference (SplitLLM), PIM acceleration (PAISE), FPGA optimizations (CHOSEN, Enhancing Transformer Inference Efficiency on FPGA), and quantization (Quantix). However, these approaches either focus on high-level architectural changes or hardware-specific optimizations. Our proposal distinguishes itself by targeting kernel-level throughput optimization through profiling-guided fusion, directly addressing the memory-bandwidth bottleneck on commodity GPUs. This is not a trivial extension, as it requires detailed profiling and CUDA/Triton kernel engineering to achieve measurable speedups.",
+  "Abstract": "Transformer inference on commodity GPUs is increasingly memory-bandwidth-bound, limiting throughput and scalability. We propose profiling-guided kernel fusion, a systematic approach to optimize memory-bandwidth utilization and tensor-core occupancy through CUDA/Triton kernel engineering. By profiling transformer inference workloads, we identify critical memory-bound operations and fuse them into optimized kernels that minimize memory round-trips and maximize tensor-core utilization. Our approach integrates a lightweight profiler to measure achieved bandwidth, warp stall reasons, and arithmetic intensity, guiding kernel fusion decisions. We demonstrate measurable wall-clock latency improvements on single-GPU setups for transformer models, reporting p50/p99 latency, throughput under batching, and energy per token. Our contributions include a reproducible benchmark harness, profiled kernel traces, and end-to-end speedups that practitioners can deploy immediately.",
+  "Experiments": [
+    "Profile transformer inference workloads (e.g., GPT-2, Llama2-7B) on a commodity GPU to identify memory-bound operations and bottlenecks.",
+    "Fuse identified operations into optimized CUDA/Triton kernels, minimizing memory round-trips and maximizing tensor-core occupancy.",
+    "Measure achieved bandwidth, warp stall reasons, and arithmetic intensity before and after kernel fusion.",
+    "Compare wall-clock latency (p50/p99), throughput under batching, and energy per token against baseline implementations.",
+    "Evaluate the impact of kernel fusion on end-to-end inference speedups across different batch sizes and sequence lengths.",
+    "Report variance across runs as measured jitter, ensuring reproducibility with pinned driver/CUDA versions and archived trace files."
+  ],
+  "Risk Factors and Limitations": [
+    "Kernel fusion may introduce additional complexity in kernel implementation, requiring careful engineering to avoid performance regressions.",
+    "The approach may be limited by the specific architecture of the GPU, and optimizations may not generalize across different hardware platforms.",
+    "Profiling overhead could impact measured speedups, requiring careful calibration of the profiler to minimize its impact.",
+    "The approach may not yield significant improvements for compute-bound workloads, limiting its applicability to memory-bandwidth-bound scenarios."
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "Name": "sparse_attention_kernel_optimization",
+  "Title": "Hardware-Aware Sparse Attention Kernel Optimization for Transformer Inference",
+  "Short Hypothesis": "By designing fused CUDA/Triton kernels that explicitly optimize for sparse attention patterns (e.g., block-sparse, sliding window), we can achieve measurable speedups in transformer inference on commodity GPUs, as measured by end-to-end wall-clock latency and tokens-per-second.",
+  "Related Work": "Existing work on sparse attention (e.g., Longformer, BigBird) focuses on algorithmic improvements but lacks hardware-level optimizations. Recent efforts like FlashAttention and TritonMoE demonstrate the potential of kernel-level optimizations but do not address sparse attention specifically. This proposal bridges this gap by focusing on hardware-aware kernel design for sparse attention, leveraging profiler-guided optimizations (e.g., memory coalescing, warp stall reduction) to achieve measurable speedups.",
+  "Abstract": "Sparse attention mechanisms are widely used in transformer models to reduce computational complexity, but their inference efficiency remains limited by suboptimal hardware utilization. This paper presents a systematic approach to optimizing sparse attention kernels for transformer inference on commodity GPUs. We design fused CUDA/Triton kernels that explicitly optimize for common sparse attention patterns (e.g., block-sparse, sliding window), leveraging profiler-guided techniques such as memory coalescing, warp stall reduction, and tensor-core utilization. We evaluate our approach on a range of transformer models (e.g., Longformer, BigBird) using end-to-end wall-clock latency and tokens-per-second as metrics. Our results demonstrate measurable speedups over existing implementations, with detailed profiler traces attributing gains to specific hardware optimizations. Our contributions include open-source kernels, reproducible benchmarks, and guidelines for hardware-aware sparse attention optimization.",
+  "Experiments": [
+    "1. **Baseline Comparison**: Measure end-to-end latency and tokens-per-second for existing sparse attention implementations (e.g., Longformer, BigBird) on NVIDIA A100.",
+    "2. **Kernel Optimization**: Design fused CUDA/Triton kernels for block-sparse and sliding window attention patterns, optimizing for memory coalescing, warp stalls, and tensor-core utilization.",
+    "3. **Profiler-Guided Tuning**: Use nvprof/Nsight to identify bottlenecks (e.g., HBM round-trips, bank conflicts) and iteratively refine kernels.",
+    "4. **A/B Latency Race**: Compare optimized kernels against baselines under fixed accuracy budgets, reporting p50/p99 latency and throughput under batching.",
+    "5. **Energy Efficiency**: Measure energy per token for optimized kernels versus baselines.",
+    "6. **Reproducibility**: Archive trace files, commit benchmark harnesses, and pin driver/CUDA versions for reproducibility."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Sparse Pattern Variability**: Different sparse attention patterns may require distinct optimizations, limiting generalizability.",
+    "2. **Hardware-Specificity**: Optimizations tuned for NVIDIA GPUs may not transfer to other architectures (e.g., AMD MI300X).",
+    "3. **Complexity Trade-offs**: Kernel optimizations may introduce additional complexity, requiring careful engineering effort.",
+    "4. **Profiling Overhead**: Detailed profiling may add overhead, potentially masking real-world gains."
+  ]
+}

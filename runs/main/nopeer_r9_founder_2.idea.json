@@ -1,0 +1,20 @@
+{
+  "Name": "training_free_layer_skipping",
+  "Title": "PAC-Bayes-Guided Layer Skipping for Training-Free Latency-Critical Inference",
+  "Short Hypothesis": "A PAC-Bayes-guided layer-skipping mechanism, informed by spectral stability bounds, can achieve training-free, latency-aware inference optimization without compromising model accuracy.",
+  "Related Work": "Existing work on layer-skipping (e.g., SkipNet, BlockDrop) relies on training-based policies, which introduce overhead and limit deployment flexibility. PAC-Bayes theory has been applied to generalization bounds but not to inference optimization. This proposal uniquely combines PAC-Bayes with spectral stability to derive a training-free, latency-aware layer-skipping framework.",
+  "Abstract": "We propose a novel framework for training-free, latency-critical inference optimization using PAC-Bayes-guided layer skipping. By leveraging spectral stability bounds, we derive a mechanism that dynamically skips layers during inference to meet strict latency budgets without requiring additional training. Our approach introduces a PAC-Bayes-based uncertainty metric that quantifies the impact of layer skipping on model accuracy, ensuring minimal perturbation to the inference process. Experiments on standard benchmarks demonstrate that our method achieves state-of-the-art throughput-accuracy Pareto frontiers while maintaining computational frugality. This work bridges the gap between theoretical optimization bounds and practical inference efficiency, offering a scalable solution for latency-critical applications.",
+  "Experiments": [
+    "1. Evaluate the proposed layer-skipping mechanism on CIFAR-10 and ImageNet using ResNet and EfficientNet architectures. Measure throughput (FPS) and accuracy (Top-1/Top-5) under varying latency budgets.",
+    "2. Compare against baseline methods (SkipNet, BlockDrop) and training-free alternatives (random skipping, fixed patterns). Use ablation studies to isolate the impact of PAC-Bayes and spectral stability components.",
+    "3. Quantify the computational overhead of the proposed method (FLOPs, memory usage) and compare it to training-based approaches.",
+    "4. Analyze the spectral stability properties of skipped layers using Jacobian-based metrics and correlate them with accuracy degradation.",
+    "5. Test robustness under structured perturbations (e.g., noise, domain shifts) to validate the stability of the proposed framework."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of the PAC-Bayes metric may vary across architectures, limiting generalizability.",
+    "Layer skipping could introduce instability in models with tightly coupled layers, requiring additional safeguards.",
+    "The method assumes access to spectral stability metrics during inference, which may not always be feasible in resource-constrained environments.",
+    "The framework may struggle with extremely low-latency budgets where skipping layers significantly degrades accuracy."
+  ]
+}

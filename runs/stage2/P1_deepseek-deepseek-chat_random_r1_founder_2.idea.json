@@ -1,0 +1,19 @@
+{
+  "Name": "task_relevant_bit_cost",
+  "Title": "The Minimal Bit-Cost of Model Compression: Task-Relevant Information and Operational Bounds",
+  "Short Hypothesis": "The minimal bit-cost of compressing a neural network while preserving task-relevant information can be characterized by operational bounds derived from rate-distortion theory, and these bounds can guide practical compression algorithms.",
+  "Related Work": "Existing work on model compression (e.g., EMQ, AMP-ViT) focuses on empirical methods like quantization and pruning, often without theoretical guarantees. Rate-distortion theory has been applied to generalization (Sefidgaran et al., 2022) and pruning (Isik et al., 2021), but these studies do not systematically derive operational bounds for task-relevant compression. This proposal distinguishes itself by (1) focusing on task-relevant information preservation, (2) deriving achievable bounds using rate-distortion theory, and (3) validating these bounds empirically.",
+  "Abstract": "Neural network compression is crucial for deploying models on resource-constrained devices, but existing methods lack theoretical guarantees on the minimal bit-cost required to preserve task-relevant information. This paper derives operational bounds on the bits-per-weight needed to maintain predictive sufficiency, using rate-distortion theory and mutual information estimation. We propose a framework that quantifies task-relevance through the information bottleneck principle and derives achievable bounds for compression schemes. Empirical validation on image classification tasks demonstrates that these bounds guide practical algorithms, achieving state-of-the-art compression ratios with minimal accuracy loss. Our results bridge the gap between theoretical limits and practical compression methods, providing a principled approach to model compression.",
+  "Experiments": [
+    "1. **Mutual Information Estimation**: Estimate the mutual information between compressed representations and task labels using InfoNCE-style lower bounds.",
+    "2. **Rate-Distortion Analysis**: Derive achievable bounds on the bits-per-weight required to preserve task-relevant information, using rate-distortion theory.",
+    "3. **Compression Algorithms**: Develop practical compression algorithms guided by the derived bounds, comparing them to state-of-the-art methods.",
+    "4. **Evaluation**: Measure the compression ratio, accuracy, and task-relevant information preservation on CIFAR-10 and ImageNet datasets."
+  ],
+  "Risk Factors and Limitations": [
+    "1. The mutual information estimator may introduce bias or variance, affecting the accuracy of the bounds.",
+    "2. The derived bounds may be loose in practice, limiting their utility for guiding compression algorithms.",
+    "3. The experiments focus on image classification; generalization to other tasks (e.g., NLP) requires further validation.",
+    "4. The computational cost of mutual information estimation may be high for large models, necessitating approximations."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "Name": "latent_inference_with_human_supervision",
+  "Title": "Human-Aligned Latent Inference Under Latency Constraints: A PAC-Bayes Approach",
+  "Short Hypothesis": "We hypothesize that integrating auxiliary information channels in a PAC-Bayes framework can significantly reduce the error floor in human-guided learning while adhering to strict latency constraints in inference.",
+  "Related Work": "Recent works highlight the structural properties of human supervision as an information bottleneck (Rodríguez Domínguez, 2026) and explore PAC-Bayesian learning under uncertain rewards (Ishikawa and Tamano, 2026). However, these studies often overlook the explicit integration of latency-aware mechanisms that can manage inference efficiency, which this proposal aims to address by explicitly bounding latency during model evaluation.",
+  "Abstract": "Human-guided learning often suffers from persistent errors due to the limitations of human supervision channels, which act as information-reducing bottlenecks. In this proposal, we introduce a novel PAC-Bayes framework that incorporates auxiliary information channels to enhance the effective supervision capacity. Our approach aims to minimize the excess error floor while adhering to strict latency constraints during inference. We will empirically validate this framework by conducting experiments on both synthetic and real preference data, examining the role of auxiliary channels in reducing human-aligned errors. We will also develop a latency-aware optimization protocol that ensures inference operates within predefined time budgets. This work not only contributes a theoretical advancement to PAC-Bayes learning but also provides practical insights into deploying efficient and robust human-aligned models in real-time applications.",
+  "Experiments": [
+    "1. Conduct experiments on synthetic datasets simulating human feedback with varying levels of annotation noise to observe the effects of auxiliary channels on error reduction.",
+    "2. Implement a latency-aware optimization protocol in a standard PAC-Bayes framework and measure its performance against traditional methods under strict wall-clock budgets.",
+    "3. Validate the approach on real-world preference data to assess the practical utility of the proposed framework in reducing excess error."
+  ],
+  "Risk Factors and Limitations": [
+    "Limited availability of high-quality auxiliary information channels may affect generalizability.",
+    "The complexity of integrating additional channels may introduce new sources of error.",
+    "Latency constraints may limit the depth of models used, potentially impacting overall performance."
+  ]
+}

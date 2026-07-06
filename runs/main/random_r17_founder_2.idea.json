@@ -1,0 +1,18 @@
+{
+  "Name": "jacobian_layer_skipping",
+  "Title": "Training-Free Inference Optimization via Jacobian-Based Layer Skipping",
+  "Short Hypothesis": "By dynamically skipping layers based on Jacobian-induced perturbation costs, we can achieve latency-aware inference optimization without requiring additional training or fine-tuning.",
+  "Related Work": "Existing approaches to inference optimization often rely on training-based methods (e.g., SNIP, AMP-ViT) or heuristics that lack theoretical grounding (e.g., HiLoRA). Our proposal distinguishes itself by introducing a training-free, Jacobian-based layer-skipping framework that explicitly minimizes hidden-state perturbation while enforcing strict latency budgets. This approach is orthogonal to mixed-precision quantization and LoRA routing, focusing instead on layer-wise computational savings.",
+  "Abstract": "Achieving efficient inference in large-scale neural networks without compromising accuracy remains a significant challenge. We propose a novel training-free framework for latency-aware inference optimization that dynamically skips layers based on Jacobian-induced perturbation costs. By leveraging the Jacobian matrix to quantify the impact of layer skipping on hidden-state perturbation, our method ensures minimal accuracy degradation while adhering to strict latency budgets. We introduce a PAC-Bayes-inspired bound to guarantee stability and derive a layer-skipping protocol that maximizes computational savings. Experiments on transformer-based models demonstrate significant reductions in inference latency with negligible accuracy loss, outperforming existing training-free optimization methods. This work bridges the gap between theoretical guarantees and practical deployment, offering a scalable solution for latency-critical applications.",
+  "Experiments": [
+    "Experiment 1: Measure the impact of layer skipping on hidden-state perturbation using the Jacobian matrix. Metrics: perturbation cost, accuracy drop.",
+    "Experiment 2: Validate the PAC-Bayes-inspired stability bound. Metrics: stability radius, inference latency.",
+    "Experiment 3: Compare our method against existing training-free optimization frameworks (e.g., HiLoRA, EMQ) on transformer-based models. Metrics: latency reduction, accuracy, memory bandwidth usage.",
+    "Experiment 4: Evaluate the scalability of our approach on large-scale models (e.g., GPT-3, Llama). Metrics: throughput-accuracy Pareto frontier, wall-clock time."
+  ],
+  "Risk Factors and Limitations": [
+    "The Jacobian computation may introduce overhead, potentially offsetting latency savings.",
+    "The method assumes smooth optimization landscapes; non-smooth or highly non-linear layers may degrade performance.",
+    "The stability bound relies on PAC-Bayes assumptions, which may not hold in all practical scenarios."
+  ]
+}

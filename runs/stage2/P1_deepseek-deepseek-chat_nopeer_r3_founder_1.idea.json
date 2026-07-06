@@ -1,0 +1,20 @@
+{
+  "Name": "memory_bandwidth_optimization_llm_inference",
+  "Title": "Bandwidth-Aware Kernel Fusion for Efficient LLM Inference",
+  "Short Hypothesis": "Optimizing memory bandwidth utilization through bandwidth-aware kernel fusion can significantly reduce latency and improve throughput in LLM inference, particularly for long-context scenarios.",
+  "Related Work": "Existing works like Liger-Kernel and Medusa focus on kernel optimization and CUDA graph materialization but do not explicitly address memory bandwidth utilization. CudaForge leverages hardware feedback for kernel generation but does not focus on bandwidth-specific optimizations. This proposal distinguishes itself by targeting memory bandwidth as a primary bottleneck and introducing bandwidth-aware kernel fusion techniques.",
+  "Abstract": "Large Language Models (LLMs) often face memory bandwidth bottlenecks during inference, especially in long-context scenarios. This paper proposes bandwidth-aware kernel fusion, a novel technique that optimizes memory bandwidth utilization by fusing kernels based on empirical bandwidth measurements. We introduce a profiler-guided approach to identify bandwidth-bound operations and fuse them into optimized CUDA/Triton kernels. Our experiments demonstrate significant reductions in latency and improvements in throughput on real hardware, validated using Nsight Compute metrics. The proposed technique is evaluated on a suite of LLM inference workloads, showing consistent speedups across different GPU architectures and batch sizes.",
+  "Experiments": [
+    "Profile memory bandwidth utilization for key LLM inference operations using Nsight Compute.",
+    "Identify bandwidth-bound operations and develop fused kernels using Triton.",
+    "Evaluate the impact of bandwidth-aware kernel fusion on latency and throughput using benchmark LLM models (e.g., LLaMA, GPT-3).",
+    "Compare against state-of-the-art baselines (e.g., Liger-Kernel, Medusa) on multiple GPU architectures (e.g., A100, RTX 6000).",
+    "Measure energy per token and p50/p99 latency under varying batch sizes and context lengths."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of bandwidth-aware kernel fusion may vary across different GPU architectures and memory hierarchies.",
+    "Fusing kernels may increase register pressure, potentially leading to reduced occupancy.",
+    "The proposed technique may require significant manual tuning for each specific LLM architecture.",
+    "The evaluation is limited to NVIDIA GPUs; results may not generalize to other hardware platforms."
+  ]
+}

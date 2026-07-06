@@ -1,0 +1,21 @@
+{
+  "Name": "dynamic_kernel_fusion",
+  "Title": "Dynamic Kernel Fusion for Efficient Machine Learning Inference",
+  "Short Hypothesis": "Dynamic kernel fusion, which adaptively fuses operations based on runtime profiling data, can significantly improve hardware efficiency and inference speed without sacrificing accuracy.",
+  "Related Work": "Traditional kernel fusion techniques statically fuse operations at compile time, which can lead to suboptimal performance due to varying runtime conditions. Recent work on adaptive computation and dynamic scheduling has shown promise but has not been applied to kernel fusion in the context of ML inference. This proposal distinguishes itself by introducing a runtime profiling mechanism that dynamically fuses kernels based on real-time hardware metrics.",
+  "Abstract": "This proposal introduces dynamic kernel fusion, a novel approach to optimizing machine learning inference on GPUs. Unlike static kernel fusion, which pre-determines fusion strategies at compile time, dynamic kernel fusion leverages runtime profiling data to adaptively fuse operations based on real-time hardware metrics such as memory bandwidth utilization, tensor-core occupancy, and warp stall reasons. We hypothesize that this approach can achieve significant improvements in inference speed and hardware efficiency without compromising accuracy. Our experiments will focus on implementing and profiling dynamic kernel fusion in a CUDA/Triton environment, comparing it against static fusion techniques across a range of ML models and hardware configurations. Key metrics include wall-clock latency, tokens-per-second, and energy consumption per token. We will also analyze profiler traces to attribute performance gains to specific hardware optimizations, such as reduced HBM round-trips and better register allocation.",
+  "Experiments": [
+    "Implement dynamic kernel fusion in CUDA/Triton, incorporating runtime profiling mechanisms.",
+    "Profile and compare dynamic fusion against static fusion techniques on a range of ML models (e.g., Transformer, CNN) using a commodity GPU.",
+    "Measure wall-clock latency, tokens-per-second, and energy consumption per token for each configuration.",
+    "Collect and analyze profiler traces (nvprof/Nsight) to attribute performance gains to specific hardware optimizations.",
+    "Conduct A/B latency races under fixed accuracy budgets to validate the effectiveness of dynamic fusion.",
+    "Evaluate the robustness of dynamic fusion across different GPU models and driver versions."
+  ],
+  "Risk Factors and Limitations": [
+    "Dynamic kernel fusion may introduce overhead due to runtime profiling and decision-making, potentially offsetting some performance gains.",
+    "The effectiveness of dynamic fusion may vary across different ML models and hardware configurations, requiring extensive tuning.",
+    "Implementing and debugging dynamic fusion in CUDA/Triton could be complex and time-consuming.",
+    "The proposed approach may not generalize well to all types of operations, particularly those with irregular memory access patterns."
+  ]
+}

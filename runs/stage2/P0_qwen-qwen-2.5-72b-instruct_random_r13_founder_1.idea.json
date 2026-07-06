@@ -1,0 +1,19 @@
+{
+  "Name": "curvatureawareprecisionrouting",
+  "Title": "Curvature-Aware Precision Routing for Mixed-Precision Training in Transformers",
+  "Short Hypothesis": "We hypothesize that a curvature-aware precision routing framework can optimize mixed-precision training in transformers by dynamically adjusting precision based on the local geometry of the loss landscape, leading to improved model performance and efficiency.",
+  "Related Work": "Recent works such as EMQ and SNIP have explored training-free and adaptive mixed-precision quantization methods, but they primarily focus on proxy-based search and heuristic-based precision allocation. Our proposal introduces a novel curvature-aware approach that leverages geometric subspace diagnostics to dynamically adjust precision, providing a more principled and theoretically grounded method for mixed-precision training.",
+  "Abstract": "Mixed-precision training (MPT) is a promising technique for improving the efficiency and performance of deep learning models, particularly in resource-constrained environments. However, existing MPT methods often rely on heuristics or training-free proxies, which may not generalize well across different models and datasets. In this work, we propose a curvature-aware precision routing (CAPR) framework for mixed-precision training in transformers. CAPR dynamically adjusts the precision of each layer based on the local curvature of the loss landscape, ensuring that precision is allocated where it is most needed. We introduce a set of geometric diagnostics, including gradient covariance decay and Hessian conditioning, to guide the precision routing. Our framework is designed to be computationally efficient and scalable, making it suitable for single-GPU deployments. We validate our approach on a range of transformer models and datasets, demonstrating significant improvements in both performance and efficiency compared to existing methods.",
+  "Experiments": [
+    "Training-Free Diagnostics: Develop a set of training-free geometric diagnostics to measure the local curvature of the loss landscape, including gradient covariance decay, Hessian conditioning, and feature entanglement.",
+    "Precision Routing Algorithm: Implement a precision routing algorithm that dynamically adjusts the precision of each layer based on the geometric diagnostics.",
+    "Evaluation on Transformer Models: Evaluate the performance of CAPR on a range of transformer models, including BERT, RoBERTa, and T5, on benchmark datasets such as GLUE and SQuAD.",
+    "Comparison with Baselines: Compare the performance and efficiency of CAPR with existing mixed-precision training methods, such as EMQ and SNIP, using metrics such as FLOPs reduction, memory usage, and model accuracy.",
+    "Ablation Studies: Conduct ablation studies to understand the impact of individual geometric diagnostics on the precision routing and model performance."
+  ],
+  "Risk Factors and Limitations": [
+    "Computational Overhead: The computational overhead of the geometric diagnostics and precision routing algorithm may be significant, especially for large models. We mitigate this by using coarse-grained, block-level precision tiering.",
+    "Generalization to Other Architectures: The effectiveness of CAPR may vary across different model architectures and datasets. We will evaluate the generalization of our approach through extensive experiments.",
+    "Scalability: While designed for single-GPU deployments, the scalability of CAPR to multi-GPU and distributed training environments is an open question. We will explore this in future work."
+  ]
+}

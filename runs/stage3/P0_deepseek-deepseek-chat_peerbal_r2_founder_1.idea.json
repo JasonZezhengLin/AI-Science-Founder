@@ -1,0 +1,18 @@
+{
+  "Name": "curvature-aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: Deterministic Optimization via Spectral Geometry",
+  "Short Hypothesis": "The curvature of the loss landscape (e.g., Hessian conditioning, gradient covariance decay) can serve as a deterministic proxy for precision allocation in training-free ML inference, enabling efficient optimization without heuristic control mechanisms.",
+  "Related Work": "Recent work in precision routing (e.g., Spectral Quantization Routing) focuses on activation geometry but ignores curvature diagnostics. Curvature-aware optimization methods (e.g., Tri-Accel) integrate curvature information into training loops, introducing computational overhead. This proposal bridges this gap by leveraging curvature diagnostics for deterministic precision routing in training-free inference.",
+  "Abstract": "Mixed-precision inference promises significant efficiency gains but often relies on heuristic control mechanisms or costly calibration. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates numerical precision based on the curvature of the loss landscape. By computing Hessian conditioning and gradient covariance decay on-the-fly using randomized SVD, CAPR maps these curvature diagnostics to a deterministic precision-switching policy. We ground the routing mechanism in formal PAC-Bayes bounds, linking curvature conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, CAPR achieves superior throughput-accuracy Pareto frontiers compared to static and heuristic baselines. CAPR replaces qualitative fragility claims with formalized risk bounds, providing a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Experiment 1: Validate curvature diagnostics (Hessian conditioning, gradient covariance decay) as proxies for quantization sensitivity on CIFAR-10/100 and WILDS benchmarks. Metrics: condition number, spectral decay rate, quantization error.",
+    "Experiment 2: Compare CAPR to static mixed-precision baselines (FP16, FP8) and heuristic methods (Spectral Quantization Routing) on throughput-accuracy Pareto frontiers. Metrics: accuracy, latency, memory usage.",
+    "Experiment 3: Evaluate CAPR's robustness to distribution shifts on WILDS benchmarks. Metrics: accuracy drop, variance across seeds.",
+    "Experiment 4: Analyze computational overhead of curvature diagnostics (randomized SVD) and precision switching. Metrics: wall-clock time, VRAM usage."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk: Randomized SVD may introduce computational overhead, limiting scalability. Mitigation: Use block-diagonal approximations and exploit sparsity patterns.",
+    "Risk: Curvature diagnostics may not generalize across architectures or tasks. Mitigation: Validate on diverse benchmarks and architectures.",
+    "Limitation: CAPR assumes access to Hessian-vector products, which may not be feasible in all settings. Mitigation: Use finite-difference approximations or gradient covariance as a proxy."
+  ]
+}

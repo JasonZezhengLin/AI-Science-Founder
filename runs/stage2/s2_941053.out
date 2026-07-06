@@ -1,0 +1,548 @@
+=== host: m002  python: /home/zezhenglin/.conda/envs/founder/bin/python  NR=1 ===
+=== SKIP deepseek/deepseek-chat P0 (done in stage 1, runs/main) ===
+=== openai-gpt-4o-mini P1 peer r1 founder_1 (db=literature_db.snapshot.json try=1) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_openai-gpt-4o-mini_peer_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI API with model openai/gpt-4o-mini.
+No ideas found in /tmp/tmp6x8gukzo.json. Starting from scratch.
+
+Generating proposal 1/1
+[DEBUG make_llm_call] OK: len=106, finish=stop
+Action: SearchSemanticScholar
+Arguments: {"query": "CUDA kernel optimization machine learning inference"}
+Response Status Code: 200
+Response Content: {"total": 12265, "offset": 0, "next": 10, "data": [{"paperId": "62ee79b60e284a2e4ebb8a57a642b00be56a5fd1", "title": "Optimizing Machine Learning Models with CUDA: A Comprehensive Performance Analysis", "venue": "2025 3rd International Conference on Communication, Security, and Artificial Intelligence (ICCSAI)", "year": 2025, "citationCount": 4, "openAccessPdf": {"url": "", "status": null, "license": null, "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1109/
+[DEBUG make_llm_call] OK: len=4547, finish=stop
+Failed to parse LLM response. Response text:
+Based on the literature search and the recent related work, I will refine the proposal to ensure its novelty, quality, and feasibility. The proposed idea will focus on empirical optimizations in CUDA kernel performance for machine learning inference while addressing gaps in existing methods that either rely on automated code generation or extensive manual tuning.
+
+### Refined Proposal
+
+**IDEA JSON:**
+```json
+{
+  "idea": {
+    "Name": "kernel_fusion_optimizations",
+    "Title": "Empirical Kernel Fusion Strategies for Enhanced Inference Performance in CUDA",
+    "Short Hypothesis": "Novel fusion strategies for CUDA kernels can significantly reduce wall-clock latency and improve throughput in machine learning inference tasks, surpassing existing performance benchmarks without the need for complex automated systems.",
+    "Related Work": "Existing methods like Astra and CUDA Agent focus on automated kernel generation through LLMs, while work on kernel fusion often lacks empirical validation on performance gains relative to specific hardware configurations. This proposal distinguishes itself by emphasizing empirical validation of fusion strategies and their direct impact on latency and throughput measured on actual hardware.",
+    "Abstract": "Machine learning inference performance is critically dependent on the optimization of CUDA kernels, particularly through techniques such as kernel fusion. While recent advancements have leveraged automated systems to generate optimized kernels, there remains a gap in understanding how specific fusion strategies can be empirically validated to yield tangible improvements in latency and throughput. This proposal outlines a series of experiments aimed at evaluating the performance impacts of different kernel fusion techniques, focusing on empirical metrics such as wall-clock latency, tokens-per-second, and energy efficiency. By systematically profiling and measuring the effects of various fusion strategies across commonly used machine learning models, we aim to establish a practical framework for optimizing inference performance on GPU architectures. This work will contribute to the broader goal of enhancing inference efficiency while maintaining reproducibility and reliability in performance metrics.",
+    "Experiments": [
+      "1. Implement a baseline for popular ML models (e.g., ResNet, BERT) with standard CUDA kernels.",
+      "2. Develop and benchmark multiple kernel fusion strategies, varying the granularity and types of operations fused (e.g., convolution + activation, pooling + normalization).",
+      "3. Employ nvprof/Nsight for detailed profiling of each kernel to measure occupancy, achieved bandwidth, and warp stall reasons.",
+      "4. Conduct A/B tests comparing fused kernels against the baseline, measuring p50 and p99 latency, throughput under batching, and energy per token.",
+      "5. Analyze trade-offs between different fusion strategies concerning memory usage and compute efficiency."
+    ],
+    "Risk Factors and Limitations": [
+      "The effectiveness of specific fusion strategies may vary significantly across different GPU architectures.",
+      "Potential diminishing returns on performance gains from kernel fusion as models become more complex.",
+      "Empirical results may require extensive profiling and tuning to isolate performance improvements attributable solely to fusion."
+    ]
+  }
+}
+```
+
+### Reflection on the Proposal
+1. **Quality:** The proposal emphasizes empirical measurements and practical optimizations, aligning closely with the methodological preferences of focusing on real performance metrics rather than theoretical frameworks.
+
+2. **Novelty:** It stands out by specifically addressing kernel fusion strategies, which are less explored in the context of CUDA optimizations for machine learning inference. This provides a fresh angle compared to existing literature that focuses on automated code generation or high-level abstractions.
+
+3. **Feasibility:** The experiments are designed to be conducted within a typical academic lab environment, utilizing standard profiling tools available for GPU architectures.
+
+4. **Clarity:** The proposal is concise and clear, detailing the hypothesis, related work, abstract, experiments, and risk factors in an easily digestible format.
+
+Overall, this refined proposal is well-positioned to contribute valuable insights into the field of hardware-first systems research in machine learning, particularly by providing empirical evidence for kernel optimization strategies.
+Stored 0 ideas in /tmp/tmp6x8gukzo.json
+[WARN] runs/stage2/P1_openai-gpt-4o-mini_peer_r1_founder_1 -> ideation returned None
+!! retry 1 for runs/stage2/P1_openai-gpt-4o-mini_peer_r1_founder_1
+=== openai-gpt-4o-mini P1 peer r1 founder_1 (db=literature_db.snapshot.json try=2) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_openai-gpt-4o-mini_peer_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI API with model openai/gpt-4o-mini.
+No ideas found in /tmp/tmp_lvu6wmv.json. Starting from scratch.
+
+Generating proposal 1/1
+[DEBUG make_llm_call] OK: len=110, finish=stop
+Action: SearchSemanticScholar
+Arguments: {"query": "kernel optimization deep learning inference latency GPU"}
+Response Status Code: 500
+Response Content: {"message": "Internal Server Error"}
+
+Backing off 0.6 seconds after 1 tries calling function search_for_papers at 14:25:13
+Response Status Code: 200
+Response Content: {"total": 3482, "offset": 0, "next": 10, "data": [{"paperId": "89d6ba89d461134267265982fe6128c57a5c603f", "title": "DOPpler: Parallel Measurement Infrastructure for Auto-Tuning Deep Learning Tensor Programs", "venue": "IEEE Transactions on Parallel and Distributed Systems", "year": 2023, "citationCount": 5, "openAccessPdf": {"url": "https://eprints.lancs.ac.uk/id/eprint/194105/3/TPDS_DOPpler_1_.pdf", "status": "GREEN", "license": null, "disclaimer": "Notice: Paper or abstract available at https:
+[DEBUG make_llm_call] OK: len=4316, finish=stop
+Failed to parse LLM response. Response text:
+Based on the literature review and the methodological preferences outlined, I propose a refined research idea focused on optimizing deep learning inference at the hardware level. The following proposal addresses a gap in efficiently utilizing heterogeneous processing capabilities in current GPU architectures while maintaining stringent latency requirements.
+
+### IDEA JSON:
+```json
+{
+  "idea": {
+    "Name": "dynamic_fusion_kernels",
+    "Title": "Dynamic Fusion Kernels for Heterogeneous GPU Inference Optimization",
+    "Short Hypothesis": "Can we enhance inference speed and efficiency by dynamically fusing operations across layers in heterogeneous GPU architectures, tailored to real-time workload characteristics?",
+    "Related Work": "Existing work has primarily focused on static optimization techniques for DNN execution. While frameworks like TensorRT and Souffle optimize layer-wise performance, they do not adaptively fuse layers based on current input characteristics and hardware states. Our proposal distinguishes itself by enabling dynamic fusion of operations, leveraging on-the-fly profiling to tailor execution paths, improving both latency and throughput on heterogeneous GPU architectures.",
+    "Abstract": "As deep learning models grow in size and complexity, optimizing inference performance on heterogeneous GPU architectures becomes increasingly critical. This proposal introduces Dynamic Fusion Kernels (DFK), an innovative approach that allows for real-time fusion of operations across layers based on the current workload and hardware state. By instrumenting the system to collect fine-grained metrics such as occupancy, memory bandwidth, and execution stalls, DFK dynamically selects which layers to fuse, optimizing for latency and throughput on-the-fly. This method addresses the limitations of existing static optimizations, providing a more responsive and efficient inference engine. We will implement DFK on a commodity GPU and evaluate its performance against state-of-the-art frameworks, focusing on real-world benchmarks. The expected outcomes include significant reductions in wall-clock latency and improved tokens-per-second throughput, establishing a new paradigm for dynamic optimization in deep learning inference.",
+    "Experiments": [
+      "1. Implement the dynamic fusion kernel mechanism within an existing inference framework (e.g., TensorRT).",
+      "2. Use real-time profiling to collect metrics during inference, enabling decision-making about which layers to fuse based on current workload characteristics.",
+      "3. Compare the performance of DFK against baseline static optimization strategies using metrics such as p50/p99 latency, throughput under batching, and energy per token.",
+      "4. Analyze the impact of dynamic fusion on different architectures and layer configurations, ensuring a comprehensive evaluation of the method's adaptability."
+    ],
+    "Risk Factors and Limitations": "Potential risks include the overhead from additional profiling and decision-making processes, which may offset gains in performance. Furthermore, the complexity of implementing a dynamic system could lead to increased debugging efforts. Limitations may arise from the need for specific hardware features that support dynamic execution, and the adaptability of the method may vary depending on the type of neural network architecture used."
+  }
+}
+```
+
+### Reflection on Proposal Quality
+- **Novelty**: The proposal introduces the concept of dynamic layer fusion based on real-time workload characteristics, which is not extensively covered in the existing literature. This addresses a significant gap in the current methodologies that rely on static optimizations.
+- **Feasibility**: The approach can be implemented using existing frameworks and hardware, making it accessible for academic research. The experiments outlined are practical and can yield measurable results.
+- **Impact**: If successful, the Dynamic Fusion Kernels could lead to substantial performance improvements in deep learning inference, which is critical for real-time applications in AI.
+
+This refined proposal aligns with the methodological preferences of focusing on empirical measurement and hardware-level optimization, ensuring that every claim is backed by concrete profiling data.
+Stored 0 ideas in /tmp/tmp_lvu6wmv.json
+[WARN] runs/stage2/P1_openai-gpt-4o-mini_peer_r1_founder_1 -> ideation returned None
+!! retry 2 for runs/stage2/P1_openai-gpt-4o-mini_peer_r1_founder_1
+=== openai-gpt-4o-mini P1 peer r1 founder_1 (db=literature_db.snapshot.json try=3) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_openai-gpt-4o-mini_peer_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI API with model openai/gpt-4o-mini.
+No ideas found in /tmp/tmpydrox_au.json. Starting from scratch.
+
+Generating proposal 1/1
+[DEBUG make_llm_call] OK: len=139, finish=stop
+Action: SearchSemanticScholar
+Arguments: {"query": "kernel-level optimization for machine learning inference GPU performance measurement"}
+Response Status Code: 200
+Response Content: {"total": 27, "offset": 0, "next": 10, "data": [{"paperId": "a409a89806fb62f74ac27d17c4e60bc42bed0571", "title": "PipeWeave: Synergizing Analytical and Learning Models for Unified GPU Performance Prediction", "venue": "", "year": 2026, "citationCount": 0, "openAccessPdf": {"url": "", "status": null, "license": null, "disclaimer": "Notice: Paper or abstract available at https://arxiv.org/abs/2601.14910, which is subject to the license by the author or copyright owner provided with this content. P
+[DEBUG make_llm_call] OK: len=4461, finish=stop
+Failed to parse LLM response. Response text:
+Based on the recent literature search results, I have identified key areas of ongoing research that intersect with kernel-level optimizations and GPU performance in machine learning. Notably, many works focus on dynamic kernel selection, multi-task scheduling, and performance forecasting, which align closely with the hardware-first approach in optimizing inference latency and throughput.
+
+### Reflection on Proposal
+
+Given the existing literature, a novel research proposal that I am considering is centered around **Dynamic Kernel Profiling and Optimization for Adaptive Inference**. The focus of this proposal will be to dynamically measure and adapt kernel execution based on real-time profiling of latency and throughput, thus ensuring optimal hardware utilization under varying workloads.
+
+### New Proposal
+
+Here is the refined proposal:
+
+IDEA JSON:
+```json
+{
+  "idea": {
+    "Name": "dynamic_kernel_profiling",
+    "Title": "Dynamic Kernel Profiling and Optimization for Adaptive Inference",
+    "Short Hypothesis": "Real-time profiling of kernel performance can significantly enhance the efficiency of inference tasks by dynamically selecting and optimizing kernel execution based on current workload characteristics, leading to lower latency and higher throughput.",
+    "Related Work": "Existing approaches like Dynamic Kernel Selection have shown promise in optimizing latency and energy efficiency during inference. However, most solutions rely on static profiling or heuristics rather than real-time measurements. This proposal distinguishes itself by implementing a real-time profiler that directly measures and adapts kernel execution on-the-fly, allowing for immediate responses to workload changes.",
+    "Abstract": "In this proposal, we introduce an innovative framework for dynamic kernel profiling and optimization aimed at enhancing inference efficiency in machine learning applications. By integrating a lightweight real-time profiler that monitors kernel execution metrics—such as latency, throughput, and memory bandwidth utilization—we can implement adaptive strategies that select the most efficient kernel implementations based on current workload characteristics. Our framework will dynamically switch between different kernel implementations, including various precision formats and algorithmic strategies, to optimize performance without incurring significant overhead. We will conduct experiments on commodity GPUs to validate our approach, focusing on quantifiable improvements in wall-clock latency and tokens-per-second throughput. The outcomes will not only demonstrate the feasibility of dynamic kernel optimization but also provide a reproducible methodology for improving inference efficiency across a range of machine learning models.",
+    "Experiments": "We will conduct a series of experiments to validate the proposed framework: 1) Implement a lightweight profiler that records kernel execution metrics during inference. 2) Develop a decision engine that selects kernel implementations based on real-time performance data. 3) Evaluate the system in multiple scenarios, including varying model architectures and input sizes. 4) Measure p50 and p99 latency, throughput under batching, and energy per token as evaluation metrics. We will compare the performance of our dynamic kernel optimization against static kernel baselines.",
+    "Risk Factors and Limitations": "Potential risks include overhead from the profiling system affecting overall performance, challenges in accurately predicting optimal kernel choices in real-time, and variability due to external factors such as GPU temperature and load. Additionally, the framework's adaptability may introduce complexity in maintaining consistent performance across all workloads."
+  }
+}
+```
+
+### Summary of Improvements
+1. **Novelty**: The focus on real-time kernel profiling distinguishes this proposal from existing literature, which largely relies on static heuristics or offline profiling.
+2. **Feasibility**: The proposed experiments are practical and can be conducted within an academic lab environment, utilizing existing GPU resources and profiling tools.
+3. **Clarity**: The proposal provides a clear hypothesis, methodology, and evaluation metrics, ensuring it is concise yet comprehensive.
+
+This proposal is designed to be publishable in top ML conferences, leveraging empirical measurements that resonate with the hardware-first systems research ethos.
+Stored 0 ideas in /tmp/tmpydrox_au.json
+[WARN] runs/stage2/P1_openai-gpt-4o-mini_peer_r1_founder_1 -> ideation returned None
+!! retry 3 for runs/stage2/P1_openai-gpt-4o-mini_peer_r1_founder_1
+=== openai-gpt-4o-mini P1 peer r1 founder_2 (db=literature_db.snapshot.json try=1) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_openai-gpt-4o-mini_peer_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI API with model openai/gpt-4o-mini.
+No ideas found in /tmp/tmpykz_7xdu.json. Starting from scratch.
+
+Generating proposal 1/1
+[DEBUG make_llm_call] OK: len=116, finish=stop
+Action: SearchSemanticScholar
+Arguments: {"query": "rate distortion theory model compression quantization pruning"}
+Response Status Code: 200
+Response Content: {"total": 835, "offset": 0, "next": 10, "data": [{"paperId": "58879879c3a1f7bbed263e69cd13e7e30c252a24", "title": "Rate Distortion For Model Compression: From Theory To Practice", "venue": "International Conference on Machine Learning", "year": 2018, "citationCount": 38, "openAccessPdf": {"url": "", "status": null, "license": null, "disclaimer": "Notice: Paper or abstract available at https://arxiv.org/abs/1810.06401, which is subject to the license by the author or copyright owner provided with
+[DEBUG make_llm_call] OK: len=3589, finish=stop
+Action: FinalizeIdea
+Arguments: {"idea": {
+  "Name": "rate_distortion_optimal_bit_allocation",
+  "Title": "Optimal Bit Allocation for Model Compression via Rate-Distortion Theory",
+  "Short Hypothesis": "We hypothesize that an optimal bit allocation framework based on rate-distortion theory can provide a tighter bound on the bits-per-weight needed for predictive sufficiency in neural networks, outperforming existing heuristic methods.",
+  "Related Work": "While existing works, such as those by Gao et al. (2018) and Zuo et al. (2026), establish foundational limits for compression and propose practical implementations, they primarily focus on empirical evaluations without stringent theoretical guarantees. Our approach distinctly emphasizes a principled framework that connects rate-distortion bounds with quantization strategies, offering rigorous quantification of achievable rates and distortion under various conditions.",
+  "Abstract": "This proposal aims to investigate the optimal bit allocation for model compression through a rigorous application of rate-distortion theory. We will derive a novel framework that quantifies the relationship between bits-per-weight, predictive sufficiency, and task-specific distortion. By establishing a theoretical foundation that outlines achievable rates for various neural architectures, we will develop a quantization strategy that dynamically adapts to task requirements while minimizing distortion. This work not only bridges theoretical insights with practical applications but also provides a reproducible pathway for achieving optimal model compression under defined information-theoretic constraints. We will empirically validate our framework through a series of experiments, demonstrating its superiority over existing heuristic methods in maintaining predictive performance.",
+  "Experiments": [
+    "Develop a theoretical framework that derives achievable rates for specific neural architectures (e.g., feedforward networks, CNNs, LSTMs) under defined distortion measures.",
+    "Implement a quantization scheme based on the derived achievable rates, applying it to benchmark datasets across different models.",
+    "Conduct experiments to compare the performance of the proposed quantization method against existing heuristic methods in terms of accuracy and distortion metrics (e.g., mean squared error).",
+    "Utilize metrics such as bits-per-weight and task-relevant distortion to evaluate the efficiency of the proposed approach."
+  ],
+  "Risk Factors and Limitations": [
+    "The theoretical derivations may be complex, and proving the achievability of bounds for non-linear models could be challenging.",
+    "The empirical results may vary based on the choice of datasets and model architectures, potentially limiting generalizability.",
+    "The adoption of a new quantization scheme may require extensive calibration, impacting practical deployment."
+  ]
+}}
+Proposal finalized: {'Name': 'rate_distortion_optimal_bit_allocation', 'Title': 'Optimal Bit Allocation for Model Compression via Rate-Distortion Theory', 'Short Hypothesis': 'We hypothesize that an optimal bit allocation framework based on rate-distortion theory can provide a tighter bound on the bits-per-weight needed for predictive sufficiency in neural networks, outperforming existing heuristic methods.', 'Related Work': 'While existing works, such as those by Gao et al. (2018) and Zuo et al. (2026), establish foundational limits for compression and propose practical implementations, they primarily focus on empirical evaluations without stringent theoretical guarantees. Our approach distinctly emphasizes a principled framework that connects rate-distortion bounds with quantization strategies, offering rigorous quantification of achievable rates and distortion under various conditions.', 'Abstract': 'This proposal aims to investigate the optimal bit allocation for model compression through a rigorous application of rate-distortion theory. We will derive a novel framework that quantifies the relationship between bits-per-weight, predictive sufficiency, and task-specific distortion. By establishing a theoretical foundation that outlines achievable rates for various neural architectures, we will develop a quantization strategy that dynamically adapts to task requirements while minimizing distortion. This work not only bridges theoretical insights with practical applications but also provides a reproducible pathway for achieving optimal model compression under defined information-theoretic constraints. We will empirically validate our framework through a series of experiments, demonstrating its superiority over existing heuristic methods in maintaining predictive performance.', 'Experiments': ['Develop a theoretical framework that derives achievable rates for specific neural architectures (e.g., feedforward networks, CNNs, LSTMs) under defined distortion measures.', 'Implement a quantization scheme based on the derived achievable rates, applying it to benchmark datasets across different models.', 'Conduct experiments to compare the performance of the proposed quantization method against existing heuristic methods in terms of accuracy and distortion metrics (e.g., mean squared error).', 'Utilize metrics such as bits-per-weight and task-relevant distortion to evaluate the efficiency of the proposed approach.'], 'Risk Factors and Limitations': ['The theoretical derivations may be complex, and proving the achievability of bounds for non-linear models could be challenging.', 'The empirical results may vary based on the choice of datasets and model architectures, potentially limiting generalizability.', 'The adoption of a new quantization scheme may require extensive calibration, impacting practical deployment.']}
+Stored 1 ideas in /tmp/tmpykz_7xdu.json
+[OK] runs/stage2/P1_openai-gpt-4o-mini_peer_r1_founder_2 -> idea 'rate_distortion_optimal_bit_allocation'
+=== anthropic-claude-haiku-4.5 P0 peer r1 founder_1 (db=literature_db.snapshot.json try=1) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpajvkyy0c.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpajvkyy0c.json
+[WARN] runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_1 -> ideation returned None
+!! retry 1 for runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_1
+=== anthropic-claude-haiku-4.5 P0 peer r1 founder_1 (db=literature_db.snapshot.json try=2) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpj6uv43sk.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpj6uv43sk.json
+[WARN] runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_1 -> ideation returned None
+!! retry 2 for runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_1
+=== anthropic-claude-haiku-4.5 P0 peer r1 founder_1 (db=literature_db.snapshot.json try=3) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpbx5r3vux.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpbx5r3vux.json
+[WARN] runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_1 -> ideation returned None
+!! retry 3 for runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_1
+=== anthropic-claude-haiku-4.5 P0 peer r1 founder_2 (db=literature_db.snapshot.json try=1) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmp03zkng9o.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmp03zkng9o.json
+[WARN] runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_2 -> ideation returned None
+!! retry 1 for runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_2
+=== anthropic-claude-haiku-4.5 P0 peer r1 founder_2 (db=literature_db.snapshot.json try=2) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmph29ml1n4.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmph29ml1n4.json
+[WARN] runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_2 -> ideation returned None
+!! retry 2 for runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_2
+=== anthropic-claude-haiku-4.5 P0 peer r1 founder_2 (db=literature_db.snapshot.json try=3) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmp26nb8uzc.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmp26nb8uzc.json
+[WARN] runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_2 -> ideation returned None
+!! retry 3 for runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_2
+=== anthropic-claude-haiku-4.5 P0 nopeer r1 founder_1 (db=literature_db.snapshot.json try=1) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpfbkr0n5z.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpfbkr0n5z.json
+[WARN] runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_1 -> ideation returned None
+!! retry 1 for runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_1
+=== anthropic-claude-haiku-4.5 P0 nopeer r1 founder_1 (db=literature_db.snapshot.json try=2) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpv4ltgi6l.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpv4ltgi6l.json
+[WARN] runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_1 -> ideation returned None
+!! retry 2 for runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_1
+=== anthropic-claude-haiku-4.5 P0 nopeer r1 founder_1 (db=literature_db.snapshot.json try=3) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpv48cs4rc.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpv48cs4rc.json
+[WARN] runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_1 -> ideation returned None
+!! retry 3 for runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_1
+=== anthropic-claude-haiku-4.5 P0 nopeer r1 founder_2 (db=literature_db.snapshot.json try=1) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpit148512.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpit148512.json
+[WARN] runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_2 -> ideation returned None
+!! retry 1 for runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_2
+=== anthropic-claude-haiku-4.5 P0 nopeer r1 founder_2 (db=literature_db.snapshot.json try=2) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmplcdupgar.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmplcdupgar.json
+[WARN] runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_2 -> ideation returned None
+!! retry 2 for runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_2
+=== anthropic-claude-haiku-4.5 P0 nopeer r1 founder_2 (db=literature_db.snapshot.json try=3) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmp9nehk_xc.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmp9nehk_xc.json
+[WARN] runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_2 -> ideation returned None
+!! retry 3 for runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_2
+=== anthropic-claude-haiku-4.5 P0 random r1 founder_1 (db=literature_db.random.json try=1) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmp6k4nj1nn.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmp6k4nj1nn.json
+[WARN] runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_1 -> ideation returned None
+!! retry 1 for runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_1
+=== anthropic-claude-haiku-4.5 P0 random r1 founder_1 (db=literature_db.random.json try=2) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpf7ltvy3h.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpf7ltvy3h.json
+[WARN] runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_1 -> ideation returned None
+!! retry 2 for runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_1
+=== anthropic-claude-haiku-4.5 P0 random r1 founder_1 (db=literature_db.random.json try=3) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpqjtxdvgq.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpqjtxdvgq.json
+[WARN] runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_1 -> ideation returned None
+!! retry 3 for runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_1
+=== anthropic-claude-haiku-4.5 P0 random r1 founder_2 (db=literature_db.random.json try=1) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpc448iie2.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpc448iie2.json
+[WARN] runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_2 -> ideation returned None
+!! retry 1 for runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_2
+=== anthropic-claude-haiku-4.5 P0 random r1 founder_2 (db=literature_db.random.json try=2) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpb6fp1if6.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpb6fp1if6.json
+[WARN] runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_2 -> ideation returned None
+!! retry 2 for runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_2
+=== anthropic-claude-haiku-4.5 P0 random r1 founder_2 (db=literature_db.random.json try=3) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpzsg3osce.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpzsg3osce.json
+[WARN] runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_2 -> ideation returned None
+!! retry 3 for runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_2
+=== anthropic-claude-haiku-4.5 P1 peer r1 founder_1 (db=literature_db.snapshot.json try=1) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpagekaf_r.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpagekaf_r.json
+[WARN] runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_1 -> ideation returned None
+!! retry 1 for runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_1
+=== anthropic-claude-haiku-4.5 P1 peer r1 founder_1 (db=literature_db.snapshot.json try=2) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpbjpe01lj.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpbjpe01lj.json
+[WARN] runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_1 -> ideation returned None
+!! retry 2 for runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_1
+=== anthropic-claude-haiku-4.5 P1 peer r1 founder_1 (db=literature_db.snapshot.json try=3) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpr0jv6f79.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpr0jv6f79.json
+[WARN] runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_1 -> ideation returned None
+!! retry 3 for runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_1
+=== anthropic-claude-haiku-4.5 P1 peer r1 founder_2 (db=literature_db.snapshot.json try=1) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmp3lil10yv.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmp3lil10yv.json
+[WARN] runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_2 -> ideation returned None
+!! retry 1 for runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_2
+=== anthropic-claude-haiku-4.5 P1 peer r1 founder_2 (db=literature_db.snapshot.json try=2) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmp7kk3vyvm.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmp7kk3vyvm.json
+[WARN] runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_2 -> ideation returned None
+!! retry 2 for runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_2
+=== anthropic-claude-haiku-4.5 P1 peer r1 founder_2 (db=literature_db.snapshot.json try=3) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmp35wolrfu.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmp35wolrfu.json
+[WARN] runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_2 -> ideation returned None
+!! retry 3 for runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_2
+=== anthropic-claude-haiku-4.5 P1 nopeer r1 founder_1 (db=literature_db.snapshot.json try=1) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpc9yvh92a.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpc9yvh92a.json
+[WARN] runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_1 -> ideation returned None
+!! retry 1 for runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_1
+=== anthropic-claude-haiku-4.5 P1 nopeer r1 founder_1 (db=literature_db.snapshot.json try=2) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpfj1l1ik5.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpfj1l1ik5.json
+[WARN] runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_1 -> ideation returned None
+!! retry 2 for runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_1
+=== anthropic-claude-haiku-4.5 P1 nopeer r1 founder_1 (db=literature_db.snapshot.json try=3) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpvhbnab3s.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpvhbnab3s.json
+[WARN] runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_1 -> ideation returned None
+!! retry 3 for runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_1
+=== anthropic-claude-haiku-4.5 P1 nopeer r1 founder_2 (db=literature_db.snapshot.json try=1) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpwpvtlzsr.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpwpvtlzsr.json
+[WARN] runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_2 -> ideation returned None
+!! retry 1 for runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_2
+=== anthropic-claude-haiku-4.5 P1 nopeer r1 founder_2 (db=literature_db.snapshot.json try=2) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmp4i76d8mn.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmp4i76d8mn.json
+[WARN] runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_2 -> ideation returned None
+!! retry 2 for runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_2
+=== anthropic-claude-haiku-4.5 P1 nopeer r1 founder_2 (db=literature_db.snapshot.json try=3) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpt5cj_kst.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpt5cj_kst.json
+[WARN] runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_2 -> ideation returned None
+!! retry 3 for runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_2
+=== anthropic-claude-haiku-4.5 P1 random r1 founder_1 (db=literature_db.random.json try=1) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpzrl2lvv0.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpzrl2lvv0.json
+[WARN] runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_1 -> ideation returned None
+!! retry 1 for runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_1
+=== anthropic-claude-haiku-4.5 P1 random r1 founder_1 (db=literature_db.random.json try=2) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmppi32w1by.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmppi32w1by.json
+[WARN] runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_1 -> ideation returned None
+!! retry 2 for runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_1
+=== anthropic-claude-haiku-4.5 P1 random r1 founder_1 (db=literature_db.random.json try=3) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_1.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmptb1ymbh7.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmptb1ymbh7.json
+[WARN] runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_1 -> ideation returned None
+!! retry 3 for runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_1
+=== anthropic-claude-haiku-4.5 P1 random r1 founder_2 (db=literature_db.random.json try=1) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmp1p7wdal5.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmp1p7wdal5.json
+[WARN] runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_2 -> ideation returned None
+!! retry 1 for runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_2
+=== anthropic-claude-haiku-4.5 P1 random r1 founder_2 (db=literature_db.random.json try=2) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpdgz190l6.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpdgz190l6.json
+[WARN] runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_2 -> ideation returned None
+!! retry 2 for runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_2
+=== anthropic-claude-haiku-4.5 P1 random r1 founder_2 (db=literature_db.random.json try=3) ===
+[llm_full_logger] 全 prompt 落盘已开 → runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_2.llm_calls_full.jsonl
+Using OpenAI-compatible API with model anthropic/claude-haiku-4.5.
+No ideas found in /tmp/tmpwkgz68mq.json. Starting from scratch.
+
+Generating proposal 1/1
+Failed to generate proposal:
+Stored 0 ideas in /tmp/tmpwkgz68mq.json
+[WARN] runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_2 -> ideation returned None
+!! retry 3 for runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_2
+=== STAGE2 DONE (NR=1). idea files = 41 ===
+!! FAILED (13): runs/stage2/P1_openai-gpt-4o-mini_peer_r1_founder_1 runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_1 runs/stage2/P0_anthropic-claude-haiku-4.5_peer_r1_founder_2 runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_1 runs/stage2/P0_anthropic-claude-haiku-4.5_nopeer_r1_founder_2 runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_1 runs/stage2/P0_anthropic-claude-haiku-4.5_random_r1_founder_2 runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_1 runs/stage2/P1_anthropic-claude-haiku-4.5_peer_r1_founder_2 runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_1 runs/stage2/P1_anthropic-claude-haiku-4.5_nopeer_r1_founder_2 runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_1 runs/stage2/P1_anthropic-claude-haiku-4.5_random_r1_founder_2

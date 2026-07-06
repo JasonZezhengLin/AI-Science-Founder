@@ -1,0 +1,14 @@
+{
+  "Name": "layer-wise_sensitivity_aware_quantization",
+  "Title": "Layer-wise Sensitivity-Aware Mixed Precision Quantization for Efficient Model Deployment",
+  "Short Hypothesis": "Layer-wise sensitivity scores can effectively guide the allocation of mixed precision quantization in deep neural networks, leading to improved model performance and efficiency without the need for retraining.",
+  "Related Work": "Existing approaches such as EMQ and InfoQ focus on training-free mixed precision quantization but often rely on heuristic methods or global sensitivity analysis. This proposal distinguishes itself by introducing a layer-wise sensitivity metric that quantifies the impact of quantization at the layer level, allowing for targeted precision adjustments that optimize performance more effectively.",
+  "Abstract": "Mixed precision quantization (MPQ) is critical for deploying deep neural networks on resource-constrained devices. While recent methods have improved the efficiency of MPQ through training-free proxies, they often overlook the unique sensitivity dynamics of individual layers. This proposal introduces a Layer-wise Sensitivity-Aware Mixed Precision Quantization framework, which quantifies the sensitivity of each layer to quantization errors based on the influence of layer outputs on the overall network performance. By conducting a single forward pass to compute sensitivity scores, we can allocate precision strategically across layers, optimizing the trade-off between accuracy and computational efficiency. Our approach promises to reduce the reliance on extensive data and retraining while ensuring robust performance under tight resource constraints. We will validate the framework on benchmark datasets and various architectures, aiming for significant accuracy retention alongside substantial resource savings.",
+  "Experiments": [
+    "1. Conduct forward passes on benchmark models to compute layer-wise sensitivity scores based on output variance reduction.",
+    "2. Implement a mixed precision quantization strategy that allocates bit-widths according to the computed sensitivity scores.",
+    "3. Compare the performance of models with and without the proposed sensitivity-aware quantization on accuracy, latency, and memory usage.",
+    "4. Evaluate the models on standard datasets such as ImageNet and COCO to ensure generalizability."
+  ],
+  "Risk Factors and Limitations": "Potential risks include the accuracy of the sensitivity metrics being layer-specific and not generalizing well across different architectures. Limitations may arise from the reliance on a single forward pass, which could miss dynamic behavior during training or inference."
+}

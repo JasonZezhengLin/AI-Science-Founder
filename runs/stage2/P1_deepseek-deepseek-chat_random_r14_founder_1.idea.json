@@ -1,0 +1,21 @@
+{
+  "Name": "tensorcore_optimized_attention_short_context",
+  "Title": "TensorCore-Optimized Attention Mechanisms for Short-Context LLM Inference",
+  "Short Hypothesis": "Optimizing Tensor Core utilization during attention computation in short-context LLM inference can significantly improve throughput and reduce latency without sacrificing accuracy.",
+  "Related Work": "BitDecoding (Du et al., 2025) focuses on leveraging Tensor Cores for low-bit KV cache decoding in long-context LLMs, achieving substantial speedups. However, their work does not address Tensor Core optimization during the attention computation phase, especially for short-context scenarios where the KV cache is less of a bottleneck. AMP-ViT (Tai & Wu) and SNIP (Pan et al.) explore mixed-precision techniques but do not specifically target Tensor Core utilization during attention. This proposal fills this gap by focusing on optimizing Tensor Core usage for attention computation in short-context LLMs.",
+  "Abstract": "Modern GPUs are equipped with Tensor Cores designed to accelerate matrix operations, yet their full potential remains untapped in the attention computation phase of short-context Large Language Models (LLMs). This paper introduces TensorCore-Optimized Attention Mechanisms (TCAM), a novel approach that maximizes Tensor Core utilization during attention computation for short-context LLM inference. TCAM employs warp-level parallelism, optimized memory layouts, and precision-aware scheduling to reduce latency and improve throughput. We evaluate TCAM on short-context LLMs using NVIDIA GPUs, demonstrating significant improvements in tokens-per-second and latency while maintaining model accuracy. Our approach is validated through extensive profiling, including warp stall reasons, arithmetic intensity, and achieved bandwidth, providing a hardware-faithful evaluation of Tensor Core optimization in LLM inference.",
+  "Experiments": [
+    "Experiment 1: Baseline Attention Computation - Measure the latency, throughput, and Tensor Core utilization of a standard attention mechanism on short-context LLMs (e.g., LLaMA-7B) using NVIDIA GPUs.",
+    "Experiment 2: TCAM Implementation - Implement TCAM with warp-level parallelism, optimized memory layouts, and precision-aware scheduling. Measure the same metrics as in Experiment 1.",
+    "Experiment 3: Precision Sweep - Perform a precision sweep (FP16, BF16, INT8) to identify the optimal precision for Tensor Core utilization in TCAM. Measure accuracy and latency trade-offs.",
+    "Experiment 4: Profiling and Analysis - Use nvprof/Nsight to profile warp stall reasons, arithmetic intensity, and achieved bandwidth for both baseline and TCAM implementations. Attribute speedups to specific hardware optimizations.",
+    "Experiment 5: End-to-End Evaluation - Integrate TCAM into a full LLM inference pipeline and measure end-to-end latency, throughput, and energy per token under varying batch sizes."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk 1: Tensor Core utilization may be limited by memory bandwidth, reducing the potential speedup.",
+    "Risk 2: Precision-aware scheduling may introduce accuracy degradation, requiring careful tuning.",
+    "Risk 3: TCAM may not generalize well to all LLM architectures or GPUs, limiting its applicability.",
+    "Limitation 1: The focus on short-context scenarios may not address the challenges of long-context LLM inference.",
+    "Limitation 2: The optimizations may require significant engineering effort to implement and profile."
+  ]
+}

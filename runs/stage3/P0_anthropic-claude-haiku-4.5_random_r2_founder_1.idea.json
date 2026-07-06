@@ -1,0 +1,69 @@
+{
+  "Name": "spectral_stability_routing_precision",
+  "Title": "Curvature-Aware Spectral Stability Routing: Training-Free Precision Selection via Hessian Conditioning and Feature Entanglement Diagnostics",
+  "Short Hypothesis": "We hypothesize that layer-wise precision requirements in mixed-precision quantization can be deterministically derived from pre-execution spectral diagnostics of the Hessian conditioning and activation feature entanglement, without any training. Specifically, layers exhibiting high Hessian conditioning and low feature entanglement require lower precision, while layers with poor conditioning require higher precision to maintain stability. This enables a theoretically grounded, training-free routing protocol that replaces heuristic bit-width selection with explicit mathematical guarantees on gradient flow stability and generalization bounds.",
+  "Related Work": "Recent works (EMQ, SNIP, AMP-ViT) propose training-based or heuristic-driven mixed-precision strategies but lack formal theoretical justification for layer-wise precision allocation. EMQ uses proxy correlations without mechanistic transparency; SNIP applies periodic collection during training; AMP-ViT relies on data-driven adaptation. These approaches either require training iterations or lack explicit mathematical bounds on precision-stability tradeoffs. Our contribution distinctly differs by: (1) proposing a training-free, deterministic routing protocol grounded in curvature geometry; (2) formalizing precision requirements via spectral conditioning and feature covariance decay; (3) providing explicit PAC-Bayes generalization bounds that quantify the cost of precision reduction; (4) validating through projection-based mechanistic probes rather than end-to-end accuracy metrics alone.",
+  "Abstract": "Mixed-precision quantization offers significant computational savings, yet existing methods either require expensive training-based search or rely on underspecified heuristics. We propose a training-free precision routing framework that deterministically allocates bit-widths based on pre-execution spectral diagnostics of layer-wise Hessian conditioning and activation feature entanglement. Our core insight is that layers with well-conditioned Hessians and disentangled features can tolerate aggressive quantization, while layers exhibiting poor conditioning or feature entanglement require higher precision to maintain gradient flow stability. We operationalize this through: (1) a coarse-grained block-level spectral estimator that quantifies gradient covariance decay and Hessian eigenvalue spread without backpropagation; (2) a deterministic routing algorithm that maps conditioning indices to discrete precision levels, with formal stability radii guarantees; (3) explicit PAC-Bayes bounds quantifying generalization loss under precision reduction. Empirical validation on vision transformers and LLMs demonstrates that our routing strategy achieves comparable accuracy to training-based methods while requiring <5% computational overhead for diagnostics. We validate through rigorous ablation studies isolating the contribution of conditioning vs. feature entanglement, with multi-seed variance quantification and confidence intervals. Our framework bridges optimization theory with deployment constraints, establishing a reproducible, theoretically transparent alternative to heuristic precision selection.",
+  "Experiments": [
+    {
+      "experiment": "Spectral Diagnostic Validation",
+      "description": "For each layer in a pre-trained ViT-B/16 and LLaMA-7B, compute: (1) Hessian conditioning number κ via power iteration on random mini-batches (10-20 samples); (2) activation feature covariance decay via SVD of activation matrices; (3) gradient covariance spectrum via finite-difference Hessian-vector products. Compare spectral diagnostics against layer-wise quantization sensitivity measured via layer-wise quantization-accuracy curves (8-bit to 2-bit). Metric: Spearman rank correlation between conditioning number and quantization sensitivity.",
+      "algorithm": "1. For each layer L: sample 20 random mini-batches from calibration set. 2. Compute H_approx = (1/20)Σ ∇²L via finite differences on 5-10 random directions. 3. Estimate κ(H) = λ_max/λ_min via power iteration (10 iterations). 4. Compute SVD of activation covariance: A^T A = U Σ V^T, measure decay rate as log(σ_1/σ_k). 5. Quantize layer to 8,6,4,2 bits independently; measure accuracy drop. 6. Compute rank correlation between (κ, decay_rate) and accuracy sensitivity."
+    },
+    {
+      "experiment": "Deterministic Routing Algorithm Design",
+      "description": "Design a mapping function f: (κ, decay_rate) → {2,4,6,8} bits that minimizes total model size while maintaining <1% accuracy drop. Formulate as: minimize Σ bits(layer_i) subject to: (1) accuracy constraint; (2) per-layer precision bounds derived from stability radii analysis; (3) block-level coarse-graining (all attention heads in a block use same precision). Use integer programming or greedy assignment based on Pareto frontier of (size, accuracy). Metric: Pareto frontier comparison against SNIP and EMQ on ViT-B and LLaMA-7B.",
+      "algorithm": "1. Compute κ_i and decay_i for all layers. 2. Normalize to [0,1] range. 3. Assign base precision: p_base(i) = ceil(2 + 6*(κ_i + decay_i)/2). 4. Apply coarse-graining: all heads in block B use max(p_base) within block. 5. Greedily reduce precision from 8→6→4→2 starting with highest-κ layers, halt when accuracy drop exceeds threshold. 6. Compute model size and compare to baseline uniform 4-bit and training-based methods."
+    },
+    {
+      "experiment": "PAC-Bayes Generalization Bound Derivation and Validation",
+      "description": "Derive explicit PAC-Bayes bounds quantifying generalization loss under precision reduction. For a layer quantized to b bits, the quantization noise introduces perturbation δ ~ O(2^{-b}). Bound the generalization error as: ε_gen ≤ ε_train + O(δ κ √(d/n)) where κ is Hessian conditioning, d is layer dimension, n is batch size. Validate by: (1) measuring empirical generalization gap on held-out test set; (2) comparing against predicted bound; (3) verifying bound tightness across layers with varying κ and b. Metric: ratio of empirical gap to predicted bound (should be <2x for valid bound).",
+      "algorithm": "1. For each layer with precision b and conditioning κ: compute δ_layer = 2^{-b}. 2. Estimate d (layer dimension) and assume n=128 (batch size). 3. Compute bound: ε_bound = ε_train + C * δ_layer * κ * sqrt(d/n) where C is empirical constant. 4. Measure ε_test - ε_train on validation set (10% held-out). 5. Compute ratio ε_empirical / ε_bound. 6. Plot against κ and b; verify monotonicity and <2x ratio."
+    },
+    {
+      "experiment": "Ablation: Conditioning vs. Feature Entanglement Contribution",
+      "description": "Isolate the independent contribution of Hessian conditioning and feature entanglement to precision requirements. Design three routing variants: (1) routing based on κ only; (2) routing based on decay_rate only; (3) routing based on both. Measure accuracy, model size, and diagnostic overhead for each variant on ViT-B and LLaMA-7B. Compute attribution via Shapley values or simple difference: contribution_κ = (acc_both - acc_decay) / acc_both. Metric: relative contribution percentage and accuracy-size Pareto frontier.",
+      "algorithm": "1. Compute κ_i for all layers; assign precision via f_κ(κ_i). 2. Compute decay_i for all layers; assign precision via f_decay(decay_i). 3. Assign precision via f_both(κ_i, decay_i). 4. Quantize model with each routing strategy; measure accuracy and size. 5. Compute contribution_κ = (Acc_both - Acc_decay) / (Acc_both - Acc_uniform_4bit). 6. Plot contributions across layers; report mean and std."
+    },
+    {
+      "experiment": "Computational Overhead and Scalability Analysis",
+      "description": "Quantify the computational cost of spectral diagnostics (power iteration, SVD, finite-difference Hessian estimation) on single GPU. Measure wall-clock time for full diagnostic pipeline on ViT-B (86M params) and LLaMA-7B (7B params). Express as fraction of single inference pass. Verify overhead remains <5% by limiting power iterations to 10, SVD to top-k=20, and Hessian-vector products to 5-10 random directions. Metric: diagnostic time / inference time (should be <0.05).",
+      "algorithm": "1. Measure time for: (a) power iteration (10 iterations) per layer; (b) SVD of activation covariance; (c) finite-difference Hessian-vector products (5 random directions). 2. Sum across all layers. 3. Measure single inference pass time on same GPU. 4. Compute ratio. 5. Report breakdown by operation type."
+    },
+    {
+      "experiment": "Multi-Seed Variance and Confidence Intervals",
+      "description": "Run all experiments with 5 random seeds (different calibration data, random initializations for power iteration). Report mean and 95% confidence intervals for: (1) Spearman correlation in diagnostic validation; (2) accuracy across all routing strategies; (3) model size; (4) diagnostic overhead. Ensure reproducibility via version-controlled code, archived telemetry, and exact hyperparameter specifications. Metric: confidence interval width relative to mean (should be <10% for robust findings).",
+      "algorithm": "1. For each seed s=1..5: (a) randomly sample 100 calibration examples; (b) run full diagnostic pipeline with fixed random directions; (c) apply routing; (d) quantize and measure accuracy. 2. Compute mean and std across seeds. 3. Report 95% CI: mean ± 1.96*std/sqrt(5). 4. Archive all results with timestamp and commit hash."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    {
+      "risk": "Hessian Approximation Quality",
+      "mitigation": "Power iteration and finite-difference Hessian-vector products are approximations. We bound approximation error via Kaczmarz iteration theory and finite-difference error analysis. Validate by comparing against exact Hessian on small layers; use 10-20 power iterations to ensure convergence within numerical precision."
+    },
+    {
+      "risk": "Limited Generalization Across Architectures",
+      "mitigation": "Spectral diagnostics may not transfer across architectures (CNNs, RNNs, etc.). We validate on ViT and LLaMA specifically; extend to CNNs (ResNet-50) as secondary validation. If poor transfer observed, propose architecture-specific calibration factors."
+    },
+    {
+      "risk": "Calibration Data Dependency",
+      "mitigation": "Spectral diagnostics depend on calibration data distribution. We use 100-200 random examples from training set; validate robustness via multi-seed experiments with different calibration subsets. Report variance in precision assignments across seeds."
+    },
+    {
+      "risk": "PAC-Bayes Bound Looseness",
+      "mitigation": "Derived bounds may be loose in practice. We empirically validate bound tightness (ratio of empirical to predicted); if >2x gap observed, refine bound constants via data-driven calibration or tighter union bounds."
+    },
+    {
+      "risk": "Coarse-Grained Routing Suboptimality",
+      "mitigation": "Block-level precision tiering may miss per-head or per-neuron optimization opportunities. We compare against fine-grained routing (if computationally feasible) and quantify accuracy loss from coarse-graining via ablation study."
+    },
+    {
+      "risk": "Numerical Stability in Finite Precision",
+      "mitigation": "Power iteration and SVD may suffer from numerical instability in low precision. We explicitly track condition numbers of these operations; use double precision for diagnostics, quantize only inference weights/activations."
+    },
+    {
+      "risk": "Limited Applicability to Dynamic Quantization",
+      "mitigation": "Framework targets post-training quantization; may not apply to dynamic or per-token quantization. Scope is explicitly static precision allocation; extend to dynamic case as future work if feasible."
+    }
+  ]
+}

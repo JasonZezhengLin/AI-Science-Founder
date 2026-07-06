@@ -1,0 +1,21 @@
+{
+  "Name": "profilerdrivenoptimization",
+  "Title": "Profiler-Driven Optimization of GPU Kernels for Deep Learning Inference",
+  "Short Hypothesis": "By leveraging detailed profiler data to guide the optimization of GPU kernels, we can achieve significant latency reductions and throughput improvements in deep learning inference without sacrificing accuracy.",
+  "Related Work": "Existing work, such as DeepCuts and AutoGraph, focuses on optimizing computation graphs and kernel fusion for improved performance. However, these frameworks often lack the fine-grained, hardware-specific optimizations that can be achieved through detailed profiling. EvoEngineer and DOPpler use advanced techniques for kernel optimization and parallel measurement, but they do not fully exploit the insights provided by low-level profilers. Our proposal aims to bridge this gap by using profiler data to guide kernel-level optimizations.",
+  "Abstract": "Deep learning inference on GPUs is often bottlenecked by inefficient kernel implementations. While existing frameworks like DeepCuts and AutoGraph optimize computation graphs and kernel fusion, they often lack the fine-grained, hardware-specific optimizations that can be achieved through detailed profiling. This proposal introduces a profiler-driven approach to optimizing GPU kernels for deep learning inference. By collecting and analyzing detailed profiler data, including occupancy, achieved bandwidth, warp stall reasons, and arithmetic intensity, we can identify and address specific performance bottlenecks. We will develop a framework that uses this profiler data to guide the optimization of kernel parameters, such as tile sizes, memory layouts, and precision settings. Our approach will be validated through A/B latency races under fixed accuracy budgets, reporting p50/p99 latency, throughput under batching, and energy per token. We will ensure reproducibility through pinned driver/CUDA versions, archived trace files, and exact batch/sequence configurations.",
+  "Experiments": [
+    "Collect baseline performance metrics for a set of deep learning models using nvprof/Nsight to measure occupancy, achieved bandwidth, warp stall reasons, and arithmetic intensity.",
+    "Develop a profiler-driven optimization framework that uses the collected metrics to guide kernel parameter tuning, such as tile sizes, memory layouts, and precision settings.",
+    "Conduct A/B latency races to compare the performance of the optimized kernels against the baseline, ensuring that accuracy remains within a fixed budget.",
+    "Evaluate the optimized kernels on a variety of GPUs and driver versions to ensure robustness and reproducibility.",
+    "Report p50/p99 latency, throughput under batching, and energy per token for each model and GPU configuration.",
+    "Analyze the impact of specific optimizations on performance metrics and attribute gains to specific hardware causes, such as coalesced loads, reduced HBM round-trips, better register allocation, and avoided bank conflicts."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of the profiler-driven optimization may vary across different GPU architectures and driver versions.",
+    "The overhead of collecting and analyzing detailed profiler data could introduce additional latency, which needs to be minimized.",
+    "The optimization framework may require significant manual tuning for different models and hardware configurations.",
+    "The approach may not generalize well to models with highly specialized or unconventional architectures."
+  ]
+}

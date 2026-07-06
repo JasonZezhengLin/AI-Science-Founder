@@ -1,0 +1,18 @@
+{
+  "Name": "spectral_precision_routing",
+  "Title": "Spectral Precision Routing: Training-Free Adaptive Precision Allocation via Activation Geometry",
+  "Short Hypothesis": "We hypothesize that the local spectral condition number and decay rate of hidden state activations serve as direct proxies for quantization sensitivity, enabling training-free adaptive precision allocation. By computing these geometric diagnostics on-the-fly using randomized SVD, we can map them to a precision-switching policy that enforces strict latency budgets.",
+  "Related Work": "Our proposal builds upon recent works such as Spectral Quantization Routing (SQR) and Spectral Latent Steering (SLS), which have demonstrated the effectiveness of spectral methods in training-free precision allocation and test-time optimization. However, our approach differs in that it combines the strengths of both SQR and SLS, using activation geometry to inform precision allocation and enforcing strict latency budgets through a precision-switching policy.",
+  "Abstract": "We propose Spectral Precision Routing (SPR), a training-free framework that dynamically allocates numerical precision based on real-time activation geometry. By computing local spectral diagnostics on-the-fly using randomized SVD, we map them to a precision-switching policy that enforces strict latency budgets. We theoretically ground the routing mechanism with PAC-Bayes bounds that link spectral conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, SPR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines.",
+  "Experiments": [
+    "Evaluate SPR on WILDS benchmarks using a single-GPU setup",
+    "Compare SPR to static and heuristic mixed-precision baselines in terms of throughput-accuracy tradeoff",
+    "Investigate the effect of different spectral diagnostics (e.g. condition number, decay rate) on precision allocation and latency",
+    "Analyze the theoretical bounds linking spectral conditioning to generalization stability under quantization noise"
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of SPR may depend on the quality of the spectral diagnostics and the precision-switching policy",
+    "The computational overhead of computing spectral diagnostics on-the-fly may impact latency",
+    "The theoretical bounds may not hold in practice due to approximations or assumptions"
+  ]
+}

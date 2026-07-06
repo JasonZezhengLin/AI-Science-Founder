@@ -1,0 +1,36 @@
+{
+  "Name": "curvature_aware_mixed_precision",
+  "Title": "Curvature-Aware Mixed Precision Quantization via Geometric Subspace Diagnostics",
+  "Short Hypothesis": "By leveraging curvature-aware geometric subspace diagnostics, we can achieve training-free mixed precision quantization that optimally allocates bit-widths based on the intrinsic curvature of the loss landscape, leading to superior accuracy-complexity trade-offs.",
+  "Related Work": "Recent works like EMQ and SNIP have explored training-free proxies and adaptive mixed precision strategies, but they lack a formal geometric understanding of the loss landscape. Our proposal distinguishes by explicitly incorporating curvature-aware diagnostics, which allows for a more precise allocation of bit-widths based on the intrinsic properties of the model's loss landscape.",
+  "Abstract": "Mixed Precision Quantization (MQ) offers a promising approach to reduce computational complexity while preserving model accuracy. However, existing training-free methods often rely on heuristic proxies that do not account for the intrinsic geometry of the loss landscape. This paper introduces Curvature-Aware Mixed Precision Quantization (CAMP-Q), a novel framework that leverages geometric subspace diagnostics to allocate bit-widths based on the curvature of the loss landscape. Specifically, we utilize training-free curvature estimators to quantify the sensitivity of different model layers to quantization noise. Our approach involves (1) computing curvature diagnostics using spectral estimators, (2) formulating a curvature-aware bit-width allocation strategy, and (3) validating the approach on multiple benchmarks. Experimental results demonstrate that CAMP-Q achieves superior accuracy-complexity trade-offs compared to state-of-the-art methods, with significant reductions in computational overhead.",
+  "Experiments": [
+    {
+      "description": "Compute curvature diagnostics using spectral estimators for various model layers.",
+      "metrics": [
+        "Curvature estimates",
+        "Condition number"
+      ]
+    },
+    {
+      "description": "Formulate and implement a curvature-aware bit-width allocation strategy.",
+      "metrics": [
+        "Bit-width allocation",
+        "Accuracy"
+      ]
+    },
+    {
+      "description": "Validate the approach on multiple benchmarks (e.g., ResNet, MobileNet) and compare with state-of-the-art methods.",
+      "metrics": [
+        "Accuracy",
+        "Computational overhead",
+        "Memory usage"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The accuracy of curvature diagnostics may vary across different models and architectures.",
+    "The proposed method may introduce additional computational overhead during the diagnostic phase.",
+    "The effectiveness of the bit-width allocation strategy may depend on the specific characteristics of the loss landscape."
+  ]
+}

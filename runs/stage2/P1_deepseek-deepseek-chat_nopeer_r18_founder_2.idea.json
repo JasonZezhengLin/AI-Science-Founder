@@ -1,0 +1,19 @@
+{
+  "Name": "compression-aware_task_relevance",
+  "Title": "Compression-Aware Task Relevance: Quantifying and Optimizing Task-Specific Information in Model Compression",
+  "Short Hypothesis": "The compressibility of a model is directly linked to the amount of task-relevant information it retains, and this relationship can be quantified using mutual information estimators.",
+  "Related Work": "Existing works focus on rate-distortion tradeoffs in model compression (Isik et al., 2021; Bu et al., 2019) but do not explicitly quantify task-relevant information. Our proposal distinguishes itself by directly linking task relevance to compressibility and proposing a method to estimate this relationship empirically.",
+  "Abstract": "Model compression techniques often aim to reduce the size of models while maintaining performance, but they rarely consider the specific task-relevant information retained by the compressed model. This paper proposes a novel framework that quantifies task-relevant information using mutual information estimators and links it to model compressibility. We hypothesize that the compressibility of a model is directly related to the amount of task-relevant information it retains, and we propose a method to allocate bits where they matter most. Our experiments involve mutual information estimation, entropy-based pruning, and distortion-rate analysis. We evaluate our approach using metrics such as bits-per-task-relevant-information, distortion-rate curves, and generalization performance. Our results demonstrate that task-relevant information can be effectively quantified and optimized, leading to more efficient compression strategies.",
+  "Experiments": [
+    "Estimate mutual information between model representations and task labels using InfoNCE-style estimators.",
+    "Perform entropy-based pruning by removing weights with the lowest task-relevant information.",
+    "Analyze distortion-rate curves for different levels of task-relevant information retention.",
+    "Evaluate generalization performance of compressed models on standard benchmarks (e.g., CIFAR-10, ImageNet).",
+    "Compare bits-per-task-relevant-information for different compression methods."
+  ],
+  "Risk Factors and Limitations": [
+    "Accuracy of mutual information estimation in high-dimensional settings.",
+    "Hyperparameter tuning required for different tasks.",
+    "Potential computational overhead from mutual information estimation."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "Name": "adaptive_kernels_for_variable_workloads",
+  "Title": "Adaptive Kernel Tuning for Real-Time Inference Optimization",
+  "Short Hypothesis": "Dynamic profiling can significantly enhance inference efficiency by adaptively tuning CUDA kernels based on real-time workload characteristics, leading to improved throughput and reduced latency on commodity GPUs.",
+  "Related Work": "Existing literature focuses on static optimization strategies for inference kernels. While frameworks like CAGR and TARDIS optimize across heterogeneous environments, they do not adaptively profile and tune kernels during inference based on current workload characteristics. This proposal introduces a novel approach that leverages real-time profiling to dynamically adjust kernel parameters for optimal performance.",
+  "Abstract": "As machine learning models grow in complexity and size, the demand for efficient inference on commodity GPUs continues to rise. This proposal introduces a novel framework that implements adaptive kernel tuning based on real-time profiling of workload characteristics. By instrumenting the inference pipeline to gather performance metrics dynamically, such as memory bandwidth utilization, kernel occupancy, and arithmetic intensity, the system can adjust kernel parameters on-the-fly, optimizing for the specific demands of each inference task. We aim to demonstrate significant reductions in latency and improvements in throughput compared to static kernel configurations. Initial experiments will benchmark our approach against traditional static optimization methods, evaluating performance metrics including p50 and p99 latency, tokens-per-second throughput, and energy efficiency. This research has the potential to transform inference practices in real-world applications, providing a practical solution for optimizing deployment on commodity hardware.",
+  "Experiments": [
+    "1. Implement a baseline static kernel optimization for a selected model (e.g., a transformer-based model) using standard CUDA kernels.",
+    "2. Develop an adaptive kernel tuning framework that profiles real-time performance metrics during inference and adjusts parameters (e.g., tile sizes, block configurations) dynamically.",
+    "3. Conduct A/B latency races using both static and adaptive kernels under various workload conditions to measure improvements in p50/p99 latency and throughput.",
+    "4. Evaluate energy consumption per token processed for both approaches to assess efficiency gains."
+  ],
+  "Risk Factors and Limitations": [
+    "1. The overhead introduced by profiling may offset some performance gains, particularly for low-latency applications.",
+    "2. The adaptive tuning algorithm may require extensive tuning itself to avoid instability.",
+    "3. Performance improvements may vary significantly based on the specific model architecture and workload characteristics."
+  ]
+}

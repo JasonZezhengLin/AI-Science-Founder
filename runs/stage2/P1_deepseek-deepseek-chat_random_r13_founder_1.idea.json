@@ -1,0 +1,20 @@
+{
+  "Name": "triton_kernel_optimization_llm",
+  "Title": "Kernel-Level Triton Optimization for Efficient LLM Inference: A Hardware-Faithful Approach",
+  "Short Hypothesis": "Empirically optimizing Triton kernels for LLM inference through hardware-level profiling can achieve measurable speedups in wall-clock latency and tokens-per-second on real hardware, outperforming existing CUDA kernel optimizations.",
+  "Related Work": "Recent work like QUICK and VecInfer focuses on CUDA kernel optimizations for LLM inference, particularly in quantization and KV cache compression. However, Triton-based optimizations remain underexplored. GEAK introduces AI-generated Triton kernels but lacks a hardware-faithful evaluation methodology. This proposal distinguishes itself by directly profiling Triton kernels on real hardware, isolating specific optimizations (e.g., memory-bandwidth utilization, tensor-core occupancy) and providing reproducible benchmarks.",
+  "Abstract": "Large Language Model (LLM) inference is increasingly bottlenecked by kernel-level inefficiencies, particularly in memory access patterns and tensor-core utilization. While CUDA kernel optimizations have been extensively studied, Triton kernels—known for their balance of performance and ease-of-coding—remain underexplored. This paper proposes a hardware-faithful methodology for optimizing Triton kernels specifically for LLM inference. We profile Triton kernels on real hardware, measuring occupancy, achieved bandwidth, warp stall reasons, and arithmetic intensity, and attribute gains to specific hardware causes such as coalesced loads, reduced HBM round-trips, and better register allocation. Our experiments demonstrate measurable speedups in wall-clock latency and tokens-per-second on commodity GPUs, outperforming existing CUDA kernel optimizations. We provide reproducible benchmarks, nvprof/Nsight traces, and end-to-end speedups that practitioners can deploy immediately.",
+  "Experiments": [
+    "Profile baseline Triton kernels for LLM inference (e.g., attention, matrix multiplication) on NVIDIA GPUs, collecting metrics: occupancy, achieved bandwidth, warp stall reasons, arithmetic intensity.",
+    "Optimize Triton kernels by addressing specific hardware bottlenecks identified in profiling (e.g., coalesced loads, reduced HBM round-trips).",
+    "Compare optimized Triton kernels against state-of-the-art CUDA kernels (e.g., QUICK, VecInfer) in terms of wall-clock latency, tokens-per-second, and energy per token.",
+    "Evaluate the impact of optimizations on different batch sizes and sequence lengths, reporting p50/p99 latency and throughput under batching.",
+    "Perform ablation studies to isolate the contribution of each optimization technique (e.g., memory-bandwidth utilization, tensor-core occupancy)."
+  ],
+  "Risk Factors and Limitations": [
+    "Triton kernels may not achieve the same level of optimization as CUDA kernels due to language limitations.",
+    "Optimizations may be hardware-specific, limiting generalizability across GPU architectures.",
+    "The proposed methodology requires extensive hardware profiling, which can be time-consuming.",
+    "Gains in kernel-level performance may not translate to significant end-to-end speedups due to other bottlenecks in the inference pipeline."
+  ]
+}

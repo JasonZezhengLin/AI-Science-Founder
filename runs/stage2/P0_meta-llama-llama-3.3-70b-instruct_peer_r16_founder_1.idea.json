@@ -1,0 +1,18 @@
+{
+  "Name": "spectral_quantization_routing",
+  "Title": "Spectral Quantization Routing: Training-Free Precision Allocation via Activation Covariance Geometry",
+  "Short Hypothesis": "We hypothesize that the local covariance condition number and spectral decay rate of hidden states serve as direct proxies for quantization sensitivity, enabling training-free precision allocation and strict latency budgets.",
+  "Related Work": "Our proposal builds upon recent work in spectral latent steering and geometric signal separation, but differs in its focus on training-free precision allocation and strict latency budgets. Unlike existing methods that rely on static profiling or costly calibration, our approach uses real-time activation geometry to dynamically allocate numerical precision.",
+  "Abstract": "Mixed-precision inference promises significant latency and memory gains, but typically relies on static profiling or costly calibration. We propose Spectral Quantization Routing (SQR), a training-free framework that dynamically allocates numerical precision based on real-time activation geometry. By computing local covariance condition numbers and spectral decay rates, SQR maps these diagnostics to a precision-switching policy that enforces strict latency budgets. We theoretically ground SQR in PAC-Bayes bounds, linking spectral conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, SQR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines.",
+  "Experiments": [
+    "Evaluate SQR on WILDS benchmarks with varying latency budgets and precision settings",
+    "Compare SQR to static and heuristic mixed-precision baselines in terms of throughput, accuracy, and latency",
+    "Investigate the effect of different covariance estimation methods and spectral decay rates on SQR's performance",
+    "Assess the robustness of SQR to distributional shifts and adversarial attacks"
+  ],
+  "Risk Factors and Limitations": [
+    "SQR's performance may be sensitive to the choice of covariance estimation method and spectral decay rate",
+    "The approach may not generalize well to extremely low-latency or high-precision settings",
+    "SQR's training-free nature may limit its ability to adapt to complex or dynamic input distributions"
+  ]
+}

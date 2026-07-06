@@ -1,0 +1,20 @@
+{
+  "Name": "pacbayes_layer_skipping",
+  "Title": "PAC-Bayes Meets Jacobian-Based Layer-Skipping: A Principled Approach to Latency-Aware Inference",
+  "Short Hypothesis": "Combining PAC-Bayes generalization bounds with Jacobian-based layer-skipping can yield a theoretically grounded and computationally efficient framework for latency-aware inference, without compromising model accuracy.",
+  "Related Work": "PAC-Bayes has been extensively studied for generalization bounds (e.g., Dziugaite & Roy, 2017), and layer-skipping techniques have been explored for efficient inference (e.g., Wang et al., 2021). However, no work has combined these approaches to provide theoretical guarantees on latency-aware inference while maintaining accuracy.",
+  "Abstract": "We propose a novel framework that integrates PAC-Bayes generalization bounds with Jacobian-based layer-skipping to enable latency-aware inference. Our approach leverages the PAC-Bayes framework to provide theoretical guarantees on generalization error, while Jacobian-based layer-skipping dynamically reduces computational overhead during inference. We derive a principled mechanism for selecting which layers to skip based on the Jacobian’s sensitivity to input perturbations, ensuring minimal impact on model accuracy. Experimental results on benchmark datasets demonstrate that our approach achieves significant reductions in inference latency without sacrificing accuracy, outperforming existing layer-skipping methods. This work bridges the gap between theoretical guarantees and practical efficiency, offering a robust solution for latency-critical applications.",
+  "Experiments": [
+    "Evaluate latency-accuracy trade-offs on CIFAR-10 and ImageNet using ResNet architectures.",
+    "Compare against baseline layer-skipping methods (e.g., adaptive inference, early-exit networks).",
+    "Measure generalization error using PAC-Bayes bounds and validate empirically.",
+    "Analyze computational overhead and memory bandwidth usage during inference.",
+    "Conduct ablation studies to assess the impact of Jacobian-based layer selection."
+  ],
+  "Risk Factors and Limitations": [
+    "Theoretical guarantees may not fully translate to empirical performance in all settings.",
+    "Jacobian computations could introduce additional overhead, though we aim to amortize this cost.",
+    "The approach may require tuning for different architectures and datasets.",
+    "Limited to inference-time optimizations; training-time efficiency is not addressed."
+  ]
+}

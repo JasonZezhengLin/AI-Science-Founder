@@ -1,0 +1,18 @@
+{
+  "Name": "training_free_geometric_interference_cancellation",
+  "Title": "Geometric Interference Cancellation: A Training-Free Approach for Robust In-Context Learning",
+  "Short Hypothesis": "We hypothesize that by conceptualizing task signals and noisy contextual information as geometrically distinct in activation space, we can develop a method to cancel interference without requiring training, thereby enhancing robustness and efficiency in in-context learning scenarios.",
+  "Related Work": "Existing frameworks like Training-Free Geometric Interference Cancellation rely on heuristic control mechanisms and suffer from inefficiency and unpredictability. Our approach distinguishes itself by leveraging geometric properties of activation space to isolate and remove noise, thereby providing a mathematically grounded, interpretable method that enhances robustness without the need for additional training.",
+  "Abstract": "In-context learning (ICL) has revolutionized the adaptability of large language models, yet their susceptibility to distributional shifts and noisy contexts remains a critical challenge. This proposal introduces a novel, training-free framework that views ICL activations as a linear superposition of task signals and noise, allowing for the geometric separation of these components. By calculating local activation covariances, we derive a generalized eigen-projection method that effectively cancels interference directions, isolating robust task subspaces. This approach not only enhances the stability of the model during inference but also respects strict latency constraints. We will theoretically ground our method through PAC-Bayes generalization bounds, linking the stability of the projected space to predicted performance across various benchmarks. Empirical validation will demonstrate significant improvements in robustness to adversarial inputs while maintaining efficiency, thus establishing a new paradigm in training-free optimization for in-context learning.",
+  "Experiments": [
+    "1. Implement the geometric interference cancellation algorithm using PCA to compute local activation covariances.",
+    "2. Evaluate the framework across several benchmark tasks with varying degrees of noise and distributional shifts.",
+    "3. Measure key performance indicators including accuracy retention, inference latency, and resource usage.",
+    "4. Conduct ablation studies to isolate the effects of geometric cancellation versus traditional noise filtering techniques."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of the geometric cancellation may be sensitive to the choice of PCA components.",
+    "There may be scenarios where the underlying assumption of geometric separability does not hold.",
+    "The approach may require careful tuning of parameters to maintain a balance between robustness and efficiency."
+  ]
+}

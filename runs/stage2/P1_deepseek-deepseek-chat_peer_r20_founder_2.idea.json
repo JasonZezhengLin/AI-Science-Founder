@@ -1,0 +1,18 @@
+{
+  "Name": "mutual_information_compression",
+  "Title": "The Information-Theoretic Limits of Task-Specific Model Compression",
+  "Short Hypothesis": "The mutual information between the task-relevant features and the compressed representation determines the fundamental bit-cost of preserving task performance, and practical compression methods can be evaluated against this limit.",
+  "Related Work": "Prior work has explored mutual information in generalization (Steinke & Zakynthinou, 2020) and compression (TexShape, 2024), but none have explicitly framed model compression as a task-specific mutual information maximization problem or derived operational bounds on the bit-cost of preserving task performance. This proposal distinguishes itself by focusing on the information-theoretic limits of task-specific compression rather than empirical compression techniques.",
+  "Abstract": "Model compression is crucial for deploying machine learning models in resource-constrained environments, yet existing methods often lack theoretical grounding in the fundamental limits of compression. We propose an information-theoretic framework that quantifies the bit-cost of preserving task performance by analyzing the mutual information between task-relevant features and the compressed representation. We derive achievability and converse bounds on the bit-cost, showing that it depends on the task-specific information in the model’s representations. We then evaluate practical compression methods (e.g., quantization, pruning) against these bounds, measuring their efficiency relative to the theoretical limit. Experiments on benchmark datasets demonstrate that current methods often operate far from the limit, suggesting significant room for improvement. This work provides a principled way to assess compression techniques and guides the development of more efficient methods by identifying the redundancy in existing representations.",
+  "Experiments": [
+    "Derive achievability and converse bounds on the bit-cost of preserving task performance using mutual information analysis.",
+    "Evaluate practical compression methods (e.g., quantization, pruning) against these bounds on benchmark datasets (e.g., CIFAR-10, ImageNet).",
+    "Measure the efficiency of each method by comparing its bit-cost to the theoretical limit.",
+    "Perform ablation studies to identify the sources of redundancy in representations that prevent current methods from achieving the limit."
+  ],
+  "Risk Factors and Limitations": [
+    "The mutual information between task-relevant features and compressed representations may be difficult to estimate accurately, especially for high-dimensional data.",
+    "The derived bounds may be loose in practice, limiting their utility for guiding compression methods.",
+    "The framework assumes task-specific information can be cleanly separated from irrelevant information, which may not hold for complex tasks."
+  ]
+}

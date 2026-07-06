@@ -1,0 +1,18 @@
+{
+  "Name": "task_specific_compression_mtl",
+  "Title": "Task-Specific Mutual Information for Efficient Compression in Multi-Task Learning",
+  "Short Hypothesis": "Compressing multi-task models can be made more efficient by explicitly optimizing for task-specific mutual information, leading to better trade-offs between compression rate and task performance.",
+  "Related Work": "Existing work on model compression (e.g., Isik et al., 2021) focuses on single-task settings, while multi-task learning (MTL) literature often overlooks compression efficiency. This proposal bridges these gaps by introducing task-specific mutual information as a guiding principle for compression in MTL, building on rate-distortion theory and information-theoretic bounds.",
+  "Abstract": "Multi-task learning (MTL) models often suffer from high parameter redundancy, making compression essential for efficiency. However, existing compression methods treat MTL as a single-task problem, ignoring the unique information requirements of each task. We propose a novel framework for compressing MTL models by explicitly optimizing for task-specific mutual information. By quantifying the mutual information between the compressed model and each task, we derive a task-aware rate-distortion trade-off that minimizes redundancy while preserving task performance. Our approach leverages information-theoretic bounds to allocate bits efficiently across tasks, ensuring that the compressed model retains sufficient task-specific information. We validate our framework on standard MTL benchmarks, demonstrating significant improvements in compression efficiency and task performance compared to single-task baselines.",
+  "Experiments": [
+    "1. **Task-Specific Mutual Information Estimation**: Use InfoNCE-based estimators to quantify mutual information between compressed representations and task outputs for each task in MTL.",
+    "2. **Rate-Distortion Optimization**: Formulate a task-aware rate-distortion objective that balances compression rate with task-specific mutual information. Use gradient-based methods to optimize this objective.",
+    "3. **Benchmark Evaluation**: Compare our framework against single-task compression baselines on standard MTL datasets (e.g., NYUv2, Multi-MNIST). Metrics include compression rate, task performance (e.g., accuracy, MSE), and mutual information preservation.",
+    "4. **Ablation Studies**: Analyze the impact of task-specific mutual information on compression efficiency by varying the mutual information constraints."
+  ],
+  "Risk Factors and Limitations": [
+    "Estimating task-specific mutual information accurately may be challenging in high-dimensional settings.",
+    "The proposed framework assumes task independence, which may not hold in all MTL scenarios.",
+    "The computational cost of optimizing task-aware rate-distortion trade-offs could be higher than single-task methods."
+  ]
+}

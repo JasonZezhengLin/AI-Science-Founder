@@ -1,0 +1,18 @@
+{
+  "Name": "task_relevant_compression",
+  "Title": "Task-Relevant Information Preservation in Model Compression",
+  "Short Hypothesis": "Model compression strategies that explicitly preserve task-relevant information can achieve higher compression ratios without sacrificing performance, as quantified by a novel task-relevant information preservation metric.",
+  "Related Work": "Existing work on model compression focuses on rate-distortion trade-offs and pruning strategies (Isik et al., 2021; Zhang et al., 2022). However, these approaches do not explicitly model task-relevant information. Our proposal distinguishes itself by introducing a task-relevant information preservation metric and a compression strategy that optimizes for this metric, providing both theoretical guarantees and practical benefits.",
+  "Abstract": "We propose a novel framework for model compression that explicitly preserves task-relevant information. By introducing a task-relevant information preservation metric, we quantify the amount of information retained during compression and derive theoretical bounds on the minimum bit-cost required to preserve this information. We then develop a practical compression strategy that optimizes for this metric, achieving higher compression ratios without sacrificing performance. Experimental results on benchmark datasets demonstrate the effectiveness of our approach, showing significant improvements in compression efficiency and task performance compared to existing methods. Our work bridges the gap between theoretical information-theoretic limits and practical compression strategies, offering a new perspective on model compression.",
+  "Experiments": [
+    "Evaluate the task-relevant information preservation metric on benchmark datasets (CIFAR-10, ImageNet) using mutual information estimators.",
+    "Implement the proposed compression strategy and compare its performance to existing methods (pruning, quantization) in terms of compression ratio and task performance.",
+    "Validate the theoretical bounds on the minimum bit-cost required to preserve task-relevant information through empirical experiments.",
+    "Analyze the trade-offs between compression ratio, task performance, and task-relevant information preservation."
+  ],
+  "Risk Factors and Limitations": [
+    "The task-relevant information preservation metric may be computationally expensive to estimate for large models.",
+    "The proposed compression strategy may require task-specific tuning, limiting its generalizability.",
+    "Theoretical bounds may be difficult to validate empirically due to the complexity of real-world datasets."
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "Name": "dynamic_kernel_fusion",
+  "Title": "Dynamic Kernel Fusion for Hardware-Focused Mixed-Precision Inference Optimization",
+  "Short Hypothesis": "By dynamically fusing mixed-precision kernels based on real-time profiling data, we can significantly enhance inference speed and reduce latency for large models on commodity GPUs.",
+  "Related Work": "Existing methods like SliM-LLM and MicroMix focus on static quantization strategies, often compromising on real-time adaptability. Our approach distinguishes itself by employing real-time performance profiling to inform kernel fusion decisions, allowing for adaptive optimizations that respond to varying workload characteristics.",
+  "Abstract": "This proposal introduces a novel framework for optimizing mixed-precision inference in large models by dynamically fusing CUDA kernels based on real-time profiling data. While previous work has demonstrated the benefits of mixed precision, they often rely on static configurations that do not account for runtime variability in data patterns and GPU resource availability. Our approach leverages hardware profiling tools to capture occupancy, bandwidth, and stall reasons, dynamically adapting the execution strategy to maximize throughput and minimize latency. We will implement a prototype based on existing mixed-precision kernels and evaluate its performance against static baseline methods using p50/p99 latency and throughput metrics on commodity GPUs. The expected outcomes are substantial speedups in inference times, enabling more efficient deployment of large models in resource-constrained environments while maintaining accuracy.",
+  "Experiments": [
+    "1. Implement a baseline mixed-precision kernel using static configurations for existing models (e.g., LLaMA, GPT).",
+    "2. Develop a dynamic kernel fusion framework that captures profiling data during inference.",
+    "3. Compare the performance of the dynamic fusion approach against the static baseline using metrics such as p50/p99 latency, throughput under batching, and energy per token.",
+    "4. Conduct ablation studies to isolate the contributions of different profiling metrics to performance improvements."
+  ],
+  "Risk Factors and Limitations": "1. The dynamic profiling may introduce overhead that could negate some benefits of kernel fusion in certain scenarios. 2. Ensuring the profiling does not disrupt the inference flow is crucial. 3. Hardware variability may affect reproducibility; our approach will need to account for this."
+}

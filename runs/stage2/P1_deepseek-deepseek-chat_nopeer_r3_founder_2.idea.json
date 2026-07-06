@@ -1,0 +1,18 @@
+{
+  "Name": "iterative_mutual_information_compression",
+  "Title": "Iterative Mutual Information-Guided Model Compression: A Rate-Distortion Approach",
+  "Short Hypothesis": "Task-relevant mutual information (TRMI) can guide iterative model compression by dynamically allocating bits to preserve the most informative components, leading to better rate-distortion trade-offs compared to static methods.",
+  "Related Work": "Existing work focuses on static measures of mutual information or heuristic pruning rules. For example, 'Rate-Distortion Optimization in AI for Neural Representation Compression' explores task-aware rate-distortion but does not dynamically adapt compression based on TRMI. Our proposal differs by iteratively updating compression based on TRMI, providing a theoretically grounded and adaptive approach.",
+  "Abstract": "Model compression is essential for deploying deep neural networks in resource-constrained environments. Existing methods often rely on static heuristics or post-hoc analysis, ignoring the dynamic interplay between compression and task-relevant information. We propose an iterative mutual information-guided compression framework that dynamically allocates bits to preserve the most informative components of the model. By leveraging task-relevant mutual information (TRMI) as a guiding metric, our method adapts pruning and quantization strategies at each iteration, optimizing the rate-distortion trade-off. We derive theoretical bounds on the achievable compression rates and demonstrate empirically that our approach outperforms static methods on standard benchmarks. Our results show that iterative TRMI-guided compression achieves higher task accuracy for a given compression rate, providing a principled and adaptive framework for model compression.",
+  "Experiments": [
+    "Experiment 1: Compare TRMI-guided iterative pruning with static pruning methods on CIFAR-10 and ImageNet using ResNet-18. Metrics: Accuracy vs. Compression Rate.",
+    "Experiment 2: Evaluate TRMI-guided quantization against uniform quantization on MNIST and CIFAR-10. Metrics: Task accuracy vs. Bit-width.",
+    "Experiment 3: Ablation study on the impact of TRMI estimation methods (e.g., InfoNCE vs. Variational bounds) on compression efficiency. Metrics: Compression rate vs. Distortion.",
+    "Experiment 4: Test robustness of TRMI-guided compression across different architectures (e.g., VGG, Transformer). Metrics: Task accuracy vs. Model size."
+  ],
+  "Risk Factors and Limitations": [
+    "TRMI estimation may introduce computational overhead, especially for large models.",
+    "The method relies on accurate mutual information estimators, which can be challenging to compute for high-dimensional data.",
+    "The iterative nature of the approach may increase training time compared to static methods."
+  ]
+}

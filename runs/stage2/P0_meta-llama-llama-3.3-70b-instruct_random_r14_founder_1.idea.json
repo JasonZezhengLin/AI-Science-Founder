@@ -1,0 +1,17 @@
+{
+  "Name": "geometric_mixed_precision",
+  "Title": "Geometric Mixed Precision Optimization with Deterministic Spectral Estimators",
+  "Short Hypothesis": "We hypothesize that geometric subspace diagnostics and deterministic spectral estimators can be used to develop a training-free mixed precision optimization framework that achieves better accuracy-complexity trade-offs for deep learning models.",
+  "Related Work": "Recent works such as SNIP, AMP-ViT, and EMQ have explored adaptive mixed precision training and post-training quantization methods. However, these methods rely on heuristic-based approaches or require significant computational overhead. In contrast, our proposed framework leverages geometric subspace diagnostics and deterministic spectral estimators to provide a training-free and efficient solution.",
+  "Abstract": "This paper proposes a novel training-free mixed precision optimization framework for deep learning models. Our approach combines geometric subspace diagnostics with deterministic spectral estimators to efficiently optimize layer-wise precision. We demonstrate the effectiveness of our framework on various benchmark models, achieving significant reductions in computational complexity while maintaining accuracy. Our framework provides a theoretically grounded and efficient solution for mixed precision optimization, making it an attractive choice for real-world deployments.",
+  "Experiments": [
+    "Evaluate the proposed framework on benchmark models such as ResNet and MobileNet",
+    "Compare the performance of our framework with state-of-the-art mixed precision optimization methods",
+    "Conduct ablation studies to analyze the impact of geometric subspace diagnostics and deterministic spectral estimators on the framework's performance"
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed framework may not be effective for models with complex or non-convex geometries",
+    "The choice of spectral estimators and geometric subspace diagnostics may require careful tuning for optimal performance",
+    "The framework's computational overhead may be higher than expected due to the complexity of the geometric subspace diagnostics and spectral estimators"
+  ]
+}

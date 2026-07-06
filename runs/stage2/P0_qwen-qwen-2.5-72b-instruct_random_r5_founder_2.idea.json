@@ -1,0 +1,21 @@
+{
+  "Name": "LatencyAwareAdaptiveQuantization",
+  "Title": "Latency-Aware Adaptive Quantization for Vision Transformers on Edge Devices",
+  "Short Hypothesis": "By integrating latency-aware adaptive quantization into the inference pipeline of Vision Transformers (ViTs), we can achieve a significant reduction in inference latency without compromising accuracy, making ViTs viable for real-time applications on resource-constrained edge devices.",
+  "Related Work": "Recent works such as Quasar-ViT, viNPU, and AMP-ViT have explored various strategies for optimizing ViTs for edge devices, focusing on quantization, hardware-aware optimization, and mixed-precision techniques. However, these methods often do not explicitly account for latency constraints during the quantization process. Our proposal aims to bridge this gap by introducing a latency-aware adaptive quantization framework that dynamically adjusts quantization levels based on real-time performance metrics.",
+  "Abstract": "Vision Transformers (ViTs) have revolutionized computer vision but face significant challenges in real-time deployment on edge devices due to high computational and memory demands. Existing post-training quantization methods, while effective, often fail to meet strict latency requirements. This paper introduces Latency-Aware Adaptive Quantization (LAAQ), a framework that dynamically adjusts quantization levels during inference to optimize both latency and accuracy. LAAQ leverages a Jacobian-based layer-skipping mechanism and uncertainty-quantified activation proxies to ensure minimal hidden-state perturbation and strict wall-clock budget adherence. We evaluate LAAQ on a range of ViT models and edge devices, demonstrating up to 30% reduction in inference latency with minimal accuracy degradation. The proposed method is scalable and adaptable, making it suitable for various real-time applications.",
+  "Experiments": [
+    "1. **Baseline Evaluation**: Measure the inference latency and accuracy of ViT models on edge devices (e.g., Qualcomm Hexagon NPU) using standard floating-point and fixed-precision quantization methods.",
+    "2. **Jacobian-Based Layer-Skipping**: Implement a Jacobian-based layer-skipping mechanism to identify and skip less critical layers during inference, reducing latency. Evaluate the impact on accuracy and latency.",
+    "3. **Uncertainty-Quantified Activation Proxies**: Develop and integrate uncertainty-quantified activation proxies to monitor and adjust quantization levels in real-time. Evaluate the stability and accuracy of the model under varying quantization levels.",
+    "4. **Latency-Aware Adaptive Quantization (LAAQ)**: Combine the layer-skipping mechanism and activation proxies to create the LAAQ framework. Conduct extensive experiments to fine-tune the framework parameters and evaluate its performance on different ViT models and edge devices.",
+    "5. **Ablation Studies**: Perform ablation studies to isolate the contributions of each component (layer-skipping, activation proxies) to the overall performance improvement.",
+    "6. **Cross-Device Evaluation**: Test the LAAQ framework on a variety of edge devices to ensure its robustness and adaptability. Compare the results with state-of-the-art methods."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Complexity of Real-Time Adjustments**: The real-time adjustment of quantization levels may introduce additional computational overhead, potentially offsetting latency gains.",
+    "2. **Model-Specific Tuning**: The effectiveness of LAAQ may vary across different ViT models and edge devices, requiring extensive tuning and validation.",
+    "3. **Accuracy Degradation**: While LAAQ aims to minimize accuracy degradation, there is a risk that the dynamic adjustments may lead to unexpected performance drops in certain scenarios.",
+    "4. **Hardware Limitations**: The performance of LAAQ is highly dependent on the capabilities of the edge device, and some devices may not support the required precision levels or real-time adjustments."
+  ]
+}

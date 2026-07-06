@@ -1,0 +1,19 @@
+{
+  "Name": "adaptive_kernel_optimization",
+  "Title": "Dynamic Kernel Optimization for Real-Time Machine Learning Inference",
+  "Short Hypothesis": "Can we significantly enhance inference performance by dynamically optimizing CUDA kernels based on real-time profiling of workload characteristics?",
+  "Related Work": "While existing literature focuses on static optimization techniques, such as those presented in LithOS and nnJIT, they do not fully exploit real-time workload characteristics for kernel adaptation. This proposal distinguishes itself by introducing a runtime profiling mechanism that informs kernel execution decisions, allowing for dynamic adjustments that respond to changing input patterns and system states.",
+  "Abstract": "As machine learning models grow in complexity, achieving efficient inference on commodity GPUs remains a core challenge. This proposal introduces a novel approach to enhance inference performance through dynamic kernel optimization driven by real-time profiling of workload characteristics. By instrumenting CUDA kernels to collect runtime metrics such as latency, memory bandwidth utilization, and occupancy, we will develop an adaptive framework that reconfigures kernel execution parameters on-the-fly. This framework will leverage pre-defined optimization heuristics, informed by runtime data, to optimize tile sizes, precision, and scheduling strategies. Our preliminary experiments will focus on evaluating the speedup achieved through dynamic adjustments against traditional static optimizations. We will report on p50/p99 latency, tokens-per-second throughput, and energy efficiency to quantify the performance gains. This research aims to provide a practical solution for practitioners seeking to maximize inference efficiency in real-world applications.",
+  "Experiments": [
+    "Develop a baseline system with static optimization based on existing heuristic methods for kernel execution.",
+    "Implement a dynamic profiling mechanism to gather runtime metrics during inference.",
+    "Test different adaptive strategies such as dynamic tiling, precision adjustment, and workload-aware scheduling.",
+    "Conduct A/B testing against the static baseline, measuring p50/p99 latency, throughput, and energy efficiency under varying workloads.",
+    "Utilize nvprof/Nsight for detailed profiling to attribute performance gains to specific optimizations."
+  ],
+  "Risk Factors and Limitations": [
+    "Possible overhead from runtime profiling affecting overall performance.",
+    "Challenges in determining optimal adaptive strategies due to variability in workloads.",
+    "The approach may require fine-tuning for specific models or hardware configurations."
+  ]
+}

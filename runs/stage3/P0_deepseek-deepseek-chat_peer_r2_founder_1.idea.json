@@ -1,0 +1,20 @@
+{
+  "Name": "curvature_driven_token_pruning",
+  "Title": "Curvature-Driven Token Pruning: Training-Free Efficiency Optimization via Geometric Sensitivity Diagnostics",
+  "Short Hypothesis": "The local curvature of transformer activations serves as a proxy for token-level computational importance, enabling dynamic pruning of geometrically insensitive tokens without significant performance degradation.",
+  "Related Work": "Existing methods like Spectral Quantization Routing (founder_1) focus on mixed-precision inference but do not address token-level efficiency. Spectral Latent Steering (founder_2) optimizes test-time compute but relies on subspace projections rather than curvature diagnostics. Our work uniquely ties curvature-aware diagnostics to token pruning, offering a novel, mathematically grounded approach to latency optimization.",
+  "Abstract": "Transformer models achieve state-of-the-art performance but suffer from high computational costs, particularly in processing long sequences. We propose Curvature-Driven Token Pruning (CDTP), a training-free framework that dynamically eliminates tokens based on their geometric sensitivity. By computing local curvature diagnostics—quantified via Hessian conditioning and gradient covariance decay—CDTP identifies tokens that contribute minimally to the model's output. These geometrically insensitive tokens are pruned, reducing computational overhead while preserving performance. We ground our approach in PAC-Bayes bounds, linking curvature diagnostics to generalization stability under token removal. Evaluated on single-GPU setups across text classification and summarization tasks, CDTP achieves superior throughput-accuracy trade-offs compared to static and heuristic pruning baselines. Our method provides a transparent, reproducible pathway for resource-efficient transformer inference under strict latency constraints.",
+  "Experiments": [
+    "Measure local curvature diagnostics (Hessian conditioning, gradient covariance decay) for each token in transformer activations.",
+    "Develop a pruning mechanism that removes tokens with curvature below a dynamically calibrated threshold.",
+    "Evaluate on text classification (GLUE) and summarization (CNN/DailyMail) tasks, comparing throughput, accuracy, and latency to static and heuristic pruning baselines.",
+    "Perform ablation studies to isolate the impact of curvature diagnostics on pruning efficiency.",
+    "Validate theoretical bounds by measuring generalization stability under token removal using PAC-Bayes analysis."
+  ],
+  "Risk Factors and Limitations": [
+    "Curvature diagnostics may introduce computational overhead, offsetting pruning gains.",
+    "The method assumes that geometric sensitivity correlates with token importance, which may not hold for all tasks.",
+    "Dynamic threshold calibration could be sensitive to input distribution shifts.",
+    "The approach is limited to transformer architectures and may not generalize to other model types."
+  ]
+}

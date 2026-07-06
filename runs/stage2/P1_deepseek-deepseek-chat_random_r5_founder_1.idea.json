@@ -1,0 +1,20 @@
+{
+  "Name": "dynamic_kv_cache_layout",
+  "Title": "Dynamic KV-Cache Layout Optimization for Efficient Large Language Model Inference",
+  "Short Hypothesis": "Adaptively reorganizing the KV-cache layout based on runtime access patterns can significantly reduce memory bandwidth usage and improve inference latency without compromising model accuracy.",
+  "Related Work": "Current approaches to optimizing KV-cache focus on static layouts or uniform quantization schemes (e.g., AMP-ViT, SNIP). These methods do not account for the dynamic nature of attention patterns during inference, leading to suboptimal memory bandwidth utilization. Our proposal distinguishes itself by introducing a dynamic KV-cache reorganization mechanism that adapts to runtime access patterns, leveraging hardware profiling to minimize memory bandwidth usage.",
+  "Abstract": "Large language models (LLMs) rely heavily on key-value (KV) caches to store intermediate results during inference. However, static KV-cache layouts often fail to exploit the dynamic nature of attention patterns, leading to inefficient memory bandwidth utilization. We propose a dynamic KV-cache layout optimization technique that reorganizes the cache based on runtime access patterns, guided by hardware profiling. Our method dynamically adjusts the layout to minimize memory bandwidth usage and improve inference latency. We evaluate our approach on a range of LLMs, demonstrating significant reductions in memory bandwidth usage and inference latency without compromising model accuracy. Our results show that adaptive KV-cache reorganization can lead to more efficient LLM inference on commodity GPUs.",
+  "Experiments": [
+    "Implement a dynamic KV-cache reorganization mechanism that adapts to runtime access patterns.",
+    "Profile memory bandwidth usage and inference latency using nvprof/Nsight on a range of LLMs (e.g., GPT-3, LLaMA).",
+    "Compare the performance of dynamic KV-cache layouts against static layouts and uniform quantization schemes.",
+    "Measure the impact of dynamic reorganization on model accuracy using standard benchmarks (e.g., SQuAD, GLUE).",
+    "Evaluate the scalability of the approach by testing on different model sizes and hardware configurations."
+  ],
+  "Risk Factors and Limitations": [
+    "Dynamic reorganization may introduce overhead that offsets the gains in memory bandwidth usage.",
+    "The effectiveness of the approach may vary across different models and hardware configurations.",
+    "Ensuring reproducibility across different GPU architectures and driver versions could be challenging.",
+    "The proposed method may require significant tuning to achieve optimal performance."
+  ]
+}

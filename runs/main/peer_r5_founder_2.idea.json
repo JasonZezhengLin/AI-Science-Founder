@@ -1,0 +1,20 @@
+{
+  "Name": "unified_spectral_compute_throttling",
+  "Title": "Unified Spectral Compute Throttling: Training-Free Latency Optimization via Multi-Modal Activation Geometry",
+  "Short Hypothesis": "A unified spectral diagnostic of activation geometry can coordinate multiple compute-saving mechanisms (layer skipping, mixed precision, attention pruning) to enforce strict latency budgets while preserving accuracy, enabled by PAC-Bayes generalization bounds.",
+  "Related Work": "Existing approaches like Spectral Quantization Routing (founder_1) use activation geometry for mixed-precision allocation, while Spectral Latent Steering (founder_2) focuses on layer skipping. Training-Free Geometric Interference Cancellation (founder_1) tackles attention pruning. Our proposal distinguishes by introducing a unified diagnostic that evaluates and coordinates all these mechanisms simultaneously, with PAC-Bayes theoretical grounding.",
+  "Abstract": "Training-free latency optimization has emerged as a powerful paradigm for resource-efficient inference. However, existing approaches tackle compute-saving mechanisms like mixed precision, layer skipping and attention pruning in isolation, missing opportunities for synergistic optimization. We propose Unified Spectral Compute Throttling (USCT), a framework that coordinates multiple compute-saving mechanisms using a unified spectral diagnostic of activation geometry. At each layer, USCT computes activation covariance statistics that simultaneously inform decisions about numerical precision, layer skipping and attention pruning. These decisions are coordinated to enforce strict wall-clock latency budgets while preserving accuracy, guided by PAC-Bayes generalization bounds. We evaluate USCT on single-GPU setups across diverse benchmarks, demonstrating superior throughput-accuracy Pareto frontiers compared to isolated compute-saving baselines. By unifying multiple optimization axes under a theoretically grounded framework, USCT provides a transparent, reproducible pathway for practical deployment of resource-efficient inference.",
+  "Experiments": [
+    "Benchmark USCT against isolated compute-saving baselines (mixed precision only, layer skipping only etc.) on WILDS datasets, measuring accuracy and wall-clock latency",
+    "Ablate components of unified spectral diagnostic to measure contribution of each activation statistic",
+    "Evaluate impact of PAC-Bayes bound calibration on accuracy/latency tradeoff",
+    "Measure overhead of unified diagnostic computation and ensure it's negligible (<1% of total latency)",
+    "Test robustness to distribution shifts by evaluating on out-of-domain datasets"
+  ],
+  "Risk Factors and Limitations": [
+    "Unified diagnostic computation may introduce too much overhead to be practical",
+    "Coordinating multiple compute-saving mechanisms may lead to instability or unpredictable interactions",
+    "PAC-Bayes bounds may be too loose to provide meaningful guidance in practice",
+    "Approach may not generalize well to architectures very different from transformers"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "Name": "CurvatureAwarePrecisionRouting",
+  "Title": "Curvature-Aware Precision Routing for Efficient and Robust Neural Network Inference",
+  "Short Hypothesis": "By dynamically allocating numerical precision based on the curvature and spectral properties of hidden states, we can achieve efficient and robust neural network inference that maintains high accuracy under varying input conditions.",
+  "Related Work": "Recent works such as 'Spectral Latent Steering' (founder_2) and 'Curvature-aware dynamic precision approach for physics-informed neural networks' (Shao et al., 2026) have explored the use of spectral and curvature properties for optimizing neural network inference. However, these methods either rely on heuristic control mechanisms or are limited to specific domains like physics-informed networks. Our proposal uniquely integrates curvature-aware precision routing with a deterministic, training-free framework, providing a more general and mathematically transparent solution.",
+  "Abstract": "We propose Curvature-Aware Precision Routing (CAPR), a training-free framework for dynamically allocating numerical precision based on the curvature and spectral properties of hidden states in neural networks. CAPR uses real-time activation geometry to identify well-conditioned subspaces that are robust to low-precision computation and ill-conditioned subspaces that require higher precision. By leveraging randomized SVD for on-the-fly spectral diagnostics, CAPR maps these properties to a precision-switching policy that enforces strict latency budgets. We theoretically ground the routing mechanism with PAC-Bayes bounds, linking spectral conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, CAPR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines.",
+  "Experiments": [
+    "Evaluate CAPR on a variety of neural network architectures (e.g., ResNet-18, EfficientNet-B0) using WILDS benchmarks to measure throughput and accuracy under different precision settings.",
+    "Compare CAPR against static mixed-precision baselines and heuristic precision allocation methods using metrics such as wall-clock latency, memory usage, and accuracy.",
+    "Conduct a detailed analysis of the spectral properties of hidden states to validate the hypothesis that spectral decay rate and condition number serve as proxies for quantization sensitivity.",
+    "Perform ablation studies to isolate the impact of different components of CAPR, including the spectral diagnostics and precision-switching policy.",
+    "Evaluate the robustness of CAPR under natural distribution shifts and adversarial attacks, using metrics such as accuracy retention and computational overhead."
+  ],
+  "Risk Factors and Limitations": [
+    "The use of randomized SVD for on-the-fly spectral diagnostics may introduce additional computational overhead, which could negate some of the efficiency gains.",
+    "The effectiveness of the precision-switching policy may vary across different network architectures and datasets, requiring further tuning and validation.",
+    "The theoretical bounds derived from PAC-Bayes may not always perfectly capture the practical behavior of the model, leading to suboptimal precision allocation.",
+    "The framework assumes that the curvature and spectral properties of hidden states are reliable indicators of quantization sensitivity, which may not hold in all cases."
+  ]
+}

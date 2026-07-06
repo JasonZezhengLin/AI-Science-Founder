@@ -1,0 +1,19 @@
+{
+  "Name": "adaptive_kv_cache_layout",
+  "Title": "Adaptive KV-Cache Layout Optimization for Efficient LLM Inference",
+  "Short Hypothesis": "Dynamic adaptation of the KV-cache layout based on workload characteristics can significantly improve memory-bandwidth utilization and reduce wall-clock latency in LLM inference.",
+  "Related Work": "Recent works like AMP-ViT and SNIP focus on mixed-precision quantization and adaptive training frameworks but do not address the specific challenges of KV-cache optimization in LLM inference. HiLoRA introduces adaptive hierarchical LoRA routing but does not consider memory layout optimizations. Our proposal uniquely targets KV-cache layout adaptation, leveraging profiled workload characteristics to optimize memory-bandwidth utilization and inference latency.",
+  "Abstract": "Large Language Models (LLMs) often face inefficiencies due to suboptimal memory utilization, particularly in the KV-cache. This paper proposes an adaptive KV-cache layout optimization technique that dynamically adjusts the memory layout based on profiled workload characteristics. By leveraging detailed hardware profiling metrics such as coalesced loads, reduced HBM round-trips, and better register allocation, our approach aims to improve memory-bandwidth utilization and reduce wall-clock latency. We introduce a set of empirically tuned heuristics for adaptive layout selection, validated through A/B latency races under fixed accuracy budgets. Our experiments demonstrate significant improvements in tokens-per-second and energy per token on commodity GPUs, providing a practical, deployable solution for efficient LLM inference.",
+  "Experiments": [
+    "Profile baseline LLM inference to collect metrics on coalesced loads, HBM round-trips, and register allocation.",
+    "Develop adaptive KV-cache layout heuristics based on profiled workload characteristics.",
+    "Implement the optimized KV-cache layout in CUDA/Triton kernels and measure wall-clock latency, tokens-per-second, and energy per token.",
+    "Conduct A/B latency races comparing the baseline and optimized layouts under fixed accuracy budgets.",
+    "Evaluate performance across multiple GPUs/driver versions, reporting p50/p99 latency and throughput under batching."
+  ],
+  "Risk Factors and Limitations": [
+    "Potential overhead from dynamic layout adaptation may outweigh the benefits in certain workloads.",
+    "Optimization effectiveness may vary across different GPU architectures.",
+    "Empirical tuning of heuristics may require extensive profiling and iteration."
+  ]
+}

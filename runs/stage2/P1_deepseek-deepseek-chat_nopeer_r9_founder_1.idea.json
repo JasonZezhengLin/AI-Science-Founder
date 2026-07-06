@@ -1,0 +1,20 @@
+{
+  "Name": "kv_cache_layout_optimization",
+  "Title": "Optimizing KV-Cache Layouts for Efficient Transformer Inference on GPUs",
+  "Short Hypothesis": "Redesigning the KV-cache layout to minimize memory bandwidth utilization and maximize tensor-core occupancy can significantly improve transformer inference latency and throughput on GPUs.",
+  "Related Work": "Existing work on transformer inference optimization focuses on quantization, sparsity, and layer-skipping. However, there is limited research on optimizing the KV-cache layout specifically for GPU hardware. Recent papers on memory-efficient transformers and attention mechanisms provide foundational insights but do not address the hardware-specific layout optimizations proposed here.",
+  "Abstract": "Transformer models have revolutionized NLP, but their inference efficiency remains a challenge, particularly on GPUs. This paper proposes a novel approach to optimizing the KV-cache layout to minimize memory bandwidth utilization and maximize tensor-core occupancy. By redesigning the KV-cache layout, we aim to reduce latency and increase throughput for transformer inference. Our method involves profiling memory access patterns, optimizing data placement, and leveraging CUDA/Triton kernels for efficient execution. We validate our approach through extensive hardware-faithful evaluation, including nvprof/Nsight traces, and demonstrate significant improvements in wall-clock latency and tokens-per-second on real hardware.",
+  "Experiments": [
+    "Profile memory access patterns and bandwidth utilization for different KV-cache layouts using nvprof/Nsight.",
+    "Design and implement optimized KV-cache layouts leveraging CUDA/Triton kernels.",
+    "Compare wall-clock latency, tokens-per-second, and energy per token for baseline and optimized layouts on a commodity GPU.",
+    "Evaluate the impact of batch size and sequence length on performance gains.",
+    "Measure tensor-core occupancy and warp stall reasons to attribute performance improvements to specific hardware causes."
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed optimizations may be highly specific to certain GPU architectures, limiting generalizability.",
+    "Significant engineering effort may be required to implement and tune the optimized kernels.",
+    "The benefits of the optimized layout may diminish for models with different attention mechanisms or architectures.",
+    "The approach may not yield significant improvements if memory bandwidth is not the bottleneck in the inference pipeline."
+  ]
+}

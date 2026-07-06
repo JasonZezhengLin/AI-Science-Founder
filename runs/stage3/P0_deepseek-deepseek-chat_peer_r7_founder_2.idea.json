@@ -1,0 +1,19 @@
+{
+  "Name": "temporal_stability_layer_skipping",
+  "Title": "Temporal Stability-Aware Layer Skipping for Latency-Bounded Inference",
+  "Short Hypothesis": "The temporal stability of hidden state trajectories during inference provides a robust, training-free signal for dynamic layer-skipping, enabling latency reduction without compromising accuracy.",
+  "Related Work": "Recent work has focused on spectral methods (Spectral Quantization Routing, Spectral Latent Steering) and eigen-projections (Training-Free Geometric Interference Cancellation) for efficient inference. These methods rely on spatial geometry but ignore temporal dynamics. Our proposal explicitly leverages temporal stability as a novel signal, distinguishing it from existing literature.",
+  "Abstract": "We propose Temporal Stability-Aware Layer Skipping (TSLS), a training-free framework that dynamically skips layers during inference based on the temporal stability of hidden state trajectories. We hypothesize that stable trajectories indicate computational redundancy, enabling safe layer-skipping without accuracy loss. TSLS computes temporal stability metrics on-the-fly using a lightweight sliding window approach and maps them to a layer-skipping policy that enforces strict latency budgets. We ground our approach in PAC-Bayes theory, linking temporal stability to generalization bounds under layer-skipping perturbations. Evaluated on single-GPU setups across diverse benchmarks, TSLS achieves superior throughput-accuracy Pareto frontiers compared to static and heuristic layer-skipping baselines. By introducing temporal dynamics as a novel signal, TSLS provides a transparent, reproducible pathway for resource-efficient inference.",
+  "Experiments": [
+    "Metric: Temporal stability is computed as the Frobenius norm of the difference matrix between consecutive hidden states over a sliding window.",
+    "Policy Mapping: A threshold-based policy maps stability scores to layer-skipping decisions, calibrated via PAC-Bayes bounds.",
+    "Evaluation: Benchmarks include WILDS datasets and adversarial ICL tasks, measuring accuracy, throughput, and perturbation overhead.",
+    "Comparison: Compare TSLS to static layer-skipping baselines and spectral methods (e.g., Spectral Quantization Routing).",
+    "Ablation: Study the impact of window size and threshold calibration on performance."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk: Temporal stability may not generalize across all tasks or architectures.",
+    "Limitation: The sliding window approach introduces minor computational overhead.",
+    "Limitation: The method assumes temporal stability correlates with redundancy, which may not hold in all cases."
+  ]
+}

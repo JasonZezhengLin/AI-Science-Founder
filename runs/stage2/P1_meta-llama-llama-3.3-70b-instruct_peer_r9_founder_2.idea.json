@@ -1,0 +1,17 @@
+{
+  "Name": "information_theoretic_neural_pruning",
+  "Title": "Information-Theoretic Neural Pruning: A Rate-Distortion Approach",
+  "Short Hypothesis": "Neural networks can be effectively pruned using an information-theoretic approach, where the pruning process is guided by the rate-distortion theory to minimize the loss of task-relevant information while reducing the model's complexity.",
+  "Related Work": "Recent works such as Spectral Quantization Routing and Geometric Signal Separation have explored the use of geometric and information-theoretic methods for neural network compression and pruning. However, these approaches focus on specific aspects of the problem, such as precision allocation or signal separation. Our proposal takes a more comprehensive approach, applying rate-distortion theory to guide the pruning process and minimize the loss of task-relevant information.",
+  "Abstract": "We propose an information-theoretic approach to neural network pruning, where the pruning process is guided by the rate-distortion theory. Our method, Information-Theoretic Neural Pruning (ITNP), aims to minimize the loss of task-relevant information while reducing the model's complexity. We use mutual information to quantify the importance of each neural connection and prune the connections with low mutual information. We evaluate ITNP on several benchmarks and demonstrate its effectiveness in reducing the model's complexity while preserving its accuracy. Our approach provides a novel perspective on neural network pruning, highlighting the importance of information-theoretic principles in guiding the pruning process.",
+  "Experiments": [
+    "Evaluate ITNP on several neural network architectures, including CNNs and transformers, and compare its performance with state-of-the-art pruning methods.",
+    "Investigate the effect of different pruning strategies, such as iterative pruning and one-shot pruning, on the performance of ITNP.",
+    "Analyze the information-theoretic properties of the pruned models, including the mutual information between the input and output of each layer, to gain insights into the pruning process."
+  ],
+  "Risk Factors and Limitations": [
+    "The computational cost of calculating mutual information between all pairs of neural connections can be high, especially for large models.",
+    "The choice of pruning strategy and hyperparameters can significantly affect the performance of ITNP.",
+    "The evaluation of ITNP is limited to a specific set of benchmarks and may not generalize to other tasks or domains."
+  ]
+}

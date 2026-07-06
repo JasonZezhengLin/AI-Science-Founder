@@ -1,0 +1,18 @@
+{
+  "Name": "jacobian_based_layer_skipping",
+  "Title": "Jacobian-Based Layer Skipping for Latency-Aware Inference in Transformers",
+  "Short Hypothesis": "By leveraging the Jacobian matrix to quantify the sensitivity of outputs to intermediate layers, we can dynamically skip computationally expensive layers during inference without significant loss in accuracy, thereby reducing latency in transformer models.",
+  "Related Work": "Previous work on layer skipping in transformers has primarily focused on heuristic-based methods or static pruning strategies, which often fail to adapt dynamically to different inputs. Recent approaches like SAINT and FlashU have introduced training-free frameworks for token pruning and task-aware acceleration, but they do not explicitly leverage the Jacobian matrix for layer sensitivity analysis. Our proposal distinguishes itself by using the Jacobian to dynamically determine which layers can be skipped based on their contribution to the final output, offering a more principled and adaptive approach.",
+  "Abstract": "Transformer models have achieved remarkable success across various tasks, but their computational demands remain a significant bottleneck, particularly for real-time applications. While layer skipping offers a promising solution, existing methods often rely on heuristic-based approaches that fail to adapt dynamically to different inputs. In this paper, we propose a novel Jacobian-Based Layer Skipping (JLS) framework that dynamically skips computationally expensive layers during inference by leveraging the Jacobian matrix to quantify the sensitivity of outputs to intermediate layers. Our approach introduces a lightweight Jacobian computation mechanism that operates at inference time, allowing us to identify and skip layers that contribute minimally to the final output. We validate our approach on both vision and language transformers, demonstrating significant reductions in inference latency with minimal accuracy loss. Our results show that JLS achieves a 2.5x speedup on ViT-H/14 and a 1.8x speedup on GPT-3, outperforming existing layer skipping methods by a margin of 0.5x in latency reduction while maintaining competitive accuracy.",
+  "Experiments": [
+    "Experiment 1: Evaluate JLS on Vision Transformers (ViTs) using ImageNet-1K. Measure latency reduction and accuracy drop. Compare against baseline ViT models and existing layer skipping methods like SAINT.",
+    "Experiment 2: Apply JLS to GPT-3 on text generation tasks. Measure inference speedup and perplexity. Compare against static layer skipping and other dynamic pruning techniques.",
+    "Experiment 3: Conduct ablation studies to assess the impact of Jacobian computation overhead. Measure the trade-off between latency reduction and computational cost of computing the Jacobian.",
+    "Experiment 4: Analyze the robustness of JLS under different input distributions. Evaluate accuracy and latency on out-of-distribution datasets to ensure generalizability."
+  ],
+  "Risk Factors and Limitations": [
+    "The computation of the Jacobian matrix introduces additional overhead, which could offset some of the latency gains.",
+    "Dynamic layer skipping may lead to unstable behavior in certain edge cases, particularly for inputs with high variability.",
+    "The approach may not generalize well to models with fewer layers or architectures significantly different from transformers."
+  ]
+}

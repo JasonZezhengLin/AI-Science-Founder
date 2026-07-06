@@ -1,0 +1,16 @@
+{
+  "Name": "information_theoretic_compression",
+  "Title": "Information-Theoretic Limits of Deep Learning Model Compression",
+  "Short Hypothesis": "We hypothesize that the fundamental limits of model compression in deep learning can be characterized using information-theoretic tools, and that these limits can be used to develop more efficient and effective model compression methods.",
+  "Related Work": "Recent works, such as EMQ and AMP-ViT, have explored various aspects of model compression, including mixed-precision quantization and adaptive bit-width allocation. However, these works have not explicitly addressed the information-theoretic limits of model compression. Our proposal seeks to fill this gap by providing a rigorous theoretical framework for understanding the fundamental limits of model compression.",
+  "Abstract": "Model compression is a crucial technique for deploying deep learning models in resource-constrained environments. However, the fundamental limits of model compression are not well understood. In this proposal, we aim to explore the information-theoretic limits of model compression in deep learning using tools from rate-distortion theory and statistical learning theory. We will develop a theoretical framework for characterizing the trade-off between model complexity and compression ratio, and investigate the role of distortion measures in determining the optimal compression strategy.",
+  "Experiments": [
+    "Develop a rate-distortion theory-based framework for characterizing the trade-off between model complexity and compression ratio",
+    "Investigate the role of distortion measures in determining the optimal compression strategy",
+    "Evaluate the performance of our compression method on various deep learning models and datasets"
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of the theoretical framework may require significant mathematical derivations and proofs",
+    "The experimental evaluation of our compression method may require significant computational resources and large datasets"
+  ]
+}

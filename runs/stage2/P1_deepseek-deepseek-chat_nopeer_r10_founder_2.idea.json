@@ -1,0 +1,19 @@
+{
+  "Name": "task_aware_bit_allocation",
+  "Title": "Task-Aware Bit Allocation: Mutual Information-Guided Compression for Multi-Task Learning",
+  "Short Hypothesis": "Task-relevant mutual information can guide optimal bit allocation during model compression, enabling efficient compression without sacrificing task performance, especially in multi-task and dynamic task settings.",
+  "Related Work": "Existing works like 'An Information-Theoretic Justification for Model Pruning' and 'Rate–Distortion Optimization in AI for Neural Representation Compression' focus on rate-distortion trade-offs but do not explicitly incorporate task-relevant mutual information for bit allocation. Recent works on multi-task learning and dynamic task adaptation (e.g., 'Rate-Distortion Optimized Communication for Collaborative Perception') hint at task-aware compression but lack a principled mutual information-based approach. This proposal bridges this gap by formalizing task-aware bit allocation using mutual information, distinguishing it from heuristic or task-agnostic methods.",
+  "Abstract": "Model compression techniques often optimize for a single task or task-agnostic metrics, ignoring the varying importance of different tasks in multi-task learning or dynamic task settings. This work introduces a novel framework for task-aware bit allocation, leveraging task-relevant mutual information to guide compression. By quantifying the mutual information between model representations and task outputs, we derive an optimal bit allocation strategy that minimizes task-relevant distortion. This approach extends classical rate-distortion theory to multi-task and dynamic task scenarios, offering a principled way to compress models while preserving task performance. Experiments on multi-task benchmarks and dynamic task adaptation scenarios demonstrate significant improvements in compression efficiency and task accuracy compared to task-agnostic methods.",
+  "Experiments": [
+    "Experiment 1: Evaluate the proposed bit allocation strategy on multi-task benchmarks (e.g., CIFAR-100 MT, NYUv2). Compare task-specific accuracy and compression efficiency against task-agnostic methods like pruning and quantization.",
+    "Experiment 2: Test dynamic task adaptation by simulating task shifts in a controlled environment. Measure the robustness of the proposed method in maintaining task performance while compressing the model.",
+    "Experiment 3: Analyze the mutual information estimates used for bit allocation. Validate their accuracy and consistency across different tasks and datasets.",
+    "Experiment 4: Compare the proposed method to state-of-the-art multi-task compression techniques (e.g., MTL-Zoo) on task-specific metrics and overall compression efficiency."
+  ],
+  "Risk Factors and Limitations": [
+    "Mutual information estimation may be computationally expensive for large models.",
+    "The proposed method relies on accurate task-relevance estimation, which may be challenging in highly complex multi-task settings.",
+    "Dynamic task adaptation may introduce additional complexity, potentially limiting scalability.",
+    "The framework assumes task independence, which may not hold in all real-world scenarios."
+  ]
+}

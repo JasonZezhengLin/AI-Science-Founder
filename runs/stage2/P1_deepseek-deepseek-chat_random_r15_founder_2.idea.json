@@ -1,0 +1,20 @@
+{
+  "Name": "task_specific_compression_bounds",
+  "Title": "Task-Specific Compression Bounds: Mutual Information as a Guide for Model Pruning and Quantization",
+  "Short Hypothesis": "The optimal compression ratio for a neural network can be derived by quantifying the mutual information between the compressed representation and the task output, providing a principled way to allocate bits where they matter most.",
+  "Related Work": "Existing work on model compression, such as Isik et al. (2021), frames compression as a rate-distortion problem but does not explicitly connect it to task-specific mutual information. Recent mixed-precision quantization methods (e.g., EMQ, AMP-ViT) focus on empirical proxies for bit allocation without theoretical grounding. This proposal distinguishes itself by deriving operational bounds based on mutual information, providing a principled approach to task-specific compression.",
+  "Abstract": "Neural network compression techniques, such as pruning and quantization, often rely on empirical heuristics or distortion metrics that do not explicitly consider task relevance. We propose a novel information-theoretic framework for task-specific compression, where the optimal compression ratio is derived by quantifying the mutual information between the compressed representation and the task output. Our approach provides operational bounds on the bits-per-weight needed to preserve predictive sufficiency, guiding pruning and quantization decisions. We derive achievability and converse bounds, connecting compressibility to the information bottleneck principle. Experiments on CIFAR-10 and ImageNet demonstrate that our method outperforms existing compression techniques while maintaining task performance, validating our theoretical insights.",
+  "Experiments": [
+    "Derive mutual information bounds for task-specific compression using InfoNCE-style estimators.",
+    "Implement a pruning algorithm guided by mutual information, comparing it to magnitude-based pruning on CIFAR-10 and ImageNet.",
+    "Develop a quantization scheme that allocates bits based on mutual information, benchmarking against uniform and mixed-precision quantization.",
+    "Evaluate performance using accuracy (task-specific), compression ratio, and bits-per-weight metrics.",
+    "Compare to existing rate-distortion-based methods (e.g., Isik et al., 2021) and mixed-precision techniques (e.g., EMQ, AMP-ViT)."
+  ],
+  "Risk Factors and Limitations": [
+    "Estimating mutual information in high-dimensional spaces may introduce bias or variance, potentially affecting the bounds.",
+    "The method assumes task-specific compressibility, which may not hold for tasks requiring high-dimensional representations.",
+    "Computational overhead of mutual information estimation could limit scalability to very large models.",
+    "The framework relies on accurate task-specific mutual information, which may be challenging to estimate for complex tasks."
+  ]
+}

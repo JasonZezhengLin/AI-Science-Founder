@@ -1,0 +1,18 @@
+{
+  "Name": "spectral_quantization_routing",
+  "Title": "Spectral Quantization Routing: Training-Free Precision Allocation via Activation Covariance Geometry",
+  "Short Hypothesis": "We hypothesize that the local covariance condition number and spectral decay rate of hidden states serve as direct proxies for quantization sensitivity, enabling a training-free framework for dynamic precision allocation.",
+  "Related Work": "The proposed approach differs from existing works such as Spectral Latent Steering and Geometric Signal Separation, which focus on test-time optimization and signal separation, respectively. Our work is more closely related to Training-Free Geometric Interference Cancellation, but instead of canceling interference, we allocate precision based on activation geometry. Unlike PAHInA, which focuses on in-network aggregation, our approach prioritizes activation covariance geometry for precision allocation.",
+  "Abstract": "Mixed-precision inference promises significant latency and memory gains, but typically relies on static profiling or costly calibration. We propose Spectral Quantization Routing (SQR), a training-free framework that dynamically allocates numerical precision based on real-time activation geometry. SQR computes local covariance condition numbers and spectral decay rates of hidden states, mapping them to a precision-switching policy that enforces strict latency budgets. We theoretically ground the routing mechanism with PAC-Bayes bounds, linking spectral conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, SQR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines.",
+  "Experiments": [
+    "Evaluate SQR on WILDS benchmarks using single-GPU setups",
+    "Compare SQR with static and heuristic mixed-precision baselines",
+    "Measure throughput-accuracy Pareto frontier and latency budgets",
+    "Investigate the effect of activation geometry on precision allocation"
+  ],
+  "Risk Factors and Limitations": [
+    "Potential instability in activation geometry under certain input distributions",
+    "Limited applicability to specific architectures or tasks",
+    "Need for careful calibration of precision-switching policy"
+  ]
+}

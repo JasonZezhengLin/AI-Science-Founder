@@ -1,0 +1,19 @@
+{
+  "Name": "OptimizingTransformerKVCache",
+  "Title": "Optimizing Key-Value Cache Layout for Efficient Transformer Inference",
+  "Short Hypothesis": "The layout of the key-value (KV) cache in transformer models significantly impacts inference latency and memory bandwidth utilization. By optimizing the KV cache layout, we can reduce memory access latency and improve overall inference efficiency.",
+  "Related Work": "Recent works such as PAISE (Lee et al., 2025) and AdaFuse (Li et al., 2026) have explored various optimization techniques for transformer inference, including PIM acceleration and dynamic adapter inference. However, none of these works have specifically addressed the optimization of the KV cache layout, which is a critical component affecting memory access patterns and inference performance.",
+  "Abstract": "Transformer models rely heavily on the key-value (KV) cache to store intermediate results during autoregressive decoding. The layout of the KV cache significantly impacts memory access patterns, which in turn affects inference latency and memory bandwidth utilization. This proposal investigates the impact of different KV cache layouts on transformer inference performance. We hypothesize that by optimizing the KV cache layout, we can reduce memory access latency and improve overall inference efficiency. We will conduct a series of experiments to evaluate the performance of various cache layouts on a single GPU, using real-world transformer models. The results will be measured in terms of wall-clock latency, tokens-per-second, and memory bandwidth utilization.",
+  "Experiments": [
+    "Experiment 1: Baseline Measurement - Measure the baseline performance of a transformer model using the default KV cache layout. Collect metrics such as wall-clock latency, tokens-per-second, and memory bandwidth utilization using nvprof and Nsight.",
+    "Experiment 2: Cache Layout Variations - Implement and evaluate different KV cache layouts, including row-major, column-major, and block-major layouts. For each layout, measure the same metrics as in Experiment 1 and compare the results.",
+    "Experiment 3: Hybrid Cache Layouts - Combine the best-performing layouts from Experiment 2 to create a hybrid cache layout. Evaluate this hybrid layout and compare its performance against the baseline and individual layouts.",
+    "Experiment 4: A/B Latency Races - Conduct A/B latency races between the baseline and optimized layouts under fixed accuracy budgets. Report p50 and p99 latencies, throughput under batching, and energy per token.",
+    "Experiment 5: Profiler Analysis - Use nvprof and Nsight to collect detailed profiler data for each experiment, including occupancy, achieved bandwidth, warp stall reasons, and arithmetic intensity. Attribute performance gains to specific hardware causes."
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed cache layouts may not generalize well across different transformer models or hardware configurations. We will mitigate this risk by testing a variety of models and GPUs.",
+    "Optimizing the KV cache layout may introduce additional complexity in the implementation, potentially leading to bugs or performance degradation. We will address this by thoroughly testing and validating each layout.",
+    "The performance gains from optimizing the KV cache layout may be limited by other bottlenecks in the inference pipeline, such as compute-bound operations. We will identify and optimize these bottlenecks as part of our experiments."
+  ]
+}

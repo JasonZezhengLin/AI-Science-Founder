@@ -1,0 +1,20 @@
+{
+  "Name": "curvature_aware_routing",
+  "Title": "Curvature-Aware Precision Routing: Training-Free Adaptive Optimization via Hessian-Eigenvalue Diagnostics",
+  "Short Hypothesis": "The local curvature of the optimization landscape, quantified through Hessian eigenvalues, can serve as a precise proxy for computational difficulty and stability, enabling a training-free framework for adaptive precision routing that dynamically allocates resources based on geometric diagnostics.",
+  "Related Work": "Existing work on precision routing, such as Spectral Quantization Routing (SQR), focuses on activation covariance geometry but does not leverage curvature-aware diagnostics. Similarly, Spectral Latent Steering (SLS) uses PCA for subspace projection but lacks explicit curvature-based routing. Our proposal uniquely integrates Hessian eigenvalue analysis into a deterministic routing mechanism, distinguishing it from heuristic or covariance-based approaches.",
+  "Abstract": "Mixed-precision inference offers significant computational savings but often relies on static profiling or costly calibration, failing to adapt to dynamic optimization landscapes. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates numerical precision based on local curvature diagnostics. By estimating Hessian eigenvalues through randomized numerical linear algebra, CAPR identifies regions of high curvature that require higher precision for stability. Tokens in low-curvature regions are routed through low-precision computation, reducing overhead while maintaining robustness. We theoretically ground CAPR in PAC-Bayes bounds, linking curvature to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, CAPR achieves superior throughput-accuracy trade-offs compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized curvature diagnostics, CAPR provides a transparent, reproducible pathway for resource-efficient inference under dynamic optimization landscapes.",
+  "Experiments": [
+    "Experiment 1: Hessian Eigenvalue Estimation - Estimate local Hessian eigenvalues using randomized Lanczos iterations on hidden states. Measure accuracy and computational overhead.",
+    "Experiment 2: Precision Routing Policy - Develop a precision-switching policy based on curvature thresholds derived from Hessian eigenvalues. Evaluate the policy on CIFAR-10 and ImageNet under distribution shifts.",
+    "Experiment 3: Throughput-Accuracy Trade-offs - Compare CAPR against static mixed-precision baselines (FP16, INT8) and heuristic routing methods (SQR). Measure throughput, accuracy, and latency.",
+    "Experiment 4: Robustness to Distribution Shifts - Test CAPR on WILDS benchmarks (Camelyon17, iWildCam) to evaluate generalization stability under natural distribution shifts.",
+    "Experiment 5: Theoretical Validation - Derive PAC-Bayes bounds linking curvature diagnostics to quantization stability. Validate bounds empirically through controlled ablation studies."
+  ],
+  "Risk Factors and Limitations": [
+    "Computational overhead of Hessian eigenvalue estimation may offset precision savings.",
+    "Curvature diagnostics may not generalize well to highly non-convex optimization landscapes.",
+    "Dynamic routing policies may introduce non-determinism, complicating reproducibility.",
+    "Theoretical bounds rely on assumptions about noise distributions that may not hold in practice."
+  ]
+}

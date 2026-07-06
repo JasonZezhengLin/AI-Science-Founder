@@ -1,0 +1,19 @@
+{
+  "Name": "optimized_kv_cache_layout",
+  "Title": "Bank-Aware KV-Cache Layout Optimization for High-Throughput LLM Inference",
+  "Short Hypothesis": "By optimizing the memory layout and access patterns of the KV-cache to minimize bank conflicts and maximize coalesced memory accesses, we can achieve significant improvements in inference throughput on modern GPUs.",
+  "Related Work": "Recent work like BitDecoding has optimized KV-cache decoding by leveraging both CUDA and Tensor Cores, but none have explicitly focused on minimizing bank conflicts and maximizing coalesced memory accesses. This proposal complements existing work by addressing a critical bottleneck in memory-bound operations.",
+  "Abstract": "The efficiency of Large Language Model (LLM) inference is heavily dependent on the memory access patterns of the Key-Value (KV) cache. Current systems often suffer from suboptimal memory layouts that lead to bank conflicts and uncoalesced memory accesses, significantly reducing throughput. This paper introduces a novel bank-aware KV-cache layout optimization technique that minimizes bank conflicts and maximizes coalesced memory accesses. Our approach involves a systematic analysis of memory access patterns and the design of a new layout strategy that optimizes for both CUDA and Tensor Core utilization. We evaluate our technique on modern GPU architectures, demonstrating significant improvements in inference throughput and latency. Our results show that this optimization can be seamlessly integrated with existing systems to achieve state-of-the-art performance.",
+  "Experiments": [
+    "Benchmark the baseline performance of existing KV-cache layouts on modern GPUs using nvprof/Nsight to collect metrics on bank conflicts and memory coalescing.",
+    "Design and implement a new bank-aware KV-cache layout optimization strategy.",
+    "Evaluate the new layout on the same benchmarks, measuring improvements in throughput, latency, and memory bandwidth utilization.",
+    "Conduct ablation studies to isolate the impact of different components of the optimization strategy.",
+    "Compare the results with state-of-the-art systems like BitDecoding to demonstrate the added value of bank-aware optimization."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of the optimization may vary across different GPU architectures.",
+    "The new layout could introduce additional overhead in terms of memory management complexity.",
+    "The approach may require fine-tuning for different LLM architectures and workloads."
+  ]
+}

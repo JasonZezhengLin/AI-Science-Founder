@@ -1,0 +1,15 @@
+{
+  "Name": "geometric_robustness_diagnosis",
+  "Title": "Harnessing Representation Geometry for Robustness Diagnostics in Machine Learning Models",
+  "Short Hypothesis": "The geometric structure of learned representations serves as a reliable diagnostic tool for predicting model robustness under distribution shifts, allowing for training-free evaluations of model performance.",
+  "Related Work": "Existing works, such as those by Zia and Hazratian (2026) and the spectral quantization routing framework, emphasize the use of representation geometry in understanding robustness and performance metrics. However, few focus on the explicit diagnostic capabilities of geometric properties without additional training or heuristic adjustments. This proposal aims to fill that gap by establishing a direct link between geometric diagnostics and robustness assessments.",
+  "Abstract": "In this proposal, we introduce a novel framework that leverages the geometric structure of learned embeddings to diagnose and predict model robustness under distribution shifts, entirely without additional training. By constructing class-conditional mutual k-nearest-neighbor graphs from in-distribution embeddings, we extract geometric invariants such as spectral complexity and Ollivier-Ricci curvature. These metrics provide interpretable signals of robustness, allowing researchers to assess model performance in a label-free manner. Through rigorous evaluation on multiple architectures and benchmarks, we explore the relationship between representation geometry and out-of-distribution accuracy. Our findings suggest that geometric diagnostics can serve as a powerful tool for unsupervised checkpoint selection and model evaluation. We aim to offer a reproducible, mathematically grounded, and resource-efficient approach to assessing robustness that aligns with current trends in dynamic model evaluation.",
+  "Experiments": [
+    "1. Construct k-nearest-neighbor graphs for learned representations from various models across standard datasets.",
+    "2. Compute geometric invariants (spectral complexity, Ollivier-Ricci curvature) for these graphs.",
+    "3. Evaluate the correlation between these geometric metrics and model performance on out-of-distribution tasks.",
+    "4. Implement a comparison against traditional robustness measurement methods to quantify the advantages of geometric diagnostics.",
+    "5. Assess the reproducibility of results across multiple seeds and architectures."
+  ],
+  "Risk Factors and Limitations": "Potential risks include the variability of results across different model architectures and tasks. The geometric invariants may not generalize well across all domains or distribution shifts, and additional external factors could confound the relationship between geometry and robustness."
+}

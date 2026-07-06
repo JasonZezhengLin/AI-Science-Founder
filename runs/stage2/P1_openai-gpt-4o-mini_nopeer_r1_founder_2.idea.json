@@ -1,0 +1,14 @@
+{
+  "Name": "quantifying_task_relevance_in_model_compression",
+  "Title": "Quantifying Task-Relevant Information: A Rate-Distortion Approach to Model Compression",
+  "Short Hypothesis": "The quantification of task-relevant information through a rate-distortion lens can reveal systematic bottlenecks in model architectures, leading to more efficient compression strategies that preserve predictive performance.",
+  "Related Work": "Existing works have applied rate-distortion theory to federated learning and image compression, but they largely focus on empirical performance rather than explicitly quantifying the relationship between model complexity, task-relevant information, and the information bottlenecks. This proposal extends those ideas by focusing on how quantifying task-relevant information can inform model compression techniques.",
+  "Abstract": "In this proposal, we investigate the interplay between model complexity and task-relevant information within the framework of rate-distortion theory. By framing model compression as a lossy source coding problem, we aim to derive operational bounds on the bits-per-weight required to preserve predictive sufficiency. Specifically, we will quantify representations using description length and mutual information with the task, leading to a systematic evaluation of model architectures based on their information bottlenecks. We expect that by revealing the task-relevant information content, we can develop more effective compression strategies that achieve superior performance while minimizing distortion. The results will be reported as distortion-rate curves against theoretical limits, with explicit assumptions and their failure modes outlined. This work aims to bridge the gap between theoretical insights and practical model compression methods, contributing to the field's understanding of efficient learning.",
+  "Experiments": [
+    "1. Analyze various neural network architectures to quantify their task-relevant information using mutual information and description length metrics.",
+    "2. Apply a compression algorithm based on the derived bounds, comparing its performance to existing methods (e.g., pruning, quantization) in terms of predictive accuracy and distortion.",
+    "3. Evaluate the impact of model compression on generalization performance across different datasets and tasks, using metrics such as accuracy, F1-score, and AUC.",
+    "4. Conduct a sensitivity analysis to identify how changes in model architecture affect task-relevant information and distortion."
+  ],
+  "Risk Factors and Limitations": "Potential challenges include the difficulty in accurately estimating mutual information, especially in high-dimensional spaces. There is also the risk that the derived bounds may not translate directly into practical compression methods. Additionally, the focus on theoretical limits may lead to findings that require further empirical validation."
+}

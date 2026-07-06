@@ -1,0 +1,18 @@
+{
+  "Name": "tensor_core_kv_cache_optimization",
+  "Title": "Unlocking Tensor Core Efficiency for Low-Bit KV Cache Decoding in Long-Context LLMs",
+  "Short Hypothesis": "Optimizing KV cache decoding for long-context LLMs by leveraging Tensor Cores alongside CUDA cores can significantly improve decoding speed without sacrificing accuracy.",
+  "Related Work": "Existing approaches like BitDecoding have demonstrated the potential of Tensor Cores for low-bit KV cache decoding, but they primarily focus on specific GPU architectures and lack comprehensive optimization strategies across diverse hardware. Our proposal extends these efforts by introducing a more generalized and hardware-agnostic approach that maximizes Tensor Core utilization across a wider range of GPUs.",
+  "Abstract": "The increasing demand for long-context Large Language Models (LLMs) has highlighted the inefficiencies in Key-Value (KV) cache decoding, particularly when using low-bit quantization to reduce memory footprint. Current systems rely heavily on CUDA cores, neglecting the potential of Tensor Cores, which are the primary source of compute on modern GPUs. This paper proposes a novel approach to optimize KV cache decoding by leveraging Tensor Cores in conjunction with CUDA cores. We introduce an automatic layout optimization technique to maximize Tensor Core utilization and a warp-level parallelization strategy for efficient dequantization. Our approach is designed to be hardware-agnostic, ensuring compatibility across various GPU architectures. Experiments on NVIDIA GPUs demonstrate a significant improvement in decoding speed, achieving up to 7.5× speedup over existing methods while maintaining model accuracy. Our findings suggest that Tensor Core optimization is a crucial factor in enhancing the efficiency of long-context LLM inference.",
+  "Experiments": [
+    "Compare decoding speed and accuracy of our Tensor Core optimized approach with existing methods like BitDecoding and FlashDecoding-v2 on NVIDIA GPUs (Hopper, Blackwell, Ada, Ampere).",
+    "Measure the impact of different quantization levels (4-bit, 2-bit) on decoding speed and accuracy.",
+    "Evaluate the effectiveness of automatic layout optimization and warp-level parallelization strategies through detailed profiling using Nsight.",
+    "Assess the scalability of our approach by testing on models with varying context lengths (32K, 64K, 128K)."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of Tensor Core optimization may vary across different GPU architectures, requiring architecture-specific adjustments.",
+    "Low-bit quantization could introduce accuracy loss, necessitating careful calibration of quantization parameters.",
+    "The proposed optimizations may increase implementation complexity, potentially limiting adoption by practitioners."
+  ]
+}

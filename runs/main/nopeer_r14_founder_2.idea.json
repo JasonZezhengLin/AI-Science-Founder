@@ -1,0 +1,19 @@
+{
+  "Name": "jacobian_robust_layer_skipping",
+  "Title": "Robust Jacobian-Based Layer Skipping for Latency-Aware Inference",
+  "Short Hypothesis": "Jacobian-based layer-skipping can maintain inference efficiency and robustness under structured perturbations, enabling latency-aware inference without compromising model stability.",
+  "Related Work": "Existing works like DASH and FiRST explore dynamic layer-skipping for LLMs and diffusion models, but they do not rigorously evaluate robustness under perturbations. Sortblock addresses feature reuse in diffusion models but lacks a focus on robustness. This proposal distinguishes itself by integrating Jacobian-based skipping with robustness guarantees, addressing a critical gap in latency-aware inference.",
+  "Abstract": "Latency-aware inference is crucial for deploying machine learning models in resource-constrained environments. While dynamic layer-skipping methods like DASH and FiRST have shown promise in reducing inference time, their robustness under structured perturbations remains unexplored. This paper investigates the robustness of Jacobian-based layer-skipping decisions under domain shifts and adversarial inputs. We propose a framework that integrates Jacobian-based skipping with robustness metrics, ensuring efficient inference without compromising model stability. Experiments on image classification and NLP benchmarks demonstrate that our method achieves significant latency reduction while maintaining robustness, outperforming existing layer-skipping approaches under perturbation.",
+  "Experiments": [
+    "Experiment 1: Evaluate Jacobian-based skipping on CIFAR-10 and ImageNet under clean and perturbed (e.g., adversarial attacks, domain shifts) conditions. Metrics: Inference latency, accuracy, robustness score (e.g., stability radius).",
+    "Experiment 2: Compare with baseline methods (DASH, FiRST) on NLP tasks (e.g., GLUE benchmarks) under clean and perturbed inputs. Metrics: Latency, task performance, robustness.",
+    "Experiment 3: Ablation study on the impact of Jacobian thresholds on latency-robustness trade-offs. Metrics: Pareto frontier of latency vs. robustness.",
+    "Experiment 4: Evaluate on edge devices (e.g., Jetson Nano) to measure real-world latency and robustness. Metrics: Wall-clock time, energy consumption, robustness."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk 1: Jacobian computation overhead may negate latency benefits. Mitigation: Optimize Jacobian computation using sparse approximations.",
+    "Risk 2: Robustness guarantees may not generalize across all perturbation types. Mitigation: Evaluate on diverse perturbation sets.",
+    "Limitation: The method may require task-specific tuning for optimal performance.",
+    "Limitation: Applicability may be limited to models with well-defined intermediate layers."
+  ]
+}

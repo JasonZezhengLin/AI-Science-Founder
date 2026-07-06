@@ -1,0 +1,19 @@
+{
+  "Name": "dynamic_cache_optimization",
+  "Title": "Dynamic Cache Optimization for GPU Inference: A Measurement-Driven Approach",
+  "Short Hypothesis": "Dynamic cache management strategies based on real-time profiling can significantly improve inference latency and throughput for GPU-accelerated deep learning models.",
+  "Related Work": "While existing research focuses on static optimizations and predictive modeling for GPU performance, this proposal distinguishes itself by employing real-time measurement-driven adaptations of cache management strategies during inference. By utilizing profiling tools to monitor cache usage dynamically, we can implement adaptive caching strategies that respond to the workload characteristics in real-time, thereby optimizing performance beyond static configurations.",
+  "Abstract": "This proposal investigates the potential of dynamic cache optimization strategies for enhancing the inference performance of deep learning models on GPUs. Traditional approaches often rely on static configurations that do not adapt to the varying workload characteristics of different models. In contrast, we propose a measurement-driven framework that leverages real-time profiling to inform cache management decisions during inference. By dynamically adjusting cache layouts and eviction strategies based on observed memory access patterns and occupancy metrics, we aim to reduce latency and increase throughput without requiring extensive code changes. We will evaluate our approach using a range of popular deep learning models across multiple GPU architectures, benchmarking improvements in wall-clock latency, throughput, and energy efficiency. Our hypothesis posits that a dynamic adaptation mechanism can yield superior performance gains compared to static caching strategies, thereby providing a practical and impactful solution for hardware-first systems researchers and practitioners.",
+  "Experiments": [
+    "1. Implement a baseline caching strategy using standard fixed cache configurations for common deep learning benchmarks (e.g., ResNet, BERT).",
+    "2. Develop a dynamic cache optimization algorithm that adapts to runtime profiling data, including cache hit/miss ratios and memory access patterns.",
+    "3. Conduct A/B latency races comparing the baseline with the dynamic caching strategy under fixed accuracy budgets.",
+    "4. Measure p50/p99 latency and throughput metrics under varying batch sizes and model configurations.",
+    "5. Analyze energy consumption per inference token and evaluate the trade-offs between performance and energy efficiency."
+  ],
+  "Risk Factors and Limitations": [
+    "1. The dynamic cache optimization may introduce overhead from the profiling and adaptation process, potentially leading to performance degradation in low-latency scenarios.",
+    "2. The effectiveness of the proposed approach may vary across different GPU architectures and deep learning models, requiring extensive testing and tuning.",
+    "3. Real-time profiling may not capture all workload characteristics, potentially limiting the effectiveness of the adaptive caching strategy."
+  ]
+}

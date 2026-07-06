@@ -1,0 +1,18 @@
+{
+  "Name": "kernel_unification",
+  "Title": "Kernel Unification: A Novel Approach to Optimize GPU Inference Performance",
+  "Short Hypothesis": "Can we develop a unified kernel framework that dynamically adapts memory access patterns and compute schedules to minimize resource bottlenecks in GPU inference tasks?",
+  "Related Work": "While existing works focus on optimizing specific kernels or layers, few address the unified approach of combining multiple kernel optimizations into a single framework that adapts dynamically based on workload characteristics. This proposal distinctly aims to provide a comprehensive solution that evaluates kernel performance holistically, rather than in isolation.",
+  "Abstract": "This proposal introduces 'Kernel Unification', a novel framework designed to optimize GPU inference performance by dynamically adapting memory access patterns and compute schedules based on real-time profiling data. Existing literature often focuses on optimizing individual kernels or layers, leading to fragmented performance gains without considering the holistic impact on inference tasks. Our framework will leverage detailed profiling metrics (such as memory bandwidth utilization, compute occupancy, and latency) to inform kernel fusion strategies that optimize resource usage across multiple layers of deep learning models. By implementing this approach, we hypothesize that we can achieve significant reductions in wall-clock latency and improved throughput, ultimately enhancing the efficiency of GPU-based inference systems. The framework will be evaluated using comprehensive benchmarks across various models, with a focus on reproducibility and practical deployment on commodity GPUs, ensuring that the insights gained are actionable for practitioners.",
+  "Experiments": [
+    "1. Implement a prototype of the Kernel Unification framework using Triton and CUDA, focusing on dynamically combining kernels based on real-time profiling data.",
+    "2. Conduct ablation studies to evaluate the performance impact of various memory access patterns and compute schedules under different workloads.",
+    "3. Benchmark the unified kernel performance against traditional separate kernel executions, measuring metrics such as wall-clock latency, throughput (tokens-per-second), and memory bandwidth utilization.",
+    "4. Evaluate the adaptability of the framework in varying model architectures and input distributions to assess its generalization capabilities."
+  ],
+  "Risk Factors and Limitations": [
+    "1. The framework's performance may vary significantly with different model architectures, limiting its generalizability.",
+    "2. Real-time profiling overhead could introduce latency, potentially offsetting some performance gains.",
+    "3. Challenges in accurately predicting optimal kernel fusion strategies in diverse workload scenarios may arise."
+  ]
+}

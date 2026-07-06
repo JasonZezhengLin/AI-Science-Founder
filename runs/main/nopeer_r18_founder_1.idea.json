@@ -1,0 +1,18 @@
+{
+  "Name": "curvature-aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: A Training-Free Framework for Deterministic Optimization Proxies",
+  "Short Hypothesis": "A curvature-aware precision routing framework that leverages geometric subspace diagnostics and deterministic optimization proxies can achieve superior optimization performance without the need for training, by explicitly quantifying gradient covariance decay, Hessian conditioning, and feature entanglement.",
+  "Related Work": "Existing mixed-precision strategies often rely on heuristic approaches and lack formal guarantees. Recent work in spectral quantization theory and geometric subspace diagnostics has shown promise, but these approaches have not been combined into a cohesive framework that prioritizes training-free representation geometry and deterministic optimization proxies.",
+  "Abstract": "We propose a curvature-aware precision routing framework that integrates geometric subspace diagnostics with deterministic optimization proxies to achieve superior optimization performance without the need for training. By explicitly quantifying gradient covariance decay, Hessian conditioning, and feature entanglement, our framework ensures formalized stability radii, PAC-Bayes generalization bounds, and explicit condition number constraints under precision switching. We validate our approach through a series of experiments that demonstrate its effectiveness in achieving optimization performance comparable to traditional training-based methods, while maintaining strict computational overhead bounds and mathematical transparency.",
+  "Experiments": [
+    "Experiment 1: Quantify gradient covariance decay using deterministic spectral estimators and pre-execution diagnostic loops.",
+    "Experiment 2: Measure Hessian conditioning and feature entanglement through projection-based mechanistic probes.",
+    "Experiment 3: Validate the framework's optimization performance on benchmark datasets, comparing it to traditional training-based methods.",
+    "Experiment 4: Assess the computational overhead and numerical stability of the framework, ensuring it remains within feasible bounds for single-GPU deployments."
+  ],
+  "Risk Factors and Limitations": [
+    "The framework's reliance on deterministic optimization proxies may limit its applicability to highly stochastic optimization problems.",
+    "The computational overhead of the diagnostic loops may increase with the complexity of the geometric subspace diagnostics.",
+    "The framework's performance may be sensitive to the choice of spectral quantization parameters, requiring careful tuning."
+  ]
+}

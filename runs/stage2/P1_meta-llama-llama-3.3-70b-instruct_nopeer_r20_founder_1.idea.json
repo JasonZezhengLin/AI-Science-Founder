@@ -1,0 +1,18 @@
+{
+  "Name": "gpu_inference_optimizer",
+  "Title": "Empirically Optimizing Deep Learning Inference on Commodity GPUs",
+  "Short Hypothesis": "By applying kernel-level throughput engineering and hardware-faithful evaluation, we can significantly improve the inference speed of deep learning models on commodity GPUs without sacrificing accuracy.",
+  "Related Work": "While there have been efforts to optimize deep learning inference, most existing work focuses on theoretical or formal guarantees rather than empirical, hardware-centric innovations. Our approach prioritizes measured, reproducible benchmarks and end-to-end speedups over theoretical bounds or spectral abstractions.",
+  "Abstract": "This project aims to develop and evaluate empirically optimized techniques for deep learning inference on commodity GPUs. We will focus on kernel-level throughput engineering, memory-bandwidth utilization, and tensor-core occupancy to improve inference speed. Our approach will emphasize hardware-faithful evaluation, using profilers and benchmarks to measure and attribute gains to specific hardware causes. We will prioritize reproducible, shippable wins over elegance or formal guarantees, and our contributions will be defended by before/after traces and measured latency improvements.",
+  "Experiments": [
+    "Implement and optimize a range of deep learning models (e.g., ResNet, LSTM) on a commodity GPU using CUDA and Triton",
+    "Apply kernel-level throughput engineering techniques, such as fused kernels, coalesced loads, and reduced HBM round-trips",
+    "Evaluate the impact of different optimization techniques on inference speed and accuracy using hardware-faithful benchmarks",
+    "Compare the performance of optimized models against baseline implementations using profilers and benchmarks"
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of deep learning models and GPU architectures may limit the effectiveness of our optimization techniques",
+    "The need for hardware-faithful evaluation may require significant experimentation and benchmarking",
+    "The results may be specific to the chosen GPU architecture and may not generalize to other hardware platforms"
+  ]
+}

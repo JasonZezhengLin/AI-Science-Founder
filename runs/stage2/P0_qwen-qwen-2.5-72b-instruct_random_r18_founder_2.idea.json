@@ -1,0 +1,21 @@
+{
+  "Name": "AdaptiveMixedPrecisionViTInference",
+  "Title": "Adaptive Mixed-Precision Quantization for Latency-Critical Inference in Vision Transformers",
+  "Short Hypothesis": "By developing an adaptive mixed-precision quantization framework for Vision Transformers, we can achieve significant latency reductions while maintaining high accuracy, making it suitable for real-time applications on edge devices.",
+  "Related Work": "Recent works such as Quasar-ViT, LLM-NPU, and FlexiQ have explored hardware-oriented and adaptive quantization techniques for optimizing inference in vision transformers and large language models. However, these approaches often focus on specific hardware or model types and do not provide a unified, adaptive solution that can be applied across different edge devices and vision transformers. Our proposal aims to fill this gap by developing a generalizable framework that dynamically adjusts precision based on real-time performance metrics and model sensitivity.",
+  "Abstract": "Vision Transformers (ViTs) have revolutionized computer vision but face significant challenges in real-time applications due to their high computational and memory demands. Existing post-training quantization methods struggle to maintain performance at low bit-widths, especially on resource-constrained edge devices. This paper introduces an adaptive mixed-precision quantization framework for ViTs, designed to achieve significant latency reductions while maintaining high accuracy. The framework, named Adaptive Mixed-Precision ViT Inference (AMP-ViT), dynamically adjusts the precision of different layers based on real-time performance metrics and model sensitivity. We incorporate techniques such as sensitivity-guided quantization, dynamic token pruning, and mixed-precision layer-skipping to optimize inference. Experiments on the ImageNet dataset and edge devices demonstrate up to 40% latency reduction with minimal accuracy loss, making AMP-ViT suitable for real-time applications. Our approach is modular and adaptable, ensuring it can be applied to various ViT models and hardware platforms.",
+  "Experiments": [
+    "1. **Sensitivity Analysis**: Conduct a layer-wise sensitivity analysis to identify the most and least sensitive layers in ViT models. Use this analysis to guide the initial quantization settings.",
+    "2. **Dynamic Token Pruning**: Implement a dynamic token pruning mechanism that adaptively discards uninformative background tokens based on attention variance. Measure the impact on latency and accuracy.",
+    "3. **Mixed-Precision Layer-Skipping**: Develop a Jacobian-based layer-skipping framework that skips computationally expensive layers during inference, with strict wall-clock budget enforcement. Evaluate the trade-offs between latency and accuracy.",
+    "4. **Real-Time Performance Metrics**: Deploy the framework on edge devices (e.g., NVIDIA Jetson Xavier NX) and measure real-time performance metrics such as latency, throughput, and power consumption. Compare with baseline models and existing quantization techniques.",
+    "5. **Ablation Studies**: Perform ablation studies to isolate the impact of each component (sensitivity analysis, dynamic token pruning, mixed-precision layer-skipping) on overall performance. Use these results to refine the framework.",
+    "6. **Cross-Model Evaluation**: Evaluate the framework on different ViT models (e.g., ViT, DeiT, Swin) and datasets (e.g., ImageNet, CIFAR-10) to ensure generalizability and robustness."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Model-Specific Tuning**: The performance of the framework may vary across different ViT models and datasets, requiring model-specific tuning.",
+    "2. **Hardware Dependencies**: The effectiveness of the framework may be influenced by the specific hardware capabilities of edge devices, necessitating hardware-aware optimizations.",
+    "3. **Latency-Accuracy Trade-Offs**: There may be inherent trade-offs between latency and accuracy, and achieving optimal performance may require careful balancing of these factors.",
+    "4. **Dynamic Token Pruning Complexity**: The dynamic token pruning mechanism may introduce additional computational overhead, which needs to be carefully managed to avoid performance degradation."
+  ]
+}

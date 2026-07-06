@@ -1,0 +1,478 @@
+/var/spool/slurmd/job942650/slurm_script: line 26: conda: command not found
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 466, in get_response_from_llm
+    response = make_llm_call(
+  File "/home/zezhenglin/founder/ai_scientist/utils/token_tracker.py", line 197, in sync_wrapper
+    result = func(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 252, in make_llm_call
+    _response = client.chat.completions.create(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1110, in request
+    return self._process_response(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_base_client.py", line 1199, in _process_response
+    return api_response.parse()
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_response.py", line 326, in parse
+    parsed = self._parse(to=to)
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/openai/_response.py", line 268, in _parse
+    data = response.json()
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/httpx/_models.py", line 832, in json
+    return jsonlib.loads(self.content, **kwargs)
+  File "/home/zezhenglin/.conda/envs/founder/lib/python3.10/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/home/zezhenglin/.conda/envs/founder/lib/python3.10/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/home/zezhenglin/.conda/envs/founder/lib/python3.10/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 287 column 1 (char 1573)
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+INFO:backoff:Backing off search_for_papers(...) for 0.8s (requests.exceptions.HTTPError: 500 Server Error: Internal Server Error for url: https://api.semanticscholar.org/graph/v1/paper/search?query=PAC-Bayes+frameworks+spectral+stability+bounds+Jacobian-based+layer-skipping+training-free+latency-aware+inference&limit=10&fields=title%2Cauthors%2Cvenue%2Cyear%2Cabstract%2CcitationCount)
+INFO:backoff:Backing off search_for_papers(...) for 0.7s (requests.exceptions.HTTPError: 500 Server Error: Internal Server Error for url: https://api.semanticscholar.org/graph/v1/paper/search?query=PAC-Bayes+frameworks+spectral+stability+bounds+Jacobian-based+layer-skipping+training-free+latency-aware+inference&limit=10&fields=title%2Cauthors%2Cvenue%2Cyear%2Cabstract%2CcitationCount)
+ERROR:backoff:Giving up search_for_papers(...) after 3 tries (requests.exceptions.HTTPError: 500 Server Error: Internal Server Error for url: https://api.semanticscholar.org/graph/v1/paper/search?query=PAC-Bayes+frameworks+spectral+stability+bounds+Jacobian-based+layer-skipping+training-free+latency-aware+inference&limit=10&fields=title%2Cauthors%2Cvenue%2Cyear%2Cabstract%2CcitationCount)
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.

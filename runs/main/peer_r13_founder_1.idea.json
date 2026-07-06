@@ -1,0 +1,18 @@
+{
+  "Name": "curvature-aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: Training-Free Optimization via Hessian-Guided Spectral Diagnostics",
+  "Short Hypothesis": "The local curvature of the loss landscape, quantified via Hessian spectral decay, serves as a direct proxy for precision sensitivity, enabling training-free precision routing with formalized stability guarantees.",
+  "Related Work": "Existing work on training-free precision routing (e.g., Spectral Quantization Routing) relies on activation covariance geometry but does not explicitly consider curvature. Subspace projection methods (e.g., Spectral Latent Steering) focus on robustness but ignore precision allocation. Our proposal bridges these gaps by integrating curvature diagnostics into precision routing, providing a theoretically grounded framework for resource-efficient inference.",
+  "Abstract": "Mixed-precision inference promises significant computational savings but often relies on heuristic precision allocation strategies. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates numerical precision based on local curvature diagnostics. We hypothesize that the spectral decay rate of the Hessian matrix serves as a direct proxy for precision sensitivity, with rapidly decaying spectra indicating robustness to low-precision computation. CAPR computes these diagnostics on-the-fly using randomized Hessian-vector products, mapping them to a precision-switching policy that enforces strict latency budgets. We theoretically ground the routing mechanism with PAC-Bayes bounds linking curvature properties to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, CAPR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized curvature diagnostics, CAPR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Experiment 1: Validate Hessian spectral decay as a precision sensitivity proxy. Compute Hessian-vector products for random mini-batches and measure spectral decay rates. Compare these rates with empirical precision sensitivity across different layers and tokens.",
+    "Experiment 2: Implement CAPR and compare its throughput-accuracy trade-offs with static and heuristic mixed-precision baselines. Evaluate on WILDS benchmarks under natural distribution shifts.",
+    "Experiment 3: Analyze the computational overhead of CAPR's curvature diagnostics. Measure wall-clock latency and memory usage for varying batch sizes and token lengths.",
+    "Experiment 4: Verify PAC-Bayes bounds linking curvature properties to generalization stability. Measure empirical risk under quantization noise and compare with theoretical predictions."
+  ],
+  "Risk Factors and Limitations": [
+    "Computational overhead of Hessian-vector products may outweigh precision savings.",
+    "Curvature diagnostics may not generalize well to out-of-distribution inputs.",
+    "Theoretical bounds may be overly conservative, limiting practical utility."
+  ]
+}

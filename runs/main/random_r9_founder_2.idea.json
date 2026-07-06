@@ -1,0 +1,30 @@
+{
+  "Name": "dynamic_context-aware_inference_acceleration",
+  "Title": "Dynamic Context-Aware Inference Acceleration for Transformers",
+  "Short Hypothesis": "By dynamically combining token pruning, layer skipping, and quantization based on input context and intermediate activations, transformer models can achieve significant inference speedups with minimal performance degradation.",
+  "Related Work": "Existing methods like SAINT (token pruning), LiteStage (layer skipping), and RAS-MQ (quantization) optimize inference efficiency using isolated techniques. This proposal uniquely integrates these approaches dynamically, leveraging input context and activation patterns to adaptively apply the most effective acceleration strategy at each inference step.",
+  "Abstract": "Transformer models have revolutionized machine learning but face significant inference latency challenges. While token pruning, layer skipping, and quantization individually offer efficiency gains, their static application limits their effectiveness. This paper introduces DynaAccel, a dynamic, context-aware inference acceleration framework that adaptively combines these techniques based on input context and intermediate activations. DynaAccel employs a lightweight controller trained via reinforcement learning to decide the optimal combination of acceleration strategies at each step, balancing latency and accuracy. Experiments on vision transformers and language models demonstrate that DynaAccel achieves up to 3x inference speedup with less than 1% accuracy loss, outperforming state-of-the-art static acceleration methods.",
+  "Experiments": [
+    {
+      "Description": "Implement DynaAccel on ViT and GPT models.",
+      "Metrics": "Inference latency, accuracy, FLOPs reduction"
+    },
+    {
+      "Description": "Compare DynaAccel against SAINT, LiteStage, and RAS-MQ.",
+      "Metrics": "Speedup, accuracy loss, memory usage"
+    },
+    {
+      "Description": "Ablation study on the impact of each acceleration technique.",
+      "Metrics": "Individual contribution to speedup and accuracy"
+    },
+    {
+      "Description": "Evaluate DynaAccel on diverse datasets (ImageNet, C4).",
+      "Metrics": "Generalization performance across tasks"
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "Potential overhead from the lightweight controller may offset some speedup gains.",
+    "DynaAccel may require task-specific tuning for optimal performance.",
+    "Limited applicability to non-transformer architectures."
+  ]
+}

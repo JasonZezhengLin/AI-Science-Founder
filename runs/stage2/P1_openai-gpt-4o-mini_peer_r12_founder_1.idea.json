@@ -1,0 +1,19 @@
+{
+  "Name": "adaptive_tile_size_optimization",
+  "Title": "Adaptive Tile Size Optimization for Efficient GPU Kernel Execution in LLM Inference",
+  "Short Hypothesis": "Dynamically optimizing tile sizes based on runtime profiling metrics significantly enhances GPU kernel performance for LLM inference, providing a practical approach that directly improves wall-clock latency and throughput.",
+  "Related Work": "While existing methods have primarily focused on static tile sizes or heuristic-based tuning, our approach leverages real-time profiling data to adapt tile sizes dynamically during inference. This distinguishes our work from prior studies, such as the use of fixed tile sizes in existing optimized kernels and the reliance on exhaustive search methods, providing a more agile solution to kernel performance tuning.",
+  "Abstract": "Large language model (LLM) inference is heavily reliant on optimized GPU kernels to achieve acceptable latency and throughput. Traditional optimization methods often use static tile sizes, which may not be optimal across diverse workloads and input distributions. This paper introduces a novel adaptive tile size optimization framework that utilizes real-time profiling metrics to dynamically adjust tile sizes during kernel execution. By integrating runtime performance data, such as memory bandwidth utilization and arithmetic intensity, our approach enables the kernel to adapt to changing workload characteristics, ensuring optimal performance. We evaluate our framework on a range of LLM inference tasks and demonstrate significant improvements in wall-clock latency and throughput compared to static tile size configurations. Our results highlight the potential of adaptive optimization strategies in practical scenarios, offering actionable insights for developers seeking to enhance LLM deployment efficiency. This work not only advances kernel optimization techniques but also contributes to the broader understanding of adaptive systems in machine learning environments.",
+  "Experiments": [
+    "Implement a baseline kernel with a fixed tile size for LLM inference.",
+    "Integrate a profiler to gather runtime metrics during kernel execution, focusing on memory bandwidth and arithmetic intensity.",
+    "Develop an adaptive kernel that adjusts tile sizes based on the collected runtime metrics.",
+    "Conduct A/B tests comparing the fixed tile size kernel and the adaptive kernel across various LLMs and input sizes.",
+    "Measure p50/p99 latency, throughput (tokens-per-second), and energy consumption per token for both kernels under identical conditions."
+  ],
+  "Risk Factors and Limitations": [
+    "The dependency on profiling overhead may introduce latency during the initial warm-up phase.",
+    "Dynamically adjusting tile sizes could result in increased complexity for kernel management.",
+    "Performance gains might vary significantly depending on workload characteristics and specific GPU architectures."
+  ]
+}

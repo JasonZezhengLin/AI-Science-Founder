@@ -1,0 +1,12 @@
+{
+  "arm": "peer",
+  "round": 13,
+  "founder": "founder_1",
+  "persona_pair": "P1",
+  "model": "meta-llama/llama-3.3-70b-instruct",
+  "cross_founder_visibility": "1",
+  "persona_chars": 2637,
+  "peer_brief_chars": 798,
+  "workshop_desc_chars": 3645,
+  "idea_is_none": false
+}

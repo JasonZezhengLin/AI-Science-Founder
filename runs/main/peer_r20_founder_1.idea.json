@@ -1,0 +1,18 @@
+{
+  "Name": "curvature_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: Training-Free Mixed-Precision Inference via Hessian Geometry Diagnostics",
+  "Short Hypothesis": "Precision requirements for neural network inference can be dynamically allocated based on local curvature properties of the loss landscape, enabling efficient mixed-precision computation without retraining or calibration.",
+  "Related Work": "Existing mixed-precision methods rely on static profiling (e.g., NVIDIA TensorRT) or heuristic sensitivity analysis (e.g., AdaQuant), which fail to adapt to dynamic input distributions. Spectral Quantization Routing (SQR) introduced training-free precision allocation via activation geometry, but it focuses on activation covariance rather than loss curvature. This proposal distinguishes itself by leveraging Hessian-based curvature diagnostics to directly quantify sensitivity to precision loss, providing a more theoretically grounded approach.",
+  "Abstract": "Mixed-precision inference offers significant computational savings but often relies on static profiling or costly calibration, limiting adaptability to dynamic inputs. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates numerical precision based on local curvature properties of the loss landscape. CAPR computes Hessian diagnostics—specifically, the condition number and spectral decay rate—to quantify sensitivity to precision loss. Tokens residing in regions with low curvature and rapid spectral decay are robust to low-precision computation, while high-curvature regions require higher precision. CAPR leverages randomized matrix-free Hessian-vector products to estimate curvature properties on-the-fly, mapping them to a precision-switching policy that enforces strict latency budgets. We theoretically ground the routing mechanism with PAC-Bayes bounds linking curvature properties to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, CAPR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized curvature diagnostics, CAPR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Evaluate CAPR on WILDS benchmark datasets (e.g., Camelyon17, iWildCam) under natural distribution shifts, comparing throughput and accuracy against static mixed-precision baselines (e.g., TensorRT) and heuristic sensitivity methods (e.g., AdaQuant).",
+    "Measure the computational overhead of Hessian-vector product estimation and precision-switching policy enforcement, ensuring it remains within strict latency budgets.",
+    "Validate the theoretical PAC-Bayes bounds by correlating Hessian condition numbers with empirical generalization errors under quantization noise.",
+    "Perform ablation studies to isolate the impact of curvature diagnostics versus activation geometry (e.g., SQR) on precision allocation efficiency."
+  ],
+  "Risk Factors and Limitations": [
+    "Hessian-vector product estimation may introduce computational overhead, potentially offsetting precision savings.",
+    "The framework assumes smoothness of the loss landscape, which may not hold for highly non-convex models.",
+    "Dynamic precision switching could introduce hardware-level synchronization challenges, though block-level tiering mitigates this risk."
+  ]
+}

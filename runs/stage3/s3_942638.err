@@ -1,0 +1,37 @@
+/var/spool/slurmd/job942638/slurm_script: line 26: conda: command not found
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.

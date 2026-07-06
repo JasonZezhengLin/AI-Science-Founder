@@ -1,0 +1,29 @@
+{
+  "Name": "curvature-aware_mixed-precision_routing",
+  "Title": "Curvature-Aware Mixed-Precision Routing via Deterministic Spectral Probes",
+  "Short Hypothesis": "By leveraging deterministic spectral probes to quantify curvature and feature entanglement, we can develop a training-free mixed-precision routing protocol that optimizes precision tiers based on formal stability radii and condition number constraints, ensuring both computational efficiency and numerical stability.",
+  "Related Work": "Existing mixed-precision strategies often rely on heuristic approaches or extensive training data to determine precision tiers, lacking formal guarantees of stability and efficiency. Recent work on curvature-aware optimization (e.g., Niu et al., 2026) has explored matrix-free formulations for affine normal directions but has not applied these insights to mixed-precision routing. Our proposal distinguishes itself by integrating deterministic spectral diagnostics with explicit numerical stability analysis, providing a mathematically grounded framework for precision routing.",
+  "Abstract": "Mixed-precision computation offers significant potential for reducing computational overhead in machine learning models, but existing approaches often rely on heuristic methods or extensive training data, lacking formal guarantees of numerical stability and efficiency. We propose a curvature-aware mixed-precision routing protocol that leverages deterministic spectral probes to quantify curvature and feature entanglement. By integrating these diagnostics with formal stability radii and condition number constraints, our protocol optimizes precision tiers in a training-free manner, ensuring both computational efficiency and numerical stability. We validate our approach through rigorous empirical evaluation, demonstrating its effectiveness in reducing computational overhead while maintaining model accuracy. Our results provide a theoretically grounded framework for mixed-precision routing, bridging the gap between foundational optimization theory and practical deployment constraints.",
+  "Experiments": [
+    {
+      "Experiment": "Evaluate deterministic spectral probes for curvature quantification.",
+      "Procedure": "Compute Hessian-vector products and log-determinant gradients using matrix-free formulations.",
+      "Metrics": "Condition number, gradient covariance decay, feature entanglement."
+    },
+    {
+      "Experiment": "Develop and test precision routing protocol.",
+      "Procedure": "Optimize precision tiers based on formal stability radii and condition number constraints.",
+      "Metrics": "Computational overhead, numerical stability, model accuracy."
+    },
+    {
+      "Experiment": "Compare with existing mixed-precision strategies.",
+      "Procedure": "Benchmark against heuristic and training-based approaches.",
+      "Metrics": "Performance, efficiency, stability."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "Potential computational overhead of spectral diagnostics.",
+    "Dependence on matrix-free formulations may limit applicability to certain architectures.",
+    "Need for rigorous empirical validation to ensure robustness across diverse datasets."
+  ]
+}

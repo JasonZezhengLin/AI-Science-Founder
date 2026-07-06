@@ -1,0 +1,19 @@
+{
+  "Name": "dynamic_rate_distortion_training",
+  "Title": "Dynamic Rate-Distortion Optimization for Neural Network Training",
+  "Short Hypothesis": "Integrating rate-distortion optimization directly into the training loop, rather than as a post-hoc compression step, can achieve better compression-performance trade-offs by dynamically adjusting the compression strategy based on the evolving task-relevant information.",
+  "Related Work": "Existing approaches to model compression, such as pruning and quantization, often treat compression as a separate step after training. Recent work (e.g., Bu et al., 2021) has explored the information-theoretic underpinnings of compression but does not integrate these insights into the training process. Our proposal distinguishes itself by dynamically optimizing the rate-distortion trade-off during training, leveraging mutual information estimators to guide the allocation of bits where they most reduce task-relevant distortion.",
+  "Abstract": "We propose a novel approach to neural network training that integrates rate-distortion optimization directly into the training loop. By dynamically adjusting the compression strategy based on the evolving task-relevant information, our method aims to achieve superior compression-performance trade-offs. We frame the problem as a joint optimization of task loss and compression efficiency, using mutual information estimators to guide the allocation of bits where they most reduce task-relevant distortion. Our experiments demonstrate that this approach can achieve higher compression ratios with minimal loss in task performance compared to traditional post-hoc compression methods. We evaluate on benchmark datasets and tasks, providing insights into the fundamental limits of compression during training.",
+  "Experiments": [
+    "Experiment 1: Compare dynamic rate-distortion training to traditional post-hoc compression methods (e.g., pruning, quantization) on image classification tasks (CIFAR-10, ImageNet). Metrics: compression ratio, task accuracy, bits-per-weight.",
+    "Experiment 2: Analyze the evolution of mutual information between layers and the task during training. Metrics: layer-wise mutual information, task accuracy.",
+    "Experiment 3: Investigate the impact of different distortion measures (e.g., MSE, KL divergence) on compression efficiency and task performance. Metrics: compression ratio, task accuracy, distortion measure.",
+    "Experiment 4: Evaluate the generalization performance of dynamically compressed models on out-of-distribution data. Metrics: task accuracy on OOD datasets."
+  ],
+  "Risk Factors and Limitations": [
+    "The dynamic optimization process may increase training time and computational overhead.",
+    "The effectiveness of the approach may depend on the choice of mutual information estimators, which can be challenging to implement accurately.",
+    "The proposed method may not generalize well to all types of neural network architectures or tasks.",
+    "There is a risk of overfitting the compression strategy to the training data, leading to poor generalization performance."
+  ]
+}

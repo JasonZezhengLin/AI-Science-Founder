@@ -1,0 +1,19 @@
+{
+  "Name": "geometric_signal_separation",
+  "Title": "Geometric Signal Separation: Enhancing Robustness in In-Context Learning via Training-Free PCA Filtering",
+  "Short Hypothesis": "We hypothesize that in-context learning (ICL) models can enhance their robustness to distributional shifts and noisy contexts by explicitly separating task-relevant signals from noise through geometric signal separation techniques, employing training-free PCA filtering on hidden activations.",
+  "Related Work": "Existing works have explored in-context learning (ICL) and its limitations under noisy contexts. However, few have investigated the geometric properties of activation spaces during inference. This proposal distinguishes itself by employing a training-free PCA filtering methodology to isolate high-variance signal components from low-variance noise, thereby enhancing the robustness of ICL models without requiring additional training.",
+  "Abstract": "In-context learning (ICL) has emerged as a powerful technique for adapting large language models to new tasks without parameter updates. However, the robustness of ICL to distributional shifts and noisy contexts remains a significant challenge. This proposal introduces a novel framework for enhancing ICL by employing geometric signal separation techniques that utilize training-free PCA filtering on model activations. We hypothesize that task-relevant signals are concentrated in high-variance principal components, while contextual noise resides in low-variance directions. By projecting activations onto the top-k principal components before the final prediction step, we aim to amplify robust signal directions and mitigate the impact of noise. Our approach is grounded in rigorous geometric diagnostics, allowing for the quantitative assessment of signal separation effectiveness. We will evaluate our method across diverse ICL benchmarks, measuring improvements in accuracy retention, subspace alignment stability, and inference efficiency. This work offers a mathematically transparent, resource-efficient strategy for optimizing in-context learning models, ultimately bridging mechanistic interpretability with system-level performance.",
+  "Experiments": [
+    "1. Implement a baseline ICL model and evaluate its performance on a set of controlled benchmarks under noisy and clean contexts.",
+    "2. Apply PCA filtering on hidden activations during inference to isolate high-variance components, measuring the impact on model accuracy and robustness.",
+    "3. Conduct ablation studies to determine the optimal number of top principal components (k) needed for effective signal separation.",
+    "4. Compare the performance of the proposed PCA filtering method against traditional ICL methods to establish improvements in accuracy retention and stability.",
+    "5. Quantitatively analyze the relationship between signal variance thresholds and compute allocation, exploring dynamic early-exit strategies."
+  ],
+  "Risk Factors and Limitations": [
+    "The method relies on the assumption that task-relevant signals can be effectively isolated in high-variance components, which may not hold in all scenarios.",
+    "Computational overhead from PCA computations during inference, although minimized, may still impact real-time applications.",
+    "Performance gains may vary significantly based on the nature of the task and the characteristics of the noise present in the input data."
+  ]
+}

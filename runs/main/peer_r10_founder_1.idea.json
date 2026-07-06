@@ -1,0 +1,18 @@
+{
+  "Name": "spectral_quantization_robustness",
+  "Title": "Spectral Quantization Robustness: Training-Free Precision Allocation via Activation Covariance Geometry",
+  "Short Hypothesis": "The spectral properties of activation covariances can serve as robust proxies for determining optimal numerical precision levels in mixed-precision inference, enabling efficient and stable computation under dynamic input distributions.",
+  "Related Work": "Existing mixed-precision methods rely on static profiling or heuristic calibration, which fail to adapt to dynamic input distributions. Recent work like Spectral Quantization Routing (SQR) attempts to address this by using geometric diagnostics, but it lacks a comprehensive theoretical grounding and empirical validation across diverse benchmarks. Our proposal builds on these ideas by introducing formal PAC-Bayes bounds and rigorous empirical evaluation to ensure robustness and transparency.",
+  "Abstract": "Mixed-precision inference promises significant latency and memory gains but typically relies on static profiling or costly calibration, failing to adapt to dynamic input distributions. We propose Spectral Quantization Robustness (SQR), a training-free framework that dynamically allocates numerical precision based on real-time activation geometry. We hypothesize that the local covariance condition number and spectral decay rate of hidden states serve as direct proxies for quantization sensitivity. Tokens residing in well-conditioned, rapidly decaying subspaces are robust to low-precision computation, while ill-conditioned tokens require higher precision. SQR computes these geometric diagnostics on-the-fly using randomized SVD, mapping them to a precision-switching policy that enforces strict latency budgets. We theoretically ground the routing mechanism with PAC-Bayes bounds that link spectral conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, SQR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized risk bounds, SQR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Experiment 1: Validate the hypothesis by measuring the correlation between spectral properties of activation covariances and quantization sensitivity across different layers and models.",
+    "Experiment 2: Implement SQR on single-GPU setups and compare its performance with static and heuristic mixed-precision methods on WILDS benchmarks.",
+    "Experiment 3: Conduct ablation studies to isolate the contribution of spectral diagnostics and precision-switching policies to overall performance.",
+    "Experiment 4: Evaluate the robustness of SQR under different input distributions and measure its generalization stability using PAC-Bayes bounds."
+  ],
+  "Risk Factors and Limitations": [
+    "Potential risk: The overhead of on-the-fly spectral diagnostics may outweigh the benefits of dynamic precision allocation.",
+    "Limitation: The effectiveness of SQR may be model-dependent, requiring adaptation for different architectures.",
+    "Challenge: Ensuring that the PAC-Bayes bounds are tight enough to provide meaningful theoretical guarantees."
+  ]
+}

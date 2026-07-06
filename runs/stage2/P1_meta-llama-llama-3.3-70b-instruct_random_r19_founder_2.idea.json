@@ -1,0 +1,18 @@
+{
+  "Name": "information_theoretic_quantization",
+  "Title": "Exploring Information-Theoretic Limits of Neural Network Quantization",
+  "Short Hypothesis": "The fundamental limit of neural network quantization can be characterized using rate-distortion theory, and this limit can be approached using a novel quantization scheme that optimizes the trade-off between rate and distortion.",
+  "Related Work": "Recent works such as EMQ, AMP-ViT, and SNIP have explored mixed-precision quantization and adaptive precision allocation for neural networks. However, these works focus on empirical methods and do not provide a theoretical understanding of the fundamental limits of quantization. This proposal aims to fill this gap by exploring the information-theoretic limits of neural network quantization using rate-distortion theory.",
+  "Abstract": "This proposal explores the information-theoretic limits of neural network quantization using rate-distortion theory. We aim to characterize the fundamental limit of quantization and develop a novel quantization scheme that approaches this limit. Our approach will involve deriving a rate-distortion function for neural networks and developing an optimization algorithm to minimize the distortion subject to a rate constraint. We will evaluate our approach using benchmark datasets and compare it to state-of-the-art quantization methods.",
+  "Experiments": [
+    "Derive a rate-distortion function for neural networks using mutual information and entropy",
+    "Develop an optimization algorithm to minimize the distortion subject to a rate constraint",
+    "Evaluate the proposed approach using benchmark datasets (e.g. ImageNet, CIFAR-10) and compare it to state-of-the-art quantization methods (e.g. EMQ, AMP-ViT, SNIP)",
+    "Investigate the effect of different distortion measures (e.g. mean squared error, cross-entropy) on the quantization performance"
+  ],
+  "Risk Factors and Limitations": [
+    "The derivation of the rate-distortion function may be challenging due to the complexity of neural networks",
+    "The optimization algorithm may not converge to the global optimum due to the non-convexity of the problem",
+    "The proposed approach may not be computationally efficient due to the need to compute mutual information and entropy"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "Name": "curvature_aware_quantization",
+  "Title": "Curvature-Aware Mixed Precision Quantization for Neural Networks",
+  "Short Hypothesis": "By incorporating curvature information into the mixed precision quantization process, we can effectively reduce the precision of neural network weights and activations while maintaining model accuracy.",
+  "Related Work": "Recent works such as EMQ, AMP-ViT, and SNIP have explored mixed precision quantization for neural networks. However, these methods do not consider the curvature of the loss landscape, which can lead to suboptimal quantization decisions. Our approach builds upon these works by incorporating curvature-aware techniques to improve the accuracy and efficiency of mixed precision quantization.",
+  "Abstract": "Mixed precision quantization is a promising technique for reducing the computational cost and memory footprint of neural networks. However, existing methods often rely on heuristics or simplistic assumptions about the distribution of weights and activations. In this work, we propose a curvature-aware mixed precision quantization approach that takes into account the curvature of the loss landscape to guide the quantization process. Our approach uses a combination of Hessian-based and gradient-based metrics to identify the most sensitive weights and activations, and allocates higher precision to these components. We evaluate our approach on a range of benchmark datasets and demonstrate significant improvements in accuracy and efficiency compared to state-of-the-art mixed precision quantization methods.",
+  "Experiments": [
+    "Evaluate the proposed curvature-aware mixed precision quantization approach on CIFAR-10 and ImageNet datasets using ResNet and MobileNet architectures.",
+    "Compare the performance of our approach with state-of-the-art mixed precision quantization methods, including EMQ, AMP-ViT, and SNIP.",
+    "Conduct ablation studies to investigate the impact of different curvature-aware metrics and precision allocation strategies on the performance of our approach."
+  ],
+  "Risk Factors and Limitations": [
+    "The computational cost of computing Hessian-based metrics may be prohibitively expensive for large-scale neural networks.",
+    "The accuracy of our approach may be sensitive to the choice of hyperparameters, such as the threshold for precision allocation.",
+    "The approach may not be effective for neural networks with complex or non-convex loss landscapes."
+  ]
+}

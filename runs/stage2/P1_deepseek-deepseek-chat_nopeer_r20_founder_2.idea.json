@@ -1,0 +1,20 @@
+{
+  "Name": "task_specific_mutual_information_compression",
+  "Title": "Task-Specific Mutual Information as a Fundamental Limit for Model Compression",
+  "Short Hypothesis": "The minimal bit-cost required for compressing a neural network while preserving task-specific predictive sufficiency can be characterized by the mutual information between the network’s intermediate representations and the task output, and this limit can be approached using rate-distortion theory.",
+  "Related Work": "Existing work on model compression focuses on empirical methods like quantization and pruning, often without theoretical guarantees. Recent advances in information-theoretic generalization bounds (e.g., Nadjahi et al., 2024) have explored mutual information in high-dimensional spaces but do not explicitly connect it to compression limits. This proposal bridges this gap by leveraging task-specific mutual information and rate-distortion theory to derive achievable bounds on compression.",
+  "Abstract": "We propose a novel framework for understanding the fundamental limits of neural network compression by characterizing the minimal bit-cost required to preserve task-specific predictive sufficiency. Our approach leverages the mutual information between intermediate representations and the task output, framed within rate-distortion theory, to derive achievable bounds on bits-per-weight. We introduce a new estimator for task-specific mutual information and demonstrate its utility in allocating bits where they most reduce task-relevant distortion. Our experiments validate these bounds on benchmark datasets, showing that practical compression methods can approach these limits. This work provides a principled, information-theoretic foundation for model compression, enabling practitioners to trade off bit-cost and distortion explicitly.",
+  "Experiments": [
+    "Estimate task-specific mutual information between intermediate representations and task output using InfoNCE-style estimators.",
+    "Derive achievable bounds on bits-per-weight using rate-distortion theory, varying the distortion constraint.",
+    "Validate bounds on CIFAR-10 and ImageNet by comparing theoretical limits to practical compression methods (e.g., quantization, pruning).",
+    "Evaluate generalization performance (test accuracy) and compression efficiency (bits-per-weight) across different distortion levels.",
+    "Compare our bounds to existing information-theoretic generalization bounds (e.g., PAC-Bayes, MDL)."
+  ],
+  "Risk Factors and Limitations": [
+    "Estimating mutual information in high-dimensional spaces is challenging and may introduce bias or variance.",
+    "The proposed bounds may be loose in practice due to simplifying assumptions.",
+    "Task-specific mutual information may not fully capture all task-relevant factors, leading to suboptimal bit allocation.",
+    "Experiments are limited to supervised learning tasks; extension to unsupervised or reinforcement learning is non-trivial."
+  ]
+}

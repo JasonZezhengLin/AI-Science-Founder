@@ -1,0 +1,44 @@
+{
+  "Name": "curvature-aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: Training-Free Representation Geometry for Efficient Inference",
+  "Short Hypothesis": "Curvature-aware precision routing, leveraging deterministic spectral estimators and low-overhead diagnostics, can optimize mixed-precision inference by aligning precision tiers with the geometric properties of the representation space, without requiring additional training.",
+  "Related Work": "Existing mixed-precision methods often rely on heuristic approaches or extensive training to determine precision tiers, which can be computationally expensive and lack theoretical guarantees. Recent work on curvature-aware optimization and training-free diagnostics (e.g., Niu et al., 2026) has shown the potential of leveraging geometric properties for scalable computation. This proposal distinguishes itself by introducing a training-free framework that explicitly links precision routing to curvature diagnostics, providing formalized stability radii and PAC-Bayes generalization bounds.",
+  "Abstract": "Mixed-precision inference has emerged as a promising strategy for reducing computational overhead in deep learning models. However, existing methods often rely on heuristic approaches or extensive training to determine precision tiers, which can be computationally expensive and lack theoretical guarantees. This paper introduces Curvature-Aware Precision Routing (CAPR), a training-free framework that leverages deterministic spectral estimators and low-overhead diagnostics to optimize mixed-precision inference. CAPR aligns precision tiers with the geometric properties of the representation space, quantified through gradient covariance decay, Hessian conditioning, and feature entanglement. By replacing heuristic fragility claims with formalized stability radii and PAC-Bayes generalization bounds, CAPR provides a theoretically grounded approach to precision routing. Empirical validation on a suite of benchmark datasets demonstrates that CAPR achieves significant computational savings while maintaining model accuracy, offering a scalable and resource-efficient solution for mixed-precision inference.",
+  "Experiments": [
+    {
+      "description": "Evaluate CAPR on benchmark datasets (e.g., CIFAR-10, ImageNet) using pre-trained models (e.g., ResNet, VGG).",
+      "metrics": [
+        "Accuracy",
+        "Computational Savings",
+        "Condition Number"
+      ]
+    },
+    {
+      "description": "Compare CAPR with existing mixed-precision methods (e.g., AMP, FP16) in terms of accuracy and computational efficiency.",
+      "metrics": [
+        "Accuracy",
+        "FLOPs",
+        "Memory Usage"
+      ]
+    },
+    {
+      "description": "Perform ablation studies to isolate the impact of different curvature diagnostics (e.g., gradient covariance decay, Hessian conditioning) on precision routing.",
+      "metrics": [
+        "Accuracy",
+        "Computational Savings"
+      ]
+    },
+    {
+      "description": "Validate the formalized stability radii and PAC-Bayes generalization bounds through empirical analysis.",
+      "metrics": [
+        "Stability Radii",
+        "Generalization Bounds"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of CAPR may be limited by the quality of the pre-trained models and the complexity of the datasets.",
+    "The proposed curvature diagnostics may introduce additional computational overhead, although this is minimized through low-overhead implementation.",
+    "The framework assumes deterministic execution pathways, which may not fully capture the variability in real-world deployment scenarios."
+  ]
+}

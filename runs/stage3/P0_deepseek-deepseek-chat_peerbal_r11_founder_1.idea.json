@@ -1,0 +1,19 @@
+{
+  "Name": "curvature_aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: Training-Free Mixed-Precision Inference via Spectral Geometry",
+  "Short Hypothesis": "The curvature of the activation manifold, quantified via spectral diagnostics, provides a deterministic proxy for optimal precision allocation in mixed-precision inference, enabling training-free adaptation to input distribution shifts.",
+  "Related Work": "Recent work like Spectral Quantization Routing (SQR) explores training-free precision allocation based on activation geometry, but it relies primarily on covariance conditioning. Our proposal extends this by incorporating curvature-aware diagnostics (e.g., Hessian spectral decay, gradient covariance) to formalize precision routing with explicit numerical stability guarantees. Unlike SQR, which focuses on static geometric proxies, we introduce dynamic curvature-aware routing that adapts to input-specific manifold geometry, ensuring tighter generalization bounds under precision switching.",
+  "Abstract": "Mixed-precision inference offers significant computational savings but often relies on heuristic or static profiling methods that fail to adapt to dynamic input distributions. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that leverages spectral diagnostics of activation manifold curvature to dynamically allocate numerical precision. By quantifying Hessian spectral decay, gradient covariance, and feature entanglement, CAPR formalizes precision allocation as a curvature-aware optimization problem, ensuring numerical stability and generalization under precision switching. We introduce a deterministic spectral estimator that computes these diagnostics on-the-fly using randomized SVD, mapping them to a precision-switching policy that enforces strict latency budgets. Theoretically, we ground CAPR in PAC-Bayes bounds that link curvature diagnostics to generalization stability under quantization noise. Empirically, CAPR achieves superior throughput-accuracy Pareto frontiers on WILDS benchmarks compared to static and heuristic baselines, demonstrating robust adaptation to natural distribution shifts. By replacing heuristic fragility claims with formalized curvature-aware routing, CAPR provides a transparent, reproducible pathway for resource-efficient inference.",
+  "Experiments": [
+    "Experiment 1: Evaluate CAPR on WILDS benchmarks (Camelyon17, iWildCam) to measure throughput-accuracy trade-offs under natural distribution shifts. Metrics: Accuracy, latency, memory usage.",
+    "Experiment 2: Ablation study to isolate the impact of curvature diagnostics (Hessian spectral decay, gradient covariance) on precision allocation. Metrics: Precision switching frequency, quantization error.",
+    "Experiment 3: Compare CAPR to static mixed-precision baselines and heuristic training-free methods (e.g., SQR) on mathematical reasoning tasks (GSM8K, MATH). Metrics: Accuracy, perturbation overhead.",
+    "Experiment 4: Validate theoretical PAC-Bayes bounds by measuring generalization gap under varying precision tiers. Metrics: Generalization error, condition number."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk 1: On-the-fly curvature diagnostics may introduce computational overhead, potentially offsetting precision savings.",
+    "Risk 2: The deterministic spectral estimator may fail to capture nuanced curvature properties in highly non-linear manifolds.",
+    "Limitation 1: CAPR assumes input-specific curvature properties are well-approximated by spectral diagnostics, which may not hold for all architectures or tasks.",
+    "Limitation 2: The framework is currently validated only on single-GPU setups, limiting scalability to multi-GPU or distributed environments."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "Name": "memory_compute_overlap_inference",
+  "Title": "Overlapping Memory-Bound and Compute-Bound Operations for Efficient LLM Inference",
+  "Short Hypothesis": "Strategically overlapping memory-bound operations (e.g., KV-cache fetching) with compute-bound operations (e.g., tensor-core matrix multiplication) can improve end-to-end inference latency by reducing idle cycles and maximizing resource utilization.",
+  "Related Work": "Recent work like BitDecoding (Du et al., 2025) has optimized KV-cache decoding by leveraging Tensor Cores alongside CUDA cores. However, these systems do not explicitly explore overlapping memory-bound and compute-bound operations to minimize idle cycles. This proposal distinguishes itself by focusing on the interplay between memory bandwidth utilization and tensor-core occupancy, using precise hardware profiling to validate gains.",
+  "Abstract": "Large Language Models (LLMs) incur significant memory and compute demands during inference, particularly due to the growing Key-Value (KV) cache in autoregressive decoding. While recent systems optimize KV-cache decoding by leveraging Tensor Cores, they do not explicitly explore overlapping memory-bound and compute-bound operations to minimize idle cycles. We propose a novel approach that strategically overlaps memory-bound operations (e.g., KV-cache fetching) with compute-bound operations (e.g., tensor-core matrix multiplication) to improve end-to-end inference latency. Using precise hardware profiling, we design and evaluate fused CUDA/Triton kernels that coordinate memory and compute operations, maximizing resource utilization. Experiments on LLaMA-3.1-8B demonstrate a significant reduction in end-to-end latency, with detailed profiling attributing gains to reduced idle cycles and improved tensor-core occupancy.",
+  "Experiments": [
+    "Design fused CUDA/Triton kernels that overlap KV-cache fetching with tensor-core matrix multiplication.",
+    "Profile kernel performance using nvprof/Nsight traces, measuring occupancy, achieved bandwidth, warp stall reasons, and arithmetic intensity.",
+    "Conduct A/B latency races under fixed accuracy budgets, comparing the proposed kernels to baseline implementations.",
+    "Evaluate end-to-end latency, throughput under batching, and energy per token on LLaMA-3.1-8B with varying context lengths.",
+    "Report p50/p99 latency, achieved bandwidth, and tensor-core occupancy improvements."
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed overlap may not yield significant gains if memory-bound operations dominate the runtime.",
+    "Fused kernels may introduce complexity that offsets potential latency improvements.",
+    "Results may vary across GPU architectures due to differences in memory hierarchy and tensor-core capabilities.",
+    "The approach may not generalize to models with significantly different compute/memory profiles."
+  ]
+}

@@ -1,0 +1,301 @@
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+INFO:backoff:Backing off search_for_papers(...) for 0.6s (requests.exceptions.HTTPError: 500 Server Error: Internal Server Error for url: https://api.semanticscholar.org/graph/v1/paper/search?query=kernel+optimization+deep+learning+inference+latency+GPU&limit=10&fields=title%2Cauthors%2Cvenue%2Cyear%2Cabstract%2CcitationCount)
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 250, in generate_temp_free_idea
+    raise ValueError("Failed to parse the LLM response.")
+ValueError: Failed to parse the LLM response.
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "/home/zezhenglin/founder/ai_scientist/perform_ideation_temp_free.py", line 228, in generate_temp_free_idea
+    response_text, msg_history = get_response_from_llm(
+  File "/home/zezhenglin/.local/lib/python3.10/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/zezhenglin/founder/ai_scientist/llm.py", line 323, in get_response_from_llm
+    response = client.messages.create(
+AttributeError: 'OpenAI' object has no attribute 'messages'

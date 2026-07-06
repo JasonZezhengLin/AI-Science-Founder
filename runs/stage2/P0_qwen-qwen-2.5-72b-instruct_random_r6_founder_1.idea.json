@@ -1,0 +1,19 @@
+{
+  "Name": "curvatureawareprecisionrouting",
+  "Title": "Curvature-Aware Precision Routing for Mixed-Precision Training in Resource-Constrained Environments",
+  "Short Hypothesis": "We hypothesize that a curvature-aware precision routing framework can dynamically allocate mixed-precision levels to layers in deep neural networks, optimizing both computational efficiency and model accuracy in resource-constrained environments.",
+  "Related Work": "Recent works such as Tri-Accel (Sheibanian et al., 2025) and SNIP (Pan et al., 2025) have explored mixed-precision training and quantization, but they often rely on static or heuristic-based methods. Our proposal introduces a curvature-aware approach that dynamically adjusts precision based on the local geometry of the loss landscape, ensuring both efficiency and accuracy.",
+  "Abstract": "Mixed-precision training is a promising technique for optimizing the computational efficiency of deep neural networks, but existing methods often rely on static or heuristic-based precision allocation, which can lead to suboptimal performance. We propose Curvature-Aware Precision Routing (CAPR), a novel framework that dynamically allocates mixed-precision levels to layers in deep neural networks based on the curvature of the loss landscape. CAPR leverages spectral quantization theory to monitor the Hessian matrix and gradient covariance, ensuring that layers with high curvature are assigned higher precision to maintain model accuracy. This approach is validated through a series of experiments on resource-constrained single-GPU environments, demonstrating significant improvements in both computational efficiency and model accuracy. Our framework is designed to be lightweight and scalable, making it suitable for deployment on edge devices and cost-sensitive cloud environments.",
+  "Experiments": [
+    "1. **Curvature Analysis**: Measure the Hessian matrix and gradient covariance for each layer in the network during training to identify high-curvature regions.",
+    "2. **Precision Allocation**: Develop an algorithm to dynamically assign mixed-precision levels (e.g., FP16, INT8) to layers based on the curvature analysis. High-curvature layers will be assigned higher precision to maintain accuracy.",
+    "3. **Training Evaluation**: Train deep neural networks (e.g., ResNet-18, EfficientNet-B0) using CAPR and compare the training time, memory usage, and model accuracy with static mixed-precision and full-precision baselines.",
+    "4. **Ablation Study**: Conduct ablation studies to evaluate the impact of different curvature thresholds and precision allocation strategies on model performance.",
+    "5. **Resource-Constrained Testing**: Test CAPR on resource-constrained single-GPU environments (e.g., NVIDIA Jetson Nano) to assess its effectiveness in real-world scenarios."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Computational Overhead**: The curvature analysis and precision allocation steps may introduce additional computational overhead, which could offset the gains in efficiency. We will optimize these steps to minimize overhead.",
+    "2. **Generalization to Different Architectures**: The framework needs to be tested on a variety of neural network architectures to ensure its generalizability. We will conduct extensive experiments to address this.",
+    "3. **Hyperparameter Tuning**: The curvature thresholds and precision allocation strategies may require careful tuning to achieve optimal performance. We will use automated hyperparameter tuning techniques to address this."
+  ]
+}

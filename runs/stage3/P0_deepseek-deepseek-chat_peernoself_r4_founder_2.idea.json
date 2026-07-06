@@ -1,0 +1,18 @@
+{
+  "Name": "latency-aware_jacobian_skipping",
+  "Title": "Latency-Aware Jacobian-Based Layer Skipping for Training-Free Inference Optimization",
+  "Short Hypothesis": "Jacobian-based layer skipping, guided by spectral stability bounds and PAC-Bayes generalization guarantees, can dynamically reduce inference latency without compromising model accuracy, especially under distributional shifts.",
+  "Related Work": "Existing approaches like Spectral Quantization Routing (SQR) and Geometric Signal Separation focus on precision allocation and activation filtering but do not explicitly address layer skipping. Training-Free Geometric Interference Cancellation introduces dynamic routing but does not leverage Jacobian-based diagnostics. This proposal uniquely combines Jacobian-based layer skipping with spectral stability bounds, offering a novel mechanism for latency-aware inference.",
+  "Abstract": "We propose a training-free framework for latency-aware inference optimization that leverages Jacobian-based layer skipping guided by spectral stability bounds. Our hypothesis is that the Jacobian matrix of hidden states can serve as a proxy for layer importance, enabling dynamic skipping of less critical layers during inference. By computing Jacobian-based stability metrics on-the-fly, we derive a PAC-Bayes generalization bound that links spectral stability to inference robustness under distributional shifts. This allows us to enforce strict latency budgets while maintaining accuracy. We evaluate our approach on single-GPU setups across WILDS benchmarks, demonstrating a superior throughput-accuracy Pareto frontier compared to static and heuristic baselines. Our method provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Evaluate Jacobian-based layer skipping on WILDS benchmarks under controlled distributional shifts.",
+    "Compare throughput-accuracy Pareto frontiers against static and heuristic baselines.",
+    "Measure latency reduction and accuracy retention under adversarial and out-of-distribution contexts.",
+    "Validate PAC-Bayes generalization bounds using spectral stability metrics."
+  ],
+  "Risk Factors and Limitations": [
+    "Potential overhead from computing Jacobian-based stability metrics on-the-fly.",
+    "Limited applicability to models with highly non-linear activation functions.",
+    "Possible trade-off between latency reduction and accuracy under extreme distributional shifts."
+  ]
+}

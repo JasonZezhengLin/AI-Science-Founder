@@ -1,0 +1,18 @@
+{
+  "Name": "latency_aware_jacobian_skipping",
+  "Title": "Latency-Aware Layer Skipping via Jacobian-Based PAC-Bayes Frameworks",
+  "Short Hypothesis": "Jacobian-based layer-skipping, combined with PAC-Bayes frameworks, can achieve training-free, latency-aware inference with minimal perturbation to hidden states, while enforcing strict wall-clock budgets.",
+  "Related Work": "Existing work on training-free inference primarily focuses on pruning (Molchanov et al., 2017) or quantization (Jacob et al., 2018), but these methods often require retraining or fine-tuning. Layer-skipping techniques (Wang et al., 2020) have been explored for latency reduction but lack theoretical guarantees on stability or perturbation bounds. PAC-Bayes frameworks (Dziugaite & Roy, 2017) provide theoretical bounds for generalization but have not been applied to latency-aware inference. This proposal uniquely combines Jacobian-based layer-skipping with PAC-Bayes frameworks to achieve training-free, latency-optimized inference with provable stability bounds.",
+  "Abstract": "We propose a novel approach for latency-aware inference in deep neural networks by combining Jacobian-based layer-skipping with PAC-Bayes frameworks. Our method enables training-free inference by dynamically skipping layers based on Jacobian matrices, which measure the sensitivity of hidden states to perturbations. We derive PAC-Bayes bounds to ensure stability and minimize perturbation costs, while enforcing strict wall-clock budgets. Experimental results on CIFAR-10 and ImageNet demonstrate that our method achieves state-of-the-art accuracy-latency trade-offs without retraining, outperforming existing pruning and quantization techniques. Our approach provides a principled framework for latency-aware inference, bridging the gap between theoretical guarantees and practical deployment.",
+  "Experiments": [
+    "Experiment 1: Evaluate the accuracy-latency trade-offs on CIFAR-10 and ImageNet using ResNet-18 and ResNet-50 architectures. Metrics: Top-1 accuracy, inference latency (ms).",
+    "Experiment 2: Compare with baseline methods (pruning, quantization) in terms of accuracy and latency. Metrics: Relative accuracy drop, latency reduction.",
+    "Experiment 3: Measure the perturbation cost of hidden states using Frobenius norm of Jacobian matrices. Metrics: Perturbation cost, stability radius.",
+    "Experiment 4: Validate PAC-Bayes bounds on generalization error. Metrics: Empirical risk, PAC-Bayes bound."
+  ],
+  "Risk Factors and Limitations": [
+    "The method relies on accurate Jacobian computation, which may be computationally expensive for very deep networks.",
+    "PAC-Bayes bounds may be loose in practice, limiting their practical utility for tight latency budgets.",
+    "The approach assumes that layer-skipping does not introduce catastrophic failures, which may not hold for certain architectures or tasks."
+  ]
+}

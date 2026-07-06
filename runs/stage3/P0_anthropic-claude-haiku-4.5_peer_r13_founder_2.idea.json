@@ -1,0 +1,91 @@
+{
+  "Name": "jacobian_coherence_layer_routing",
+  "Title": "Jacobian Coherence Routing: Training-Free Layer-Skip Decisions via Local Gradient-Signal Alignment",
+  "Short Hypothesis": "Layer-skipping decisions should be jointly determined by analyzing local Jacobian coherence between consecutive layers. Layers exhibiting high gradient-signal alignment can be safely skipped in groups without representation collapse, while low-alignment transitions must be preserved. This hypothesis is best tested in the autoregressive LLM inference setting where: (1) strict latency budgets demand deterministic, non-parallel routing; (2) long-context dependencies amplify cascading perturbation effects; (3) KV cache consistency provides a natural measurement substrate for coherence validation. Existing layer-skipping methods treat decisions independently or use aggregate activation metrics, missing the critical insight that skip patterns must respect layer-wise information flow topology.",
+  "Related Work": "Recent layer-skipping methods (DASH, ASTER, KnapSpec, BUDDY) employ MDP-based or heuristic routing to dynamically select computational paths. However, these approaches: (1) score layers independently without modeling inter-layer gradient flow, (2) lack theoretical bounds on perturbation propagation through skip cascades, (3) do not exploit Jacobian structure to identify safe skip groups. The ecosystem's prior spectral work (SQR, Geometric Interference Cancellation) analyzes activation geometry and condition numbers but remains focused on single-token stability, not sequential coherence. Test-time compute scaling methods (Spectral Latent Steering) optimize within low-rank subspaces but do not couple this with dynamic depth routing. Our work distinctly contributes by: (a) formalizing layer coherence via Jacobian alignment metrics, (b) deriving PAC-Bayes bounds on skip-induced perturbation under coherence constraints, (c) introducing a deterministic, single-pass routing algorithm that enforces both latency and stability guarantees, (d) providing explicit wall-clock latency accounting with amortized Jacobian diagnostics.",
+  "Abstract": "Dynamic layer-skipping accelerates transformer inference but remains brittle due to independent layer-scoring heuristics that ignore cascading perturbation effects through the model. We propose Jacobian Coherence Routing (JCR), a training-free framework that jointly determines skip decisions by analyzing local gradient-signal alignment between consecutive layers. Our key insight is that layers with high Jacobian coherence—measured via normalized gradient-flow rank and spectral alignment—can be safely skipped together without representation collapse, while low-coherence transitions must be retained to preserve information flow fidelity. JCR operates via a lightweight, single-pass algorithm: (1) compute layer-wise Jacobian-vector products using random projections (amortized O(1) FLOPs per token), (2) estimate pairwise coherence via spectral decay analysis, (3) greedily construct maximal skip groups respecting a global latency budget and per-group perturbation bound. We theoretically ground JCR with PAC-Bayes bounds linking layer coherence to downstream representation stability, showing that high-coherence skip groups incur bounded hidden-state perturbation. Evaluated on single-GPU LLM inference (Llama-2 7B/13B, Qwen) under strict latency constraints, JCR achieves superior throughput-accuracy Pareto frontiers compared to layer-independent baselines (DASH, BUDDY) while maintaining deterministic wall-clock budgets. Crucially, we provide exact latency telemetry, multi-seed variance quantification, and mechanistic probes isolating gradient-flow bottlenecks, establishing Jacobian coherence as a transparent, reproducible lever for efficient autoregressive inference.",
+  "Experiments": [
+    {
+      "name": "Baseline Coherence Analysis",
+      "description": "For Llama-2 7B/13B on standard tasks (MMLU, GSM8K), compute layer-wise Jacobian-vector products via random projections (10 random vectors per layer, amortized into forward pass). Measure pairwise coherence via: (1) spectral alignment = (top singular value of [J_i, J_{i+1}]^T) / (average singular value), (2) gradient-flow rank = effective rank of stacked Jacobian block. Establish empirical distribution of coherence scores across all layer pairs and task distributions.",
+      "metrics": [
+        "Coherence score distribution (mean, variance, quantiles)",
+        "Gradient-flow rank per layer pair",
+        "Correlation between coherence and downstream token prediction error under layer removal"
+      ]
+    },
+    {
+      "name": "Skip-Group Construction and Perturbation Bounds",
+      "description": "Implement greedy skip-group construction: given a latency budget B (e.g., 50% of baseline FLOPs), iteratively merge adjacent layers with coherence > threshold τ into skip groups. For each skip group, measure: (1) hidden-state perturbation = ||h_skip - h_full||_2 / ||h_full||_2 across all tokens in batch, (2) downstream task accuracy drop. Validate PAC-Bayes bound: show that groups with coherence > τ_opt exhibit perturbation < ε with high probability, where τ_opt is calibrated on a small held-out validation set.",
+      "metrics": [
+        "Skip-group size distribution",
+        "Perturbation magnitude per group (mean, max, 95th percentile)",
+        "Task accuracy drop vs. skip-group coherence threshold",
+        "Empirical vs. theoretical perturbation bounds (PAC-Bayes margin)"
+      ]
+    },
+    {
+      "name": "Latency-Aware Routing Under Budget Constraints",
+      "description": "Deploy JCR with explicit latency budgets: (1) target latency = 70%, 60%, 50% of baseline wall-clock time. (2) For each budget, run routing algorithm to select skip groups. (3) Measure actual wall-clock latency on A100 GPU (batch size 1, 32, sequence lengths 512, 2048, 4096). (4) Compare against layer-independent baselines (DASH, BUDDY, static pruning) using same hardware and exact timing instrumentation (NVIDIA profiler, kernel-level telemetry). Report throughput-accuracy Pareto frontiers.",
+      "metrics": [
+        "Actual wall-clock latency (ms) vs. target",
+        "Latency budget utilization efficiency",
+        "Tokens-per-second throughput",
+        "Task accuracy (MMLU, GSM8K, HumanEval)",
+        "Memory peak usage"
+      ]
+    },
+    {
+      "name": "Amortized Diagnostic Overhead Accounting",
+      "description": "Quantify cost of Jacobian-vector product computation: (1) profile random projection generation (10 projections per layer), (2) measure Jacobian-vector product FLOPs (2 × layer_hidden_dim × 10), (3) compute amortized cost per token (total diagnostic FLOPs / tokens_processed). Verify overhead < 5% of inference FLOPs. Show that diagnostic cost can be amortized across mini-batches or cached across similar input distributions.",
+      "metrics": [
+        "Diagnostic FLOPs per token",
+        "Diagnostic time (ms) per forward pass",
+        "Amortization factor (batch-size-dependent overhead reduction)",
+        "Cache hit rate if diagnostics are reused"
+      ]
+    },
+    {
+      "name": "Robustness to Distribution Shift",
+      "description": "Test JCR coherence stability under domain shifts: (1) train coherence model on in-distribution data (e.g., Wikipedia), (2) evaluate skip decisions on OOD tasks (mathematical reasoning, code generation, adversarial prompts). Measure: (a) coherence score drift, (b) whether skip-group decisions change, (c) task accuracy under fixed vs. adaptive skip groups. Establish stability radius: maximum distribution shift magnitude under which coherence-based routing remains effective.",
+      "metrics": [
+        "Coherence score distribution shift (KL divergence, Wasserstein distance)",
+        "Skip-group decision stability (Jaccard similarity)",
+        "Task accuracy drop under fixed vs. adaptive routing",
+        "Stability radius (maximum perturbation magnitude)"
+      ]
+    },
+    {
+      "name": "Mechanistic Probe: Gradient-Flow Bottleneck Isolation",
+      "description": "For layers identified as low-coherence transitions, conduct targeted ablations: (1) skip individual low-coherence layers, measure task accuracy drop, (2) inject synthetic noise into low-coherence layers, measure downstream effect, (3) analyze attention pattern changes across low-coherence boundaries. Identify whether low coherence stems from: (a) attention head misalignment, (b) MLP saturation, (c) residual connection imbalance. Report findings as deterministic projection-based diagnostics (e.g., attention head rank, MLP gradient norms).",
+      "metrics": [
+        "Per-layer accuracy drop under removal",
+        "Noise sensitivity (accuracy vs. injected noise magnitude)",
+        "Attention head rank at low-coherence layers",
+        "MLP gradient norm variance",
+        "Residual connection contribution (via ablation)"
+      ]
+    },
+    {
+      "name": "Multi-Seed Variance and Reproducibility",
+      "description": "Run all experiments across 5 random seeds (random projection matrices, batch orderings). Report: (1) mean and standard deviation of throughput-accuracy curves, (2) coherence score variance, (3) skip-group decision stability across seeds. Provide exact hardware specifications (GPU model, CUDA version, cuDNN version), code artifacts (GitHub), and raw telemetry logs for full reproducibility.",
+      "metrics": [
+        "Throughput variance (std dev across seeds)",
+        "Accuracy variance",
+        "Coherence score reproducibility",
+        "Skip-group decision agreement (% identical across seeds)"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "**Jacobian computation overhead**: While amortized, computing Jacobian-vector products via random projections still introduces ~3-5% latency overhead. If this cannot be amortized across batches, the method may not meet ultra-tight latency budgets (<10ms per token).",
+    "**Coherence estimation variance**: Spectral alignment estimation via randomized SVD can be noisy with small projection counts. If variance is high, coherence-based routing decisions may be unstable. Mitigation: use multiple projections and cache coherence estimates across similar inputs.",
+    "**Limited to transformer architectures**: The method assumes residual connections and layer-wise Jacobian structure. Applicability to non-transformer architectures (CNNs, RNNs, MoE models) is unclear and requires separate investigation.",
+    "**Coherence may not capture all perturbation modes**: High Jacobian coherence is a sufficient but not necessary condition for safe skipping. Some layers may have low coherence but still be skippable if perturbations are in null-space of downstream operations. This could lead to overly conservative skip decisions.",
+    "**Scalability to very large models**: Computing pairwise coherence for all layer pairs scales as O(L²) where L is model depth. For 100+ layer models, this could become expensive. Mitigation: use hierarchical grouping or sparse coherence estimation.",
+    "**Generalization across model families**: Coherence patterns may be architecture-specific (Llama vs. Qwen vs. GPT). Transferability of skip patterns across model families is unvalidated.",
+    "**Cold-start problem**: Initial coherence estimation requires a small calibration set. If deployment distribution differs sharply, coherence estimates may become stale. Mitigation: online coherence tracking with exponential moving average.",
+    "**Comparison fairness**: Existing baselines (DASH, BUDDY) may use different training procedures or calibration data. Fair comparison requires re-implementing baselines with identical hardware and hyperparameter tuning.",
+    "**Theory-practice gap**: PAC-Bayes bounds provide worst-case guarantees but may be loose in practice. Empirical perturbation bounds could exceed theoretical predictions if coherence estimation is biased."
+  ]
+}

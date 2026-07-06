@@ -1,0 +1,19 @@
+{
+  "Name": "adaptive_compute_allocation_multi_task",
+  "Title": "Adaptive Compute Allocation in Multi-Task Learning via Activation Geometry",
+  "Short Hypothesis": "Activation geometry (e.g., spectral decay and covariance structure) can serve as a robust proxy for task-specific computational difficulty, enabling dynamic compute allocation across tasks to enforce strict latency budgets without sacrificing accuracy.",
+  "Related Work": "Existing work focuses on single-task scenarios or generic latency optimization frameworks. For example, 'Spectral Quantization Routing' (founder_1) uses activation geometry for precision allocation but does not address multi-task dynamics. Similarly, 'Training-Free Geometric Interference Cancellation' (founder_1) isolates task signals but does not explore adaptive compute allocation across tasks. This proposal uniquely bridges activation geometry with multi-task learning, offering a novel pathway for latency-aware inference.",
+  "Abstract": "Multi-task learning (MTL) presents unique challenges for latency-critical inference, as tasks often vary significantly in computational difficulty. We propose a training-free framework that leverages activation geometry—specifically, spectral decay and covariance structure—to dynamically allocate compute resources across tasks. By computing geometric diagnostics on-the-fly (e.g., condition number, spectral decay rate), we derive a compute-throttling policy that routes tokens through fewer layers or prunes attention heads for computationally simpler tasks, enforcing strict wall-clock latency targets. We ground this mechanism in PAC-Bayes theory, linking geometric stability to generalization under compute perturbations. Evaluated on multi-task benchmarks in single-GPU setups, our method achieves a superior throughput-accuracy Pareto frontier compared to static baselines. This work bridges mechanistic interpretability with system-scale efficiency, offering a mathematically transparent method for resource-efficient MTL inference.",
+  "Experiments": [
+    "Evaluate on multi-task benchmarks (e.g., GLUE, SuperGLUE) with controlled task difficulty variation.",
+    "Measure throughput-accuracy Pareto frontiers under strict latency budgets.",
+    "Compare against static compute allocation baselines (e.g., fixed layer count, uniform pruning).",
+    "Quantify geometric diagnostics (e.g., condition number, spectral decay rate) and their correlation with task difficulty.",
+    "Validate PAC-Bayes generalization bounds under compute perturbations."
+  ],
+  "Risk Factors and Limitations": [
+    "Computing geometric diagnostics on-the-fly may introduce overhead, though we aim to minimize this via randomized SVD.",
+    "The framework assumes tasks are separable based on activation geometry, which may not hold for highly entangled tasks.",
+    "PAC-Bayes bounds may be overly conservative, limiting practical utility."
+  ]
+}

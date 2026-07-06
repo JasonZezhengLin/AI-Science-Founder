@@ -1,0 +1,17 @@
+{
+  "Name": "compressnet",
+  "Title": "Information-Theoretic Limits of Neural Network Compression: A Rate-Distortion Approach",
+  "Short Hypothesis": "The compression of neural networks can be formulated as a rate-distortion problem, and by analyzing the mutual information between the network's weights and the task, we can establish fundamental limits on the achievable compression ratio while preserving predictive performance.",
+  "Related Work": "Previous work on neural network compression has focused on empirical methods such as pruning and quantization. In contrast, this proposal takes an information-theoretic approach, drawing on rate-distortion theory to establish fundamental limits on compression. This perspective is distinct from existing work and provides a theoretical framework for understanding the trade-offs between compression and performance.",
+  "Abstract": "This project proposes to investigate the information-theoretic limits of neural network compression using a rate-distortion approach. By analyzing the mutual information between the network's weights and the task, we aim to establish fundamental limits on the achievable compression ratio while preserving predictive performance. Our approach will involve deriving achievable rates and converse bounds for neural network compression, and evaluating the efficiency of practical compression methods relative to these limits. The results will provide a theoretical framework for understanding the trade-offs between compression and performance, and will inform the development of more efficient compression methods.",
+  "Experiments": [
+    "Derive achievable rates and converse bounds for neural network compression using rate-distortion theory",
+    "Evaluate the efficiency of practical compression methods (e.g. pruning, quantization) relative to the theoretical limits",
+    "Analyze the mutual information between the network's weights and the task to identify the most important weights for preserving predictive performance"
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of neural networks may make it difficult to derive tight bounds on the achievable compression ratio",
+    "The choice of distortion measure may impact the results, and different measures may lead to different conclusions",
+    "The experiments may require significant computational resources to evaluate the efficiency of practical compression methods"
+  ]
+}

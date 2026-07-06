@@ -1,0 +1,18 @@
+{
+  "Name": "info_theoretic_compression",
+  "Title": "Operational Bounds for Neural Network Compression via Rate-Distortion Theory",
+  "Short Hypothesis": "We hypothesize that by framing neural network compression as a rate-distortion problem, we can establish operational bounds on the bits-per-weight needed to preserve predictive sufficiency, and that these bounds can guide the development of more efficient compression methods.",
+  "Related Work": "While previous work has explored neural network compression using techniques such as quantization and pruning, our approach is distinct in its focus on information-theoretic limits and operational bounds. By leveraging rate-distortion theory and mutual information estimation, we can provide a more fundamental understanding of the trade-offs between compression and predictive performance.",
+  "Abstract": "This proposal seeks to establish operational bounds for neural network compression via rate-distortion theory. By framing compression as a lossy source coding problem, we can derive achievable rates and distortion-rate curves that characterize the fundamental limits of compression. We will explore the use of mutual information estimation and entropy bounds to guide the development of more efficient compression methods, with a focus on preserving predictive sufficiency. Our approach has the potential to provide a more principled understanding of neural network compression, and to inform the development of more efficient and effective compression methods.",
+  "Experiments": [
+    "Derive achievable rates and distortion-rate curves for neural network compression using rate-distortion theory",
+    "Develop and evaluate mutual information estimators for guiding compression",
+    "Explore the use of entropy bounds to characterize the fundamental limits of compression",
+    "Evaluate the performance of compression methods guided by our operational bounds, using metrics such as bits-per-weight and predictive accuracy"
+  ],
+  "Risk Factors and Limitations": [
+    "The development of operational bounds may be limited by the complexity of the neural network and the distortion measure",
+    "The accuracy of mutual information estimators may be affected by the quality of the data and the complexity of the model",
+    "The evaluation of compression methods may be influenced by the choice of metrics and the experimental setup"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "Name": "curvature_aware_quantization",
+  "Title": "Curvature-Aware Mixed-Precision Quantization for Deep Learning",
+  "Short Hypothesis": "We hypothesize that incorporating curvature information into the mixed-precision quantization process can lead to more efficient and accurate deep learning models. By leveraging curvature-aware precision routing, we can adaptively allocate precision to different layers and parameters based on their curvature, resulting in improved model performance and reduced computational cost.",
+  "Related Work": "Recent works such as EMQ, SNIP, and AMP-ViT have explored mixed-precision quantization for deep learning. However, these methods do not explicitly consider curvature information in their quantization processes. Our approach differs from these works by incorporating curvature-aware precision routing, which allows for more efficient and accurate quantization. Additionally, our method is complementary to existing works on low-rank adaptation and domain generalization, such as HiLoRA.",
+  "Abstract": "Deep learning models are increasingly being deployed on edge devices and in resource-constrained environments, where computational resources are limited. Mixed-precision quantization has emerged as a promising technique for reducing the computational cost of deep learning models while maintaining their accuracy. However, existing mixed-precision quantization methods often rely on heuristic-based approaches or require significant computational resources. In this work, we propose a curvature-aware mixed-precision quantization framework that incorporates curvature information into the quantization process. Our approach adaptively allocates precision to different layers and parameters based on their curvature, resulting in improved model performance and reduced computational cost. We demonstrate the effectiveness of our approach on a range of deep learning models and tasks, including image classification and language modeling.",
+  "Experiments": [
+    "Evaluate the performance of our curvature-aware mixed-precision quantization framework on a range of deep learning models and tasks, including image classification and language modeling.",
+    "Compare the performance of our approach with existing mixed-precision quantization methods, such as EMQ and SNIP.",
+    "Investigate the impact of curvature-aware precision routing on model performance and computational cost.",
+    "Evaluate the effectiveness of our approach in combination with other techniques, such as low-rank adaptation and domain generalization."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of our approach may depend on the specific deep learning model and task being used.",
+    "The computational cost of our approach may be higher than existing mixed-precision quantization methods due to the need to compute curvature information.",
+    "The choice of curvature metric and precision allocation strategy may require careful tuning for optimal performance."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "Name": "spectral_layer_skipping",
+  "Title": "Spectral Layer Skipping: Training-Free Compute Allocation via Hidden State Geometry",
+  "Short Hypothesis": "The spectral properties of hidden states (e.g., condition number, principal component variance) serve as direct proxies for inference difficulty and robustness to compute reduction, enabling dynamic layer skipping that enforces strict latency budgets while maintaining accuracy.",
+  "Related Work": "Recent works have explored training-free methods for efficient inference, including token pruning (SAINT), layer skipping (LiteStage), and quantization (QuantCache). However, these methods either rely on static strategies or introduce significant overhead for dynamic adaptation. While some leverage geometric properties of activations (e.g., Spectral Quantization Routing), they fail to directly optimize for latency budgets or provide formal guarantees on inference stability. Our proposal distinguishes by using spectral diagnostics to dynamically allocate compute resources while enforcing strict latency targets and providing PAC-Bayes stability bounds.",
+  "Abstract": "We propose Spectral Layer Skipping (SLS), a training-free framework that dynamically skips layers during inference based on the geometric stability of hidden states. SLS computes the condition number and principal component variance of hidden states on-the-fly using randomized SVD, mapping these diagnostics to a layer-skipping policy that enforces strict latency budgets. We theoretically ground the skipping mechanism with PAC-Bayes bounds that link spectral conditioning to generalization stability under compute reduction. Evaluated on single-GPU setups across WILDS benchmarks, SLS achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic layer-skipping baselines. By replacing qualitative fragility claims with formalized risk bounds, SLS provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Evaluate SLS on WILDS benchmarks (Camelyon17, iWildCam, CivilComments) using pretrained BERT and GPT-2 models. Compare throughput, accuracy, and memory usage against static and heuristic layer-skipping baselines.",
+    "Measure the correlation between spectral diagnostics (condition number, principal component variance) and inference difficulty (accuracy drop under layer skipping).",
+    "Validate PAC-Bayes stability bounds by measuring generalization performance under controlled perturbations (noise injection, distribution shifts).",
+    "Assess computational overhead of randomized SVD diagnostics and impact on end-to-end latency."
+  ],
+  "Risk Factors and Limitations": [
+    "Randomized SVD diagnostics may introduce non-negligible overhead for very small models or extremely tight latency budgets.",
+    "PAC-Bayes stability bounds may be overly conservative in practice, leading to suboptimal skipping policies.",
+    "Method assumes hidden state geometry is predictive of inference difficulty, which may not hold for all architectures or tasks."
+  ]
+}

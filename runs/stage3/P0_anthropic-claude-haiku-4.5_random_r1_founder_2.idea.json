@@ -1,0 +1,95 @@
+{
+  "Name": "jacobian_proxy_layer_routing",
+  "Title": "Uncertainty-Calibrated Layer Routing via Bounded Jacobian Proxies: PAC-Bayes-Grounded Test-Time Adaptive Depth",
+  "Short Hypothesis": "We hypothesize that layer-skipping decisions at test time can be theoretically grounded via PAC-Bayes-bounded estimates of hidden-state perturbation risk, computed efficiently from local Jacobian approximations without retraining. By calibrating routing uncertainty through spectral stability bounds on layer-wise input-output mappings, we can enforce strict latency budgets while maintaining accuracy guarantees. This setting is essential because existing adaptive-depth methods lack principled perturbation-cost accounting; we target the inference regime where latency budgets are hard constraints and training-free routing is mandatory for rapid deployment.",
+  "Related Work": "Prior work on adaptive computation (e.g., adaptive layer skipping, mixture-of-experts routing) relies on learned gating networks or heuristic confidence scores without theoretical perturbation bounds. EMQ and AMP-ViT optimize quantization via proxy-based search but do not address dynamic depth routing. Stochastic depth and layer dropout are training-time techniques; their test-time analogs lack uncertainty calibration. Recent spectral-based generalization bounds (PAC-Bayes-Λ) provide Lipschitz certificates but have not been integrated into online routing decisions. Our contribution is novel because we: (1) derive closed-form PAC-Bayes bounds on layer-skipping perturbation risk using single-pass Jacobian approximations, (2) explicitly amortize spectral estimation into wall-clock budgets via low-rank sketching, (3) enforce tier-scoped latency guarantees through sequential, non-parallel routing, and (4) validate stability radii under structured domain shifts—none of which prior layer-skipping methods systematically address.",
+  "Abstract": "Adaptive computation via layer skipping offers significant latency reduction for inference, yet existing methods lack principled mechanisms to bound the perturbation cost of skipped layers. We propose a training-free, latency-aware framework for uncertainty-calibrated layer routing grounded in PAC-Bayes theory. Our key insight is that layer-skipping risk can be bounded via spectral stability estimates of layer-wise Jacobians, computed efficiently at test time without retraining. Specifically, we introduce Bounded Jacobian Proxy (BJP): a single-pass approximation of layer input-output sensitivity that yields PAC-Bayes-certified perturbation bounds. At test time, a sample encounters each layer sequentially; a routing gate compares the layer's Jacobian norm (amortized via low-rank sketching) against a confidence threshold derived from user-specified latency budgets. We enforce strict wall-clock overhead by integrating spectral estimation into the forward pass, avoiding parallel sampling. Crucially, we quantify routing uncertainty via activation variance proxies and explicitly bound their contribution to latency drift. We validate BJP on ImageNet classification (ResNets, ViTs) and language modeling (LLaMA, Mistral), demonstrating Pareto-optimal accuracy-latency trade-offs with provable perturbation bounds. Experiments include structured domain shifts (corruptions, distribution shifts) and hardware-specific latency telemetry on GPUs and edge devices. We release deterministic diagnostic tools for mechanistic validation of routing stability and open-source artifacts enabling reproducible tier-scoped deployment.",
+  "Experiments": [
+    {
+      "name": "Experiment 1: Jacobian Proxy Calibration (Offline)",
+      "description": "On a held-out validation set (e.g., 5K ImageNet images), compute empirical layer-wise Jacobian norms via finite-difference approximation: J_ℓ = ||∇_x f_ℓ(x)||_2 for each layer ℓ. Fit a low-rank sketching matrix S_ℓ ∈ ℝ^{d×k} (k ≪ d) via randomized SVD on activation matrices to enable O(dk) online computation. Derive PAC-Bayes bound: with probability 1-δ, ||Δh_ℓ|| ≤ C·J_ℓ·ε_ℓ where ε_ℓ is layer ℓ's skip probability and C is a PAC-Bayes constant. Validate bound tightness by comparing empirical perturbation (measured via forward-backward passes with/without layer) against theoretical prediction across 500 random test samples.",
+      "metrics": [
+        "Bound tightness ratio (empirical/theoretical)",
+        "Sketching compression ratio k/d",
+        "Offline calibration time (FLOPs)"
+      ]
+    },
+    {
+      "name": "Experiment 2: Sequential Layer Routing with Latency Budgets",
+      "description": "Implement test-time routing: for each sample x, iterate through layers 1…L. At layer ℓ, compute J_ℓ^approx = ||S_ℓ^T h_{ℓ-1}||_2 (low-rank proxy). Set skip threshold τ_ℓ(B) adaptively based on remaining latency budget B: skip layer ℓ if J_ℓ^approx < τ_ℓ(B). Use sequential, single-pass routing (no parallel sampling). Measure: (i) wall-clock latency on GPU (NVIDIA A100, A10) and edge device (Jetson Orin), (ii) actual perturbation magnitude ||h_ℓ(x) - h_ℓ^skip(x)||_2 for skipped vs. kept layers, (iii) final task accuracy. Vary latency budgets B ∈ {10ms, 50ms, 100ms, 200ms} for ResNet-50 on ImageNet. Plot Pareto curves: accuracy vs. latency.",
+      "metrics": [
+        "End-to-end latency (ms)",
+        "Accuracy drop vs. baseline",
+        "Perturbation bound violation rate",
+        "Throughput (samples/sec)"
+      ]
+    },
+    {
+      "name": "Experiment 3: Uncertainty Calibration via Activation Variance",
+      "description": "For each layer ℓ, estimate activation variance σ²_ℓ = Var(h_ℓ(x)) using a streaming variance estimator on mini-batches (no full covariance). Refine routing threshold: τ_ℓ(B) = τ_base(B) + α·σ_ℓ where α is a calibration constant. On a separate validation set, compute coverage: fraction of samples where actual perturbation stays within predicted bound. Adjust α to achieve 95% coverage (standard uncertainty quantification protocol). Test on 1K held-out samples; measure coverage and bound tightness.",
+      "metrics": [
+        "Coverage (% samples within bound)",
+        "Average bound width",
+        "Calibration error (ECE)"
+      ]
+    },
+    {
+      "name": "Experiment 4: Structured Domain Shifts and Stability Radii",
+      "description": "Evaluate robustness under distribution shift: ImageNet-C (corruptions), ImageNet-A (adversarial-like), and CIFAR-10.1 (natural shift). For each shift, measure: (i) accuracy degradation, (ii) routing decision stability (% of samples routed identically as on clean data), (iii) perturbation bound violations. Compute empirical stability radius: largest ε such that routing decisions remain consistent under ℓ_2 perturbations of magnitude ε. Compare against baseline layer skipping (no bounds).",
+      "metrics": [
+        "Accuracy on shifted domains",
+        "Routing decision stability (%)",
+        "Empirical stability radius (ε)",
+        "Bound violation rate (%)"
+      ]
+    },
+    {
+      "name": "Experiment 5: Language Model Routing (LLaMA, Mistral)",
+      "description": "Extend to autoregressive inference: for each token generation step, route through variable-depth transformer. Compute Jacobian proxies per layer using activation norms (standard in LLM inference). Set latency budget B per token (e.g., 5ms for 100-token generation = 500ms total). Measure: (i) time-to-first-token, (ii) per-token latency, (iii) perplexity on WikiText-103 validation, (iv) routing decision consistency across tokens. Compare against full-depth baseline and recent mixture-of-experts methods.",
+      "metrics": [
+        "Perplexity (WikiText-103)",
+        "Time-to-first-token (ms)",
+        "Per-token latency (ms)",
+        "Throughput (tokens/sec)"
+      ]
+    },
+    {
+      "name": "Experiment 6: Amortization and Overhead Accounting",
+      "description": "Explicitly measure spectral estimation overhead: (i) low-rank sketching matrix storage (bytes), (ii) online proxy computation time per layer (μs), (iii) total overhead as % of forward-pass latency. Implement inline amortization: integrate sketching into batch normalization or layer norm computations where possible. Report overhead for different sketch ranks k ∈ {16, 32, 64, 128}. Ensure overhead remains <5% of latency budget.",
+      "metrics": [
+        "Sketching storage (MB)",
+        "Proxy computation time per layer (μs)",
+        "Total overhead (% of latency)",
+        "Overhead vs. accuracy trade-off"
+      ]
+    },
+    {
+      "name": "Experiment 7: Deterministic Diagnostic Validation",
+      "description": "Implement mechanistic probes to isolate routing quality: (i) gradient conflict detection—measure cosine similarity between gradients of skipped-layer outputs and final loss to identify layers whose skip causes gradient misalignment, (ii) activation projection analysis—decompose perturbation into principal components to identify which dimensions are most sensitive to skipping, (iii) layer-wise contribution ranking—compute layer importance via integrated gradients or attention rollout. Use these diagnostics to refine routing thresholds post-hoc without retraining.",
+      "metrics": [
+        "Gradient conflict score (cosine similarity)",
+        "Principal component variance explained",
+        "Layer importance ranking correlation with skip frequency"
+      ]
+    },
+    {
+      "name": "Experiment 8: Multi-Seed Variance and Reproducibility",
+      "description": "Run all experiments with 5 random seeds (different data shuffles, initialization of sketching matrices). Report mean, std, and 95% confidence intervals for all metrics. Provide raw telemetry (per-sample latencies, perturbations, routing decisions) for full reproducibility. Release code, exact hardware specs, and pre-computed Jacobian proxies.",
+      "metrics": [
+        "Variance across seeds (std)",
+        "Reproducibility checklist (code, data, hardware logs)"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "Jacobian approximation quality depends on finite-difference step size; poor conditioning may yield loose bounds. Mitigation: validate empirically on multiple architectures; use adaptive step-size selection.",
+    "Low-rank sketching may not capture layer-wise spectral structure uniformly; high-variance layers may require larger sketch rank. Mitigation: per-layer rank selection via cross-validation; accept modest overhead trade-off.",
+    "PAC-Bayes bounds are often loose in practice; actual perturbation may be much smaller than predicted. Mitigation: empirically tighten constants via calibration; report coverage metrics alongside bounds.",
+    "Sequential routing adds decision latency; if routing gate is slow, overhead may exceed savings. Mitigation: implement routing gate as simple threshold comparison (<1 μs per layer); profile on target hardware.",
+    "Generalization to very deep networks (>100 layers) or extreme latency budgets (<1ms) untested; bounds may scale poorly. Mitigation: start with ResNet-50, ViT-B; scale incrementally; report failure modes.",
+    "Domain shift robustness is evaluated only on standard benchmarks (ImageNet-C, etc.); real-world shifts may differ. Mitigation: include out-of-distribution detection as future work; report stability radius as empirical estimate.",
+    "Activation variance proxy assumes Gaussian or sub-Gaussian distributions; heavy-tailed activations may violate assumptions. Mitigation: use robust variance estimators (median absolute deviation); validate on activation histograms.",
+    "LLM experiments require significant compute for perplexity validation; may be limited to smaller models or shorter sequences. Mitigation: focus on inference latency (primary contribution); perplexity as secondary validation.",
+    "Reproducibility depends on exact hardware and software versions; results may drift with library updates. Mitigation: pin all dependencies; provide Docker container; commit to artifact archival."
+  ]
+}

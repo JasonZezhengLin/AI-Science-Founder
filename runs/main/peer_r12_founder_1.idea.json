@@ -1,0 +1,20 @@
+{
+  "Name": "curvature_driven_precision_routing",
+  "Title": "Curvature-Driven Precision Routing: Training-Free Mixed-Precision Inference via Hessian-Aware Subspace Diagnostics",
+  "Short Hypothesis": "The local curvature of the loss landscape, quantified by Hessian eigenvalues, provides a precise proxy for determining the optimal numerical precision required at each layer, enabling a training-free mixed-precision routing framework that strictly enforces computational budgets while preserving generalization stability.",
+  "Related Work": "Existing mixed-precision methods rely heavily on static profiling or heuristic calibration, which fail to adapt to dynamic input distributions. Recent work like Spectral Quantization Routing (SQR) leverages activation geometry for precision allocation but does not explicitly account for loss landscape curvature. Our proposal distinguishes itself by directly linking Hessian diagnostics to precision switching, providing formal PAC-Bayes bounds on generalization stability under quantization noise.",
+  "Abstract": "Mixed-precision inference promises significant computational savings but often relies on costly calibration or heuristic precision allocation strategies. We propose Curvature-Driven Precision Routing (CDPR), a training-free framework that dynamically allocates numerical precision based on the local curvature of the loss landscape. We hypothesize that Hessian eigenvalues serve as precise proxies for quantization sensitivity: regions with high curvature require higher precision to maintain generalization stability, while low-curvature regions tolerate lower precision. CDPR computes these curvature diagnostics on-the-fly using randomized Hessian-vector products, mapping them to a precision-switching policy that enforces strict computational budgets. We theoretically ground the routing mechanism with PAC-Bayes bounds that link Hessian conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, CDPR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines. By replacing qualitative fragility claims with formalized risk bounds, CDPR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Randomized Hessian-Vector Product Computation: Measure local curvature using randomized Hessian-vector products at each layer during inference.",
+    "Precision Allocation Policy: Map Hessian eigenvalues to numerical precision tiers (FP16, FP8, INT8) based on curvature thresholds.",
+    "Throughput-Accuracy Tradeoff: Evaluate CDPR on single-GPU setups across WILDS benchmarks, comparing throughput and accuracy against static and heuristic mixed-precision baselines.",
+    "PAC-Bayes Generalization Bounds: Derive PAC-Bayes bounds linking Hessian conditioning to generalization stability under quantization noise.",
+    "Ablation Studies: Conduct ablation studies to isolate the impact of Hessian-aware routing versus activation geometry-based routing."
+  ],
+  "Risk Factors and Limitations": [
+    "Computational Overhead: Randomized Hessian-vector products introduce additional computational overhead, which may offset precision savings.",
+    "Curvature Estimation Accuracy: Accurate estimation of Hessian eigenvalues may be challenging in high-dimensional spaces.",
+    "Generalization to Complex Architectures: The method may need adaptation for architectures with non-differentiable components.",
+    "Dynamic Input Distributions: The framework assumes relatively smooth transitions in input distributions, which may not hold in all practical scenarios."
+  ]
+}

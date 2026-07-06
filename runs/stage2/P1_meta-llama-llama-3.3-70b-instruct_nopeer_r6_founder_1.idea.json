@@ -1,0 +1,18 @@
+{
+  "Name": "cuda_kernel_opt",
+  "Title": "Optimizing CUDA Kernels for Deep Learning Inference on Commodity GPUs",
+  "Short Hypothesis": "Carefully optimizing CUDA kernels for deep learning inference on commodity GPUs can lead to significant improvements in latency and throughput, by leveraging memory bandwidth and tensor core occupancy.",
+  "Related Work": "While there have been efforts to optimize deep learning models for inference, the focus has often been on model compression and pruning. In contrast, this proposal focuses on optimizing the underlying CUDA kernels, which has been relatively unexplored. The lack of existing work in this area, as indicated by the empty search results, suggests that this is a novel and promising direction.",
+  "Abstract": "This proposal aims to optimize CUDA kernels for deep learning inference on commodity GPUs, with a focus on memory bandwidth and tensor core occupancy. By leveraging profiling tools such as nvprof and Nsight, we will identify performance bottlenecks and develop optimized kernels that reduce latency and improve throughput. Our approach will be empirically driven, with a focus on measuring and reporting wall-clock latency and tokens-per-second on real hardware. We expect our optimized kernels to achieve significant speedups over existing implementations, making them suitable for deployment in a variety of applications.",
+  "Experiments": [
+    "Implement and optimize CUDA kernels for common deep learning operations such as convolution and matrix multiplication",
+    "Use profiling tools to identify performance bottlenecks and optimize kernel parameters such as block size and thread count",
+    "Evaluate the optimized kernels on a variety of deep learning models and datasets, reporting latency and throughput metrics",
+    "Compare the performance of our optimized kernels to existing implementations, using metrics such as p50/p99 latency and energy per token"
+  ],
+  "Risk Factors and Limitations": [
+    "The optimization process may be time-consuming and require significant expertise in CUDA programming and GPU architecture",
+    "The optimized kernels may not be compatible with all deep learning frameworks or models, limiting their applicability",
+    "The performance gains achieved by our optimized kernels may be dependent on the specific hardware and driver versions used, which could limit their reproducibility"
+  ]
+}

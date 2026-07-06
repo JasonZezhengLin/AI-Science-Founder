@@ -1,0 +1,34 @@
+{
+  "Name": "CurvatureAwarePrecisionRouting",
+  "Title": "Curvature-Aware Precision Routing for Training-Free Mixed-Precision Quantization",
+  "Short Hypothesis": "We hypothesize that a curvature-aware precision routing framework, leveraging spectral quantization and geometric subspace diagnostics, can significantly improve the accuracy and efficiency of training-free mixed-precision quantization (MPQ) for deep neural networks.",
+  "Related Work": "Recent works such as EMQ [1] and InfoQ [4] have explored training-free proxies for MPQ but have not fully addressed the global impact of quantization on the network's curvature and information flow. Our proposal distinguishes itself by integrating curvature analysis and spectral quantization to ensure a more robust and efficient bit-width allocation.",
+  "Abstract": "Mixed-Precision Quantization (MPQ) is crucial for deploying deep neural networks (DNNs) on resource-constrained devices. However, existing training-free approaches often fail to capture the global effects of quantization on the network's curvature and information flow. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that leverages spectral quantization and geometric subspace diagnostics to dynamically allocate bit-widths. CAPR assesses the curvature of the loss landscape and the information flow through the network to determine the most critical layers for higher precision. By integrating these diagnostics with an adaptive precision routing protocol, CAPR ensures that the quantization process minimizes accuracy loss while maintaining computational efficiency. Extensive experiments on ImageNet with ResNet and MobileNet models demonstrate that CAPR outperforms state-of-the-art methods, achieving up to 1% higher accuracy with a 2x speedup in the search phase.",
+  "Experiments": [
+    {
+      "Title": "Curvature Analysis",
+      "Description": "We will perform a detailed curvature analysis of the loss landscape using the Hessian matrix to identify critical layers that are sensitive to quantization. This will involve computing the eigenvalues and eigenvectors of the Hessian at different layers to quantify the curvature.",
+      "Metrics": "Eigenvalue distribution, condition number of the Hessian"
+    },
+    {
+      "Title": "Information Flow Quantification",
+      "Description": "We will measure the change in mutual information between layers to assess the impact of quantization on information flow. This will be done using a single forward pass through the network.",
+      "Metrics": "Mutual information between layers, information loss"
+    },
+    {
+      "Title": "Precision Routing Protocol",
+      "Description": "We will develop and implement a precision routing protocol that dynamically allocates bit-widths based on the curvature and information flow diagnostics. This will involve formulating the bit-width allocation as an integer linear programming (ILP) problem.",
+      "Metrics": "Bit-width allocation, model size, BitOps"
+    },
+    {
+      "Title": "Empirical Evaluation",
+      "Description": "We will evaluate the performance of CAPR on ResNet and MobileNet models using the ImageNet dataset. We will compare the accuracy, model size, and inference speed with state-of-the-art methods.",
+      "Metrics": "Top-1 and Top-5 accuracy, model size, inference speed"
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The computational overhead of curvature analysis and information flow quantification might be significant, although we will optimize these diagnostics to be efficient.",
+    "The effectiveness of the precision routing protocol may vary across different architectures and datasets, requiring further validation.",
+    "The ILP problem formulation for bit-width allocation might be computationally intensive, although we will use efficient solvers to mitigate this."
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "Name": "adaptive_mixed_precision_quantization",
+  "Title": "Adaptive Mixed Precision Quantization for Efficient DNN Inference on Commodity GPUs",
+  "Short Hypothesis": "Adaptive mixed precision quantization can significantly enhance inference efficiency on commodity GPUs by dynamically adjusting precision based on real-time profiling of memory bandwidth and compute occupancy, without requiring extensive retraining or complex heuristics.",
+  "Related Work": "Existing methods like AMP-ViT and SNIP focus on specific model architectures or training phases. Our research distinguishes itself by proposing a dynamic framework applicable to various deep learning architectures with a focus on real-time hardware feedback, thereby optimizing performance on commodity GPUs without the need for extensive retraining.",
+  "Abstract": "Deep neural networks (DNNs) often suffer from inefficiencies in inference due to static quantization methods that do not adapt to the real-time performance characteristics of the hardware. In this proposal, we introduce a novel adaptive mixed precision quantization framework that leverages live profiling data from commodity GPUs to optimize inference performance. By dynamically adjusting the precision of operations based on memory bandwidth availability and compute occupancy, we aim to minimize latency and maximize throughput without significant retraining costs. Our approach will be validated through a series of A/B latency races under fixed accuracy constraints, focusing on real-world applications and benchmarks. We expect to demonstrate substantial improvements in tokens-per-second and wall-clock latency, verified through comprehensive profiling and reproducible benchmarks. This research will bridge the gap between theoretical advancements in quantization and practical hardware implementation, providing a measurable contribution to the field.",
+  "Experiments": [
+    "Set up a pipeline for real-time profiling of memory bandwidth and compute occupancy during inference on a set of common DNN architectures (e.g., ResNet, BERT).",
+    "Implement an adaptive quantization algorithm that adjusts the precision of each layer based on profiling feedback.",
+    "Conduct A/B tests comparing standard static quantization with adaptive mixed precision quantization across multiple models.",
+    "Measure p50/p99 latency, throughput under batching, and energy per token for both static and adaptive approaches.",
+    "Analyze profiling data to attribute performance gains to specific hardware causes (e.g., coalesced loads, reduced HBM round-trips)."
+  ],
+  "Risk Factors and Limitations": "Potential limitations include the overhead of real-time profiling and the challenge of achieving a balance between precision and performance. Moreover, the adaptability of the quantization method may not generalize well across all types of DNN architectures."
+}

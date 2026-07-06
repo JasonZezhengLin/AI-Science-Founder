@@ -1,0 +1,18 @@
+{
+  "Name": "spectral_latency_aware_inference",
+  "Title": "Spectral Latency-Aware Inference: Training-Free Optimization via PAC-Bayes Bounds and Spectral Stability",
+  "Short Hypothesis": "We hypothesize that spectral stability bounds and PAC-Bayes frameworks can be leveraged to develop a training-free, latency-aware inference framework that optimizes test-time performance while enforcing strict latency budgets.",
+  "Related Work": "Our proposal builds upon recent works in training-free machine learning, such as Spectral Latent Steering and Training-Free Geometric Interference Cancellation, which have demonstrated the potential of spectral methods for efficient inference. However, our approach differs in its focus on PAC-Bayes bounds and spectral stability, which provides a more rigorous and transparent framework for optimizing test-time performance.",
+  "Abstract": "We propose a novel training-free inference framework that leverages spectral stability bounds and PAC-Bayes frameworks to optimize test-time performance while enforcing strict latency budgets. Our approach, dubbed Spectral Latency-Aware Inference (SLAI), restricts test-time optimization to a low-rank, norm-preserving subspace, ensuring strict computational budgets while preserving the optimization landscape's geometry. We theoretically ground SLAI in information-theoretic bounds, showing that low-rank projections capture the majority of gradient-aligned signal required for reasoning improvement. Empirically, we demonstrate that SLAI matches or exceeds full-space perturbation baselines on mathematical reasoning and code generation tasks, while reducing hidden-state perturbation overhead by over 70% and enforcing deterministic latency bounds.",
+  "Experiments": [
+    "Evaluate SLAI on mathematical reasoning and code generation tasks using a single-GPU setup",
+    "Compare SLAI with full-space perturbation baselines and existing training-free methods",
+    "Measure hidden-state perturbation overhead and latency bounds for SLAI and competing methods",
+    "Analyze the effect of spectral stability bounds and PAC-Bayes frameworks on SLAI's performance"
+  ],
+  "Risk Factors and Limitations": [
+    "SLAI's performance may be sensitive to the choice of spectral stability bounds and PAC-Bayes frameworks",
+    "The low-rank approximation may not capture all relevant information in the optimization landscape",
+    "SLAI's latency bounds may not be tight enough for extremely latency-critical applications"
+  ]
+}

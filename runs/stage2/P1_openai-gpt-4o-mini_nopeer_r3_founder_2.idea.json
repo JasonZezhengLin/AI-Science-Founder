@@ -1,0 +1,14 @@
+{
+  "Name": "robustness_via_rate_distortion",
+  "Title": "Exploring the Rate-Distortion Trade-off for Robust Neural Network Compression Against Adversarial Attacks",
+  "Short Hypothesis": "By framing neural network compression as a rate-distortion problem, we can quantify the relationship between representation capacity and robustness, leading to more efficient and secure models.",
+  "Related Work": "Existing work focuses primarily on the compression-accuracy trade-off or the robustness of models against adversarial attacks independently. Notable papers like 'An Information-Theoretic Justification for Model Pruning' (Isik et al., 2021) explore compression via rate-distortion theory, while others examine adversarial robustness. However, few studies integrate these two dimensions, leaving an unexplored area regarding how compression affects vulnerability to adversarial perturbations.",
+  "Abstract": "In this proposal, we introduce a novel framework that investigates the interdependence between model compression and adversarial robustness through the lens of rate-distortion theory. We hypothesize that there exists an optimal trade-off that can be characterized by quantifying the representation capacity of compressed neural networks while simultaneously measuring their vulnerability to adversarial attacks. Our approach will leverage mutual information and distortion measures to derive operational bounds on bits-per-weight that not only preserve predictive sufficiency but also enhance robustness against adversarial perturbations. We will conduct experiments on popular architectures, applying successive pruning and quantization strategies while evaluating model performance using adversarial robustness metrics. This study aims to bridge the gap between compression techniques and adversarial defenses, ultimately contributing to the development of more efficient and secure neural network architectures.",
+  "Experiments": [
+    "1. Implement a baseline model and apply successive pruning and quantization based on mutual information and distortion measures.",
+    "2. Evaluate the performance of the compressed model on standard datasets (e.g., CIFAR-10, ImageNet) using accuracy as the primary metric.",
+    "3. Introduce adversarial attacks (e.g., FGSM, PGD) to assess robustness, measuring the drop in accuracy post-attack.",
+    "4. Establish a quantifiable trade-off between the compression ratio and adversarial robustness by varying the compression parameters and plotting distortion-rate curves against adversarial performance."
+  ],
+  "Risk Factors and Limitations": "Potential risks include the challenge of establishing a clear operational definition for robustness in the context of compression. The effectiveness of the proposed method may vary across different architectures and datasets. Additionally, there may be limitations in generalizing findings to unseen adversarial attacks."
+}

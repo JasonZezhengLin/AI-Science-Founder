@@ -1,0 +1,21 @@
+{
+  "Name": "sparse_kernel_opt",
+  "Title": "Hardware-Aware Sparse Neural Network Kernels for Commodity GPUs",
+  "Short Hypothesis": "By optimizing CUDA kernels for sparse neural networks and leveraging hardware-aware heuristics, we can achieve significant speedups on commodity GPUs without sacrificing accuracy.",
+  "Related Work": "Existing work on sparse neural networks has focused on theoretical guarantees and software-level optimizations. In contrast, our proposal focuses on hardware-aware kernel optimizations, which have been shown to be crucial for achieving high performance on commodity GPUs.",
+  "Abstract": "We propose a novel approach to optimizing sparse neural networks on commodity GPUs. By leveraging hardware-aware heuristics and optimizing CUDA kernels, we can achieve significant speedups without sacrificing accuracy. Our approach will be evaluated using reproducible benchmarks and nvprof/Nsight traces.",
+  "Experiments": [
+    "Optimize CUDA kernels for sparse neural networks using hardware-aware heuristics",
+    "Evaluate the performance of our optimized kernels on a range of sparse neural network architectures and datasets",
+    "Compare our approach to existing software-level optimizations"
+  ],
+  "Evaluation Metrics": [
+    "Wall-clock latency",
+    "Tokens-per-second",
+    "Energy per token"
+  ],
+  "Risk Factors and Limitations": [
+    "Limited generalizability to all sparse neural network architectures and datasets",
+    "Requires access to commodity GPUs and specialized hardware"
+  ]
+}

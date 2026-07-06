@@ -1,0 +1,19 @@
+{
+  "Name": "compressibility_neural_representations",
+  "Title": "Fundamental Limits on the Compressibility of Neural Representations",
+  "Short Hypothesis": "The minimal description length needed to preserve task-relevant information in neural representations is fundamentally determined by the geometry of the data distribution in the space of sufficient statistics.",
+  "Related Work": "Recent work has applied information-theoretic principles to guide model compression (TexShape, WavShape, Prob-AMC) and representation learning (InfoMTL). However, these approaches rely on empirical mutual information estimation and heuristic compression schemes. Our work differs by deriving fundamental limits on compressibility based on properties of the data distribution, connecting to classical results on sufficient statistics and the information bottleneck principle.",
+  "Abstract": "We investigate the fundamental limits on the compressibility of neural representations through the lens of sufficient statistics and the information bottleneck principle. Our key contribution is to derive lower bounds on the description length needed to preserve task-relevant information, conditioned on properties of the data distribution. We show that the minimal description length is fundamentally determined by the geometry of the data distribution in the space of sufficient statistics. We instantiate our framework for common data distributions (e.g. Gaussians, mixture models) and characterize the tradeoffs between compression rate and task performance. Experiments on synthetic and real-world datasets demonstrate that our bounds are tight and can guide the design of efficient compression schemes.",
+  "Experiments": [
+    "Derive lower bounds on description length for Gaussian and mixture model data distributions.",
+    "Characterize the geometry of sufficient statistics for common neural architectures (e.g. ResNets, Transformers) on synthetic datasets.",
+    "Validate bounds on real-world datasets (CIFAR, ImageNet) by comparing achievable compression rates to theoretical limits.",
+    "Design and evaluate compression schemes guided by our theoretical bounds.",
+    "Metrics: Compression rate, task performance (accuracy), distance to theoretical limit."
+  ],
+  "Risk Factors and Limitations": [
+    "Theoretical bounds may be loose for complex, high-dimensional data distributions.",
+    "Characterizing sufficient statistics for arbitrary neural architectures could be challenging.",
+    "Practical compression schemes may not achieve the theoretical limits."
+  ]
+}

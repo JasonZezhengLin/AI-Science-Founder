@@ -1,0 +1,19 @@
+{
+  "Name": "joint_pruning_quantization_rate_distortion",
+  "Title": "Joint Pruning and Quantization via Rate-Distortion Theory: Achievability and Practical Algorithms",
+  "Short Hypothesis": "Jointly optimizing pruning and quantization under a unified rate-distortion framework will yield tighter achievability bounds and more efficient compression algorithms than treating these methods in isolation.",
+  "Related Work": "Recent work has explored pruning and quantization separately through rate-distortion theory (e.g., Isik et al., 2021) or practical frameworks (e.g., AMP-ViT, EMQ). However, these approaches do not jointly optimize pruning and quantization, nor do they derive achievability bounds for their combination. Our proposal distinguishes itself by unifying these methods under a single theoretical framework and deriving practical algorithms that approach fundamental limits.",
+  "Abstract": "Model compression techniques such as pruning and quantization are typically studied in isolation, limiting their potential synergy. This paper proposes a unified rate-distortion framework for jointly optimizing pruning and quantization, enabling tighter achievability bounds and more efficient compression algorithms. We formulate the problem as a vector Gaussian CEO problem, where pruning and quantization act as complementary lossy encoding mechanisms. Using this formulation, we derive achievability bounds for the joint compression task and propose a practical algorithm that iteratively allocates bits between pruning and quantization to minimize task-relevant distortion. Experiments on CIFAR-10 and ImageNet demonstrate that our approach outperforms state-of-the-art methods in terms of compression efficiency while maintaining predictive accuracy. Our theoretical and empirical results highlight the benefits of jointly optimizing pruning and quantization, bridging the gap between information-theoretic limits and practical compression algorithms.",
+  "Experiments": [
+    "Derive achievability bounds for joint pruning and quantization using a vector Gaussian CEO formulation.",
+    "Develop an iterative bit-allocation algorithm that minimizes task-relevant distortion by jointly optimizing pruning ratios and quantization bit-widths.",
+    "Evaluate on CIFAR-10 and ImageNet datasets, comparing against state-of-the-art pruning and quantization methods (e.g., AMP-ViT, EMQ). Metrics: compression ratio, task accuracy, distortion-rate curves.",
+    "Analyze sensitivity to hyperparameters (e.g., distortion measure, pruning granularity) and compare to theoretical bounds."
+  ],
+  "Risk Factors and Limitations": [
+    "The achievability bounds may be difficult to derive explicitly for complex architectures like transformers.",
+    "The iterative bit-allocation algorithm may have high computational overhead.",
+    "The approach assumes a Gaussian source distribution, which may not hold for all model layers.",
+    "Results may vary across tasks and datasets, limiting generalizability."
+  ]
+}

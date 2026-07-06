@@ -1,0 +1,19 @@
+{
+  "Name": "curvature-aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: Dynamic Precision Allocation via Hessian Geometry",
+  "Short Hypothesis": "Input-dependent curvature metrics (e.g., Hessian eigenvalues) provide a precise proxy for quantization sensitivity, enabling dynamic precision allocation that adapts to optimization landscape variations under natural distribution shifts.",
+  "Related Work": "Existing work, such as Spectral Quantization Routing (founder_1), leverages activation covariance geometry for precision allocation but does not explicitly consider input-dependent curvature diagnostics. Our proposal distinguishes itself by focusing on Hessian-based curvature metrics, which capture optimization landscape variations more directly and enable adaptive precision switching under dynamic input distributions.",
+  "Abstract": "Mixed-precision inference promises significant computational savings but often relies on static profiling or heuristic calibration, failing to adapt to dynamic input distributions. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates numerical precision based on input-dependent curvature metrics. By computing Hessian eigenvalues and condition numbers on-the-fly using randomized numerical linear algebra, we map these diagnostics to a precision-switching policy that enforces strict latency budgets. We theoretically ground CAPR with PAC-Bayes bounds linking curvature sensitivity to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, CAPR achieves superior throughput-accuracy trade-offs compared to static and covariance-based mixed-precision baselines. By replacing heuristic precision allocation with formalized curvature-aware routing, CAPR provides a mathematically transparent pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Validate CAPR on WILDS benchmarks, comparing throughput-accuracy trade-offs against static mixed-precision and Spectral Quantization Routing baselines. Metrics: accuracy, latency, memory usage.",
+    "Analyze Hessian eigenvalue distributions across layers and inputs to quantify curvature variability. Metrics: eigenvalue decay rates, condition numbers.",
+    "Evaluate PAC-Bayes bounds under precision switching, comparing theoretical stability guarantees with empirical generalization gaps. Metrics: PAC-Bayes risk, empirical risk.",
+    "Conduct ablation studies to isolate the impact of curvature diagnostics versus covariance-based proxies. Metrics: accuracy drop, latency reduction."
+  ],
+  "Risk Factors and Limitations": [
+    "Hessian computation may introduce overhead, though randomized methods mitigate this.",
+    "Curvature metrics may exhibit high variability across inputs, complicating precision allocation.",
+    "Theoretical bounds may not fully capture empirical behavior under extreme quantization.",
+    "Single-GPU validation limits scalability insights for multi-GPU setups."
+  ]
+}

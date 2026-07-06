@@ -1,0 +1,20 @@
+{
+  "Name": "LatencyAwareSpectralRouting",
+  "Title": "Latency-Aware Spectral Routing: Training-Free Precision Allocation via Real-Time Activation Geometry",
+  "Short Hypothesis": "We hypothesize that the local covariance condition number and spectral decay rate of hidden activations can serve as precise, zero-overhead proxies for dynamic precision allocation, enabling real-time, latency-aware mixed-precision inference without retraining.",
+  "Related Work": "Existing work in mixed-precision inference often relies on static profiling or costly calibration, which fails to adapt to dynamic input distributions. Recent works like Spectral Quantization Routing (SQR) and LightPrune have explored training-free approaches but do not fully address the need for real-time, latency-aware optimization. Our proposal extends these ideas by incorporating dynamic spectral diagnostics and precision-switching policies to enforce strict latency budgets.",
+  "Abstract": "Mixed-precision inference can significantly reduce latency and memory usage but often requires static profiling or costly calibration, which fails to adapt to dynamic input distributions. We propose Latency-Aware Spectral Routing (LASR), a training-free framework that dynamically allocates numerical precision based on real-time activation geometry. LASR computes the local covariance condition number and spectral decay rate of hidden states on-the-fly using randomized SVD, mapping these diagnostics to a precision-switching policy that enforces strict latency budgets. Theoretical grounding in PAC-Bayes bounds links spectral conditioning to generalization stability under quantization noise, ensuring robust performance under natural distribution shifts. Evaluated on single-GPU setups across WILDS benchmarks, LASR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines.",
+  "Experiments": [
+    "Evaluate the performance of LASR on single-GPU setups using WILDS benchmarks, comparing throughput and accuracy against static and heuristic mixed-precision baselines.",
+    "Conduct ablation studies to isolate the impact of spectral diagnostics and precision-switching policies on latency and accuracy.",
+    "Measure the computational overhead of real-time spectral diagnostics using randomized SVD and compare it to the overall latency improvement.",
+    "Evaluate the robustness of LASR under controlled distributional shifts and adversarial attacks, quantifying the stability of the precision-switching policy.",
+    "Perform full cross-layer covariance estimation in offline ablation studies to validate the effectiveness of the spectral diagnostics in capturing the majority of the signal required for precision allocation."
+  ],
+  "Risk Factors and Limitations": [
+    "The real-time computation of spectral diagnostics using randomized SVD may introduce additional latency, which needs to be carefully managed to stay within strict latency budgets.",
+    "The precision-switching policy may not always perfectly match the optimal precision allocation, leading to suboptimal performance in some cases.",
+    "The method's performance may vary across different model architectures and datasets, requiring extensive validation to ensure generalizability.",
+    "The theoretical bounds linking spectral conditioning to PAC-Bayes generalization may not fully capture all practical aspects of real-world inference scenarios."
+  ]
+}

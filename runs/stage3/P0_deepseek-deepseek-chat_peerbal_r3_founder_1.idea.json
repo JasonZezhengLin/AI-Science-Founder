@@ -1,0 +1,18 @@
+{
+  "Name": "curvature_aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: Training-Free Mixed-Precision Inference via Geometric Subspace Diagnostics",
+  "Short Hypothesis": "Precision requirements for mixed-precision inference can be dynamically determined by analyzing the curvature and geometric properties of the activation subspaces, leading to more efficient and stable inference without additional training.",
+  "Related Work": "Existing approaches like Spectral Quantization Routing (SQR) and Spectral Latent Steering (SLS) focus on spectral properties and low-rank projections for precision allocation and test-time optimization. However, they do not explicitly leverage curvature information, which can provide deeper insights into the stability and sensitivity of the optimization landscape. Our proposal distinguishes itself by integrating curvature-aware diagnostics into precision routing, formalizing the relationship between curvature, spectral decay, and precision requirements.",
+  "Abstract": "Mixed-precision inference offers significant computational savings but often relies on heuristic or static precision allocation strategies. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates numerical precision based on the curvature and geometric properties of activation subspaces. By analyzing the Hessian condition number and spectral decay rates of hidden states, CAPR identifies regions of the optimization landscape that are robust to low-precision computation and those that require higher precision. We formalize this relationship using PAC-Bayes bounds, linking curvature and spectral properties to generalization stability under quantization noise. CAPR computes these diagnostics on-the-fly using randomized SVD and deterministic spectral estimators, ensuring strict latency budgets and deterministic execution pathways. Evaluated on single-GPU setups across WILDS benchmarks, CAPR achieves superior throughput-accuracy trade-offs compared to static and spectral-based baselines. Our approach replaces qualitative fragility claims with formalized risk bounds, providing a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Experiment 1: Implement CAPR on a transformer-based language model and evaluate its performance on WILDS benchmarks. Measure throughput, accuracy, and latency compared to static and spectral-based precision allocation methods.",
+    "Experiment 2: Analyze the impact of curvature-aware diagnostics on precision allocation. Specifically, measure the correlation between Hessian condition number, spectral decay rates, and precision requirements.",
+    "Experiment 3: Validate the PAC-Bayes bounds by comparing theoretical risk predictions with empirical generalization errors under different precision settings.",
+    "Evaluation Metrics: Throughput (tokens/second), accuracy (task-specific metrics), latency (wall-clock time), and generalization error (empirical risk)."
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed method relies on accurate curvature estimation, which can be computationally expensive. Randomized SVD and spectral estimators may introduce approximation errors.",
+    "The effectiveness of CAPR may vary across different architectures and tasks, requiring task-specific tuning.",
+    "The theoretical bounds may not fully capture the complexity of real-world inference scenarios, leading to conservative precision allocation."
+  ]
+}

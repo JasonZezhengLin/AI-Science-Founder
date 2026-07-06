@@ -1,0 +1,20 @@
+{
+  "Name": "joint_spectral_routing",
+  "Title": "Joint Spectral Routing: Training-Free Precision and Latent Refinement via Activation Geometry",
+  "Short Hypothesis": "The spectral geometry of hidden states can simultaneously inform both precision allocation and latent refinement during inference, enabling efficient, deterministic optimization without training.",
+  "Related Work": "Existing work includes Spectral Quantization Routing (SQR), which uses spectral geometry for precision allocation, and Spectral Latent Steering (SLS), which leverages low-rank subspaces for test-time optimization. Our proposal distinguishes itself by jointly optimizing precision and latent refinement based on shared spectral diagnostics, enforcing strict computational overhead bounds and formalized stability guarantees. This approach bridges precision routing and test-time optimization while maintaining theoretical transparency and resource efficiency.",
+  "Abstract": "We propose Joint Spectral Routing (JSR), a training-free framework that leverages the spectral geometry of hidden states to simultaneously optimize precision allocation and latent refinement during inference. By performing a single-pass randomized SVD on layer activations, we identify subspaces that govern both quantization sensitivity and gradient-aligned signal for optimization. Precision is allocated based on local covariance condition number and spectral decay rate, while latent refinement is restricted to a low-rank, norm-preserving subspace identified by dominant spectral directions. This dual-purpose spectral mapping ensures deterministic execution pathways and strict computational overhead bounds. We theoretically ground JSR with PAC-Bayes bounds that link spectral conditioning to generalization stability under both quantization noise and optimization perturbations. Evaluated on single-GPU setups across reasoning and generation tasks, JSR achieves superior throughput-accuracy Pareto frontiers compared to isolated precision or optimization baselines. By unifying spectral diagnostics for precision and refinement, JSR provides a transparent, reproducible pathway for resource-efficient inference.",
+  "Experiments": [
+    "Baseline Comparison: Compare JSR against isolated precision (SQR) and optimization (SLS) baselines on mathematical reasoning and code generation tasks. Metrics: accuracy, throughput, perturbation overhead.",
+    "Spectral Diagnostics Validation: Validate the accuracy of spectral diagnostics (condition number, spectral decay rate) in predicting quantization sensitivity and gradient-aligned signal. Metrics: correlation coefficients, diagnostic precision.",
+    "Overhead Analysis: Measure the computational overhead of JSR's single-pass randomized SVD and precision/latent refinement policies. Metrics: wall-clock latency, memory usage.",
+    "Generalization Stability: Evaluate generalization stability under quantization noise and optimization perturbations using PAC-Bayes bounds. Metrics: stability radii, condition number constraints.",
+    "Multi-Seed Variance Quantification: Assess the robustness of JSR across multiple random seeds. Metrics: variance in accuracy and throughput."
+  ],
+  "Risk Factors and Limitations": [
+    "The single-pass randomized SVD may introduce additional overhead for very large models or datasets.",
+    "The effectiveness of spectral diagnostics may degrade under extreme distribution shifts.",
+    "The theoretical bounds assume specific conditions (e.g., bounded perturbation models) that may not hold in all practical scenarios.",
+    "The framework is optimized for single-GPU setups and may require adaptation for distributed environments."
+  ]
+}

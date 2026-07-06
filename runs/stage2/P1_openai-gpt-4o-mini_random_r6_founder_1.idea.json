@@ -1,0 +1,19 @@
+{
+  "Name": "adaptive_precision_kernels",
+  "Title": "Adaptive Precision Kernels: A Hardware-Driven Approach to Mixed-Precision Quantization for Efficient Inference",
+  "Short Hypothesis": "By developing adaptive precision kernels that dynamically adjust quantization granularity at the kernel level based on real-time profiling of GPU performance metrics, we can achieve superior inference speedups without compromising model accuracy.",
+  "Related Work": "While several approaches, such as MicroMix and KVmix, have explored mixed-precision quantization and its impact on inference performance, they often rely on static configurations or heuristic-based methods. This proposal differentiates itself by introducing a dynamic adaptation mechanism that leverages real-time profiling data, enabling precise kernel optimizations tailored to the specific workload and hardware characteristics.",
+  "Abstract": "This proposal introduces Adaptive Precision Kernels, a novel framework for mixed-precision quantization that dynamically adjusts quantization levels in real-time based on kernel-level performance metrics. Existing mixed-precision approaches often apply fixed quantization settings leading to suboptimal performance and computational inefficiencies. Our method leverages hardware profiling data, including bandwidth utilization, memory access patterns, and occupancy metrics, to inform adaptive adjustments to quantization granularity at the kernel level. By combining these adjustments with co-designed CUDA kernels, we aim to achieve significant improvements in inference speed while maintaining accuracy. We will evaluate our framework across various LLM architectures and benchmark against state-of-the-art mixed-precision methods, reporting wall-clock latencies, throughput, and energy efficiency. The outcome of this research promises to enhance the deployment of large language models on commodity GPUs, ensuring that practitioners can achieve optimal performance in real-world applications.",
+  "Experiments": [
+    "Implement a baseline mixed-precision kernel for LLM inference using static quantization settings.",
+    "Develop the Adaptive Precision Kernels framework, integrating real-time profiling mechanisms for kernel execution.",
+    "Conduct A/B testing on various LLMs (e.g., Llama, Mistral) with dynamic adjustments to quantization levels based on profiling data.",
+    "Measure p50/p99 latency, throughput under batching, and energy per token across both baseline and adaptive kernels.",
+    "Analyze kernel-level performance metrics (occupancy, achieved bandwidth, and arithmetic intensity) to attribute performance gains to specific optimizations."
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of implementing real-time profiling may introduce overhead that affects inference speed.",
+    "Dynamic adjustments may lead to inconsistencies in model behavior if not properly managed.",
+    "Limited generalizability to all types of models if hardware-specific optimizations are heavily relied upon."
+  ]
+}

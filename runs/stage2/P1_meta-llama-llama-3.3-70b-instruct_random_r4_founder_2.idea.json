@@ -1,0 +1,18 @@
+{
+  "Name": "info_theoretic_compression",
+  "Title": "Information-Theoretic Limits of Model Compression and Quantization in Deep Learning",
+  "Short Hypothesis": "The information-theoretic limits of model compression and quantization in deep learning can be achieved by developing novel methods that take into account the underlying structure of the data and the model, rather than relying solely on empirical approaches.",
+  "Related Work": "Recent works such as EMQ, AMP-ViT, and SNIP have explored the use of mixed-precision quantization and adaptive methods for model compression and quantization. However, these approaches often rely on empirical methods and do not provide a clear understanding of the underlying information-theoretic limits. In contrast, our proposal seeks to investigate the fundamental limits of model compression and quantization using information-theoretic principles, such as the work by Jiawen Zou and Bolin Yan on the bioelectrical information theory.",
+  "Abstract": "This proposal investigates the information-theoretic limits of model compression and quantization in deep learning. We aim to develop novel methods that can achieve these limits in practice by taking into account the underlying structure of the data and the model. Our approach will be based on information-theoretic principles, such as the bioelectrical information theory, and will involve the development of new algorithms and techniques for model compression and quantization. We will evaluate our methods using a range of benchmarks and datasets, including ImageNet and CIFAR-10, and will compare our results to state-of-the-art methods such as EMQ, AMP-ViT, and SNIP.",
+  "Experiments": [
+    "Develop a novel algorithm for model compression and quantization based on information-theoretic principles",
+    "Evaluate the performance of the algorithm using a range of benchmarks and datasets",
+    "Compare the results to state-of-the-art methods such as EMQ, AMP-ViT, and SNIP",
+    "Investigate the effect of different hyperparameters and settings on the performance of the algorithm"
+  ],
+  "Risk Factors and Limitations": [
+    "The development of novel algorithms and techniques for model compression and quantization may be challenging and require significant expertise",
+    "The evaluation of the algorithm may be affected by the choice of benchmarks and datasets",
+    "The comparison to state-of-the-art methods may be affected by the choice of hyperparameters and settings"
+  ]
+}

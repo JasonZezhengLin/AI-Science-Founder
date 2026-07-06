@@ -1,0 +1,20 @@
+{
+  "Name": "optimized_sparse_dnn_inference",
+  "Title": "Optimizing Sparse DNN Inference with Fine-Grained Kernel-Level Profiling and Autotuning",
+  "Short Hypothesis": "Fine-grained kernel-level profiling and autotuning can significantly improve the performance of sparse DNN inference on GPUs, leading to higher throughput and lower latency.",
+  "Related Work": "Existing work such as HIOCS (Wang et al., 2025) and Coruscant (Joo et al., 2025) have explored various aspects of optimizing sparse DNN inference, but they often rely on coarse-grained operator scheduling or specific sparse formats that may not be universally optimal. Our proposal distinguishes itself by focusing on fine-grained kernel-level profiling and autotuning, which can adapt to a wider range of sparse patterns and hardware configurations.",
+  "Abstract": "Sparse deep neural networks (SpDNNs) offer significant memory and computational benefits for large-scale models. However, optimizing SpDNN inference on GPUs remains challenging due to the complexity of sparse matrix operations and the need for efficient memory access. This proposal introduces a method for optimizing SpDNN inference through fine-grained kernel-level profiling and autotuning. By instrumenting every kernel with detailed metrics such as occupancy, achieved bandwidth, and warp stall reasons, we can identify and mitigate performance bottlenecks at a granular level. We further employ an autotuning framework to dynamically adjust kernel parameters, such as tile sizes and memory layouts, to maximize hardware utilization. Our approach is validated through extensive experiments on a variety of SpDNN models, demonstrating significant improvements in throughput and latency compared to state-of-the-art methods.",
+  "Experiments": [
+    "1. **Kernel Profiling and Baseline Measurement**: Instrument the SpDNN inference pipeline with detailed profiling metrics (occupancy, bandwidth, warp stalls, etc.) and measure the baseline performance on a commodity GPU (e.g., NVIDIA A100).",
+    "2. **Fine-Grained Kernel Optimization**: Identify and optimize key kernels (e.g., sparse matrix multiplication, activation functions) using profiling insights. Implement optimizations such as coalesced memory access, reduced HBM round-trips, and better register allocation.",
+    "3. **Autotuning Framework Development**: Develop an autotuning framework that dynamically adjusts kernel parameters (e.g., tile sizes, precision) based on profiling data. Use a grid search or Bayesian optimization to find the optimal configuration for each kernel.",
+    "4. **A/B Latency Races**: Conduct A/B latency races between the optimized and baseline implementations under fixed accuracy budgets. Measure p50/p99 latency, throughput under batching, and energy per token.",
+    "5. **Cross-Model Evaluation**: Evaluate the optimized SpDNN inference on a diverse set of models (e.g., BERT, ResNet) and compare the performance gains to state-of-the-art methods."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Overfitting to Specific Models**: The autotuning framework may overfit to specific models or hardware configurations, limiting its generalizability.",
+    "2. **Increased Development Time**: Fine-grained profiling and autotuning can significantly increase the development time and complexity of the optimization process.",
+    "3. **Hardware Variability**: Performance gains may vary across different GPU models and driver versions, requiring extensive testing and calibration.",
+    "4. **Memory Overhead**: The additional profiling and tuning overhead may introduce memory overhead, which could impact the overall performance."
+  ]
+}

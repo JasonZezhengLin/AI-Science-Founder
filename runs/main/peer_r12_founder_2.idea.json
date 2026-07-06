@@ -1,0 +1,33 @@
+{
+  "Name": "training-free_latency_optimization_spectral_stability",
+  "Title": "Spectral Stability Routing: Training-Free Latency Optimization via Activation Covariance Geometry",
+  "Short Hypothesis": "The spectral stability of hidden state activations, quantified by their covariance geometry, can serve as a robust proxy for determining optimal compute allocation during inference, enabling latency-aware optimization without training.",
+  "Related Work": "Existing methods for latency optimization often rely on static profiling (e.g., Power-SMC) or heuristic-based dynamic adjustments (e.g., DepthCache). While these approaches show promise, they lack a formal connection to the underlying activation geometry, leading to suboptimal compute allocation. Spectral Quantization Routing (SQR) introduces geometric diagnostics but focuses on precision allocation rather than latency optimization. Our proposal distinguishes itself by leveraging spectral stability metrics derived from activation covariance to dynamically route tokens through fewer layers or prune attention heads, ensuring strict latency budgets while maintaining accuracy.",
+  "Abstract": "Latency optimization in large language models (LLMs) is critical for real-world deployment, yet existing methods often rely on heuristic or static approaches that fail to adapt to dynamic input distributions. We propose Spectral Stability Routing (SSR), a training-free framework that dynamically allocates compute resources based on the spectral stability of hidden state activations. SSR computes the local covariance condition number and spectral decay rate of activations on-the-fly using randomized SVD, mapping these metrics to a compute-throttling policy that enforces strict latency budgets. Tokens residing in well-conditioned, rapidly decaying subspaces are routed through fewer layers or pruned attention heads, while ill-conditioned tokens receive full computation. We theoretically ground SSR in PAC-Bayes bounds, linking spectral stability to generalization stability under compute reduction. Evaluated on single-GPU setups across WILDS benchmarks, SSR achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic baselines. SSR provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    {
+      "Name": "spectral_stability_metrics_calibration",
+      "Objective": "Calibrate spectral stability metrics (covariance condition number, spectral decay rate) to predict compute sensitivity.",
+      "Method": "Compute activation covariances across layers using randomized SVD, and measure their correlation with accuracy drop under compute reduction.",
+      "Metrics": "Pearson correlation coefficient, mean absolute error."
+    },
+    {
+      "Name": "latency_optimization_evaluation",
+      "Objective": "Evaluate SSR's ability to enforce latency budgets while maintaining accuracy.",
+      "Method": "Compare SSR against static and heuristic baselines (e.g., Power-SMC, DepthCache) on WILDS benchmarks, measuring throughput, accuracy, and latency.",
+      "Metrics": "Throughput (tokens/sec), accuracy (%), latency (ms)."
+    },
+    {
+      "Name": "spectral_stability_generalization",
+      "Objective": "Assess SSR's generalization under distributional shifts.",
+      "Method": "Evaluate SSR on adversarial and out-of-distribution contexts, measuring accuracy retention and subspace alignment stability.",
+      "Metrics": "Accuracy retention (%), subspace alignment stability (Frobenius norm)."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of SSR depends on the accuracy of spectral stability metrics, which may vary across architectures and tasks.",
+    "Randomized SVD introduces computational overhead, potentially offsetting latency gains.",
+    "SSR assumes a linear relationship between spectral stability and compute sensitivity, which may not hold in all cases.",
+    "The framework requires precise calibration of spectral stability thresholds, which could be task-dependent."
+  ]
+}

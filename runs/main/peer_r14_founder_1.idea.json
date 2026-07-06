@@ -1,0 +1,18 @@
+{
+  "Name": "curvature_aware_layer_routing",
+  "Title": "Curvature-Aware Layer Routing: Training-Free Dynamic Compute Allocation via Hessian Geometry",
+  "Short Hypothesis": "The curvature of the loss landscape, quantified via local Hessian spectra, can serve as a deterministic proxy for layer-wise computational difficulty, enabling dynamic compute allocation with strict latency budgets.",
+  "Related Work": "Existing work, such as Spectral Quantization Routing (SQR) and Spectral Latent Steering (SLS), leverages spectral geometry for precision allocation or test-time optimization. CALR distinguishes itself by introducing curvature-aware routing for layer-wise compute allocation, explicitly linking Hessian curvature to computational difficulty.",
+  "Abstract": "We propose Curvature-Aware Layer Routing (CALR), a training-free framework that dynamically allocates compute resources based on the local curvature of the loss landscape. By quantifying curvature via Hessian spectra, CALR identifies low-curvature regions where tokens can be routed through fewer layers or attention heads can be pruned, enforcing strict latency budgets. We develop a lightweight Hessian estimation pipeline using randomized Hessian-vector products and PCA, ensuring low computational overhead. Theoretical analysis links Hessian curvature to PAC-Bayes generalization under compute reduction, providing formal guarantees for robustness. Empirical evaluation on single-GPU setups demonstrates that CALR achieves a superior throughput-accuracy Pareto frontier compared to static baselines, offering a mathematically transparent pathway for latency optimization.",
+  "Experiments": [
+    "Experiment 1: Hessian curvature estimation via randomized Hessian-vector products. Metrics: estimation accuracy, runtime overhead.",
+    "Experiment 2: Dynamic layer routing based on curvature thresholds. Metrics: throughput, accuracy, latency variance.",
+    "Experiment 3: Attention head pruning in low-curvature regions. Metrics: FLOPs reduction, accuracy retention.",
+    "Experiment 4: Theoretical validation of PAC-Bayes bounds linking curvature to generalization under compute reduction. Metrics: empirical risk vs. theoretical bounds."
+  ],
+  "Risk Factors and Limitations": [
+    "Hessian estimation may introduce computational overhead in high-dimensional settings.",
+    "Curvature thresholds require careful calibration to avoid accuracy degradation.",
+    "The approach assumes smoothness of the loss landscape, which may not hold for all tasks."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "Name": "kernel_fusion_optimizer",
+  "Title": "Optimizing GPU Memory Bandwidth Utilization for Deep Learning Workloads with Novel Kernel Fusion Techniques",
+  "Short Hypothesis": "By applying novel kernel fusion techniques and optimizing GPU memory bandwidth utilization, we can significantly improve the performance of deep learning workloads on commodity GPUs.",
+  "Related Work": "Recent works such as AMP-ViT, SNIP, and EMQ have focused on optimizing vision transformers, large language models, and mixed-precision quantization. However, these works do not explicitly address kernel fusion and memory bandwidth optimization. Our proposal distinguishes from existing literature by providing a comprehensive framework for optimizing kernel fusion and memory bandwidth utilization, which can be applied to various deep learning workloads.",
+  "Abstract": "Deep learning workloads are computationally intensive and require significant memory bandwidth. However, existing optimization techniques often focus on individual components, neglecting the interactions between kernel fusion and memory bandwidth utilization. This proposal introduces a novel kernel fusion optimizer that jointly optimizes kernel fusion and memory bandwidth utilization to improve the performance of deep learning workloads on commodity GPUs. Our approach involves profiling and analyzing the memory access patterns of deep learning workloads, identifying opportunities for kernel fusion, and optimizing memory bandwidth utilization using novel data structures and algorithms. We evaluate our proposal using a range of deep learning workloads and demonstrate significant improvements in performance and memory bandwidth utilization.",
+  "Experiments": [
+    "Profile and analyze the memory access patterns of deep learning workloads using nvprof and Nsight",
+    "Identify opportunities for kernel fusion and optimize memory bandwidth utilization using novel data structures and algorithms",
+    "Evaluate the performance of our kernel fusion optimizer using a range of deep learning workloads, including vision transformers and large language models",
+    "Compare the results with state-of-the-art optimization techniques, including AMP-ViT, SNIP, and EMQ"
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of deep learning workloads and the variability of GPU architectures may limit the applicability of our kernel fusion optimizer",
+    "The optimization process may require significant computational resources and expertise in GPU programming and optimization"
+  ]
+}

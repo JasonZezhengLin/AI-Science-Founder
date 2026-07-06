@@ -1,0 +1,20 @@
+{
+  "Name": "kernel_fusion_for_memory_bound_ops",
+  "Title": "Efficient Kernel Fusion for Memory-Bound Operations in Transformer Inference",
+  "Short Hypothesis": "By strategically fusing memory-bound operations in transformer inference kernels, we can reduce memory bandwidth pressure and improve overall throughput, as measured by tokens-per-second on commodity GPUs.",
+  "Related Work": "Existing work on kernel fusion focuses on compute-bound operations or general-purpose optimizations (e.g., AMP-ViT, SNIP). However, memory-bound operations like attention softmax and layer normalization remain under-optimized. This proposal specifically targets these operations, leveraging CUDA/Triton to fuse them with adjacent compute-bound kernels, reducing HBM round-trips and improving hardware utilization.",
+  "Abstract": "Transformer models dominate modern AI workloads, but their inference efficiency is often bottlenecked by memory-bound operations such as softmax and layer normalization. While kernel fusion has been explored for compute-bound tasks, memory-bound operations remain a challenge due to their dependency on high-bandwidth memory (HBM) accesses. This paper proposes a novel approach to fuse memory-bound operations with adjacent compute-bound kernels, reducing HBM round-trips and improving overall throughput. We design CUDA/Triton kernels that integrate softmax and layer normalization with matrix multiplications, optimizing for coalesced memory accesses and tensor-core occupancy. Our experiments on commodity GPUs demonstrate significant improvements in tokens-per-second and reduced latency, validated by nvprof/Nsight traces showing reduced warp stalls and improved bandwidth utilization. This work bridges the gap between memory-bound and compute-bound optimizations, offering practical speedups for transformer inference.",
+  "Experiments": [
+    "Baseline profiling: Measure latency and bandwidth utilization of unfused softmax and layer normalization kernels using nvprof/Nsight.",
+    "Fused kernel implementation: Develop CUDA/Triton kernels that fuse softmax and layer normalization with matrix multiplications, optimizing for coalesced loads and tensor-core occupancy.",
+    "A/B latency comparison: Compare fused and unfused kernels on transformer inference tasks, reporting p50/p99 latency, tokens-per-second, and energy per token.",
+    "Hardware-level validation: Use nvprof/Nsight to measure warp stall reasons, achieved bandwidth, and arithmetic intensity for fused kernels.",
+    "Generalization test: Evaluate fused kernels across different transformer architectures (e.g., ViT, GPT, BERT) and sequence lengths."
+  ],
+  "Risk Factors and Limitations": [
+    "Fusion may increase register pressure, leading to register spilling and reduced performance.",
+    "The benefits of fusion may diminish for small batch sizes or short sequence lengths.",
+    "Implementation complexity may limit portability across GPU architectures.",
+    "Fused kernels may introduce numerical instability in edge cases."
+  ]
+}

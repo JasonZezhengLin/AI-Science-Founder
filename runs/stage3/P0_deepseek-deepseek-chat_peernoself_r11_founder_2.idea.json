@@ -1,0 +1,19 @@
+{
+  "Name": "jacobian_layer_skipping",
+  "Title": "Training-Free Jacobian-Based Layer Skipping for Latency-Bounded Inference",
+  "Short Hypothesis": "The Jacobian matrix of hidden states provides a direct proxy for layer-wise computational redundancy, enabling training-free layer skipping under strict latency budgets without sacrificing generalization stability.",
+  "Related Work": "Existing approaches focus on activation geometry (e.g., Spectral Quantization Routing) or PCA-based filtering (e.g., Geometric Signal Separation) but do not explicitly leverage Jacobian diagnostics for layer skipping. This proposal distinguishes itself by introducing Jacobian-based redundancy detection, which is theoretically grounded in PAC-Bayes frameworks and spectral stability bounds.",
+  "Abstract": "We propose a training-free framework for latency-bounded inference that dynamically skips redundant layers based on Jacobian matrix diagnostics. We hypothesize that the Jacobian matrix of hidden states captures layer-wise computational redundancy, with low-rank Jacobians indicating regions of minimal information gain. By computing the spectral decay rate and condition number of the Jacobian matrix on-the-fly, we derive a layer-skipping policy that enforces strict latency budgets while maintaining generalization stability. We theoretically ground our approach using PAC-Bayes bounds that link Jacobian conditioning to generalization under perturbation. Evaluated on single-GPU setups across diverse benchmarks, our method achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic layer-skipping baselines. This work bridges mechanistic interpretability with system-scale efficiency, offering a zero-cost, mathematically transparent method to optimize resource deployment in constrained environments.",
+  "Experiments": [
+    "Jacobian Diagnostics: Compute the Jacobian matrix of hidden states for each layer and analyze its spectral decay rate and condition number.",
+    "Layer-Skipping Policy: Derive a dynamic layer-skipping policy based on Jacobian diagnostics and enforce strict latency budgets.",
+    "Evaluation Metrics: Measure throughput, accuracy, and generalization stability across diverse benchmarks (e.g., WILDS, adversarial ICL tasks).",
+    "PAC-Bayes Bounds: Establish theoretical bounds linking Jacobian conditioning to generalization stability under perturbation.",
+    "Comparison: Compare against static and heuristic layer-skipping baselines to demonstrate superiority in throughput-accuracy trade-offs."
+  ],
+  "Risk Factors and Limitations": [
+    "Jacobian Computation Overhead: On-the-fly Jacobian computation may introduce latency, necessitating efficient approximation techniques.",
+    "Generalization Stability: Layer skipping may destabilize generalization under extreme distribution shifts, requiring robust theoretical guarantees.",
+    "Hardware Constraints: Single-GPU setups may limit scalability, necessitating further optimization for multi-GPU environments."
+  ]
+}

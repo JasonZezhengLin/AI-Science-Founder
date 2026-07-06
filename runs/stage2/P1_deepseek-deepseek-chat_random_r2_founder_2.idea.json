@@ -1,0 +1,20 @@
+{
+  "Name": "mutual_info_based_model_compression",
+  "Title": "Mutual Information-Guided Model Compression: Bridging Information Theory and Practical Quantization",
+  "Short Hypothesis": "By framing model compression as a mutual information maximization problem, we can derive optimal bit allocation strategies that preserve task-relevant information while minimizing redundancy, achieving near-theoretical limits in model quantization.",
+  "Related Work": "Existing work on model compression, such as EMQ, AMP-ViT, and SNIP, focuses on empirical heuristics or hardware-specific optimizations without explicit information-theoretic guarantees. Recent work like InfoCL and TexShape explores mutual information in representation learning but does not apply it to model compression. Our proposal uniquely bridges these gaps by deriving compression strategies directly from mutual information bounds.",
+  "Abstract": "Model compression is critical for deploying machine learning models on resource-constrained devices. However, existing methods often rely on heuristic approaches without theoretical guarantees on the preservation of task-relevant information. This paper proposes a novel framework for model compression based on mutual information maximization. We frame compression as a lossy source coding problem, where the goal is to minimize the distortion of task-relevant information while reducing the model’s bit-width. Using estimators of mutual information, we derive optimal bit allocation strategies that adapt to the information content of each layer. Our approach is grounded in information theory, providing theoretical bounds on the achievable compression rates. Experiments on vision and language models demonstrate that our method achieves state-of-the-art compression efficiency while preserving task performance, outperforming existing quantization techniques by up to 20% in bits-per-weight efficiency.",
+  "Experiments": [
+    "Evaluate mutual information estimators (e.g., InfoNCE, DV-KL divergence) to quantify task-relevant information in model layers.",
+    "Develop a bit allocation algorithm that optimizes mutual information preservation under a distortion constraint.",
+    "Compare our method against state-of-the-art quantization techniques (e.g., EMQ, SNIP) on vision (ResNet, ViT) and language (BERT, GPT) models.",
+    "Measure compression efficiency (bits-per-weight), task performance (accuracy), and theoretical bounds (rate-distortion curves).",
+    "Analyze sensitivity to mutual information estimation errors and robustness across datasets."
+  ],
+  "Risk Factors and Limitations": [
+    "Accurate mutual information estimation in high-dimensional spaces remains challenging.",
+    "The proposed method may introduce computational overhead during bit allocation.",
+    "Theoretical bounds may not always align with empirical results due to model-specific complexities.",
+    "The framework assumes task-relevant information can be cleanly separated from redundancy, which may not hold for all tasks."
+  ]
+}

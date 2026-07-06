@@ -1,0 +1,29 @@
+{
+  "Name": "CurvatureAwarePrecisionRouting",
+  "Title": "Curvature-Aware Precision Routing for Mixed-Precision Inference",
+  "Short Hypothesis": "The local curvature of hidden state activations can serve as a robust proxy for determining the precision requirements of neural network layers during inference. Layers with high curvature (indicating high sensitivity to quantization) should be allocated higher precision, while layers with low curvature can operate at lower precision, optimizing both computational efficiency and model accuracy.",
+  "Related Work": "Existing literature on mixed-precision inference often relies on static profiling or heuristic methods to determine precision levels. Recent works such as 'Spectral Quantization Routing' (SQR) and 'Curvature-aware dynamic precision approach for physics-informed neural networks' explore the use of spectral and curvature metrics, but they do not fully integrate these metrics into a real-time, dynamic precision allocation framework. Our proposal builds on these ideas by providing a training-free, curvature-aware precision routing mechanism that can adapt to dynamic input distributions and enforce strict latency budgets.",
+  "Abstract": "Mixed-precision inference offers significant computational and memory advantages but often requires static profiling or heuristic methods to determine precision levels. We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically allocates numerical precision based on the local curvature of hidden state activations. CAPR uses real-time curvature diagnostics to identify sensitive and robust layers, allocating higher precision to sensitive layers and lower precision to robust layers. This approach ensures both computational efficiency and model accuracy while enforcing strict latency budgets. We theoretically ground CAPR with PAC-Bayes bounds that link curvature to generalization stability under quantization noise. Empirical evaluations on single-GPU setups across WILDS benchmarks demonstrate that CAPR achieves a superior throughput-accuracy trade-off compared to static and heuristic mixed-precision baselines.",
+  "Experiments": [
+    {
+      "Description": "Compute the local curvature of hidden state activations for a given model and dataset.",
+      "Method": "Use randomized SVD to compute the local curvature of hidden state activations in real-time during inference. Specifically, perform a single-pass PCA on the activations of each layer to identify the dominant spectral directions and their corresponding curvature.",
+      "Evaluation Metrics": "Curvature condition number, spectral decay rate, and precision allocation accuracy."
+    },
+    {
+      "Description": "Evaluate the impact of curvature-aware precision allocation on model accuracy and computational efficiency.",
+      "Method": "Compare the performance of CAPR with static and heuristic mixed-precision baselines on single-GPU setups across WILDS benchmarks. Measure the throughput, memory usage, and accuracy of the models under different precision allocation strategies.",
+      "Evaluation Metrics": "Throughput (inferences per second), memory usage (MB), and accuracy (F1-score)."
+    },
+    {
+      "Description": "Analyze the generalization stability of models under different precision allocation strategies.",
+      "Method": "Use PAC-Bayes bounds to theoretically analyze the generalization stability of models under curvature-aware precision allocation. Perform empirical validation by measuring the model's performance on out-of-distribution data and under controlled perturbations.",
+      "Evaluation Metrics": "PAC-Bayes generalization bounds, out-of-distribution accuracy, and robustness to perturbations."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "Real-time curvature computation may introduce additional overhead, although we aim to minimize this by using efficient randomized SVD techniques.",
+    "The effectiveness of curvature as a proxy for precision sensitivity may vary across different model architectures and datasets, requiring further validation.",
+    "The PAC-Bayes bounds may not fully capture all aspects of model generalization, particularly in highly dynamic environments."
+  ]
+}

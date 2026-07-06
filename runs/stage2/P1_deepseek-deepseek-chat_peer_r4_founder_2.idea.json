@@ -1,0 +1,18 @@
+{
+  "Name": "task_aware_compression",
+  "Title": "Task-Aware Compression: Preserving Minimal Sufficient Statistics for Efficient Inference",
+  "Short Hypothesis": "Task-aware compression, which preserves only the minimal sufficient statistics necessary for the task, achieves better rate-distortion trade-offs than generic compression methods.",
+  "Related Work": "Existing work on model compression focuses on general distortion measures (e.g., MSE) or hardware-specific efficiency, but does not explicitly connect compression to the minimal sufficient statistics of the task. This proposal distinguishes itself by leveraging the information bottleneck principle to preserve only task-relevant information.",
+  "Abstract": "Model compression is essential for deploying deep learning models on resource-constrained devices. However, most existing methods optimize compression under general distortion measures, ignoring the specific task requirements. We propose task-aware compression, a novel framework that preserves only the minimal sufficient statistics necessary for the task, leveraging the information bottleneck principle. By quantifying the task-relevant information in a model’s representations (e.g., mutual information between activations and labels), we derive compression schemes that achieve better rate-distortion trade-offs than generic methods. We theoretically analyze the achievable rates and empirically validate our approach on classification tasks, demonstrating superior compression efficiency while maintaining task performance.",
+  "Experiments": [
+    "1. Quantify task-relevant information: Estimate mutual information between model activations and labels using InfoNCE-style lower bounds.",
+    "2. Derive task-aware compression schemes: Apply quantization and pruning based on the estimated task-relevant information, preserving only the most informative representations.",
+    "3. Evaluate compression efficiency: Compare task-aware compression to generic methods (e.g., uniform quantization, magnitude pruning) on classification tasks (e.g., CIFAR-10, ImageNet). Metrics include bits-per-weight, accuracy, and task-specific distortion measures.",
+    "4. Ablation studies: Vary the amount of preserved task-relevant information and analyze its impact on compression efficiency and task performance."
+  ],
+  "Risk Factors and Limitations": [
+    "1. Estimating mutual information accurately may be challenging, especially for high-dimensional activations.",
+    "2. Task-aware compression may require task-specific tuning, limiting its generalizability across tasks.",
+    "3. The proposed method may incur additional computational overhead during compression, though this is offset by inference efficiency gains."
+  ]
+}

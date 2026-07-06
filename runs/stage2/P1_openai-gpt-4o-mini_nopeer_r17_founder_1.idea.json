@@ -1,0 +1,19 @@
+{
+  "Name": "gpu_architecture_inference_optimization",
+  "Title": "Exploiting GPU Architectural Nuances for Optimized Latency in ML Inference",
+  "Short Hypothesis": "By strategically leveraging specific architectural features of modern GPUs, we can achieve significant improvements in inference latency and throughput for machine learning models, beyond what current optimization techniques offer.",
+  "Related Work": "Existing literature has predominantly focused on high-level optimizations (e.g., operator fusion, memory management), but few have systematically examined the impact of specific GPU architectural features (like memory bandwidth utilization, cache hierarchies, and tensor core occupancy) on real-world inference performance. This proposal distinguishes itself by offering targeted empirical evaluations that correlate architectural features with performance metrics.",
+  "Abstract": "The performance of machine learning inference is heavily reliant on the efficient utilization of underlying hardware, particularly GPUs. This proposal introduces a novel profiling framework that focuses on low-level architectural features of GPUs, such as memory bandwidth utilization, cache layouts, and tensor core occupancy. By conducting a series of systematic experiments, we will measure the impact of these features on inference latency and throughput across various state-of-the-art machine learning models. The framework will employ real hardware measurements and reproducible benchmarks to yield actionable insights for optimizing inference performance. We anticipate that our findings will not only contribute to the understanding of GPU performance characteristics but also provide concrete strategies for practitioners seeking to enhance the deployment of machine learning models in real time.",
+  "Experiments": [
+    "1. Baseline Measurement: Establish baseline performance metrics (latency, throughput) for selected ML models on a commodity GPU while collecting profiling data (occupancy, bandwidth, etc.).",
+    "2. Memory Bandwidth Optimization: Implement experimental changes targeting memory access patterns and measure the resulting impact on inference latency.",
+    "3. Cache Layout Adjustments: Modify the KV-cache layout to evaluate its effect on cache hit rates and overall throughput.",
+    "4. Tensor Core Utilization: Explore different kernel configurations to maximize tensor core usage and evaluate the resulting latency improvements.",
+    "5. A/B Testing: Conduct A/B latency races under fixed accuracy budgets to validate the effectiveness of optimization strategies, reporting p50/p99 latency and throughput under batching."
+  ],
+  "Risk Factors and Limitations": [
+    "Potential variability in hardware performance due to driver/firmware changes.",
+    "Limitations in generalizability to hardware other than tested commodity GPUs.",
+    "The challenge of isolating the impact of individual architectural features in complex scenarios."
+  ]
+}

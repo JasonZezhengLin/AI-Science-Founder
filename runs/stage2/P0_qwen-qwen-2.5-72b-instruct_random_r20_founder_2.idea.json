@@ -1,0 +1,18 @@
+{
+  "Name": "LatencyAwareAdaptiveMixedPrecision",
+  "Title": "Latency-Aware Adaptive Mixed Precision for Vision Transformers",
+  "Short Hypothesis": "Can we develop a latency-aware adaptive mixed-precision framework for vision transformers that optimizes both inference speed and accuracy, while maintaining computational efficiency and memory constraints?",
+  "Related Work": "Existing work in adaptive mixed-precision (AMP) for vision transformers (ViTs) focuses on optimizing accuracy and computational efficiency. SNIP [2] and AMP-ViT [3] introduce fine-grained and adaptive precision adjustments, but they do not explicitly consider latency as a primary optimization goal. EMQ [4] explores training-free proxies for mixed-precision quantization but lacks a latency-aware component. Our proposal aims to bridge this gap by integrating latency-awareness into the AMP framework.",
+  "Abstract": "Vision transformers (ViTs) have revolutionized computer vision but face significant challenges in terms of computational and memory demands. While existing adaptive mixed-precision (AMP) frameworks optimize for accuracy and efficiency, they often overlook latency, a critical factor in real-time applications. We propose Latency-Aware Adaptive Mixed Precision (LAAMP) for ViTs, which integrates latency constraints into the precision adjustment process. LAAMP uses a Jacobian-based layer-skipping mechanism to dynamically adjust precision levels, ensuring that inference times meet strict latency budgets while maintaining high accuracy. We evaluate LAAMP on ViT, DeiT, and Swin models, demonstrating significant improvements in both accuracy and latency compared to existing methods.",
+  "Experiments": [
+    "1. **Latency-Aware Precision Adjustment**: Implement a Jacobian-based layer-skipping mechanism to dynamically adjust the precision of each layer based on its impact on latency. Use a latency-aware loss function that penalizes precision adjustments leading to higher latency.",
+    "2. **Layer-Wise Sensitivity Analysis**: Conduct a layer-wise sensitivity analysis to identify critical layers that significantly affect latency and accuracy. Use this analysis to guide the precision adjustment process.",
+    "3. **Comparative Evaluation**: Compare LAAMP with existing AMP frameworks (SNIP, AMP-ViT) and training-free proxies (EMQ) on standard benchmarks (ImageNet) using ViT, DeiT, and Swin models. Measure accuracy, inference latency, and memory usage.",
+    "4. **Real-World Deployment**: Evaluate LAAMP on real-world embedded systems to assess its practical performance under resource-constrained conditions. Measure end-to-end latency and accuracy in deployment scenarios."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Complexity of Jacobian-Based Mechanisms**: The Jacobian-based layer-skipping mechanism may introduce additional computational overhead, which needs to be carefully managed to avoid negating latency benefits.",
+    "2. **Generalization to Different Models**: The effectiveness of LAAMP may vary across different vision transformer architectures and datasets, requiring thorough validation.",
+    "3. **Resource Constraints**: Real-world deployment on embedded systems may have stringent resource constraints that could limit the applicability of LAAMP."
+  ]
+}

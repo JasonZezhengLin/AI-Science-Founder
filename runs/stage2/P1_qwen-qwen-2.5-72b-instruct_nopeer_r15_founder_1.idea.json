@@ -1,0 +1,34 @@
+{
+  "Name": "OptimizedTritonKernelsForQuantizedInference",
+  "Title": "Optimizing Triton Kernels for Quantized Deep Learning Inference",
+  "Short Hypothesis": "By optimizing Triton kernels specifically for quantized deep learning models, we can achieve significant performance improvements in terms of latency and throughput on commodity GPUs without sacrificing accuracy.",
+  "Related Work": "Existing work in GPU kernel optimization for deep learning has focused on general-purpose optimizations (e.g., KACE, BOER) or specific models and frameworks (e.g., nnJIT, Luthier). While some studies have explored quantization (e.g., Parallel Optimization of Quantized CNNs), they have not fully leveraged the unique capabilities of the Triton compiler for fine-grained optimization. Our proposal fills this gap by focusing on the integration of quantization and Triton-specific optimizations.",
+  "Abstract": "Quantization is a widely used technique to reduce the computational and memory requirements of deep learning models, making them more deployable on resource-constrained devices. However, the performance gains from quantization can be limited by suboptimal kernel implementations. This proposal aims to optimize Triton kernels for quantized deep learning models, focusing on reducing latency and increasing throughput on commodity GPUs. We will leverage the fine-grained control provided by the Triton compiler to implement specialized optimizations for quantized operations, such as efficient use of Warp Shuffle instructions, data-packing strategies, and redundant masking tail-loop optimizations. Our approach will be validated through a series of experiments on a variety of models and hardware configurations, measuring the impact on latency, throughput, and energy efficiency. The results will be compared to baseline implementations and existing optimization techniques to demonstrate the effectiveness of our approach.",
+  "Experiments": [
+    {
+      "Description": "Implement and benchmark a baseline Triton kernel for a quantized deep learning model (e.g., VGG16 with INT8 precision).",
+      "Metrics": "Latency, throughput, energy consumption, and accuracy."
+    },
+    {
+      "Description": "Optimize the baseline kernel using Warp Shuffle instructions to improve intra-warp processing for non-contiguous axis reduction.",
+      "Metrics": "Latency, throughput, energy consumption, and accuracy."
+    },
+    {
+      "Description": "Apply a data-packing strategy to enhance the downgrading process of FP16 data types and reduce shared memory usage.",
+      "Metrics": "Latency, throughput, energy consumption, and accuracy."
+    },
+    {
+      "Description": "Implement redundant masking tail-loop optimization to reduce the overhead of mask loading and improve memory access efficiency.",
+      "Metrics": "Latency, throughput, energy consumption, and accuracy."
+    },
+    {
+      "Description": "Conduct A/B latency races under fixed accuracy budgets to compare the optimized kernels with the baseline and other state-of-the-art optimizations.",
+      "Metrics": "p50/p99 latency, throughput, and energy per token."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The performance gains from quantization and kernel optimizations may vary across different models and hardware configurations.",
+    "The overhead of implementing and tuning specialized Triton kernels may be significant, requiring careful profiling and iterative refinement.",
+    "The accuracy of quantized models might be affected by the aggressive optimizations, necessitating a trade-off analysis between performance and accuracy."
+  ]
+}

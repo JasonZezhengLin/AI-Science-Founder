@@ -1,0 +1,39 @@
+{
+  "Name": "latency-aware_jacobian_skipping",
+  "Title": "Latency-Aware Jacobian-Based Layer Skipping for Efficient Neural Network Inference",
+  "Short Hypothesis": "By leveraging Jacobian-based analysis to dynamically skip redundant layers during inference, we can significantly reduce latency without sacrificing model accuracy, particularly in latency-sensitive applications.",
+  "Related Work": "Existing approaches to layer skipping, such as LiteStage and River-LLM, focus on static or heuristic-based methods that often fail to adapt to dynamic inference needs. Training-free frameworks like HiLoRA and AMP-ViT optimize for efficiency but do not explicitly address latency through layer skipping. Our proposal uniquely integrates Jacobian-based analysis to dynamically determine layer redundancy, offering a more principled and adaptive approach to latency reduction.",
+  "Abstract": "Neural network inference latency is a critical bottleneck in many real-world applications, particularly those requiring real-time responses. Traditional layer skipping methods often rely on static heuristics or training-based approaches, which can be suboptimal or computationally expensive. We propose a novel, training-free framework that leverages Jacobian-based analysis to dynamically skip redundant layers during inference. By evaluating the Jacobian matrix of each layer, our method identifies layers whose contributions to the output are negligible and skips them, thereby reducing latency without compromising accuracy. Our experiments on various benchmarks demonstrate significant latency reductions while maintaining competitive model performance, making our approach particularly suitable for latency-sensitive applications.",
+  "Experiments": [
+    {
+      "Description": "Evaluate the proposed Jacobian-based layer skipping on ViT and ResNet architectures.",
+      "Metrics": [
+        "Latency reduction",
+        "Accuracy",
+        "FLOPs"
+      ],
+      "Method": "Compute the Jacobian matrix for each layer during inference and skip layers with negligible contributions. Compare latency and accuracy against baseline models."
+    },
+    {
+      "Description": "Compare with existing layer skipping methods (e.g., LiteStage, River-LLM).",
+      "Metrics": [
+        "Latency reduction",
+        "Accuracy"
+      ],
+      "Method": "Implement LiteStage and River-LLM on the same architectures and compare their performance with our Jacobian-based approach."
+    },
+    {
+      "Description": "Analyze the impact of different thresholds for Jacobian-based skipping.",
+      "Metrics": [
+        "Latency reduction",
+        "Accuracy"
+      ],
+      "Method": "Vary the threshold for determining negligible contributions and observe the trade-off between latency and accuracy."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The Jacobian computation may introduce overhead, potentially offsetting latency gains.",
+    "The method may not generalize well to all architectures or tasks, particularly those with complex layer interactions.",
+    "Dynamic layer skipping could introduce instability in certain models, leading to unpredictable behavior."
+  ]
+}

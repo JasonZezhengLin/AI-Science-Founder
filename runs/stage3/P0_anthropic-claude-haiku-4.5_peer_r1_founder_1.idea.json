@@ -1,0 +1,81 @@
+{
+  "Name": "curvature_adaptive_precision_routing",
+  "Title": "Curvature-Adaptive Precision Routing: Training-Free Layer-Wise Quantization via Hessian Spectral Diagnostics",
+  "Short Hypothesis": "Layer-wise precision assignments can be determined training-free by analyzing the spectral properties of layer-wise Hessians computed from a single forward pass, enabling deterministic mixed-precision inference that maintains accuracy while respecting strict computational budgets. Specifically, layers with high Hessian condition numbers require higher precision (to preserve gradient stability), while layers with low condition numbers tolerate aggressive quantization. This hypothesis is best tested in the inference setting because: (1) test-time Hessian computation is tractable for single forward passes, (2) precision routing directly impacts inference latency without retraining overhead, and (3) spectral diagnostics provide formal stability guarantees unavailable in post-hoc calibration approaches.",
+  "Related Work": "Existing mixed-precision quantization literature divides into three categories: (1) Post-training quantization methods (e.g., BRECQ, OCS) that require calibration data and iterative optimization, (2) Hardware-aware routing (e.g., bit-width search via NAS) that ignores theoretical stability guarantees, and (3) Layer-wise precision assignment based on activation statistics or gradient magnitude heuristics, which lack formal justification. Recent test-time optimization work (e.g., Spectral Latent Steering) operates in activation subspaces but does not address precision allocation. Our proposal is distinct because: (a) it grounds precision routing in Hessian curvature geometry rather than activation magnitudes or gradient norms, (b) it requires no calibration data or retraining—only a single forward pass and block-diagonal Hessian approximation, (c) it provides formal PAC-Bayes generalization bounds linking condition number to precision requirements, and (d) it explicitly quantifies numerical stability via condition number thresholds and perturbation analysis. This is not a trivial extension of prior work because the connection between layer-wise Hessian conditioning and quantization robustness has not been systematically formalized or empirically validated.",
+  "Abstract": "Mixed-precision quantization reduces inference latency but requires careful allocation of bit-widths across layers. Existing approaches rely on post-training calibration, activation statistics, or hardware-aware search—all of which lack formal stability guarantees or require expensive retraining. We propose Curvature-Adaptive Precision Routing (CAPR), a training-free framework that assigns layer-wise precision based on spectral properties of layer-wise Hessians. The core insight is that layers with high Hessian condition numbers amplify quantization noise and require higher precision, while well-conditioned layers tolerate aggressive quantization. CAPR computes block-diagonal Hessian approximations via a single forward pass with automatic differentiation, extracts the top-k singular values to estimate conditioning, and deterministically assigns precision tiers (e.g., INT8, INT4, INT2) based on formal stability criteria. We derive PAC-Bayes bounds linking Hessian condition number to quantization error propagation and establish explicit precision thresholds that guarantee bounded accuracy loss. Experiments on LLMs (OPT, LLaMA) and vision transformers validate that CAPR achieves comparable or superior accuracy-latency tradeoffs versus BRECQ and learned quantization schemes, while requiring zero retraining and maintaining strict O(1) per-layer diagnostic overhead. We further demonstrate that CAPR's precision assignments correlate strongly with layer-wise gradient flow properties and generalize across model scales and datasets, supporting the theoretical motivation. This work bridges optimization theory and deployment constraints, establishing deterministic, theoretically grounded precision routing as a practical alternative to heuristic methods.",
+  "Experiments": [
+    {
+      "name": "Exp 1: Hessian Spectral Analysis and Condition Number Estimation",
+      "description": "For OPT-13B and LLaMA-7B, compute block-diagonal Hessian approximations for each transformer layer using a single forward pass on 100 randomly sampled inputs from the calibration set. For each layer, extract the top-20 singular values via power iteration (5 iterations, O(d²) cost amortized across layers). Compute condition number κ_l = σ_max / σ_min for each layer. Plot condition number distribution across depth and compare against: (a) layer-wise gradient norm statistics, (b) activation variance, (c) empirical quantization sensitivity (measured via layer-wise perturbation experiments). Metric: Spearman correlation between κ_l and per-layer accuracy drop under INT4 quantization.",
+      "details": "Implementation: Use PyTorch autograd to compute Hessian-vector products via reverse-mode differentiation. Approximate block-diagonal structure by computing layer-wise Hessians independently (justified by attention-based sparsity). Store only top-k singular values to maintain O(k·d) memory per layer. Repeat across 5 random seeds and report 95% confidence intervals."
+    },
+    {
+      "name": "Exp 2: Precision Threshold Calibration via PAC-Bayes Bounds",
+      "description": "Derive empirical PAC-Bayes bounds relating Hessian condition number κ_l to quantization error propagation. For each layer, systematically vary precision (INT8, INT6, INT4, INT2) and measure: (a) per-layer quantization noise (L2 norm of quantized vs. unquantized activations), (b) downstream accuracy degradation on calibration set (100 samples). Fit a piecewise-linear function mapping κ_l to maximum tolerable precision loss (e.g., <0.5% top-1 accuracy drop). Establish three precision tiers: κ_l < 50 → INT4, 50 ≤ κ_l < 200 → INT6, κ_l ≥ 200 → INT8. Metric: Empirical validation of fitted bounds—measure fraction of layers where assigned precision maintains <0.5% accuracy loss.",
+      "details": "Use 100 calibration samples from the training distribution. For each layer independently, quantize to target precision and measure: (i) activation quantization noise norm, (ii) gradient signal attenuation via Hessian-vector product perturbation analysis. Aggregate noise across layers via backward pass to estimate end-to-end accuracy loss. Report calibration curve and 95% prediction intervals."
+    },
+    {
+      "name": "Exp 3: End-to-End Inference Accuracy and Latency Validation",
+      "description": "Apply CAPR to OPT-13B, OPT-30B, LLaMA-7B, LLaMA-13B on: (a) language modeling (WikiText-103 perplexity), (b) zero-shot MMLU (5-shot accuracy), (c) commonsense reasoning (HellaSwag, ARC). For each model, assign precision per the condition number thresholds derived in Exp 2. Measure: (i) end-to-end accuracy (perplexity, MMLU accuracy), (ii) inference latency on single A100 GPU using INT4/INT6/INT8 kernels (via CUTLASS or similar), (iii) memory footprint reduction. Compare against: BRECQ (post-training calibration), learned quantization (LSQ), and uniform INT4 baseline. Metrics: Pareto frontier of (accuracy, latency, memory); report accuracy loss vs. speedup.",
+      "details": "Inference latency measured via 1000 forward passes with batch size 1 (standard LLM deployment setting). Use existing INT4/INT6/INT8 kernels or approximate via GEMM-based simulation if hardware kernels unavailable. Report wall-clock time and FLOPs reduction. Run 3 seeds per model; report mean ± std."
+    },
+    {
+      "name": "Exp 4: Cross-Model and Cross-Dataset Generalization",
+      "description": "Validate that precision assignments learned on one model/dataset transfer to others. Train CAPR thresholds (κ_l → precision mapping) on OPT-13B + WikiText-103. Apply these thresholds to: (a) OPT-30B + WikiText-103, (b) OPT-13B + different datasets (C4, OpenWebText), (c) LLaMA-7B + WikiText-103. Measure accuracy loss under transferred thresholds vs. model-specific thresholds. Metric: Relative accuracy degradation (transferred vs. oracle); target <2% relative increase in accuracy loss.",
+      "details": "Demonstrates robustness of spectral-based routing across model scales and domains. If transfer fails, investigate whether condition number distributions shift systematically with model scale or dataset, informing refinements to the theoretical model."
+    },
+    {
+      "name": "Exp 5: Ablation Study on Hessian Approximation Quality",
+      "description": "Investigate sensitivity to block-diagonal Hessian approximation. Compare: (a) full block-diagonal (independent per-layer), (b) block-tridiagonal (couple adjacent layers), (c) random projection-based rank-k approximation (k=10, 50, 100). For each variant, measure: (i) condition number estimation error vs. empirical perturbation analysis, (ii) precision assignment stability (fraction of layers where assigned precision changes), (iii) end-to-end accuracy. Metric: Robustness of precision routing to Hessian approximation quality; target <5% accuracy variance across approximation methods.",
+      "details": "Quantifies computational vs. accuracy tradeoff. Block-diagonal is O(d²) per layer; block-tridiagonal is O(d²) but captures layer coupling; random projection reduces to O(kd). Report computational cost in terms of forward-pass equivalents."
+    },
+    {
+      "name": "Exp 6: Theoretical Validation via Perturbation Analysis",
+      "description": "Formalize connection between Hessian condition number and quantization robustness. For a fixed layer, perturb weights by quantization noise (magnitude proportional to precision level). Measure: (a) activation change (forward pass), (b) gradient change (backward pass), (c) loss change. Fit empirical model: Δloss ≈ α · κ_l · Δweight. Validate prediction that layers with κ_l > threshold suffer >1% loss degradation under INT4 quantization. Metric: R² of fitted model; target >0.85.",
+      "details": "This experiment directly validates the theoretical hypothesis. Use 10 random weight perturbations per layer, each proportional to quantization noise magnitude. Measure loss via forward pass on calibration set (100 samples). Aggregate across layers and seeds."
+    },
+    {
+      "name": "Exp 7: Computational Overhead Quantification",
+      "description": "Measure total cost of CAPR (Hessian computation + precision assignment) relative to baseline inference. Break down: (i) forward pass (unchanged), (ii) Hessian-vector product computation (power iteration, 5 iterations per layer), (iii) singular value extraction (power iteration), (iv) precision routing (lookup table, O(1) per layer). On OPT-13B: measure total time on A100 GPU. Express as fraction of inference time (target <5% overhead). Metric: Amortized cost per inference token; report absolute time and relative percentage.",
+      "details": "CAPR is applied once per model, not per-inference. Overhead is amortized if model is deployed for many inferences. Report both one-time setup cost and amortized cost per 1M inference tokens."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    {
+      "risk": "Hessian Approximation Quality",
+      "description": "Block-diagonal Hessian approximation ignores cross-layer interactions. If layers are tightly coupled, condition number estimates may be inaccurate. Mitigation: Ablation study (Exp 5) systematically evaluates approximation quality; if cross-layer coupling is significant, extend to block-tridiagonal or low-rank correction.",
+      "likelihood": "Medium"
+    },
+    {
+      "risk": "Limited Calibration Data",
+      "description": "CAPR uses only 100 calibration samples to compute Hessians. If distribution is non-stationary or multimodal, estimates may be unstable. Mitigation: Validate robustness via Exp 4 (cross-dataset generalization) and report confidence intervals across seeds.",
+      "likelihood": "Medium"
+    },
+    {
+      "risk": "Precision Tier Quantization",
+      "description": "Assigning discrete precision tiers (INT8, INT6, INT4) based on continuous condition numbers may be suboptimal. Layers near tier boundaries could benefit from finer-grained precision. Mitigation: Sensitivity analysis in Exp 2; consider continuous precision scaling if tier-based routing underperforms.",
+      "likelihood": "Low"
+    },
+    {
+      "risk": "Hardware Kernel Availability",
+      "description": "INT6, INT2 kernels may not be available on standard GPUs; latency estimates may rely on simulation rather than wall-clock measurement. Mitigation: Use CUTLASS or similar libraries for custom kernels; report both theoretical speedup and empirical latency where kernels exist.",
+      "likelihood": "Medium"
+    },
+    {
+      "risk": "Generalization to Non-Transformer Architectures",
+      "description": "Proposal focuses on transformers (OPT, LLaMA). Applicability to CNNs, RNNs, or other architectures unclear. Mitigation: Extend to vision transformers as secondary validation; discuss architectural requirements for Hessian-based routing.",
+      "likelihood": "Low (out of scope but noted)"
+    },
+    {
+      "risk": "Theoretical Bound Tightness",
+      "description": "PAC-Bayes bounds may be loose in practice, leading to overly conservative precision assignments. Mitigation: Compare empirical accuracy loss vs. theoretical bounds; if bounds are loose, develop tighter analysis or data-dependent refinements.",
+      "likelihood": "Medium"
+    },
+    {
+      "risk": "Computational Cost of Hessian Estimation",
+      "description": "Even with block-diagonal approximation, computing Hessians via power iteration is O(d²) per layer. For very large models (>100B parameters), this may exceed acceptable overhead. Mitigation: Use low-rank projection (Exp 5) to reduce complexity; amortize cost across many inferences.",
+      "likelihood": "Low (mitigated by low-rank approximation)"
+    }
+  ]
+}

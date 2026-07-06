@@ -1,0 +1,212 @@
+{
+  "m1": {
+    "peer": [
+      0.24031007751937986,
+      0.26143790849673204,
+      0.07954545454545454,
+      0.14285714285714285,
+      0.15
+    ],
+    "nopeer": [
+      0.09090909090909091,
+      0.17592592592592593,
+      0.10569105691056911,
+      0.19047619047619047,
+      0.04819277108433735
+    ]
+  },
+  "m2": {
+    "peer": [
+      0.11046511627906977,
+      0.17275747508305647,
+      0.09183673469387756,
+      0.20198675496688742,
+      0.07954545454545454,
+      0.10028653295128939,
+      0.07222222222222222,
+      0.13175675675675674,
+      0.07734806629834254,
+      0.1182108626198083
+    ],
+    "nopeer": [
+      0.09696969696969697,
+      0.0695364238410596,
+      0.06285714285714286,
+      0.06907894736842106,
+      0.07954545454545454,
+      0.08196721311475409,
+      0.11949685534591195,
+      0.07467532467532467,
+      0.056338028169014086,
+      0.08469055374592833
+    ]
+  },
+  "m3": {
+    "peer": [
+      13,
+      8,
+      18,
+      14,
+      14,
+      6,
+      8,
+      14,
+      14,
+      11
+    ],
+    "nopeer": [
+      7,
+      4,
+      4,
+      4,
+      7,
+      6,
+      2,
+      5,
+      1,
+      7
+    ]
+  },
+  "ideas": {
+    "nopeer_r1_founder_1": {
+      "arm": "nopeer",
+      "round": 1,
+      "founder": "founder_1",
+      "name": "curvature-aware_precision_routing",
+      "title": "Training-Free Curvature-Aware Precision Routing: A Geometric Subspace Approach"
+    },
+    "nopeer_r1_founder_2": {
+      "arm": "nopeer",
+      "round": 1,
+      "founder": "founder_2",
+      "name": "pac_bayes_layer_skipping_latency",
+      "title": "PAC-Bayes Layer Skipping for Latency-Critical Inference"
+    },
+    "nopeer_r2_founder_1": {
+      "arm": "nopeer",
+      "round": 2,
+      "founder": "founder_1",
+      "name": "training_free_precision_routing_via_curvature_aware_diagnostics",
+      "title": "Training-Free Precision Routing via Curvature-Aware Geometric Diagnostics"
+    },
+    "nopeer_r2_founder_2": {
+      "arm": "nopeer",
+      "round": 2,
+      "founder": "founder_2",
+      "name": "latency_aware_layer_skipping",
+      "title": "Latency-Aware Layer Skipping via Jacobian-Based Stability Bounds"
+    },
+    "nopeer_r3_founder_1": {
+      "arm": "nopeer",
+      "round": 3,
+      "founder": "founder_1",
+      "name": "curvature_aware_precision_routing",
+      "title": "Curvature-Aware Precision Routing: Training-Free Representation Geometry for Efficient Mixed-Precision Inference"
+    },
+    "nopeer_r3_founder_2": {
+      "arm": "nopeer",
+      "round": 3,
+      "founder": "founder_2",
+      "name": "latency_aware_jacobian_skipping",
+      "title": "Latency-Aware Layer Skipping via Jacobian-Based PAC-Bayes Frameworks"
+    },
+    "nopeer_r4_founder_1": {
+      "arm": "nopeer",
+      "round": 4,
+      "founder": "founder_1",
+      "name": "spectral_precision_routing",
+      "title": "Deterministic Spectral Estimators for Training-Free Precision Routing in Neural Networks"
+    },
+    "nopeer_r4_founder_2": {
+      "arm": "nopeer",
+      "round": 4,
+      "founder": "founder_2",
+      "name": "pac_bayes_latency_aware_inference",
+      "title": "PAC-Bayes Framework for Training-Free Latency-Aware Inference"
+    },
+    "nopeer_r5_founder_1": {
+      "arm": "nopeer",
+      "round": 5,
+      "founder": "founder_1",
+      "name": "curvature_aware_sparse_attention",
+      "title": "Curvature-Aware Sparse Attention for Efficient and Stable Video Generation"
+    },
+    "nopeer_r5_founder_2": {
+      "arm": "nopeer",
+      "round": 5,
+      "founder": "founder_2",
+      "name": "latency-aware_pac-bayes_inference",
+      "title": "PAC-Bayes Meets Latency-Aware Inference: A Jacobian-Based Layer-Skipping Framework"
+    },
+    "peer_r1_founder_1": {
+      "arm": "peer",
+      "round": 1,
+      "founder": "founder_1",
+      "name": "precision_interference_unification",
+      "title": "Unified Precision Allocation and Geometric Interference Cancellation for Robust Inference"
+    },
+    "peer_r1_founder_2": {
+      "arm": "peer",
+      "round": 1,
+      "founder": "founder_2",
+      "name": "dynamic_geometry_routing",
+      "title": "Dynamic Geometry Routing: Training-Free Latency-Aware Inference via Input Geometry Adaptation"
+    },
+    "peer_r2_founder_1": {
+      "arm": "peer",
+      "round": 2,
+      "founder": "founder_1",
+      "name": "curvature_aware_precision_routing",
+      "title": "Curvature-Aware Precision Routing: Training-Free Mixed-Precision Inference via Geometric Stability Diagnostics"
+    },
+    "peer_r2_founder_2": {
+      "arm": "peer",
+      "round": 2,
+      "founder": "founder_2",
+      "name": "dynamic_spectral_alignment_inference",
+      "title": "Dynamic Spectral Alignment for Latency-Aware Inference in Neural Networks"
+    },
+    "peer_r3_founder_1": {
+      "arm": "peer",
+      "round": 3,
+      "founder": "founder_1",
+      "name": "curvature-aware_precision_routing",
+      "title": "Curvature-Aware Precision Routing via Deterministic Spectral Proxies"
+    },
+    "peer_r3_founder_2": {
+      "arm": "peer",
+      "round": 3,
+      "founder": "founder_2",
+      "name": "spectral_latent_steering",
+      "title": "Spectral Latent Steering: Zero-Training Test-Time Optimization via Norm-Preserving Subspace Projection"
+    },
+    "peer_r4_founder_1": {
+      "arm": "peer",
+      "round": 4,
+      "founder": "founder_1",
+      "name": "curvature_aware_precision_routing",
+      "title": "Curvature-Aware Precision Routing via Deterministic Optimization Proxies"
+    },
+    "peer_r4_founder_2": {
+      "arm": "peer",
+      "round": 4,
+      "founder": "founder_2",
+      "name": "latency-aware_training-free_inference_via_spectral_stability",
+      "title": "Latency-Aware Training-Free Inference via Spectral Stability Diagnostics"
+    },
+    "peer_r5_founder_1": {
+      "arm": "peer",
+      "round": 5,
+      "founder": "founder_1",
+      "name": "curvature_aware_precision_routing",
+      "title": "Curvature-Aware Precision Routing via Spectral Subspace Diagnostics"
+    },
+    "peer_r5_founder_2": {
+      "arm": "peer",
+      "round": 5,
+      "founder": "founder_2",
+      "name": "unified_spectral_compute_throttling",
+      "title": "Unified Spectral Compute Throttling: Training-Free Latency Optimization via Multi-Modal Activation Geometry"
+    }
+  }
+}

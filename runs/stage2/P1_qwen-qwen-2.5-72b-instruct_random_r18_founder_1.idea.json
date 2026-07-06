@@ -1,0 +1,20 @@
+{
+  "Name": "optimizedkernelstransformers",
+  "Title": "Optimizing Transformer Kernels for Efficient Inference on Commodity GPUs",
+  "Short Hypothesis": "By optimizing the CUDA/Triton kernels for key operations in transformer models, we can achieve significant speedups in inference latency and throughput without compromising accuracy. This proposal focuses on fine-grained kernel-level optimizations for attention, feedforward, and normalization layers, specifically tailored to leverage the memory and compute capabilities of commodity GPUs.",
+  "Related Work": "Recent works such as FastFold, HLX, and FlashRNN have focused on optimizing transformer models for specific tasks and hardware configurations. FastFold introduces dynamic axial parallelism and optimized kernels for AlphaFold, while HLX proposes a unified pipelined architecture for hybrid transformer-Mamba models. FlashRNN optimizes traditional RNNs for modern GPUs. However, none of these works provide a comprehensive, fine-grained approach to optimizing transformer kernels specifically for commodity GPUs, which are widely used in practical deployments.",
+  "Abstract": "Transformer models have revolutionized natural language processing but come with significant computational and memory demands. This proposal aims to optimize CUDA/Triton kernels for key operations in transformer models to achieve significant speedups in inference latency and throughput on commodity GPUs. We focus on optimizing attention, feedforward, and normalization layers, leveraging hardware-specific optimizations such as coalesced memory access, reduced HBM round-trips, and better register allocation. Our approach involves fine-grained profiling and autotuning to identify and implement the most effective kernel optimizations. We validate our methods through A/B latency races under fixed accuracy budgets, reporting p50/p99 latency, throughput under batching, and energy per token. Our results demonstrate substantial performance improvements, making transformer models more deployable on commodity hardware.",
+  "Experiments": [
+    "1. **Profiling and Baseline Measurement**: Use nvprof and Nsight to profile the current CUDA/Triton kernels for attention, feedforward, and normalization layers in a transformer model. Establish a baseline for latency, throughput, and energy consumption.",
+    "2. **Kernel Optimization**: Develop and implement optimized CUDA/Triton kernels for each of the key operations. Focus on coalesced memory access, reduced HBM round-trips, and better register allocation. Use autotuning to find the best tile sizes, block sizes, and other parameters for each kernel.",
+    "3. **A/B Latency Races**: Conduct A/B latency races between the optimized and baseline kernels under fixed accuracy budgets. Measure p50/p99 latency, throughput under batching, and energy per token. Ensure that the accuracy remains within acceptable bounds.",
+    "4. **Scalability and Generalization**: Test the optimized kernels on different sequence lengths, batch sizes, and model sizes. Evaluate the generalizability of the optimizations across various transformer models, including BERT, RoBERTa, and GPT-2.",
+    "5. **Hardware-Faithful Evaluation**: Run experiments on multiple commodity GPUs with different driver versions to ensure the robustness of the optimizations. Report variance across runs as measured jitter, not derived confidence intervals."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Overfitting to Specific Hardware**: The optimizations may be highly tuned to a specific GPU model and may not generalize well to other hardware configurations.",
+    "2. **Complexity of Autotuning**: The autotuning process for finding optimal kernel parameters can be computationally expensive and time-consuming.",
+    "3. **Maintenance and Reproducibility**: Ensuring that the optimized kernels remain effective and reproducible across different driver versions and hardware updates is a challenge.",
+    "4. **Trade-offs Between Speed and Accuracy**: Some optimizations may introduce small accuracy losses, which need to be carefully balanced against performance gains."
+  ]
+}

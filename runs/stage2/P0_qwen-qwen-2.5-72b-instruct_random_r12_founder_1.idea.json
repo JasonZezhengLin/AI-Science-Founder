@@ -1,0 +1,21 @@
+{
+  "Name": "CurvatureAwareMixedPrecision",
+  "Title": "Curvature-Aware Mixed Precision Quantization for Efficient Training of Large Models",
+  "Short Hypothesis": "We hypothesize that a curvature-aware mixed precision quantization framework can significantly improve the accuracy-complexity trade-off for large models, particularly by leveraging geometric diagnostics to dynamically adjust precision levels during training.",
+  "Related Work": "Recent works such as EMQ [1], SNIP [2], and PTQTP [5] have explored various aspects of mixed precision quantization, including training-free proxies and adaptive precision allocation. However, these methods often lack a formal understanding of the geometric properties of the model's loss landscape. Our proposal builds on these by incorporating curvature-aware diagnostics to ensure that precision adjustments are made in regions of the loss landscape that are most critical for model accuracy.",
+  "Abstract": "Mixed-Precision Quantization (MPQ) is a promising technique for reducing the computational and memory requirements of large models while maintaining high accuracy. However, existing methods often rely on heuristic-based approaches or training-free proxies that do not fully capture the geometric properties of the model's loss landscape. In this work, we propose a curvature-aware mixed precision quantization framework that dynamically adjusts precision levels based on the curvature of the loss function. By leveraging geometric diagnostics such as Hessian conditioning and gradient covariance decay, our approach ensures that critical regions of the loss landscape are preserved with higher precision. We validate our method on a range of large models, demonstrating significant improvements in accuracy-complexity trade-offs compared to state-of-the-art methods. Our approach is designed to be computationally efficient and can be implemented on a single GPU, making it suitable for resource-constrained environments.",
+  "Experiments": [
+    "Evaluate the curvature-aware framework on a variety of large models, including ResNet, Vision Transformers, and large language models.",
+    "Compare the accuracy and computational efficiency of our method against existing state-of-the-art mixed precision quantization techniques, such as EMQ, SNIP, and PTQTP.",
+    "Conduct ablation studies to analyze the impact of different curvature diagnostics (e.g., Hessian conditioning, gradient covariance decay) on the performance of the model.",
+    "Perform systematic ablation protocols to isolate the contributions of each component of the curvature-aware framework.",
+    "Quantify the computational overhead of the curvature-aware diagnostics and ensure that the method remains feasible on a single GPU.",
+    "Use PAC-Bayes generalization bounds to formally verify the stability and generalization performance of the proposed method."
+  ],
+  "Risk Factors and Limitations": [
+    "The curvature diagnostics may be computationally expensive, potentially limiting the scalability of the method to very large models.",
+    "The method relies on the assumption that the curvature of the loss landscape is a reliable indicator of the importance of different regions, which may not always hold in practice.",
+    "The proposed framework may require careful tuning of hyperparameters to achieve optimal performance, which could be a barrier to adoption.",
+    "The method may not be as effective for models with highly non-convex loss landscapes, where the curvature may not accurately reflect the importance of different regions."
+  ]
+}

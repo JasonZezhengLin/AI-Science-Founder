@@ -1,0 +1,20 @@
+{
+  "Name": "curvature_interference_unification",
+  "Title": "Curvature-Aware Precision Routing Meets Geometric Interference Cancellation: A Training-Free Framework for Robust Inference",
+  "Short Hypothesis": "The curvature of the loss landscape and the geometric interference of activations jointly determine optimal precision allocation, enabling a unified training-free framework that maximizes inference robustness and efficiency under strict latency budgets.",
+  "Related Work": "Existing work has explored curvature-aware precision routing (e.g., Spectral Quantization Routing) and geometric interference cancellation (e.g., Training-Free Geometric Interference Cancellation) as separate problems. However, these approaches ignore the interplay between numerical precision and geometric stability. Our proposal unifies these ideas by formalizing how curvature diagnostics and interference cancellation interact, providing a mathematically transparent framework for joint optimization.",
+  "Abstract": "We propose a training-free framework that unifies curvature-aware precision routing with geometric interference cancellation to maximize inference robustness and efficiency. We hypothesize that the curvature of the loss landscape and the geometric interference of activations jointly determine optimal precision allocation. Specifically, we leverage curvature diagnostics (e.g., Hessian condition numbers) to identify precision-sensitive regions of the inference pathway, while using geometric interference cancellation (e.g., generalized eigen-projections) to isolate task-relevant subspaces. By combining these insights into a unified routing protocol, we dynamically allocate numerical precision based on both curvature stability and interference severity. We theoretically ground our approach with PAC-Bayes bounds linking curvature and interference to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS and adversarial ICL benchmarks, our framework achieves a superior throughput-accuracy Pareto frontier compared to existing precision routing and interference cancellation baselines. This work bridges foundational optimization theory with practical inference constraints, offering a reproducible, zero-training pathway to robust and efficient deployment.",
+  "Experiments": [
+    "Benchmark performance: Evaluate on WILDS and adversarial ICL benchmarks, comparing throughput, accuracy, and robustness to distributional shifts.",
+    "Curvature diagnostics: Measure Hessian condition numbers and curvature radii across precision-sensitive regions, validating their correlation with precision allocation decisions.",
+    "Interference cancellation: Quantify geometric interference severity using generalized eigen-projections, assessing its impact on task-relevant subspace isolation.",
+    "Joint optimization: Compare unified routing performance against baselines that treat curvature and interference as separate problems, using accuracy, latency, and robustness as metrics.",
+    "Theoretical validation: Verify PAC-Bayes bounds linking curvature and interference to generalization stability under quantization noise."
+  ],
+  "Risk Factors and Limitations": [
+    "Curvature diagnostics may introduce computational overhead, potentially offsetting latency gains from precision routing.",
+    "The unified framework assumes linear separability of task signals and interference, which may not hold in highly nonlinear settings.",
+    "Generalization to larger models and diverse architectures requires further validation.",
+    "Theoretical bounds rely on simplifying assumptions that may not fully capture real-world complexity."
+  ]
+}

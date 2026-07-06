@@ -1,0 +1,18 @@
+{
+  "Name": "spectral_layer_skipping",
+  "Title": "Spectral Layer Skipping: Training-Free Latency Optimization via Jacobian Spectral Decay",
+  "Short Hypothesis": "The spectral decay rate of layer-wise Jacobians provides a robust proxy for layer importance, enabling training-free, latency-aware layer skipping without significant accuracy degradation.",
+  "Related Work": "Existing layer-skipping methods (e.g., DySL-VLA, DASH) rely on dynamic policies or training-intensive mechanisms, introducing overhead and complexity. Our approach differs by using spectral properties of Jacobians, which are computationally lightweight and training-free. This avoids the need for heuristic policies or complex decision-making frameworks, making it more practical for resource-constrained settings.",
+  "Abstract": "We propose Spectral Layer Skipping (SLS), a training-free framework for latency-aware inference that leverages the spectral decay rate of layer-wise Jacobians to determine layer importance. By analyzing the Jacobian spectra, SLS identifies layers with minimal impact on the final output and skips them, reducing computational overhead without significant accuracy degradation. Unlike existing methods that rely on dynamic policies or training-intensive mechanisms, SLS uses lightweight spectral diagnostics computed on-the-fly. We theoretically ground SLS in PAC-Bayes bounds, linking spectral decay to generalization stability under layer skipping. Experiments on vision and language models demonstrate that SLS achieves a superior throughput-accuracy Pareto frontier compared to training-intensive baselines, offering a transparent and reproducible pathway for resource-efficient inference.",
+  "Experiments": [
+    "Evaluate SLS on vision (ResNet, Vision Transformers) and language (BERT, GPT) models, comparing throughput and accuracy against training-intensive baselines (DySL-VLA, DASH).",
+    "Measure spectral decay rates of layer-wise Jacobians using randomized SVD and map them to skipping policies.",
+    "Validate theoretical PAC-Bayes bounds by quantifying the relationship between spectral decay and generalization stability under skipping.",
+    "Benchmark latency reduction and accuracy trade-offs on standard datasets (CIFAR-10, GLUE, WILDS)."
+  ],
+  "Risk Factors and Limitations": [
+    "Spectral diagnostics may introduce overhead for very deep models, though randomized SVD mitigates this.",
+    "The approach assumes that spectral decay is a reliable proxy for layer importance, which may not hold for all architectures.",
+    "Potential accuracy degradation in tasks requiring fine-grained layer interactions."
+  ]
+}

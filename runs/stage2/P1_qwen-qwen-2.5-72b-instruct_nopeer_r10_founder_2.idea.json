@@ -1,0 +1,21 @@
+{
+  "Name": "RateDistortionForAdversarialPerturbations",
+  "Title": "Rate-Distortion Theory for Adversarial Perturbations in Deep Learning",
+  "Short Hypothesis": "Can we derive and empirically validate rate-distortion bounds for the compressibility of deep neural networks under adversarial perturbations, and how do these bounds relate to the model's robustness and generalization?",
+  "Related Work": "Recent works have explored the relationship between model compression and generalization (e.g., Sefidgaran et al., 2022) and the rate-distortion-perception trade-off (e.g., Niu et al., 2025). However, there is a gap in understanding how adversarial perturbations affect the compressibility and robustness of deep models. This proposal aims to bridge this gap by formulating an information-theoretic framework for adversarial perturbations.",
+  "Abstract": "This research proposes an information-theoretic approach to understand the compressibility and robustness of deep neural networks under adversarial perturbations. By framing adversarial attacks as a form of distortion, we derive rate-distortion bounds that quantify the trade-off between model compression and adversarial robustness. We hypothesize that models with better rate-distortion performance under adversarial perturbations will generalize better and be more robust. Our approach involves developing new estimators for the mutual information between the model's parameters and the adversarial perturbations, and validating these bounds through empirical experiments on standard datasets and architectures. This work aims to provide a theoretical foundation for designing more robust and efficient deep learning models.",
+  "Experiments": [
+    "Develop a theoretical framework to define the rate-distortion function for adversarial perturbations, incorporating mutual information and entropy measures.",
+    "Design an adversarial perturbation model and derive the corresponding rate-distortion bounds for different types of attacks (e.g., L2, L∞).",
+    "Implement the derived bounds in a set of experiments using popular deep learning architectures (e.g., ResNet, VGG) and datasets (e.g., CIFAR-10, ImageNet).",
+    "Evaluate the compressibility of the models under adversarial perturbations using metrics such as bits-per-weight and empirical distortion.",
+    "Compare the rate-distortion performance of compressed models with and without adversarial training to assess the impact on robustness and generalization.",
+    "Perform ablation studies to understand the contribution of different components of the rate-distortion framework to the overall performance."
+  ],
+  "Risk Factors and Limitations": [
+    "The theoretical framework may be complex and require advanced mathematical tools, potentially limiting the scope of the analysis.",
+    "Empirical validation may be challenging due to the computational cost of training and evaluating large models under adversarial attacks.",
+    "The derived bounds may not always be tight, leading to conservative estimates of the rate-distortion trade-off.",
+    "Generalization to other types of perturbations (e.g., non-adversarial noise) may require additional assumptions and modifications to the framework."
+  ]
+}

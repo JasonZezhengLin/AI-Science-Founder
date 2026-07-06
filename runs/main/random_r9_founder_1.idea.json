@@ -1,0 +1,34 @@
+{
+  "Name": "spectral_curvature_quantization",
+  "Title": "Spectral Curvature Diagnostics for Training-Free Mixed-Precision Quantization",
+  "Short Hypothesis": "The spectral curvature of weight matrices, quantified through Hessian conditioning and gradient covariance, provides a deterministic proxy for precision allocation in mixed-precision quantization, enabling training-free optimization without heuristic proxies or calibration data.",
+  "Related Work": "Existing mixed-precision quantization methods, such as EMQ and AMP-ViT, rely on heuristic proxies or calibration data, which lack theoretical grounding. Recent work like ResQ explores spectral subspaces but focuses on outlier suppression rather than curvature diagnostics. This proposal distinguishes itself by formalizing precision allocation through spectral curvature analysis, providing a mathematically transparent and deterministic framework.",
+  "Abstract": "Mixed-precision quantization (MPQ) offers a promising trade-off between model efficiency and accuracy but often relies on heuristic proxies or calibration data, limiting its theoretical transparency and generalizability. This paper introduces a training-free framework for MPQ based on spectral curvature diagnostics. By analyzing the Hessian conditioning and gradient covariance of weight matrices, we derive deterministic proxies for precision allocation that quantify the sensitivity of each layer to quantization error. Our approach replaces heuristic fragility claims with formalized stability radii and explicit condition number constraints, ensuring numerical stability and architectural coherence. Experiments on ResNet and Vision Transformer architectures demonstrate that our framework achieves competitive accuracy-complexity trade-offs while maintaining strict computational overhead bounds. This work bridges foundational optimization theory with practical MPQ deployment, offering a resource-efficient and mathematically transparent solution for single-GPU validation.",
+  "Experiments": [
+    {
+      "Description": "Quantify Hessian conditioning and gradient covariance for each layer in ResNet-18 and Vision Transformer models.",
+      "Method": "Compute the spectral norm of the Hessian matrix and the covariance matrix of gradients using singular value decomposition (SVD).",
+      "Metrics": "Condition number, gradient variance."
+    },
+    {
+      "Description": "Derive precision allocation schemes based on curvature diagnostics.",
+      "Method": "Assign higher precision (e.g., FP16) to layers with high condition numbers and gradient variance, and lower precision (e.g., INT8) to layers with low curvature.",
+      "Metrics": "Bit-width allocation, quantization error."
+    },
+    {
+      "Description": "Evaluate the impact of curvature-aware precision allocation on model accuracy and efficiency.",
+      "Method": "Compare accuracy and inference speed against baseline MPQ methods (e.g., EMQ, AMP-ViT) on ImageNet.",
+      "Metrics": "Top-1 accuracy, FLOPs, memory footprint."
+    },
+    {
+      "Description": "Validate numerical stability and robustness to perturbations.",
+      "Method": "Introduce bounded perturbations to weight matrices and measure the change in model output.",
+      "Metrics": "Output variance, stability radius."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "Spectral curvature diagnostics may incur computational overhead for large models due to SVD complexity.",
+    "The framework assumes deterministic execution pathways, which may not generalize to all hardware architectures.",
+    "The method relies on pre-trained models, limiting applicability to scenarios where training data is unavailable."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "Name": "spectral_decay_layer_skipping",
+  "Title": "Spectral Decay-Driven Layer Skipping for Latency-Aware Inference",
+  "Short Hypothesis": "The spectral decay rate of hidden state activations serves as a robust proxy for layer redundancy, enabling training-free, latency-aware layer skipping without sacrificing model accuracy.",
+  "Related Work": "Existing methods for latency-aware inference include token pruning (SAINT), layer skipping (LiteStage), and quantization (RAS-MQ). These approaches often rely on heuristic or static strategies. Spectral Quantization Routing (SQR) and Geometric Signal Separation explore geometric properties but focus on precision allocation and noise filtering, respectively. Our proposal uniquely leverages spectral decay to dynamically skip layers, offering a mathematically grounded and computationally frugal alternative.",
+  "Abstract": "Latency-aware inference is critical for deploying large models in resource-constrained environments. While layer skipping offers a promising solution, existing methods often rely on heuristic or static strategies, limiting their adaptability. We hypothesize that the spectral decay rate of hidden state activations serves as a robust proxy for layer redundancy, enabling training-free, latency-aware layer skipping. We propose Spectral Decay-Driven Layer Skipping (SDLS), a framework that computes the spectral decay rate of hidden states on-the-fly using randomized SVD and skips layers when the decay exceeds a calibrated threshold. We ground SDLS in PAC-Bayes theory, linking spectral decay to generalization stability under layer omission. Evaluated on single-GPU setups across language modeling and vision benchmarks, SDLS achieves a superior throughput-accuracy Pareto frontier compared to heuristic layer skipping baselines. By replacing qualitative redundancy claims with formalized spectral diagnostics, SDLS provides a transparent, reproducible pathway for efficient inference.",
+  "Experiments": [
+    "Evaluate SDLS on language modeling (GPT-2, LLaMA) and vision (ViT, ResNet) benchmarks under varying latency budgets.",
+    "Compare SDLS to heuristic layer skipping baselines (e.g., LiteStage) in terms of throughput, accuracy, and memory usage.",
+    "Analyze the correlation between spectral decay rate and layer redundancy by ablating skipped layers and measuring accuracy impact.",
+    "Validate the PAC-Bayes bounds by measuring generalization stability under controlled perturbations.",
+    "Measure computational overhead of randomized SVD and its impact on latency."
+  ],
+  "Risk Factors and Limitations": [
+    "Randomized SVD may introduce computational overhead, offsetting latency gains.",
+    "Spectral decay thresholds may require dataset-specific calibration.",
+    "The framework may not generalize well to architectures with non-linear hidden state dynamics.",
+    "Dynamic layer skipping could introduce instability in multi-stage reasoning tasks."
+  ]
+}

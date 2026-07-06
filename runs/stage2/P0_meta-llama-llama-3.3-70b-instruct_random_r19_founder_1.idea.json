@@ -1,0 +1,17 @@
+{
+  "Name": "curvature_aware_routing",
+  "Title": "Curvature-Aware Precision Routing for Efficient Mixed-Precision Quantization",
+  "Short Hypothesis": "By leveraging curvature-aware precision routing, we can efficiently optimize mixed-precision quantization for deep neural networks, leading to improved accuracy and reduced computational overhead.",
+  "Related Work": "Recent works such as EMQ, SNIP, and AMP-ViT have explored mixed-precision quantization, but they often rely on heuristic-based methods or require significant computational overhead. Our approach builds upon these works by introducing a curvature-aware precision routing framework that provides a more efficient and effective way to optimize mixed-precision quantization.",
+  "Abstract": "Mixed-precision quantization has become a crucial technique for efficient deep learning computations. However, existing methods often rely on heuristic-based approaches or require significant computational overhead. In this work, we propose a curvature-aware precision routing framework that efficiently optimizes mixed-precision quantization for deep neural networks. Our approach leverages curvature-aware diagnostics to identify the most critical layers and parameters, and then applies precision routing to minimize computational overhead while maintaining accuracy. We demonstrate the effectiveness of our approach on various benchmarks, achieving significant improvements in accuracy and efficiency compared to state-of-the-art methods.",
+  "Experiments": [
+    "Evaluate the proposed curvature-aware precision routing framework on various deep neural network architectures, including ResNet and MobileNet",
+    "Compare the performance of our approach with state-of-the-art mixed-precision quantization methods, such as EMQ and SNIP",
+    "Investigate the impact of curvature-aware diagnostics on the precision routing process, and analyze the trade-off between accuracy and computational overhead"
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed framework may require significant modifications to existing deep learning architectures and training pipelines",
+    "The effectiveness of curvature-aware diagnostics may depend on the specific characteristics of the neural network and the dataset",
+    "The approach may not be applicable to all types of deep learning models, such as recurrent neural networks or transformers"
+  ]
+}

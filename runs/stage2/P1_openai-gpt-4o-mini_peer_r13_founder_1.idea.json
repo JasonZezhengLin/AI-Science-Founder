@@ -1,0 +1,14 @@
+{
+  "Name": "kernel_dynamics_optimization",
+  "Title": "Dynamic Kernel Profiling for Adaptive Memory Allocation in GPU Inference",
+  "Short Hypothesis": "Dynamic memory allocation strategies informed by real-time kernel profiling can significantly reduce GPU memory overhead and latency during inference, compared to static allocation strategies.",
+  "Related Work": "Existing work, such as KRISP, has focused on model-wise right-sizing for spatially partitioned GPU inference. However, our approach emphasizes dynamic kernel profiling to inform memory allocation at the kernel level, which is underexplored. While Astra and AutoKernel leverage LLMs for optimization, we instead directly analyze performance metrics to adaptively adjust memory allocation, seeking immediate empirical gains.",
+  "Abstract": "High-performance inference on GPUs often suffers from inefficient memory management, resulting in increased latency and resource underutilization. In this proposal, we introduce a framework that employs dynamic kernel profiling to inform adaptive memory allocation strategies for GPU inference. By continuously measuring key performance indicators (KPIs) such as occupancy, memory bandwidth utilization, and execution latency during kernel execution, our system adjusts memory allocation on-the-fly to optimize performance based on the specific needs of the running kernel. This approach departs from static allocation strategies that do not account for the dynamic nature of inference workloads. We hypothesize that by leveraging real-time profiling data, we can significantly reduce memory overhead and improve inference latency. We will evaluate our framework on a variety of language model inference tasks, comparing against baseline static allocation methods to quantify improvements in throughput and energy efficiency.",
+  "Experiments": [
+    "1. Implement the dynamic profiling system to gather real-time metrics (occupancy, memory bandwidth, execution latency) during kernel execution.",
+    "2. Develop adaptive memory allocation algorithms that utilize real-time profiling data to determine kernel-specific memory allocation.",
+    "3. Conduct A/B testing comparing our dynamic allocation strategy against a baseline static allocation strategy across multiple GPU inference tasks.",
+    "4. Measure metrics such as p50/p99 latency, throughput (tokens per second), and energy per inference."
+  ],
+  "Risk Factors and Limitations": "Potential risks include the overhead introduced by continuous profiling, which may offset the benefits gained from dynamic allocation. Additionally, the effectiveness of the approach may vary depending on the specific characteristics of the inference workloads. We will continuously monitor and analyze profiling overhead to ensure a net positive gain in performance."
+}

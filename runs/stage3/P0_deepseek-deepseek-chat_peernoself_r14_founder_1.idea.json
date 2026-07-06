@@ -1,0 +1,20 @@
+{
+  "Name": "curvature-aware_precision_routing",
+  "Title": "Curvature-Aware Precision Routing: Training-Free Optimization via Spectral Subspace Diagnostics",
+  "Short Hypothesis": "By restricting precision routing to a low-rank, curvature-aware subspace identified through spectral diagnostics, we can achieve deterministic, training-free optimization with bounded computational overhead and formal stability guarantees.",
+  "Related Work": "Existing methods for test-time optimization, such as Spectral Latent Steering (SLS), focus on norm-preserving subspace projection but lack explicit curvature-awareness and formal stability radii. Our proposal extends these ideas by integrating Hessian conditioning and gradient covariance decay into a deterministic routing protocol, ensuring numerical stability and computational frugality.",
+  "Abstract": "We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that leverages spectral subspace diagnostics to optimize precision routing in neural networks. CAPR identifies a low-rank subspace through a single-pass PCA of initial layer activations, focusing on dominant spectral directions that govern gradient covariance decay and Hessian conditioning. Subsequent precision adjustments are projected onto this subspace, ensuring bounded computational overhead and numerical stability. We formalize stability radii and condition number constraints, providing explicit guarantees for optimization robustness. Empirically, we validate CAPR on mathematical reasoning and code generation tasks, demonstrating that it matches or exceeds full-precision baselines while reducing perturbation overhead by over 70%. CAPR bridges foundational optimization theory with practical, scalable inference, offering a reproducible path to efficient test-time scaling.",
+  "Experiments": [
+    "Single-pass PCA on initial layer activations to identify the dominant spectral subspace.",
+    "Project precision adjustments onto the identified subspace and evaluate optimization performance on mathematical reasoning and code generation tasks.",
+    "Quantify gradient covariance decay and Hessian conditioning to formalize stability radii and condition number constraints.",
+    "Compare CAPR against full-precision baselines and existing subspace projection methods like SLS, measuring task performance, perturbation overhead, and computational efficiency.",
+    "Perform multi-seed variance quantification and systematic ablation studies to ensure robustness and reproducibility."
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed framework relies on a single-pass PCA, which may not capture all relevant spectral directions in highly complex models.",
+    "Formalizing stability radii and condition number constraints may introduce additional computational overhead.",
+    "The effectiveness of CAPR may vary across different tasks and architectures, requiring task-specific tuning.",
+    "The deterministic nature of the framework may limit adaptability to dynamic optimization landscapes."
+  ]
+}

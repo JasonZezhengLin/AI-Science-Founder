@@ -1,0 +1,20 @@
+{
+  "Name": "spectral_routing_mixed_precision",
+  "Title": "Spectral Routing: Training-Free Mixed Precision Quantization via Deterministic Spectral Probes",
+  "Short Hypothesis": "Deterministic spectral estimators can enable training-free mixed precision quantization by accurately predicting layer-wise bit-width configurations based on spectral decay rates, replacing heuristic proxies with mathematically grounded criteria.",
+  "Related Work": "Existing training-free mixed precision quantization methods (e.g., EMQ, SNIP) rely on heuristic proxies that lack theoretical grounding and exhibit weak correlations with quantization accuracy. AlphaQ introduces calibration-free bit allocation but focuses on MoE architectures. This proposal distinguishes itself by leveraging deterministic spectral estimators to predict bit-widths based on formal spectral decay rates, providing a mathematically transparent and empirically validated approach.",
+  "Abstract": "Mixed precision quantization (MQ) offers a promising balance between model efficiency and accuracy, but existing training-free methods rely on heuristic proxies that lack theoretical grounding. We propose Spectral Routing, a novel framework that leverages deterministic spectral estimators to predict layer-wise bit-width configurations based on spectral decay rates. Our approach replaces heuristic proxies with mathematically grounded criteria, enabling training-free MQ with explicit stability guarantees. We introduce spectral decay rate as a formal metric for layer-wise sensitivity to quantization, and we develop a deterministic routing protocol that optimizes bit-width allocation under a global bit-budget constraint. Experiments on vision transformers and convolutional networks demonstrate that Spectral Routing outperforms state-of-the-art training-free methods in accuracy-efficiency trade-offs, while maintaining strict computational overhead bounds and numerical stability. This work bridges foundational optimization theory with deployment constraints, offering a scalable and mathematically transparent solution for mixed precision quantization.",
+  "Experiments": [
+    "Evaluate spectral decay rates for each layer in Vision Transformers (ViTs) and ResNet architectures using deterministic spectral estimators.",
+    "Develop a spectral routing protocol that maps spectral decay rates to bit-width configurations under a global bit-budget constraint.",
+    "Compare Spectral Routing against state-of-the-art training-free methods (EMQ, SNIP) on ImageNet classification tasks using ViT-Base and ResNet-50.",
+    "Measure numerical stability metrics (e.g., condition number, gradient covariance decay) to validate the robustness of Spectral Routing.",
+    "Conduct ablation studies to isolate the impact of spectral decay rates on bit-width allocation and model accuracy."
+  ],
+  "Risk Factors and Limitations": [
+    "Spectral decay rates may not generalize well to all architectures, particularly those with non-standard layer structures.",
+    "Deterministic spectral estimators may introduce computational overhead that offsets the efficiency gains from mixed precision quantization.",
+    "The global bit-budget constraint may limit the flexibility of bit-width allocation in highly heterogeneous architectures.",
+    "Empirical validation is limited to vision tasks; further testing on NLP models is required to assess broader applicability."
+  ]
+}

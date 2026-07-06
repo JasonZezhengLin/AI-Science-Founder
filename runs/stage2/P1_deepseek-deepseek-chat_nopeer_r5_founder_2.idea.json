@@ -1,0 +1,18 @@
+{
+  "Name": "task-aware_model_compression",
+  "Title": "Task-Aware Model Compression: Preserving Task-Relevant Information at Minimal Bit-Cost",
+  "Short Hypothesis": "The bit-cost of compressing a model while preserving task-relevant performance is fundamentally governed by the mutual information between the model's representations and the task, and this can be optimized through a rate-distortion framework.",
+  "Related Work": "Existing model compression methods (e.g., quantization, pruning, distillation) focus on minimizing distortion or preserving overall model performance. Recent work (e.g., InfoCL, TexShape) has begun exploring task-relevant information preservation but lacks a unifying theoretical framework. This proposal bridges this gap by introducing a general information-theoretic framework for task-aware compression.",
+  "Abstract": "Model compression is crucial for deploying machine learning models on resource-constrained devices. However, existing methods often optimize for overall performance or distortion rather than explicitly preserving task-relevant information. We propose a novel framework for task-aware model compression that minimizes the bit-cost of a model while preserving its task-relevant mutual information. Our approach builds on rate-distortion theory, where the distortion measure is defined as the loss of task-relevant information. We derive achievability and converse bounds on the bit-cost of preserving this information and propose practical algorithms that optimize for these bounds. Experiments on image classification and natural language processing tasks demonstrate that our framework achieves superior compression-performance trade-offs compared to existing methods. Our results provide a theoretical foundation for task-aware compression and highlight the importance of explicitly optimizing for task-relevant information.",
+  "Experiments": [
+    "Derive achievability and converse bounds on the bit-cost of preserving task-relevant mutual information for a toy model (e.g., linear regression).",
+    "Implement a practical algorithm for task-aware compression using mutual information estimators (e.g., InfoNCE) and evaluate it on image classification (CIFAR-10) and NLP (GLUE) tasks.",
+    "Compare the compression-performance trade-off of our method to baseline methods (e.g., quantization, pruning, distillation) using metrics like bits-per-weight, task accuracy, and task-relevant mutual information.",
+    "Analyze the relationship between task complexity (e.g., entropy of labels) and the optimal bit-cost of compression."
+  ],
+  "Risk Factors and Limitations": [
+    "Estimating mutual information in high-dimensional spaces is challenging and may introduce bias or variance.",
+    "The framework assumes access to task-relevant labels during compression, which may not always be available.",
+    "The theoretical bounds may be loose in practice, limiting their practical utility."
+  ]
+}

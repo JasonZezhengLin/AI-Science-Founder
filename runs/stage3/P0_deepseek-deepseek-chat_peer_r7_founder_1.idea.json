@@ -1,0 +1,18 @@
+{
+  "Name": "curvature-aware_sparse_attention",
+  "Title": "Curvature-Aware Sparse Attention for Deterministic, Low-Overhead Inference",
+  "Short Hypothesis": "The curvature of attention score trajectories can serve as a deterministic proxy for precision allocation in sparse attention mechanisms, enabling low-overhead inference without heuristic control.",
+  "Related Work": "Existing sparse attention methods rely on heuristic sparsity patterns or stochastic routing, leading to unpredictable latency and visual artifacts (e.g., flickering in video generation). Recent work on curvature-aware optimization proxies (e.g., Spectral Quantization Routing) suggests that geometric diagnostics can replace heuristic controls, but these have not been applied to attention mechanisms. Our proposal distinguishes itself by leveraging curvature-aware deterministic proxies to allocate precision dynamically, ensuring strict latency bounds and eliminating stochastic artifacts.",
+  "Abstract": "Sparse attention mechanisms offer significant computational savings but suffer from unpredictable latency and visual artifacts due to heuristic sparsity patterns and stochastic routing. We propose Curvature-Aware Sparse Attention (CASA), a deterministic framework that leverages the curvature of attention score trajectories to allocate precision dynamically. By profiling the second-order curvature of attention scores across layers and timesteps, CASA identifies critical semantic transitions that require high-precision computation and allocates resources accordingly. We introduce a curvature-aware budgeting mechanism that enforces strict latency bounds while maintaining accuracy. Theoretical analysis links curvature to generalization stability under precision switching, providing formal guarantees on inference quality. Experiments on video generation and language modeling tasks demonstrate that CASA achieves superior throughput-accuracy trade-offs compared to heuristic baselines, eliminating visual artifacts and ensuring deterministic execution pathways.",
+  "Experiments": [
+    "Evaluate on video generation tasks using the UCF101 dataset: Measure flickering artifacts (via temporal stability metrics) and throughput-accuracy trade-offs. Compare against stochastic sparse attention baselines.",
+    "Evaluate on language modeling tasks using the WikiText-103 dataset: Measure perplexity and inference latency. Compare against static and heuristic sparse attention methods.",
+    "Profile curvature diagnostics across layers and timesteps: Validate the correlation between curvature and semantic transitions using cosine similarity of attention scores.",
+    "Ablation study: Test the impact of curvature-aware budgeting versus static budgeting on inference quality and latency."
+  ],
+  "Risk Factors and Limitations": [
+    "Curvature profiling introduces computational overhead, though we minimize this via randomized SVD approximations.",
+    "The framework assumes smooth attention score trajectories, which may not hold in all architectures or tasks.",
+    "Deterministic precision allocation may limit adaptability to highly dynamic input distributions."
+  ]
+}

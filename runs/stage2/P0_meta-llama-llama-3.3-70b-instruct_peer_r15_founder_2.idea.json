@@ -1,0 +1,16 @@
+{
+  "Name": "spectral_latency_aware_inference",
+  "Title": "Spectral Latency-Aware Inference: Training-Free Test-Time Optimization via Norm-Preserving Subspace Projection",
+  "Short Hypothesis": "We hypothesize that spectral latent steering can be used to achieve training-free test-time optimization while preserving the optimization landscape's geometry and enforcing strict computational budgets.",
+  "Related Work": "Our proposal builds upon recent works in spectral quantization routing, geometric interference cancellation, and spectral signal separation. However, our approach differs in that it focuses on training-free test-time optimization via norm-preserving subspace projection, which has not been explored in the existing literature.",
+  "Abstract": "We propose a novel approach to training-free test-time optimization, leveraging spectral latent steering to restrict test-time updates to a low-rank, norm-preserving subspace. Our method, Spectral Latency-Aware Inference (SLAI), performs a single-pass PCA on initial layer activations to identify dominant spectral directions and projects subsequent test-time updates onto this subspace. We theoretically ground SLAI in information-theoretic bounds, demonstrating that low-rank projections capture the majority of gradient-aligned signal required for reasoning improvement. Empirically, we evaluate SLAI on mathematical reasoning and code generation tasks, showing that it matches or exceeds full-space perturbation baselines while reducing hidden-state perturbation overhead and enforcing deterministic latency bounds.",
+  "Experiments": [
+    "Evaluate SLAI on mathematical reasoning tasks, comparing its performance to full-space perturbation baselines and measuring hidden-state perturbation overhead.",
+    "Assess SLAI on code generation tasks, examining its ability to enforce deterministic latency bounds and reduce computational budgets.",
+    "Investigate the effect of subspace dimensionality on SLAI's performance, exploring the trade-off between optimization landscape preservation and computational efficiency."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of SLAI may depend on the quality of the initial layer activations and the choice of subspace dimensionality.",
+    "SLAI may not be suitable for tasks that require significant changes to the optimization landscape, as the norm-preserving subspace projection may limit the extent of test-time updates."
+  ]
+}

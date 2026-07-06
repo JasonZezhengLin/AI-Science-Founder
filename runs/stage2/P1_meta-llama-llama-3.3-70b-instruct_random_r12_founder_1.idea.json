@@ -1,0 +1,18 @@
+{
+  "Name": "latency_optimized_vit",
+  "Title": "Low-Latency Vision Transformers via Hardware-Aware Quantization and Pruning",
+  "Short Hypothesis": "By leveraging hardware-aware quantization and pruning techniques, we can significantly reduce the latency of vision transformers (ViTs) on commodity GPUs without compromising their accuracy.",
+  "Related Work": "Recent works such as AMP-ViT and PackQViT have explored post-training quantization and pruning techniques for ViTs. However, these methods focus primarily on reducing memory footprint and computational complexity, rather than optimizing for latency. Our proposal builds upon these works by incorporating hardware-aware quantization and pruning techniques to minimize latency on commodity GPUs.",
+  "Abstract": "Vision transformers (ViTs) have achieved state-of-the-art performance in various computer vision tasks. However, their high computational and memory demands make them challenging to deploy on resource-constrained devices. To address this, we propose a novel framework that leverages hardware-aware quantization and pruning techniques to optimize ViTs for low-latency inference on commodity GPUs. Our approach involves quantizing ViT models using a combination of post-training quantization and knowledge distillation, as well as pruning redundant weights and activations to reduce computational complexity. We evaluate our framework on various ViT architectures and demonstrate significant reductions in latency, with minimal impact on accuracy.",
+  "Experiments": [
+    "Quantize ViT models using post-training quantization and knowledge distillation",
+    "Prune redundant weights and activations using a combination of structured and unstructured pruning techniques",
+    "Evaluate the latency and accuracy of the optimized ViT models on commodity GPUs",
+    "Compare the performance of our framework with state-of-the-art quantization and pruning methods"
+  ],
+  "Risk Factors and Limitations": [
+    "The proposed framework may not be effective for all types of ViT architectures or computer vision tasks",
+    "The quantization and pruning techniques used may introduce additional computational overhead during training",
+    "The optimized models may require additional fine-tuning to achieve optimal performance"
+  ]
+}

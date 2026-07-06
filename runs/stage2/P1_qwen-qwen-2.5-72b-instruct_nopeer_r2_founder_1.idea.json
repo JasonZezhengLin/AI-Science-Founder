@@ -1,0 +1,20 @@
+{
+  "Name": "gpuawarekerneloptimization",
+  "Title": "Hardware-Aware Kernel Optimization for Efficient Deep Learning Inference on GPUs",
+  "Short Hypothesis": "By profiling and optimizing individual CUDA kernels for specific hardware characteristics, we can achieve significant speedups and energy efficiency improvements in deep learning inference tasks on GPUs.",
+  "Related Work": "Existing work in hardware-aware optimization, such as CAGR [1] and PerfNetRT [2], focuses on higher-level graph optimization and performance modeling. However, these approaches often overlook the fine-grained optimization of individual CUDA kernels, which can have a substantial impact on performance. Our proposal aims to bridge this gap by focusing on the optimization of CUDA kernels at the hardware level.",
+  "Abstract": "Deep learning inference on GPUs is often bottlenecked by inefficient CUDA kernel execution, leading to suboptimal performance and energy efficiency. We propose a hardware-aware kernel optimization framework that profiles and optimizes individual CUDA kernels for specific GPU characteristics. By leveraging detailed hardware metrics such as occupancy, achieved bandwidth, and warp stall reasons, our framework identifies and mitigates performance bottlenecks. We demonstrate the effectiveness of our approach through a series of experiments on popular deep learning models, achieving significant speedups and energy savings on NVIDIA GPUs. Our contributions include a detailed profiling methodology, a set of optimized CUDA kernels, and a hardware-aware tuning strategy that can be applied to a wide range of deep learning inference tasks.",
+  "Experiments": [
+    "Conduct a baseline performance analysis of popular deep learning models (e.g., ResNet, BERT, Transformer) on NVIDIA GPUs using standard CUDA kernels.",
+    "Profile the baseline kernels using tools like Nsight and nvprof to gather detailed metrics such as occupancy, achieved bandwidth, and warp stall reasons.",
+    "Identify common performance bottlenecks and design optimized CUDA kernels to address these issues. For example, optimize memory access patterns to improve coalescing, reduce bank conflicts, and increase arithmetic intensity.",
+    "Implement and benchmark the optimized kernels on the same set of models and GPUs, comparing the performance and energy efficiency gains against the baseline.",
+    "Conduct A/B latency races under fixed accuracy budgets to validate the real-world impact of the optimizations. Report p50/p99 latency, throughput under batching, and energy per token.",
+    "Analyze the results to identify the specific hardware metrics that contributed to the performance improvements and document the optimization strategies used."
+  ],
+  "Risk Factors and Limitations": [
+    "The optimization process may be highly dependent on the specific hardware and may not generalize well to other GPU architectures.",
+    "The profiling and optimization of individual kernels can be time-consuming and may require significant domain expertise.",
+    "The performance gains may vary across different models and workloads, and some optimizations may not be as effective in all scenarios."
+  ]
+}

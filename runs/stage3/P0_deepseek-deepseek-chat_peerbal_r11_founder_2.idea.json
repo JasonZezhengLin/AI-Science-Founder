@@ -1,0 +1,20 @@
+{
+  "Name": "jacobian_stability_layer_skipping",
+  "Title": "Jacobian-Aware Layer Skipping for Latency-Constrained Inference",
+  "Short Hypothesis": "By using Jacobian-based stability metrics to determine layer-skipping decisions, we can minimize hidden-state perturbation while strictly adhering to latency budgets, achieving a superior throughput-accuracy trade-off compared to existing dynamic skipping methods.",
+  "Related Work": "Existing approaches like DySL-VLA and DASH focus on dynamic layer skipping based on input characteristics or task importance, but they do not explicitly consider Jacobian-based stability metrics. LiteStage introduces offline layer budget allocation but lacks a rigorous mechanism for minimizing hidden-state perturbation. Our proposal integrates Jacobian-based stability analysis into the skipping framework, ensuring minimal perturbation while enforcing latency constraints.",
+  "Abstract": "Latency-aware inference has gained attention with techniques like dynamic layer skipping, but existing methods often neglect hidden-state perturbation, leading to suboptimal accuracy-latency trade-offs. We propose Jacobian-Aware Layer Skipping (JALS), a novel framework that leverages Jacobian-based stability metrics to determine skipping decisions. By analyzing the Jacobian norm of each layer, JALS identifies layers whose skipping introduces minimal perturbation to the hidden state, ensuring stable inference. We theoretically ground JALS in spectral stability bounds, linking Jacobian norms to generalization stability under skipping. Experiments on vision and language tasks demonstrate that JALS achieves a superior throughput-accuracy Pareto frontier compared to state-of-the-art skipping methods, while strictly adhering to latency budgets. Our approach bridges the gap between theoretical stability analysis and practical latency-aware inference, offering a reproducible and transparent framework for efficient computation.",
+  "Experiments": [
+    "Evaluate JALS on vision (CIFAR-10, ImageNet) and language (GLUE, SuperGLUE) tasks, comparing it to DySL-VLA, DASH, and LiteStage in terms of accuracy, latency, and hidden-state perturbation.",
+    "Measure the Jacobian norm distribution across layers and correlate it with skipping impact on accuracy and latency.",
+    "Conduct ablation studies to assess the contribution of Jacobian-based stability metrics versus heuristic skipping policies.",
+    "Validate the theoretical bounds by measuring generalization stability under skipping-induced perturbations.",
+    "Benchmark JALS on edge devices (e.g., NVIDIA Jetson) to assess its practical feasibility in resource-constrained settings."
+  ],
+  "Risk Factors and Limitations": [
+    "Jacobian computation overhead may offset latency gains if not optimized efficiently.",
+    "The framework assumes that Jacobian norms are stable across inputs, which may not hold for highly dynamic distributions.",
+    "Integration with existing architectures may require modifications to access intermediate layer Jacobians.",
+    "Theoretical bounds may not fully capture real-world generalization behavior under skipping."
+  ]
+}

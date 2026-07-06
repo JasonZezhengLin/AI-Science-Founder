@@ -1,0 +1,21 @@
+{
+  "Name": "LatencyAwareAdaptiveMixedPrecisionViT",
+  "Title": "Latency-Aware Adaptive Mixed Precision for Vision Transformers",
+  "Short Hypothesis": "By integrating latency-aware adaptive mixed-precision quantization into vision transformers, we can significantly improve inference efficiency and maintain high accuracy, particularly in latency-critical applications.",
+  "Related Work": "Recent works such as AMP-ViT and EMQ have explored adaptive mixed-precision quantization for vision transformers, focusing on accuracy and computational efficiency. However, they do not explicitly account for latency, which is crucial for real-time applications. Our proposal introduces a latency-aware mechanism that ensures strict wall-clock budgets are met while maintaining high accuracy.",
+  "Abstract": "Vision transformers (ViTs) have revolutionized computer vision but face significant challenges in real-time applications due to their high computational and memory demands. While adaptive mixed-precision quantization (AMP) has been proposed to improve efficiency, existing methods often neglect latency constraints, leading to suboptimal performance in latency-critical scenarios. This paper introduces Latency-Aware Adaptive Mixed Precision for Vision Transformers (LA-AMP-ViT), a novel framework that integrates latency-aware optimization into the AMP process. LA-AMP-ViT employs a Jacobian-based layer-skipping mechanism to minimize hidden-state perturbation and enforce strict wall-clock budgets. We also introduce a spectral stability metric to calibrate uncertainty-quantified activation proxies, ensuring robustness and stability. Experiments on ViT, DeiT, and Swin models demonstrate that LA-AMP-ViT achieves significant latency improvements while maintaining high accuracy, outperforming state-of-the-art methods on the ImageNet dataset.",
+  "Experiments": [
+    "1. Baseline Evaluation: Evaluate the performance of standard ViT, DeiT, and Swin models on the ImageNet dataset in terms of accuracy and inference latency.",
+    "2. Adaptive Mixed-Precision Quantization: Implement AMP-ViT and EMQ on the same models and benchmark their accuracy and latency.",
+    "3. Latency-Aware Optimization: Integrate the latency-aware mechanism into the AMP process, using Jacobian-based layer-skipping and spectral stability metrics. Measure the impact on latency and accuracy.",
+    "4. Ablation Studies: Perform ablation studies to isolate the effects of latency-aware optimization and spectral stability metrics on the final performance.",
+    "5. Cross-Model Validation: Validate the framework on different vision transformer architectures (ViT, DeiT, Swin) and dataset sizes (e.g., CIFAR-10, ImageNet) to ensure generalizability.",
+    "6. Latency-Accuracy Trade-off Analysis: Conduct a detailed analysis of the latency-accuracy trade-off frontier to identify optimal configurations for real-time applications."
+  ],
+  "Risk Factors and Limitations": [
+    "1. Overfitting to Latency Constraints: The latency-aware mechanism might overfit to specific hardware configurations, limiting generalizability to other platforms.",
+    "2. Increased Complexity: The integration of Jacobian-based layer-skipping and spectral stability metrics could introduce additional complexity and computational overhead.",
+    "3. Data Sensitivity: The performance of latency-aware optimization might be sensitive to the characteristics of the input data, requiring careful tuning for different datasets.",
+    "4. Limited Scalability: The framework's performance might degrade with very large models or datasets, necessitating further optimization."
+  ]
+}

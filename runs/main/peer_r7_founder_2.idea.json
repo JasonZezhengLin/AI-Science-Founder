@@ -1,0 +1,18 @@
+{
+  "Name": "latency-aware_jacobian_skipping",
+  "Title": "Latency-Aware Jacobian-Based Layer Skipping for Efficient Inference",
+  "Short Hypothesis": "Jacobian-based layer skipping can enforce strict latency budgets during inference by dynamically identifying and skipping layers with minimal impact on model output, without requiring additional training or calibration.",
+  "Related Work": "Existing approaches to efficient inference often rely on static layer skipping or require costly calibration (e.g., Spectral Quantization Routing). Our work distinguishes itself by leveraging the Jacobian matrix to dynamically skip layers based on their contribution to the output, ensuring minimal perturbation while enforcing latency constraints. This approach is training-free and integrates seamlessly into existing architectures.",
+  "Abstract": "We propose a novel latency-aware inference framework that leverages the Jacobian matrix to dynamically skip layers with minimal impact on model output. By computing the Jacobian of each layer's output with respect to its input, we identify layers that contribute least to the final prediction and skip them during inference. This method is training-free and enforces strict latency budgets by dynamically adjusting the number of active layers based on the input's characteristics. We evaluate our approach on single-GPU setups across various benchmarks, demonstrating significant throughput improvements while maintaining competitive accuracy. Our framework provides a reproducible, mathematically transparent pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Evaluate the framework on standard benchmarks (e.g., WILDS) by comparing throughput and accuracy against baseline models.",
+    "Measure the impact of layer skipping on model output by computing the Frobenius norm of the difference between the full model's output and the skipped model's output.",
+    "Validate latency constraints by measuring wall-clock inference time across different input sizes and comparing against predefined budgets.",
+    "Assess robustness under distributional shifts by testing the framework on out-of-distribution datasets and measuring accuracy retention."
+  ],
+  "Risk Factors and Limitations": [
+    "Potential degradation in model accuracy due to skipped layers, particularly for inputs where all layers contribute significantly to the output.",
+    "Increased computational overhead from computing the Jacobian matrix, which may offset some of the latency gains.",
+    "Limited applicability to models where the Jacobian computation is not feasible or too costly."
+  ]
+}

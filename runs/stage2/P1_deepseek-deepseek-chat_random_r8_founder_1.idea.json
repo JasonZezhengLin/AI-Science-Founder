@@ -1,0 +1,20 @@
+{
+  "Name": "dynamic_tensor_layout_optimizer",
+  "Title": "Dynamic Tensor Layout Optimization for Efficient LLM Inference on GPUs",
+  "Short Hypothesis": "Adapting memory layouts dynamically for variable-shaped tensors during LLM inference can significantly reduce memory access latency and improve throughput compared to static layouts.",
+  "Related Work": "Existing works like FlashInfer and QUICK optimize kernels for fixed tensor layouts, while Coruscant focuses on sparse tensor cores. VecInfer addresses KV-cache compression but does not optimize layouts dynamically. This proposal uniquely targets runtime layout adaptation for variable-shaped tensors, leveraging profiler-driven optimization.",
+  "Abstract": "Large language model (LLM) inference often involves tensors with variable shapes due to dynamic batching, variable-length inputs, or layer-specific computations. Existing GPU kernels assume fixed memory layouts optimized for specific shapes, leading to suboptimal performance when shapes deviate. To address this, we propose a dynamic tensor layout optimizer that adapts memory layouts on-the-fly to minimize memory access latency and maximize bandwidth utilization. Our approach involves profiling tensor access patterns during runtime and dynamically reorganizing layouts (e.g., tiling, padding, transposing) to reduce bank conflicts, improve coalesced memory access, and minimize HBM round-trips. We implement this optimizer as a CUDA/Triton kernel extension and evaluate it on commodity GPUs using diverse LLM workloads. Results show significant improvements in wall-clock latency and tokens-per-second compared to state-of-the-art fixed-layout kernels.",
+  "Experiments": [
+    "Implement a runtime profiler to capture tensor access patterns and memory bottlenecks.",
+    "Develop dynamic layout reorganization algorithms (e.g., tiling, padding, transposing) based on profiler feedback.",
+    "Integrate the optimizer into CUDA/Triton kernels for key LLM operations (e.g., matrix multiplication, attention).",
+    "Evaluate on commodity GPUs (e.g., A100, RTX 4090) using diverse LLM workloads (e.g., Llama, GPT) with variable tensor shapes.",
+    "Measure wall-clock latency, tokens-per-second, and memory bandwidth utilization, comparing against fixed-layout baselines (e.g., FlashInfer, QUICK)."
+  ],
+  "Risk Factors and Limitations": [
+    "Runtime profiling overhead may negate performance gains for small tensors.",
+    "Dynamic layout reorganization may increase kernel complexity and introduce new bottlenecks.",
+    "Optimizer effectiveness may vary across GPU architectures and driver versions.",
+    "Limited applicability to models with highly regular tensor shapes."
+  ]
+}

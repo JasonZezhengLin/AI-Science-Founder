@@ -1,0 +1,18 @@
+{
+  "Name": "curvature_aware_routing",
+  "Title": "Curvature-Aware Precision Routing for Efficient Test-Time Optimization",
+  "Short Hypothesis": "The local curvature of the loss landscape, quantified by the Hessian spectrum, can guide both precision allocation and test-time optimization steps, enabling efficient and robust inference with minimal overhead.",
+  "Related Work": "Recent work includes Spectral Quantization Routing (SQR) and Spectral Latent Steering (SLS). SQR dynamically allocates numerical precision based on activation geometry but does not address test-time optimization. SLS restricts test-time optimization to a low-rank subspace but does not consider precision allocation. Our proposal integrates both aspects by using curvature diagnostics to guide precision routing and optimization steps, providing a unified framework.",
+  "Abstract": "We propose Curvature-Aware Precision Routing (CAPR), a training-free framework that dynamically adjusts numerical precision and test-time optimization steps based on the local curvature of the loss landscape. By quantifying the Hessian spectrum of hidden states, CAPR identifies regions where low-precision computation is robust and where high-precision steps are necessary for effective optimization. We theoretically ground CAPR in PAC-Bayes bounds, linking curvature to generalization stability under precision noise. Our experiments on single-GPU setups demonstrate that CAPR achieves superior throughput-accuracy trade-offs compared to static and heuristic baselines, while enforcing strict latency budgets. CAPR provides a transparent, reproducible pathway for resource-efficient inference and optimization under natural distribution shifts.",
+  "Experiments": [
+    "Evaluate CAPR on WILDS benchmarks for classification tasks, comparing throughput and accuracy against static mixed-precision and full-precision baselines.",
+    "Measure the overhead of Hessian spectrum computation and demonstrate its scalability on single-GPU setups.",
+    "Validate the robustness of CAPR under natural distribution shifts by testing on out-of-distribution datasets.",
+    "Quantify the impact of curvature-aware precision routing on test-time optimization efficiency by comparing convergence rates and final accuracy on mathematical reasoning and code generation tasks."
+  ],
+  "Risk Factors and Limitations": [
+    "The overhead of Hessian spectrum computation may limit scalability to very large models.",
+    "The effectiveness of curvature-aware routing may vary across different architectures and tasks.",
+    "Ensuring numerical stability during precision switching could introduce additional complexity."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "Name": "curvature_driven_precision_routing",
+  "Title": "Curvature-Driven Deterministic Precision Routing for Training-Free Mixed-Precision Quantization",
+  "Short Hypothesis": "Hessian curvature can serve as a deterministic proxy for precision allocation in mixed-precision quantization, enabling training-free optimization with formal numerical stability guarantees.",
+  "Related Work": "Existing training-free mixed-precision quantization methods (e.g., EMQ, SNIP) rely on heuristic proxies or calibration data, limiting their applicability and theoretical grounding. Our approach distinguishes itself by leveraging Hessian curvature as a deterministic proxy, eliminating the need for calibration data and providing formal stability guarantees.",
+  "Abstract": "Mixed-precision quantization (MPQ) offers a promising trade-off between model efficiency and accuracy, but existing methods often rely on heuristic proxies or calibration data, limiting their applicability and theoretical grounding. We propose a novel training-free MPQ framework that leverages Hessian curvature as a deterministic proxy for precision allocation. By formalizing precision routing through curvature-aware diagnostics, our method ensures numerical stability with explicit condition number constraints and stability radii. We introduce a curvature-driven precision routing protocol that replaces heuristic fragility claims with formalized stability guarantees, optimizing precision allocation for each layer based on its Hessian spectrum. Empirical evaluations on ResNet and Vision Transformer architectures demonstrate that our approach achieves superior accuracy-efficiency trade-offs compared to state-of-the-art methods, while maintaining strict computational overhead bounds. This work bridges the gap between theoretical optimization theory and practical deployment constraints, offering a mathematically transparent and resource-efficient solution for MPQ.",
+  "Experiments": [
+    "Evaluate Hessian curvature computation efficiency and overhead on ResNet-50 and ViT models.",
+    "Compare precision allocation strategies based on Hessian curvature vs. existing proxies (e.g., EMQ, SNIP) on ImageNet classification tasks.",
+    "Measure numerical stability (e.g., condition number, gradient variance) across different precision configurations.",
+    "Assess accuracy-efficiency trade-offs (e.g., FLOPs, memory footprint) for various bit-width configurations.",
+    "Conduct ablation studies to isolate the impact of curvature-aware diagnostics on model performance."
+  ],
+  "Risk Factors and Limitations": [
+    "Hessian computation may introduce overhead for very large models, although our method enforces strict bounds.",
+    "Theoretical guarantees rely on assumptions about Hessian smoothness, which may not hold for all architectures.",
+    "The method is limited to post-training quantization and does not address quantization-aware training scenarios."
+  ]
+}

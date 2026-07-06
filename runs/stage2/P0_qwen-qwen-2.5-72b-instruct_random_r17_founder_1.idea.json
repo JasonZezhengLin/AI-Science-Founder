@@ -1,0 +1,20 @@
+{
+  "Name": "CurvatureGuidedPrecisionRouting",
+  "Title": "Curvature-Guided Precision Routing for Efficient Mixed-Precision Training",
+  "Short Hypothesis": "A curvature-aware precision routing framework can dynamically allocate precision levels to layers based on their curvature and gradient variance, leading to more efficient and stable mixed-precision training on resource-constrained devices.",
+  "Related Work": "Recent works such as SNIP, EMQ, and AMP-ViT have explored adaptive mixed-precision training and quantization, but they often rely on heuristic-based methods or static configurations. Our proposal introduces a curvature-aware approach that dynamically adjusts precision levels, providing a more principled and adaptive solution.",
+  "Abstract": "Mixed-precision training is a powerful technique for reducing computational and memory overhead while maintaining model accuracy. However, existing methods often use heuristic-based precision allocation, which can lead to suboptimal performance and stability issues. We propose Curvature-Guided Precision Routing (CGPR), a training-free framework that dynamically allocates precision levels to layers based on their curvature and gradient variance. CGPR uses a curvature-aware dynamic budgeting mechanism to ensure high-precision processing during critical semantic transitions, and a hardware-aligned grouped approximation to capture fine-grained local variations. We validate CGPR on ResNet and Vision Transformer models, demonstrating significant improvements in training efficiency and stability with minimal computational overhead.",
+  "Experiments": [
+    "1. **Curvature Profiling**: Measure the curvature and gradient variance of each layer during the initial training phase using a small subset of the dataset. This will provide a baseline for precision allocation.",
+    "2. **Dynamic Precision Allocation**: Implement a dynamic precision allocation mechanism that adjusts the precision of each layer based on its curvature and gradient variance. Use a simple ILP (Integer Linear Programming) solver to optimize the precision allocation.",
+    "3. **Hardware-Aligned Approximation**: Develop a grouped approximation technique that captures fine-grained local variations while maintaining peak compute throughput. This involves partitioning layers into groups and applying precision adjustments at the group level.",
+    "4. **Evaluation Metrics**: Evaluate the performance of CGPR using standard metrics such as training time, memory usage, and accuracy. Compare CGPR against existing mixed-precision training methods on ResNet and Vision Transformer models.",
+    "5. **Stability Analysis**: Perform a stability analysis to ensure that the dynamic precision allocation does not introduce instability or divergence in the training process. Use techniques such as PAC-Bayes bounds to quantify the stability of the model."
+  ],
+  "Risk Factors and Limitations": [
+    "1. **Overfitting to Curvature**: The curvature and gradient variance might not always be reliable indicators of the optimal precision level, potentially leading to overfitting.",
+    "2. **Computational Overhead**: The initial curvature profiling step may introduce additional computational overhead, which could negate some of the efficiency gains.",
+    "3. **Hardware Constraints**: The hardware-aligned approximation might not be feasible on all devices, particularly those with limited computational resources.",
+    "4. **Generalization to Different Models**: The effectiveness of CGPR may vary across different model architectures and datasets, requiring extensive validation and tuning."
+  ]
+}

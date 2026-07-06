@@ -1,0 +1,19 @@
+{
+  "Name": "pac_bayes_jacobian_skipping",
+  "Title": "PAC-Bayes Guided Jacobian-Based Layer-Skipping for Latency-Aware Inference",
+  "Short Hypothesis": "Using PAC-Bayes bounds and Jacobian-based analysis to guide layer-skipping decisions can minimize hidden-state perturbations and enforce strict wall-clock budgets, achieving latency-aware inference without significant accuracy loss.",
+  "Related Work": "Existing work on layer-skipping focuses on heuristic methods or reinforcement learning, often lacking theoretical guarantees. PAC-Bayes has been used for generalization bounds but not for guiding layer-skipping decisions. Jacobian-based analysis is common in robustness studies but not in latency-aware inference. This proposal uniquely combines these elements to provide a theoretically grounded, latency-aware inference framework.",
+  "Abstract": "We propose a novel framework for latency-aware inference that leverages PAC-Bayes bounds and Jacobian-based analysis to guide layer-skipping decisions. By minimizing hidden-state perturbations and enforcing strict wall-clock budgets, our approach achieves significant latency reduction without compromising accuracy. We validate our framework on standard benchmarks, demonstrating its ability to maintain high accuracy while reducing inference time. Our experiments include explicit perturbation-cost accounting and throughput-accuracy Pareto frontier analysis, providing comprehensive evidence of the framework's effectiveness.",
+  "Experiments": [
+    "Implement the PAC-Bayes guided Jacobian-based layer-skipping framework.",
+    "Evaluate the framework on standard benchmarks (e.g., CIFAR-10, ImageNet) using accuracy and latency as metrics.",
+    "Perform explicit perturbation-cost accounting to measure hidden-state perturbations.",
+    "Analyze throughput-accuracy Pareto frontiers to demonstrate the framework's effectiveness.",
+    "Compare against existing layer-skipping methods to highlight improvements in accuracy and latency."
+  ],
+  "Risk Factors and Limitations": [
+    "The framework may introduce computational overhead during training due to PAC-Bayes and Jacobian computations.",
+    "The effectiveness of layer-skipping may vary across different architectures and datasets.",
+    "The theoretical guarantees may not fully translate to practical performance in all scenarios."
+  ]
+}

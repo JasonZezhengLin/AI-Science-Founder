@@ -1,0 +1,19 @@
+{
+  "Name": "dynaskip",
+  "Title": "DynaSkip: Dynamic Layer Skipping via Activation Geometry for Latency-Aware Inference",
+  "Short Hypothesis": "Layer skipping during inference can be dynamically optimized based on the spectral properties of activations, enforcing strict latency budgets without compromising generalization.",
+  "Related Work": "Existing work includes Spectral Quantization Routing, which focuses on precision allocation, and Spectral Latent Steering, which optimizes test-time updates. DynaSkip distinguishes itself by introducing a training-free, layer-skipping mechanism grounded in activation geometry and PAC-Bayes theory, addressing latency constraints directly through layer-wise compute allocation.",
+  "Abstract": "We propose DynaSkip, a training-free framework for latency-aware inference that dynamically skips layers based on the spectral properties of activations. By computing the local covariance condition number and spectral decay rate of hidden states, DynaSkip identifies layers that can be safely skipped without compromising generalization. We theoretically ground this mechanism using PAC-Bayes bounds, linking spectral stability to generalization under layer skipping. Empirical evaluations on WILDS benchmarks demonstrate that DynaSkip achieves superior throughput-accuracy Pareto frontiers compared to static layer-skipping baselines, while enforcing strict wall-clock latency targets. This work bridges spectral stability theory with practical latency-aware inference, offering a computationally frugal and reproducible pathway for resource-efficient deployment.",
+  "Experiments": [
+    "Evaluate DynaSkip on WILDS benchmarks, measuring accuracy, throughput, and latency.",
+    "Compare against static layer-skipping baselines and full-model inference.",
+    "Validate spectral diagnostics (covariance condition number, spectral decay rate) as proxies for layer-skipping stability.",
+    "Measure hidden-state perturbation overhead and wall-clock latency under varying compute budgets.",
+    "Conduct ablation studies to isolate the impact of spectral diagnostics on generalization."
+  ],
+  "Risk Factors and Limitations": [
+    "Spectral diagnostics may introduce computational overhead, offsetting latency gains.",
+    "The framework assumes stable activation geometry across tasks, which may not hold under extreme distribution shifts.",
+    "PAC-Bayes bounds may be overly conservative, limiting practical utility."
+  ]
+}

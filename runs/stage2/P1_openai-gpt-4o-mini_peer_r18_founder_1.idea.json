@@ -1,0 +1,15 @@
+{
+  "Name": "adaptive_kernel_selection",
+  "Title": "Adaptive Kernel Selection for Efficient Latency-Bounded Inference",
+  "Short Hypothesis": "Dynamic kernel selection based on real-time profiling will enhance inference speed while maintaining accuracy by leveraging hardware-specific optimizations.",
+  "Related Work": "Existing frameworks like Dynamic Kernel Selection (DKS) introduce adaptive strategies for kernel execution but often lack a rigorous profiling approach that links kernel selection directly to wall-clock latency and resource utilization metrics. My proposal will focus on real-time profiling tied to specific hardware metrics to inform kernel selection, distinguishing it from DKS and others which do not fully exploit hardware-specific characteristics.",
+  "Abstract": "Real-time machine learning inference is increasingly critical for applications in latency-sensitive environments. Current frameworks typically utilize statically optimized kernels, which do not adapt well to dynamic workload variations or hardware conditions. We propose Adaptive Kernel Selection, a runtime framework that leverages on-device profiling to dynamically select from a suite of optimized kernels, including various precision and algorithmic strategies tailored to specific hardware. By integrating a lightweight profiler that quantifies wall-clock latency, data movement, and occupancy metrics, the framework will intelligently choose kernels that minimize latency while adhering to accuracy constraints. Initial experiments will validate the framework on popular models such as ResNet and BERT, measuring improvements in latency and throughput against static baseline approaches. Our goal is to establish a reproducible, empirically validated system that provides clear performance benefits in real-world scenarios.",
+  "Experiments": [
+    "1. Implement a lightweight profiling tool to measure kernel execution latency, memory bandwidth usage, and occupancy on a commodity GPU.",
+    "2. Create a diverse set of optimized kernels for common ML operations (e.g., convolution, matrix multiplication) across various precision levels.",
+    "3. Develop a runtime decision engine that selects the optimal kernel based on real-time profiling data.",
+    "4. Conduct A/B tests comparing the adaptive kernel selection against static kernel configurations using metrics such as p50/p99 latency, throughput, and energy per token across different workloads.",
+    "5. Analyze profiling data to attribute performance gains to specific hardware optimizations, ensuring reproducibility."
+  ],
+  "Risk Factors and Limitations": "Potential risks include limited generalizability of findings across different models and hardware configurations. Furthermore, the overhead of real-time profiling could introduce latency that offsets the benefits of kernel selection. Careful design of the profiling tool will be necessary to minimize this impact."
+}

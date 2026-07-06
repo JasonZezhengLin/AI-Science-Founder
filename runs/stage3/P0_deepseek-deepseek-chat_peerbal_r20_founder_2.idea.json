@@ -1,0 +1,39 @@
+{
+  "Name": "jacobian_guided_layer_skipping",
+  "Title": "Jacobian-Guided Layer Skipping: Training-Free Latency Optimization via Local Sensitivity Analysis",
+  "Short Hypothesis": "Dynamic layer skipping guided by local Jacobian sensitivity can minimize hidden-state perturbation while enforcing strict latency budgets, outperforming heuristic layer-skipping methods in latency-critical scenarios.",
+  "Related Work": "Existing layer-skipping methods, such as Sortblock and Spectral Quantization Routing, rely on fixed heuristics or activation-based proxies, failing to adapt to dynamic input distributions or enforce rigorous latency guarantees. JGLS distinguishes itself by leveraging local Jacobian sensitivity to make principled layer-skipping decisions, grounded in optimization theory and explicitly bounded by wall-clock latency.",
+  "Abstract": "Latency-critical inference demands efficient computation without sacrificing accuracy. We propose Jacobian-Guided Layer Skipping (JGLS), a training-free framework that dynamically skips layers based on the local Jacobian sensitivity of hidden states. By computing Jacobian norms on-the-fly using randomized matrix-free methods, JGLS identifies layers whose skipping minimally perturbs the optimization landscape. We theoretically ground JGLS in PAC-Bayes bounds, linking Jacobian sensitivity to generalization stability under layer-skipping noise. Evaluated on single-GPU setups across WILDS benchmarks, JGLS achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic layer-skipping baselines. By replacing qualitative fragility claims with formalized risk bounds, JGLS provides a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    {
+      "Description": "Compare JGLS against heuristic layer-skipping baselines (e.g., fixed skipping ratios, activation-based proxies) on WILDS benchmarks.",
+      "Metrics": [
+        "Throughput (tokens/sec)",
+        "Accuracy",
+        "Wall-clock latency"
+      ],
+      "Method": "Implement JGLS with randomized matrix-free Jacobian computation and evaluate its performance under strict latency budgets."
+    },
+    {
+      "Description": "Validate the robustness of JGLS under domain shifts by testing on out-of-distribution datasets.",
+      "Metrics": [
+        "Accuracy drop",
+        "Latency variance"
+      ],
+      "Method": "Apply JGLS to WILDS benchmarks with domain shifts and measure its performance compared to baselines."
+    },
+    {
+      "Description": "Analyze the trade-off between Jacobian computation overhead and layer-skipping efficiency.",
+      "Metrics": [
+        "Computation time",
+        "Skipping efficiency (percentage of skipped layers)"
+      ],
+      "Method": "Vary the frequency of Jacobian computation and measure its impact on overall latency and accuracy."
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "Jacobian computation overhead may outweigh the benefits of layer skipping in some scenarios.",
+    "The framework assumes a well-conditioned optimization landscape, which may not hold for all models or tasks.",
+    "Dynamic layer skipping may introduce non-deterministic behavior, complicating deployment in latency-critical systems."
+  ]
+}

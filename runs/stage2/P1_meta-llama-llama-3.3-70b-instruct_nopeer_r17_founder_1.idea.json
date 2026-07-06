@@ -1,0 +1,17 @@
+{
+  "Name": "gpu_inference_optimization",
+  "Title": "Hardware-Faithful Optimization of Deep Learning Inference on Commodity GPUs",
+  "Short Hypothesis": "By focusing on kernel-level throughput engineering and hardware-faithful evaluation, we can achieve significant speedups in deep learning inference on commodity GPUs through optimized memory-bandwidth utilization, KV-cache layout, and tensor-core occupancy.",
+  "Related Work": "Previous work has focused on theoretical models and formal guarantees, but has often neglected the importance of hardware-faithful evaluation and empirical measurement. Our approach differs from existing work by prioritizing reproducible benchmarks, nvprof/Nsight traces, and end-to-end speedups on real hardware.",
+  "Abstract": "This project proposes a novel approach to optimizing deep learning inference on commodity GPUs. By leveraging kernel-level throughput engineering and hardware-faithful evaluation, we aim to achieve significant speedups in inference time while maintaining accuracy. Our approach focuses on optimizing memory-bandwidth utilization, KV-cache layout, and tensor-core occupancy, and prioritizes reproducible benchmarks and empirical measurement. We will conduct experiments using nvprof/Nsight traces and report end-to-end speedups on real hardware, ensuring that our results are both meaningful and deployable.",
+  "Experiments": [
+    "Experiment 1: Optimizing memory-bandwidth utilization through coalesced loads and reduced HBM round-trips",
+    "Experiment 2: Improving KV-cache layout through autotuned tile sizes and profiled per-layer precision",
+    "Experiment 3: Enhancing tensor-core occupancy through avoided bank conflicts and better register allocation"
+  ],
+  "Risk Factors and Limitations": [
+    "Limited access to specialized hardware or expertise",
+    "Potential for overfitting to specific hardware configurations",
+    "Difficulty in reproducing results across different driver/CUDA versions"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "Name": "OptimizedSparseInferenceKernels",
+  "Title": "Optimizing Sparse Inference Kernels for Large Language Models on GPUs",
+  "Short Hypothesis": "By developing and optimizing sparse matrix multiplication (SpMM) kernels that are specifically designed for GPU Tensor Cores, we can significantly improve the computational efficiency and memory utilization of large language model (LLM) inference, leading to faster and more energy-efficient inference.",
+  "Related Work": "Recent works such as SpInfer and Coruscant have explored the use of sparse matrices and optimized SpMM kernels for LLM inference. However, these approaches often focus on either reducing memory overhead or improving computational efficiency, but not both simultaneously. Additionally, they do not fully leverage the capabilities of GPU Tensor Cores, which are designed for dense matrix operations. Our proposal aims to bridge this gap by developing SpMM kernels that are specifically optimized for Tensor Cores, thereby achieving both high computational efficiency and low memory usage.",
+  "Abstract": "Large Language Models (LLMs) have revolutionized natural language processing but pose significant challenges in terms of computational and memory resources. Unstructured pruning can reduce model size and improve inference speed, but existing sparse matrix multiplication (SpMM) kernels are not fully optimized for GPU Tensor Cores, leading to suboptimal performance. We propose OptimizedSparseInferenceKernels, a framework that develops and optimizes SpMM kernels specifically for GPU Tensor Cores. Our approach leverages bitmap encoding to minimize memory overhead and a novel kernel design that maximizes Tensor Core utilization. Through extensive profiling and benchmarking, we demonstrate significant improvements in computational efficiency and memory usage, leading to faster and more energy-efficient LLM inference on commodity GPUs.",
+  "Experiments": [
+    "Develop and implement a bitmap-based sparse matrix encoding scheme that minimizes memory overhead while being compatible with GPU Tensor Cores.",
+    "Design and implement a novel SpMM kernel that efficiently utilizes Tensor Cores for sparse matrix operations, including optimized load and store operations, and reduced memory bandwidth usage.",
+    "Conduct profiling using nvprof/Nsight to measure and analyze key performance metrics such as achieved bandwidth, warp stall reasons, and arithmetic intensity.",
+    "Evaluate the performance of the optimized SpMM kernel on a range of LLMs, including BERT, RoBERTa, and GPT-2, under different sparsity levels (30% to 70%).",
+    "Compare the performance of our optimized SpMM kernel with state-of-the-art SpMM implementations (e.g., cuBLAS, Flash-LLM, and SparTA) in terms of p50/p99 latency, throughput under batching, and energy per token.",
+    "Perform A/B latency races under fixed accuracy budgets to demonstrate the practical benefits of our approach in real-world inference scenarios."
+  ],
+  "Risk Factors and Limitations": [
+    "The effectiveness of the proposed SpMM kernel may vary across different GPU architectures and driver versions, requiring extensive cross-validation.",
+    "Optimizing for Tensor Cores may introduce additional complexity in the kernel design, potentially leading to increased development and debugging time.",
+    "The performance gains may be limited by the specific sparsity patterns of the pruned models, and further research may be needed to generalize the approach to a wider range of models and tasks.",
+    "The proposed approach focuses on computational and memory efficiency, but it may not address other aspects of inference performance, such as communication overhead in distributed settings."
+  ]
+}

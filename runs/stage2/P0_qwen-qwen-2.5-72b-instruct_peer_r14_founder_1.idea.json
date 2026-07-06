@@ -1,0 +1,20 @@
+{
+  "Name": "curvatureawareprecisionallocation",
+  "Title": "Curvature-Aware Precision Allocation for Resource-Efficient Neural Network Inference",
+  "Short Hypothesis": "The local curvature and spectral properties of hidden activations can serve as direct proxies for quantization sensitivity, enabling dynamic precision allocation that optimizes computational efficiency and model accuracy.",
+  "Related Work": "Recent works have explored mixed-precision inference and curvature-aware optimization, but they often rely on static profiling or costly calibration. Mix-GEMM [1] focuses on hardware-software co-design for mixed-precision GEMM operations, while SR-CurvANN [3] uses curvature-aware neural networks for 3D surface reconstruction. Tri-Accel [6] and SQR [10] propose dynamic precision and memory management, but they do not explicitly link curvature and spectral properties to quantization sensitivity. Our proposal builds on these ideas by providing a training-free, curvature-aware framework that dynamically allocates precision based on real-time activation geometry.",
+  "Abstract": "Mixed-precision inference offers significant latency and memory gains but often relies on static profiling or costly calibration, which fails to adapt to dynamic input distributions. We propose Curvature-Aware Precision Allocation (CAPA), a training-free framework that dynamically allocates numerical precision based on real-time activation geometry. CAPA computes the local covariance condition number and spectral decay rate of hidden states using randomized SVD, mapping these diagnostics to a precision-switching policy that enforces strict latency budgets. Theoretical grounding with PAC-Bayes bounds links spectral conditioning to generalization stability under quantization noise. Evaluated on single-GPU setups across WILDS benchmarks, CAPA achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic mixed-precision baselines, providing a transparent, reproducible pathway for resource-efficient inference under natural distribution shifts.",
+  "Experiments": [
+    "Compute the local covariance condition number and spectral decay rate of hidden states using randomized SVD for a variety of neural network architectures (e.g., ResNet, EfficientNet) and datasets (e.g., CIFAR-10, ImageNet).",
+    "Develop a precision-switching policy based on the computed diagnostics, dynamically allocating precision levels (e.g., FP16, FP32) to different layers or tokens.",
+    "Evaluate the performance of CAPA on single-GPU setups across WILDS benchmarks, comparing it to static and heuristic mixed-precision baselines in terms of throughput, accuracy, and memory usage.",
+    "Conduct ablation studies to isolate the impact of curvature and spectral properties on quantization sensitivity, ensuring that the proposed diagnostics are robust and reliable.",
+    "Provide theoretical analysis using PAC-Bayes bounds to link spectral conditioning to generalization stability under quantization noise, validating the framework's mathematical transparency and reproducibility."
+  ],
+  "Risk Factors and Limitations": [
+    "The computational overhead of real-time spectral diagnostics may introduce additional latency, which needs to be carefully managed to ensure strict latency budgets.",
+    "The precision-switching policy may not generalize well to all neural network architectures and datasets, requiring further validation and tuning.",
+    "The theoretical analysis using PAC-Bayes bounds assumes certain conditions that may not hold in all practical scenarios, limiting the scope of the framework's applicability.",
+    "The framework's performance may be sensitive to the choice of hyperparameters, such as the number of top principal components used for spectral diagnostics."
+  ]
+}

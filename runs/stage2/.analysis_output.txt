@@ -1,0 +1,76 @@
+loaded 956 idea cells | models=['deepseek/deepseek-chat', 'meta-llama/llama-3.3-70b-instruct', 'openai/gpt-4o-mini', 'qwen/qwen-2.5-72b-instruct'] | pairs=['P0', 'P1']
+
+##### deepseek/deepseek-chat  x  P0 #####
+  M1   peer=0.197(n20) nopeer=0.093(n20) random=0.120(n20)
+  M2   peer=0.125(n40) nopeer=0.082(n40) random=0.080(n40)
+  M2r  peer=0.053(n40) nopeer=0.056(n40) random=0.078(n40)
+  M3   peer=11.800(n20) nopeer=4.325(n20) random=3.275(n20)
+  NAME peer=38/40 nopeer=0/40 random=1/40
+
+##### deepseek/deepseek-chat  x  P1 #####
+  M1   peer=0.047(n20) nopeer=0.059(n20) random=0.052(n20)
+  M2   peer=0.063(n40) nopeer=0.050(n40) random=0.053(n40)
+  M2r  peer=0.058(n40) nopeer=0.059(n40) random=0.064(n40)
+  M3   peer=1.025(n20) nopeer=0.350(n20) random=0.475(n20)
+  NAME peer=10/40 nopeer=0/40 random=0/40
+
+##### meta-llama/llama-3.3-70b-instruct  x  P0 #####
+  M1   peer=0.172(n20) nopeer=0.105(n20) random=0.119(n20)
+  M2   peer=0.084(n40) nopeer=0.055(n40) random=0.061(n40)
+  M2r  peer=0.036(n40) nopeer=0.030(n40) random=0.051(n40)
+  M3   peer=8.575(n20) nopeer=2.500(n20) random=2.100(n20)
+  NAME peer=31/40 nopeer=0/40 random=0/40
+
+##### meta-llama/llama-3.3-70b-instruct  x  P1 #####
+  M1   peer=0.039(n20) nopeer=0.037(n20) random=0.075(n20)
+  M2   peer=0.043(n40) nopeer=0.025(n40) random=0.029(n40)
+  M2r  peer=0.044(n40) nopeer=0.030(n40) random=0.042(n40)
+  M3   peer=0.475(n20) nopeer=0.275(n20) random=0.175(n20)
+  NAME peer=23/40 nopeer=0/40 random=0/40
+
+##### openai/gpt-4o-mini  x  P0 #####
+  M1   peer=0.144(n20) nopeer=0.106(n20) random=0.137(n17)
+  M2   peer=0.094(n40) nopeer=0.063(n40) random=0.066(n34)
+  M2r  peer=0.063(n40) nopeer=0.050(n40) random=0.074(n34)
+  M3   peer=4.750(n20) nopeer=3.325(n20) random=1.471(n17)
+  NAME peer=30/40 nopeer=0/40 random=0/34
+
+##### openai/gpt-4o-mini  x  P1 #####
+  M1   peer=0.082(n19) nopeer=0.081(n20) random=0.090(n20)
+  M2   peer=0.054(n38) nopeer=0.046(n40) random=0.047(n40)
+  M2r  peer=0.057(n38) nopeer=0.057(n40) random=0.068(n40)
+  M3   peer=0.605(n19) nopeer=0.525(n20) random=0.250(n20)
+  NAME peer=6/38 nopeer=0/40 random=0/40
+
+##### qwen/qwen-2.5-72b-instruct  x  P0 #####
+  M1   peer=0.253(n20) nopeer=0.087(n20) random=0.128(n20)
+  M2   peer=0.145(n40) nopeer=0.064(n40) random=0.065(n40)
+  M2r  peer=0.059(n40) nopeer=0.042(n40) random=0.082(n40)
+  M3   peer=11.000(n20) nopeer=3.525(n20) random=2.100(n20)
+  NAME peer=28/40 nopeer=0/40 random=0/40
+
+##### qwen/qwen-2.5-72b-instruct  x  P1 #####
+  M1   peer=0.072(n20) nopeer=0.044(n20) random=0.102(n20)
+  M2   peer=0.069(n40) nopeer=0.044(n40) random=0.054(n40)
+  M2r  peer=0.060(n40) nopeer=0.054(n40) random=0.077(n40)
+  M3   peer=1.625(n20) nopeer=0.325(n20) random=0.175(n20)
+  NAME peer=5/40 nopeer=0/40 random=0/40
+
+========== STRATIFIED (within model x pair) permutation ==========
+  M1   peer  >nopeer  mean-diff=+0.0492  strat-p=0.0000  dir-consistent=7/8
+  M1   peer  >random  mean-diff=+0.0229  strat-p=0.0002  dir-consistent=4/8
+  M1   random>nopeer  mean-diff=+0.0263  strat-p=0.0000  dir-consistent=7/8
+  M2   peer  >nopeer  mean-diff=+0.0308  strat-p=0.0000  dir-consistent=8/8
+  M2   peer  >random  mean-diff=+0.0276  strat-p=0.0000  dir-consistent=8/8
+  M2   random>nopeer  mean-diff=+0.0031  strat-p=0.0060  dir-consistent=7/8
+  M2r  peer  >nopeer  mean-diff=+0.0068  strat-p=0.0000  dir-consistent=5/8
+  M2r  peer  >random  mean-diff=-0.0131  strat-p=0.0000  dir-consistent=1/8
+  M2r  random>nopeer  mean-diff=+0.0199  strat-p=0.0000  dir-consistent=8/8
+  M3   peer  >nopeer  mean-diff=+3.0882  strat-p=0.0000  dir-consistent=8/8
+  M3   peer  >random  mean-diff=+3.7293  strat-p=0.0000  dir-consistent=8/8
+  M3   random>nopeer  mean-diff=-0.6412  strat-p=0.0000  dir-consistent=1/8
+
+========== ECO-NAMING peer vs nopeer (stratified) ==========
+  peer 171/318=54%  vs  nopeer 0/320=0%   strat-p=0.0000
+
+wrote runs/stage2/.metrics_stage2.json

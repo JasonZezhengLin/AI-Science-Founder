@@ -1,0 +1,18 @@
+{
+  "Name": "information-theoretic_limits_model_compression",
+  "Title": "Information-Theoretic Limits of Task-Aware Model Compression",
+  "Short Hypothesis": "The fundamental bit-cost of compressing a model while preserving task-relevant information can be characterized using mutual information and rate-distortion theory, providing operational bounds on the minimal bits-per-weight needed for predictive sufficiency.",
+  "Related Work": "Prior work on model compression often focuses on empirical techniques like pruning and quantization without theoretical grounding. Recent studies, such as 'Population Risk Improvement with Model Compression' (Bu et al., 2021), explore information-theoretic explanations for compression benefits but do not derive fundamental limits. Our work differs by rigorously characterizing the minimal bit-cost required to preserve task-relevant information, bridging the gap between statistical learning theory and compression.",
+  "Abstract": "Model compression techniques like pruning and quantization are widely used to reduce the computational and memory footprint of deep neural networks. However, existing methods often lack a theoretical understanding of the fundamental limits of compression. In this paper, we derive information-theoretic bounds on the minimal bits-per-weight required to preserve task-relevant information using mutual information and rate-distortion theory. We quantify the compressibility of a model by its mutual information with the task and derive achievable rate-distortion bounds that link compression to generalization error. Our framework provides a theoretical foundation for task-aware compression, enabling practitioners to evaluate how close practical methods are to the fundamental limits. We validate our bounds through experiments on standard benchmarks, demonstrating that our theoretical predictions align with empirical compression performance.",
+  "Experiments": [
+    "Derive achievable rate-distortion bounds for task-aware compression using mutual information.",
+    "Evaluate the bounds on standard benchmarks (e.g., CIFAR-10, ImageNet) by comparing theoretical predictions with empirical compression performance using pruning and quantization.",
+    "Measure the mutual information between compressed model representations and task labels to validate the theoretical bounds.",
+    "Compare the generalization error of compressed models against the derived bounds to assess predictive sufficiency."
+  ],
+  "Risk Factors and Limitations": [
+    "Theoretical bounds may be difficult to compute exactly for large models due to the complexity of mutual information estimation.",
+    "Empirical validation relies on accurate estimation of task-relevant information, which can be challenging in high-dimensional spaces.",
+    "The framework assumes task-relevance can be fully captured by mutual information, which may not hold for all tasks."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "Name": "cuda_kernel_optimization",
+  "Title": "Optimizing CUDA Kernels for Machine Learning Workloads with Focus on Memory Bandwidth and Tensor Core Occupancy",
+  "Short Hypothesis": "By optimizing CUDA kernels for machine learning workloads with a focus on memory bandwidth and tensor core occupancy, we can achieve significant improvements in inference latency and throughput on commodity GPUs.",
+  "Related Work": "While previous work has focused on optimizing machine learning models for inference latency and throughput, few studies have investigated the optimization of CUDA kernels for machine learning workloads. This proposal builds upon existing work on CUDA kernel optimization, but with a specific focus on machine learning workloads and the unique challenges they present.",
+  "Abstract": "This proposal presents a novel approach to optimizing CUDA kernels for machine learning workloads, with a focus on memory bandwidth and tensor core occupancy. By leveraging techniques such as kernel fusion, register blocking, and memory coalescing, we aim to achieve significant improvements in inference latency and throughput on commodity GPUs. Our approach will be evaluated using a combination of profiling tools, including nvprof and Nsight, and will be compared to existing state-of-the-art approaches.",
+  "Experiments": [
+    "Optimize CUDA kernels for popular machine learning models, such as ResNet and Transformers, using techniques such as kernel fusion and register blocking",
+    "Evaluate the impact of memory coalescing and tensor core occupancy on inference latency and throughput",
+    "Compare the performance of our optimized kernels to existing state-of-the-art approaches using profiling tools such as nvprof and Nsight",
+    "Investigate the effect of batch size and sequence length on the performance of our optimized kernels"
+  ],
+  "Risk Factors and Limitations": [
+    "The optimization of CUDA kernels for machine learning workloads is a complex task, and it may be challenging to achieve significant improvements in inference latency and throughput",
+    "The proposed approach may not generalize to all machine learning models or workloads",
+    "The use of profiling tools such as nvprof and Nsight may introduce additional overhead and affect the accuracy of the results"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "Name": "adaptive_kernel_optimization",
+  "Title": "Adaptive Kernel Optimization for Inference Throughput Enhancement",
+  "Short Hypothesis": "Dynamic kernel optimization based on real-time hardware profiling can significantly improve inference throughput without compromising accuracy.",
+  "Related Work": "Existing works, such as PctoDL and CapGPU, focus on power management and resource allocation. This proposal distinguishes itself by directly optimizing kernel-level execution parameters during inference based on real-time profiling metrics, such as achieved bandwidth and occupancy.",
+  "Abstract": "In the pursuit of optimizing machine learning inference, existing approaches often overlook the potential of adaptive kernel optimization based on real-time profiling data. This proposal introduces a novel framework that dynamically adjusts kernel parameters, such as tile sizes and precision levels, by leveraging low-overhead profiling metrics gathered during inference execution. By monitoring key performance indicators, including achieved memory bandwidth, warp stalls, and arithmetic intensity, we aim to create a system that adapts to workload characteristics in real time. The proposed methodology will be evaluated on commodity GPUs, focusing on latency and throughput improvements under fixed accuracy constraints. We believe that this approach not only enhances the efficiency of inference pipelines but also provides actionable insights that can be replicated across various model architectures. This proposal seeks to bridge the gap between empirical performance optimization and practical deployment, ensuring that improvements are hardware-faithful and reproducible.",
+  "Experiments": [
+    "Set up a baseline inference pipeline with standard kernel configurations.",
+    "Implement dynamic kernel optimization techniques that adjust tile sizes and precision levels based on profiling metrics.",
+    "Conduct A/B testing comparing the optimized inference pipeline against the baseline using metrics such as p50/p99 latency and tokens-per-second throughput.",
+    "Measure and analyze the variation in achieved bandwidth, occupancy rates, and warp stall reasons before and after optimization."
+  ],
+  "Risk Factors and Limitations": "Potential risks include the overhead introduced by real-time profiling impacting overall latency and the challenge of generalizing optimization strategies across different model architectures. Additionally, kernel adjustments may lead to diminishing returns if not carefully tuned to specific workloads."
+}

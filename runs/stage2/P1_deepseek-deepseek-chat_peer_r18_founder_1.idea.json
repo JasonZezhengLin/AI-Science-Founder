@@ -1,0 +1,18 @@
+{
+  "Name": "tensor_core_kv_cache",
+  "Title": "Tensor Core-Optimized KV Cache Layout for Efficient Long-Context Decoding",
+  "Short Hypothesis": "By redesigning the KV cache layout to exploit Tensor Core parallelism, we can achieve significant latency reductions in long-context decoding without sacrificing model accuracy.",
+  "Related Work": "Existing work like BitDecoding has explored low-bit KV cache quantization to reduce memory footprint, but it primarily leverages CUDA cores. Our proposal focuses on optimizing KV cache layout specifically for Tensor Cores, which are underutilized in current implementations. This approach differs from BitDecoding by targeting layout optimization rather than low-bit quantization, and it does not rely on complex quantization schemes.",
+  "Abstract": "Long-context decoding in large language models (LLMs) imposes significant memory and bandwidth demands, primarily due to the growing Key-Value (KV) cache. Current implementations underutilize Tensor Cores, which offer substantial computational power. We propose a novel KV cache layout optimized for Tensor Core parallelism, enabling efficient long-context decoding. Our approach involves redesigning the cache layout to maximize Tensor Core utilization, reducing latency while maintaining model accuracy. We introduce a warp-level parallelization strategy for KV cache operations, ensuring efficient memory access patterns. Evaluations on NVIDIA GPUs demonstrate significant latency reductions, with a 3.5x speedup in decoding compared to traditional CUDA core implementations. Our method provides a practical, hardware-efficient solution for long-context decoding, bridging the gap between model compression and deployment systems engineering.",
+  "Experiments": [
+    "Experiment 1: Evaluate the impact of Tensor Core-optimized KV cache layout on decoding latency. Measure p50/p99 latency and throughput under batching on a single NVIDIA GPU.",
+    "Experiment 2: Compare memory-bandwidth utilization and Tensor Core occupancy between traditional CUDA core implementations and our optimized layout using Nsight traces.",
+    "Experiment 3: Assess the impact of the optimized layout on model accuracy across various long-context tasks.",
+    "Experiment 4: Measure energy per token for both implementations to evaluate energy efficiency."
+  ],
+  "Risk Factors and Limitations": [
+    "Potential risk of increased complexity in cache management due to optimized layout.",
+    "Limited applicability to GPUs without Tensor Core support.",
+    "Possible overhead from warp-level parallelization strategies."
+  ]
+}

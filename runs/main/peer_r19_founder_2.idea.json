@@ -1,0 +1,18 @@
+{
+  "Name": "latency-aware_spectral_pruning",
+  "Title": "Latency-Aware Spectral Pruning for Training-Free Inference Optimization",
+  "Short Hypothesis": "We hypothesize that dynamically pruning low-variance spectral components of neural activations during inference can significantly reduce computational overhead while maintaining model accuracy, enabling strict latency budgets without requiring retraining or calibration.",
+  "Related Work": "Existing work on inference optimization includes training-free methods like Spectral Quantization Routing (SQR) and Geometric Signal Separation, which focus on precision allocation and PCA-based filtering. However, these approaches often lack explicit latency control or rely on heuristic scheduling. Our proposal distinguishes itself by introducing a spectral pruning mechanism that directly links activation variance to compute reduction, ensuring deterministic latency bounds while preserving accuracy.",
+  "Abstract": "Efficient inference in neural networks is critical for real-time applications, yet existing methods often struggle to balance accuracy and latency without costly retraining. We propose Latency-Aware Spectral Pruning (LASP), a training-free framework that dynamically prunes low-variance spectral components of neural activations during inference. By performing on-the-fly singular value decomposition (SVD) on hidden states and projecting activations onto high-variance subspaces, LASP reduces computational overhead while maintaining accuracy. We introduce a latency-aware scheduler that adaptively adjusts the pruning threshold based on activation stability, ensuring strict wall-clock budgets. Evaluated on single-GPU setups across diverse benchmarks, LASP achieves a superior throughput-accuracy Pareto frontier compared to static and heuristic pruning baselines. Our approach bridges foundational spectral theory with practical inference optimization, offering a reproducible, zero-cost pathway to efficient deployment.",
+  "Experiments": [
+    "Experiment 1: Measure the impact of spectral pruning on accuracy and latency across diverse benchmarks (e.g., WILDS, MATH500) using a single-GPU setup. Compare LASP to static pruning and full-precision baselines.",
+    "Experiment 2: Evaluate the effectiveness of the latency-aware scheduler by measuring adherence to wall-clock budgets under varying computational loads.",
+    "Experiment 3: Analyze activation subspace stability using spectral condition numbers and Fisher discriminant ratios, linking these metrics to pruning thresholds and accuracy retention.",
+    "Experiment 4: Conduct ablation studies to isolate the contribution of dynamic pruning versus static subspace projection."
+  ],
+  "Risk Factors and Limitations": [
+    "Risk: The computational cost of on-the-fly SVD may offset the benefits of pruning in some cases.",
+    "Limitation: The method assumes that high-variance spectral components are sufficient for accurate predictions, which may not hold for all tasks or architectures.",
+    "Risk: The latency-aware scheduler introduces additional complexity, potentially complicating deployment in resource-constrained environments."
+  ]
+}

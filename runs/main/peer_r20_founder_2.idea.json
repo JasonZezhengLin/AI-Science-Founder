@@ -1,0 +1,46 @@
+{
+  "Name": "training-free_layer-skipping_via_jacobian_norm",
+  "Title": "Training-Free Layer-Skipping via Jacobian Norm for Efficient Inference",
+  "Short Hypothesis": "The Jacobian norm of hidden state transformations serves as a reliable proxy for layer importance, enabling training-free layer-skipping decisions that preserve model accuracy while reducing inference latency.",
+  "Related Work": "Existing layer-skipping methods often rely on training-based importance scores or heuristic thresholds, which introduce computational overhead or fail to adapt to dynamic input distributions. Recent work in training-free optimization (e.g., Spectral Quantization Routing, Geometric Signal Separation) leverages geometric properties of activations but does not directly address layer-skipping. Our proposal distinguishes itself by using the Jacobian norm, a computationally lightweight and theoretically grounded metric, to dynamically skip layers based on their contribution to the final output.",
+  "Abstract": "Layer-skipping is a promising technique for reducing the computational cost of deep neural network inference. However, existing methods often require costly training or fail to adapt to dynamic input distributions. We propose a training-free layer-skipping framework that uses the Jacobian norm of hidden state transformations as a proxy for layer importance. By computing the Jacobian norm on-the-fly, we dynamically skip layers whose transformations contribute minimally to the final output, ensuring strict latency budgets while preserving model accuracy. We theoretically ground our approach in PAC-Bayes bounds, linking Jacobian norm thresholds to generalization stability under layer perturbation. Experiments on image classification and natural language processing tasks demonstrate that our method achieves a superior throughput-accuracy Pareto frontier compared to existing layer-skipping techniques.",
+  "Experiments": [
+    {
+      "name": "Jacobian Norm Computation",
+      "description": "Compute the Jacobian norm of hidden state transformations for each layer during inference.",
+      "metrics": [
+        "Computation time",
+        "Jacobian norm distribution"
+      ]
+    },
+    {
+      "name": "Layer-Skipping Decision",
+      "description": "Dynamically skip layers based on a threshold derived from the Jacobian norm.",
+      "metrics": [
+        "Skipped layer count",
+        "Latency reduction"
+      ]
+    },
+    {
+      "name": "Accuracy Evaluation",
+      "description": "Evaluate model accuracy on standard benchmarks after applying layer-skipping.",
+      "metrics": [
+        "Top-1 accuracy",
+        "Top-5 accuracy"
+      ]
+    },
+    {
+      "name": "Latency-Accuracy Tradeoff",
+      "description": "Compare the throughput-accuracy Pareto frontier of our method against existing layer-skipping techniques.",
+      "metrics": [
+        "Throughput",
+        "Accuracy"
+      ]
+    }
+  ],
+  "Risk Factors and Limitations": [
+    "The Jacobian norm computation may introduce overhead for layers with large hidden states.",
+    "The method assumes that the Jacobian norm is a reliable proxy for layer importance, which may not hold for all architectures or tasks.",
+    "Dynamic layer-skipping decisions may lead to unpredictable latency fluctuations in real-time applications."
+  ]
+}

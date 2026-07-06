@@ -1,0 +1,18 @@
+{
+  "Name": "cuda_kernel_opt",
+  "Title": "Optimizing CUDA Kernels for Efficient Inference on Commodity GPUs",
+  "Short Hypothesis": "By optimizing CUDA kernels for efficient inference on commodity GPUs, we can achieve significant end-to-end speedups and improve the overall performance of machine learning models.",
+  "Related Work": "Recent works such as Spectral Latent Steering have focused on test-time optimization and latency-aware frameworks, but have not directly addressed the optimization of CUDA kernels for efficient inference. Our proposal builds upon existing research in this area and aims to provide a more comprehensive and hardware-faithful approach to optimizing CUDA kernels.",
+  "Abstract": "This proposal presents a novel approach to optimizing CUDA kernels for efficient inference on commodity GPUs. By leveraging a combination of kernel fusion, memory-bandwidth utilization, KV-cache layout, and tensor-core occupancy optimization, we aim to achieve significant end-to-end speedups and improve the overall performance of machine learning models. Our approach is grounded in a thorough understanding of the underlying hardware and is designed to provide reproducible and deployable results.",
+  "Experiments": [
+    "Optimizing CUDA kernels for a range of machine learning models, including convolutional neural networks and recurrent neural networks",
+    "Evaluating the performance of optimized kernels using metrics such as wall-clock latency, tokens-per-second, and energy per token",
+    "Comparing the performance of optimized kernels against baseline kernels and other state-of-the-art optimization techniques",
+    "Investigating the impact of kernel fusion, memory-bandwidth utilization, KV-cache layout, and tensor-core occupancy on kernel performance"
+  ],
+  "Risk Factors and Limitations": [
+    "The complexity of optimizing CUDA kernels for efficient inference may be higher than anticipated, requiring significant development and testing time",
+    "The performance gains achieved through kernel optimization may be limited by other bottlenecks in the system, such as memory bandwidth or storage constraints",
+    "The optimized kernels may not be compatible with all commodity GPUs, requiring additional development and testing to ensure broad compatibility"
+  ]
+}

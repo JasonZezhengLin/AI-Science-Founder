@@ -1,0 +1,19 @@
+{
+  "Name": "task_aware_bit_allocation",
+  "Title": "Task-Aware Bit Allocation for Model Compression via Mutual Information",
+  "Short Hypothesis": "Allocating bits to model parameters based on their task-specific mutual information with the output labels will yield superior compression performance compared to uniform or heuristic bit allocation strategies.",
+  "Related Work": "Existing work on model compression (e.g., quantization, pruning) often uses uniform or heuristic bit allocation strategies, while rate-distortion theory provides general bounds without task-specific guidance. Recent papers like 'Population Risk Improvement with Model Compression' (Bu et al., 2021) and 'Rate-Distortion Theoretic Generalization Bounds' (Sefidgaran et al., 2022) touch on related themes but do not explicitly optimize bit allocation based on task-specific information. This proposal distinguishes itself by leveraging mutual information between representations and labels to guide bit allocation, offering a principled, task-aware approach.",
+  "Abstract": "Model compression techniques such as quantization and pruning often rely on uniform or heuristic bit allocation strategies, which may not optimally preserve task-relevant information. In this work, we propose a novel task-aware bit allocation framework that leverages mutual information between intermediate representations and output labels to guide compression. Specifically, we derive a rate-distortion optimization problem where the distortion measure is task-specific, and the bit allocation is informed by the mutual information of each parameter with the labels. We evaluate our approach on image classification and natural language processing tasks, comparing it to uniform and heuristic bit allocation baselines. Our results demonstrate that task-aware bit allocation achieves superior compression performance, preserving task accuracy at lower bitrates. This work bridges information theory and practical model compression, offering a principled approach to optimizing bit allocation for specific tasks.",
+  "Experiments": [
+    "Experiment 1: Quantization with Task-Aware Bit Allocation. Quantize a ResNet-18 model on CIFAR-10, allocating bits to each layer based on the mutual information of its activations with the labels. Compare accuracy and bitrate to uniform quantization.",
+    "Experiment 2: Pruning with Task-Aware Bit Allocation. Prune a BERT model on GLUE tasks, removing parameters with low mutual information with the labels. Compare accuracy and model size to magnitude-based pruning.",
+    "Experiment 3: Hybrid Compression. Combine quantization and pruning in a task-aware manner, allocating bits and pruning based on mutual information. Evaluate on a vision transformer (ViT) on ImageNet.",
+    "Evaluation Metrics: Task accuracy (e.g., classification accuracy, F1 score), compression ratio (bits/weight or model size reduction), and mutual information estimates (computed using InfoNCE or kernel-based estimators)."
+  ],
+  "Risk Factors and Limitations": [
+    "Estimating mutual information accurately is challenging, especially for high-dimensional representations. Inaccurate estimates could lead to suboptimal bit allocation.",
+    "The computational overhead of computing mutual information for large models may be prohibitive. Efficient approximations will be necessary.",
+    "The approach assumes that task-specific mutual information is a reliable proxy for parameter importance, which may not hold for all tasks or architectures.",
+    "The method may require task-specific tuning, limiting its generalizability across diverse tasks."
+  ]
+}

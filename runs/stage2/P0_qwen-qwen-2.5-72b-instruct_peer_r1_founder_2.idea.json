@@ -1,0 +1,19 @@
+{
+  "Name": "LatencyAwareGeometricRouting",
+  "Title": "Latency-Aware Geometric Routing for Training-Free In-Context Learning",
+  "Short Hypothesis": "We hypothesize that by dynamically routing tokens through a geometrically optimized subspace, we can achieve both robust in-context learning and strict latency bounds without retraining.",
+  "Related Work": "Recent works such as 'Spectral Quantization Routing' and 'Training-Free Geometric Interference Cancellation' have explored the use of geometric properties for optimizing inference and reducing latency. However, these methods either focus on precision allocation or interference cancellation, and do not address the combined challenge of robust in-context learning and strict latency constraints. Our proposal integrates these aspects by dynamically routing tokens through a geometrically optimized subspace, ensuring both robustness and latency adherence.",
+  "Abstract": "In-context learning (ICL) enables rapid task adaptation but remains brittle under distributional shifts and strict latency constraints. We propose Latency-Aware Geometric Routing (LAGR), a training-free framework that dynamically routes tokens through a geometrically optimized subspace to achieve both robustness and strict latency bounds. LAGR computes local activation covariances to identify task-relevant subspaces and prunes tokens that do not contribute significantly to the task. By projecting activations onto the top-k principal components, LAGR ensures that the remaining tokens are robust to adversarial and out-of-distribution contexts. We enforce strict latency constraints by adaptively adjusting the number of layers and attention heads used for each token, based on the stability of the projected subspace. Evaluated on single-GPU setups, LAGR achieves a superior throughput-accuracy Pareto frontier and provides a transparent, mathematically grounded method for resource-efficient inference.",
+  "Experiments": [
+    "Measure the local activation covariance and spectral condition number of hidden states for various tasks and input distributions.",
+    "Apply PCA to project activations onto the top-k principal components and evaluate the impact on task performance and robustness.",
+    "Dynamically adjust the number of layers and attention heads used for each token based on the stability of the projected subspace and measure the resulting latency and accuracy.",
+    "Compare the performance of LAGR with existing methods such as static and heuristic mixed-precision baselines on WILDS benchmarks and adversarial ICL tasks.",
+    "Evaluate the robustness of LAGR under distributional shifts and noisy contexts, and measure the accuracy retention and inference efficiency."
+  ],
+  "Risk Factors and Limitations": [
+    "The dynamic adjustment of layers and attention heads might introduce additional overhead, which could affect the latency budget.",
+    "The choice of the number of principal components (k) might not always align with the optimal subspace for all tasks, leading to suboptimal performance.",
+    "The method might be sensitive to the quality of the initial activation covariances, which could vary across different models and tasks."
+  ]
+}
