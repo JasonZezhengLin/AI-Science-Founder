@@ -139,6 +139,37 @@
         0
       ],
       "cycle_count": 1
+    },
+    {
+      "timestamp": "2026-06-09T08:23:10.932497",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Spectral Quantization Routing: Training-Free Precision Allocation via Activation Covariance Geometry",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 1
+    },
+    {
+      "timestamp": "2026-06-09T13:01:03.442600",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Curvature-Aware Block Routing: Training-Free Precision Allocation via Sequential Fisher-Hessian Probes",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 2
+    },
+    {
+      "timestamp": "2026-06-09T14:29:48.817709",
+      "event_type": "paper_completed",
+      "investor_id": "fund_1",
+      "paper_title": "Curvature-Aware Block Routing: Training-Free Precision Allocation via Sequential Fisher-Hessian Probes",
+      "accepted": false,
+      "cycle_count": 2,
+      "paper_id": "eco_6"
     }
   ]
 }

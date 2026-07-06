@@ -64,6 +64,59 @@
         0
       ],
       "cycle_count": 1
+    },
+    {
+      "timestamp": "2026-06-08T23:00:58.065433",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Manifold-Conditioned Routing: PAC-Bayes Calibrated Token Dispatch for Latency-Bounded Inference",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 1
+    },
+    {
+      "timestamp": "2026-06-09T09:59:46.334820",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Spectral Stability Routing: Deterministic Latency Bounds via Activation Covariance for Sequential Test-Time Refinement",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 1
+    },
+    {
+      "timestamp": "2026-06-09T10:22:11.612872",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Spectral Convergence Routing: Training-Free Layer Skipping via Activation Subspace Stability",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 1
+    },
+    {
+      "timestamp": "2026-06-09T12:56:16.996973",
+      "event_type": "paper_completed",
+      "investor_id": "fund_1",
+      "paper_title": "Spectral Convergence Routing: Training-Free Layer Skipping via Activation Subspace Stability",
+      "accepted": false,
+      "cycle_count": 1,
+      "paper_id": "eco_5"
+    },
+    {
+      "timestamp": "2026-06-09T14:33:38.691983",
+      "event_type": "funding_approved",
+      "investor_id": "fund_1",
+      "idea_title": "Spectral Curvature Routing: Training-Free Dynamic Layer Skipping via Local Jacobian Proxies",
+      "allocated_token_usd": 30.0,
+      "allocated_gpus": [
+        0
+      ],
+      "cycle_count": 3
     }
   ]
 }
