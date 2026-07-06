@@ -1372,4 +1372,6 @@ def main():
 
 
 if __name__ == "__main__":
+    from ai_system.llm_full_logger import install as _install_llm_log
+    _install_llm_log()
     main()

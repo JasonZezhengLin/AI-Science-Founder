@@ -308,7 +308,13 @@ def get_response_from_llm(
     if msg_history is None:
         msg_history = []
 
-    if "claude" in model:
+    # Native Anthropic API path ONLY when the client is actually an Anthropic
+    # client. OpenRouter slugs like "anthropic/claude-*" are served through an
+    # openai.OpenAI() client (no .messages attr) and must use the OpenAI-compatible
+    # branch below — keying on the "claude" substring alone misroutes them.
+    if "claude" in model and isinstance(
+        client, (anthropic.Anthropic, anthropic.AnthropicBedrock, anthropic.AnthropicVertex)
+    ):
         new_msg_history = msg_history + [
             {
                 "role": "user",

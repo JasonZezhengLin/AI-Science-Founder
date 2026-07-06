@@ -43,13 +43,35 @@ class SemanticScholarSearchTool(BaseTool):
             )
 
     def use_tool(self, query: str) -> Optional[str]:
-        internal_papers = []
-        try:
-            from ai_system.literature_db import get_literature_db
+        # cross-founder visibility gate: the ecosystem-internal peer block is a
+        # second peer-injection channel (besides founder_shell._peer_papers_brief).
+        # When CROSS_FOUNDER_VISIBILITY is off we suppress ONLY the internal
+        # ecosystem peers; external Semantic Scholar results stay in both arms so
+        # the NO-PEER control isolates "seeing peers" as the single varied factor.
+        import os
+        peer_visible = os.environ.get("CROSS_FOUNDER_VISIBILITY", "0") not in (
+            "0", "false", "False", "",
+        )
 
-            internal_papers = get_literature_db().search(query, top_k=self.max_results)
-        except Exception:
-            pass
+        # Stage-3 A2: channel-B self-exclusion. In Stage-1/2 channel B (this
+        # internal ecosystem block) did NOT exclude the calling founder's own
+        # papers, so a PEER founder re-saw their own work here even though
+        # channel A (_peer_papers_brief) already excluded self. When
+        # CHANNEL_B_EXCLUDE_FOUNDER is set to a founder_id, we pass it through to
+        # search() so channel B also shows only *other* founders' papers. Unset
+        # (Stage-1/2 default) preserves the original include-self behaviour.
+        exclude_founder = os.environ.get("CHANNEL_B_EXCLUDE_FOUNDER") or None
+
+        internal_papers = []
+        if peer_visible:
+            try:
+                from ai_system.literature_db import get_literature_db
+
+                internal_papers = get_literature_db().search(
+                    query, top_k=self.max_results, exclude_founder=exclude_founder
+                )
+            except Exception:
+                pass
 
         external_papers = None
         try:
@@ -63,11 +85,12 @@ class SemanticScholarSearchTool(BaseTool):
         else:
             parts.append("No results found.")
 
-        parts.append("\n=== Latest Work from Peers in the Ecosystem (Internal Database) ===")
-        if internal_papers:
-            parts.append(self._format_internal_papers(internal_papers))
-        else:
-            parts.append("No results found.")
+        if peer_visible:
+            parts.append("\n=== Latest Work from Peers in the Ecosystem (Internal Database) ===")
+            if internal_papers:
+                parts.append(self._format_internal_papers(internal_papers))
+            else:
+                parts.append("No results found.")
         return "\n".join(parts)
 
     def _format_internal_papers(self, papers: List[Dict]) -> str:
