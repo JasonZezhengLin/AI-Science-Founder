@@ -1,0 +1,78 @@
+{
+  "config": "B",
+  "model": "deepseek/deepseek-chat",
+  "cap_usd": 5.0,
+  "started": "2026-07-05T20:22:06.385833",
+  "cumulative_before_run_usd": 0.29397171,
+  "founders": [
+    {
+      "founder_id": "founder_1",
+      "config": "B",
+      "stages": {
+        "ideation": {
+          "cost_usd": 0.00179461,
+          "started": "2026-07-05T20:22:06.388243",
+          "ended": "2026-07-05T20:22:24.292840",
+          "status": "completed",
+          "idea_title": "Fairness Overfitting in Machine Learning: An Information-Theoretic Perspective"
+        },
+        "experiment": {
+          "cost_usd": 0.02598711,
+          "started": "2026-07-05T20:22:24.296786",
+          "ended": "2026-07-05T20:28:56.384225",
+          "status": "completed",
+          "best_metric": 0.0,
+          "cycle_dir": "/home/zezhenglin/founder/runs/ideation_exp/founder_1/cycle_1"
+        }
+      },
+      "artifacts": {
+        "idea_json": "/home/zezhenglin/founder/runs/ideation_exp/founder_1/cycle_1/idea.json",
+        "experiment_result_json": "/home/zezhenglin/founder/runs/ideation_exp/founder_1/cycle_1/experiment_result.json"
+      },
+      "status": "completed_ideation_experiment",
+      "round_total_usd": 0.02778172
+    },
+    {
+      "founder_id": "founder_2",
+      "config": "B",
+      "stages": {
+        "ideation": {
+          "cost_usd": 0.00206301,
+          "started": "2026-07-05T20:39:42.935758",
+          "ended": "2026-07-05T20:40:02.079069",
+          "status": "completed",
+          "idea_title": "Simplicity in Decision Boundaries: A Pathway to Adversarial Robustness"
+        },
+        "experiment": {
+          "cost_usd": 0.02168739,
+          "started": "2026-07-05T20:40:02.081787",
+          "ended": "2026-07-05T20:44:23.453672",
+          "status": "completed",
+          "best_metric": 0.0,
+          "cycle_dir": "/home/zezhenglin/founder/runs/ideation_exp/founder_2/cycle_1"
+        }
+      },
+      "artifacts": {
+        "idea_json": "/home/zezhenglin/founder/runs/ideation_exp/founder_2/cycle_1/idea.json",
+        "experiment_result_json": "/home/zezhenglin/founder/runs/ideation_exp/founder_2/cycle_1/experiment_result.json"
+      },
+      "status": "completed_ideation_experiment",
+      "round_total_usd": 0.0237504
+    }
+  ],
+  "ended": "2026-07-05T20:44:23.457144",
+  "cumulative_after_run_usd": 0.3519655,
+  "config_total_usd": 0.05799379,
+  "halted_cost_cap": false,
+  "token_tracker_summary": {
+    "deepseek/deepseek-chat-v3": {
+      "tokens": {
+        "prompt": 4475,
+        "completion": 709,
+        "reasoning": 0,
+        "cached": 0
+      },
+      "cost (USD)": 0.0
+    }
+  }
+}

@@ -1,0 +1,993 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Check if we're running under Live Server
+      if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
+          let lastModified = '';
+
+          // Check for file changes every second
+          setInterval(async () => {
+              try {
+                  const response = await fetch(window.location.href, { method: 'HEAD' });
+                  // get a timestamp that shows when the file was last changed
+                  const currentModified = response.headers.get('last-modified');
+
+                  if (lastModified && lastModified !== currentModified) {
+                      window.location.reload();
+                  }
+
+                  lastModified = currentModified;
+              } catch (e) {
+                  console.error('Error checking for updates:', e);
+              }
+          }, 1000);
+      }
+  </script>
+    <script
+      id="p5scripttag"
+      src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"
+      integrity="sha512-uaz5GpnQoE6t5echKlX8P52czvsIGgLPcvlzfvRubLZ1Hp8JemUDnbUiAahbVtPb+jUVrNETuXvAhDDF/N3M4w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+
+    <script>
+      const bgCol = "#FFFFFF";
+const accentCol = "#1a439e";
+
+hljs.initHighlightingOnLoad();
+
+// Function to update background color globally
+function updateBackgroundColor(color) {
+  // Update the JS variable
+  window.bgColCurrent = color;
+
+  // Update body background
+  document.body.style.backgroundColor = color;
+
+  // Update canvas container background
+  const canvasContainer = document.getElementById('canvas-container');
+  if (canvasContainer) {
+    canvasContainer.style.backgroundColor = color;
+  }
+}
+
+// Store tree data for each stage
+const stageData = {
+  Stage_1: null,
+  Stage_2: null,
+  Stage_3: null,
+  Stage_4: null
+};
+
+// Keep track of current selected stage
+let currentStage = null;
+let currentSketch = null;
+let availableStages = [];
+
+// Class definitions for nodes and edges
+class Node {
+  constructor(x, y, id, isRoot = false) {
+    this.x = x;
+    this.y = y;
+    this.id = id;
+    this.visible = isRoot; // Only root nodes are visible initially
+    this.appearProgress = 0;
+    this.popEffect = 0;
+    this.selected = false;
+    this.isRootNode = isRoot;
+  }
+
+  update() {
+    if (this.visible) {
+      // Handle the main appearance animation
+      if (this.appearProgress < 1) {
+        this.appearProgress += 0.06;
+
+        // When we reach full size, trigger the pop effect
+        if (this.appearProgress >= 1) {
+          this.appearProgress = 1; // Cap at 1
+          this.popEffect = 1; // Start the pop effect
+        }
+      }
+
+      // Handle the pop effect animation
+      if (this.popEffect > 0) {
+        this.popEffect -= 0.15; // Control how quickly it shrinks back
+        if (this.popEffect < 0) this.popEffect = 0; // Don't go negative
+      }
+    }
+  }
+
+  startAnimation() {
+    this.visible = true;
+  }
+
+  color() {
+    if (this.selected) {
+      return accentCol; // Use the global accent color variable for selected node
+    }
+    return '#4263eb'; // Default blue color
+  }
+
+  render(p5) {
+    if (this.visible) {
+      const popBonus = this.popEffect * 0.1;
+      const nodeScale = p5.map(this.appearProgress, 0, 1, 0, 1) + popBonus;
+      const alpha = p5.map(this.appearProgress, 0, 1, 0, 255);
+
+      p5.push();
+      p5.translate(this.x, this.y);
+
+      // Shadow effect
+      p5.noStroke();
+      p5.rectMode(p5.CENTER);
+
+      for (let i = 1; i <= 4; i++) {
+        p5.fill(0, 0, 0, alpha * 0.06);
+        p5.rect(i, i, 30 * nodeScale, 30 * nodeScale, 10);
+      }
+
+      // Main square - use node's color with alpha
+      let nodeColor = p5.color(this.color());
+      nodeColor.setAlpha(alpha);
+      p5.fill(nodeColor);
+      p5.rect(0, 0, 30 * nodeScale, 30 * nodeScale, 10);
+
+      // Draw checkmark icon if the node is selected
+      if (this.selected && this.appearProgress >= 1) {
+        p5.stroke(255);
+        p5.strokeWeight(2 * nodeScale);
+        p5.noFill();
+        // Draw checkmark
+        p5.beginShape();
+        p5.vertex(-8, 0);
+        p5.vertex(-3, 5);
+        p5.vertex(8, -6);
+        p5.endShape();
+      }
+
+      p5.pop();
+    }
+  }
+
+  isMouseOver(p5) {
+    return this.visible &&
+           p5.mouseX > this.x - 15 &&
+           p5.mouseX < this.x + 15 &&
+           p5.mouseY > this.y - 15 &&
+           p5.mouseY < this.y + 15;
+  }
+
+  // Connect this node to a child node
+  child(childNode) {
+    // Create an edge from this node to the child
+    let isLeft = childNode.x < this.x;
+    let isRight = childNode.x > this.x;
+    let edge = new Edge(this, childNode, isLeft, isRight);
+    return edge;
+  }
+}
+
+class Edge {
+  constructor(parent, child, isLeft, isRight) {
+    this.parent = parent;
+    this.child = child;
+    this.isLeft = isLeft;
+    this.isRight = isRight;
+    this.progress = 0;
+
+    // Calculate the midpoint where branching occurs
+    this.midY = parent.y + (child.y - parent.y) * 0.6;
+
+    // Use the actual child x-coordinate
+    // This ensures the edge will connect directly to the child node
+    this.branchX = child.x;
+  }
+
+  update() {
+    if (this.parent.visible && this.progress < 1) {
+      this.progress += 0.01; // Adjust animation speed
+    }
+    if (this.progress >= 1) {
+      this.child.visible = true;
+    }
+  }
+
+  color() {
+    return this.child.color();
+  }
+
+  render(p5) {
+    if (!this.parent.visible) return;
+
+    // Calculate path lengths
+    const verticalDist1 = this.midY - this.parent.y;
+    const horizontalDist = Math.abs(this.branchX - this.parent.x);
+    const verticalDist2 = this.child.y - this.midY;
+    const totalLength = verticalDist1 + horizontalDist + verticalDist2;
+
+    // Calculate how much of each segment to draw
+    const currentLength = totalLength * this.progress;
+
+    p5.stroke(180, 190, 205);
+    p5.strokeWeight(1.5);
+    p5.noFill();
+
+    // Always draw the first vertical segment from parent
+    if (currentLength > 0) {
+      const firstSegmentLength = Math.min(currentLength, verticalDist1);
+      const currentMidY = p5.lerp(this.parent.y, this.midY, firstSegmentLength / verticalDist1);
+      p5.line(this.parent.x, this.parent.y, this.parent.x, currentMidY);
+    }
+
+    if (currentLength > verticalDist1) {
+      // Draw second segment (horizontal)
+      const secondSegmentLength = Math.min(currentLength - verticalDist1, horizontalDist);
+      const currentBranchX = p5.lerp(this.parent.x, this.branchX, secondSegmentLength / horizontalDist);
+      p5.line(this.parent.x, this.midY, currentBranchX, this.midY);
+
+      if (currentLength > verticalDist1 + horizontalDist) {
+        // Draw third segment (vertical to child)
+        const thirdSegmentLength = currentLength - verticalDist1 - horizontalDist;
+        const currentChildY = p5.lerp(this.midY, this.child.y, thirdSegmentLength / verticalDist2);
+        p5.line(this.branchX, this.midY, this.branchX, currentChildY);
+      }
+    }
+  }
+}
+
+// Create a modified sketch for each stage
+function createTreeSketch(stageId) {
+  return function(p5) {
+    let nodes = [];
+    let edges = [];
+    let treeData = stageData[stageId];
+
+    p5.setup = function() {
+      const canvas = p5.createCanvas(p5.windowWidth * 0.4, p5.windowHeight);
+      canvas.parent('canvas-container');
+      p5.smooth();
+      p5.frameRate(60);
+
+      if (treeData) {
+        createTreeFromData(treeData);
+      }
+    };
+
+    p5.windowResized = function() {
+      p5.resizeCanvas(p5.windowWidth * 0.4, p5.windowHeight);
+    };
+
+    function createTreeFromData(data) {
+      // Clear existing nodes and edges
+      nodes = [];
+      edges = [];
+
+      // Add defensive checks to prevent errors
+      if (!data || !data.layout || !Array.isArray(data.layout) || !data.edges || !Array.isArray(data.edges)) {
+        console.error("Invalid tree data format:", data);
+        return; // Exit if data structure is invalid
+      }
+
+      // Find all parent nodes in edges
+      const parentNodes = new Set();
+      for (const [parentId, childId] of data.edges) {
+        parentNodes.add(parentId);
+      }
+
+      // Create nodes
+      for (let i = 0; i < data.layout.length; i++) {
+        const [nx, ny] = data.layout[i];
+        // A node is a root if it's a parent and not a child in any edge
+        const isRoot = parentNodes.has(i) && data.edges.every(edge => edge[1] !== i);
+
+        const node = new Node(
+          nx * p5.width * 0.8 + p5.width * 0.1,
+          ny * p5.height * 0.8 + p5.height * 0.1,
+          i,
+          isRoot
+        );
+        nodes.push(node);
+      }
+
+      // If no root was found, make the first parent node visible
+      if (!nodes.some(node => node.visible) && parentNodes.size > 0) {
+        // Get the first parent node
+        const firstParentId = [...parentNodes][0];
+        if (nodes[firstParentId]) {
+          nodes[firstParentId].visible = true;
+        }
+      }
+
+      // Create edges
+      for (const [parentId, childId] of data.edges) {
+        const parent = nodes[parentId];
+        const child = nodes[childId];
+        if (parent && child) { // Verify both nodes exist
+          const isLeft = child.x < parent.x;
+          const isRight = child.x > parent.x;
+          edges.push(new Edge(parent, child, isLeft, isRight));
+        }
+      }
+
+      // Select the first node by default
+      if (nodes.length > 0) {
+        nodes[0].selected = true;
+        updateNodeInfo(0);
+      }
+    }
+
+    p5.draw = function() {
+      // Use the global background color if available, otherwise use the default bgCol
+      const currentBgColor = window.bgColCurrent || bgCol;
+      p5.background(currentBgColor);
+
+      // Update and render edges
+      for (const edge of edges) {
+        edge.update();
+        edge.render(p5);
+      }
+
+      // Update and render nodes
+      for (const node of nodes) {
+        node.update();
+        node.render(p5);
+      }
+
+      // Handle mouse hover
+      p5.cursor(p5.ARROW);
+      for (const node of nodes) {
+        if (node.isMouseOver(p5)) {
+          p5.cursor(p5.HAND);
+        }
+      }
+    };
+
+    p5.mousePressed = function() {
+      // Check if any node was clicked
+      for (let i = 0; i < nodes.length; i++) {
+        if (nodes[i].visible && nodes[i].isMouseOver(p5)) {
+          // Deselect all nodes
+          nodes.forEach(n => n.selected = false);
+          // Select the clicked node
+          nodes[i].selected = true;
+          // Update the right panel with node info
+          updateNodeInfo(i);
+          break;
+        }
+      }
+    };
+
+    function updateNodeInfo(nodeIndex) {
+      if (treeData) {
+        setNodeInfo(
+          treeData.code[nodeIndex],
+          treeData.plan[nodeIndex],
+          treeData.plot_code?.[nodeIndex],
+          treeData.plot_plan?.[nodeIndex],
+          treeData.metrics?.[nodeIndex],
+          treeData.exc_type?.[nodeIndex] || '',
+          treeData.exc_info?.[nodeIndex]?.args?.[0] || '',
+          treeData.exc_stack?.[nodeIndex] || [],
+          treeData.plots?.[nodeIndex] || [],
+          treeData.plot_analyses?.[nodeIndex] || [],
+          treeData.vlm_feedback_summary?.[nodeIndex] || '',
+          treeData.datasets_successfully_tested?.[nodeIndex] || [],
+          treeData.exec_time_feedback?.[nodeIndex] || '',
+          treeData.exec_time?.[nodeIndex] || ''
+        );
+      }
+    }
+  };
+}
+
+// Start a new p5 sketch for the given stage
+function startSketch(stageId) {
+  if (currentSketch) {
+    currentSketch.remove();
+  }
+
+  if (stageData[stageId]) {
+    currentSketch = new p5(createTreeSketch(stageId));
+
+    // Update stage info
+    const stageNumber = stageId.split('_')[1];
+    let stageDesc = '';
+    switch(stageId) {
+      case 'Stage_1': stageDesc = 'Preliminary Investigation'; break;
+      case 'Stage_2': stageDesc = 'Baseline Tuning'; break;
+      case 'Stage_3': stageDesc = 'Research Agenda Execution'; break;
+      case 'Stage_4': stageDesc = 'Ablation Studies'; break;
+    }
+
+    document.getElementById('stage-info').innerHTML =
+      `<strong>Current Stage: ${stageNumber} - ${stageDesc}</strong>`;
+  }
+}
+
+// Handle tab selection
+function selectStage(stageId) {
+  if (!stageData[stageId] || !availableStages.includes(stageId)) {
+    return; // Don't allow selection of unavailable stages
+  }
+
+  // Update active tab styles
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  document.querySelector(`.tab[data-stage="${stageId}"]`).classList.add('active');
+
+  // Start the new sketch
+  currentStage = stageId;
+  startSketch(stageId);
+}
+
+// Function to load the tree data for all stages
+async function loadAllStageData(baseTreeData) {
+  console.log("Loading stage data with base data:", baseTreeData);
+
+  // The base tree data is for the current stage
+  const currentStageId = baseTreeData.current_stage || 'Stage_1';
+
+  // Ensure base tree data is valid and has required properties
+  if (baseTreeData && baseTreeData.layout && baseTreeData.edges) {
+    stageData[currentStageId] = baseTreeData;
+    availableStages.push(currentStageId);
+    console.log(`Added current stage ${currentStageId} to available stages`);
+  } else {
+    console.warn(`Current stage ${currentStageId} data is invalid:`, baseTreeData);
+  }
+
+  // Use relative path to load other stage trees
+  const logDirPath = baseTreeData.log_dir_path || '.';
+  console.log("Log directory path:", logDirPath);
+
+  // Load data for each stage if available
+  const stageNames = ['Stage_1', 'Stage_2', 'Stage_3', 'Stage_4'];
+  const stageNames2actualNames = {
+    'Stage_1': 'stage_1_initial_implementation_1_preliminary',
+    'Stage_2': 'stage_2_baseline_tuning_1_first_attempt',
+    'Stage_3': 'stage_3_creative_research_1_first_attempt',
+    'Stage_4': 'stage_4_ablation_studies_1_first_attempt'
+    }
+
+  for (const stage of stageNames) {
+
+    if (baseTreeData.completed_stages && baseTreeData.completed_stages.includes(stage)) {
+      try {
+        console.log(`Attempting to load data for ${stage} from ${logDirPath}/${stageNames2actualNames[stage]}/tree_data.json`);
+        const response = await fetch(`${logDirPath}/${stageNames2actualNames[stage]}/tree_data.json`);
+
+        if (response.ok) {
+          const data = await response.json();
+
+          // Validate the loaded data
+          if (data && data.layout && data.edges) {
+            stageData[stage] = data;
+            availableStages.push(stage);
+            console.log(`Successfully loaded and validated data for ${stage}`);
+          } else {
+            console.warn(`Loaded data for ${stage} is invalid:`, data);
+          }
+        } else {
+          console.warn(`Failed to load data for ${stage} - HTTP status ${response.status}`);
+        }
+      } catch (error) {
+        console.error(`Error loading data for ${stage}:`, error);
+      }
+    } else {
+      console.log(`Skipping stage ${stage} - not in completed stages list:`, baseTreeData.completed_stages);
+    }
+  }
+
+  // Update tab visibility based on available stages
+  updateTabVisibility();
+
+  // Start with the first available stage
+  if (availableStages.length > 0) {
+    selectStage(availableStages[0]);
+  } else {
+    console.warn("No stages available to display");
+    // Display a message in the canvas area
+    document.getElementById('canvas-container').innerHTML =
+      '<div style="padding: 20px; color: #333; text-align: center;"><h3>No valid tree data available to display</h3></div>';
+  }
+}
+
+// Update tab visibility based on available stages
+function updateTabVisibility() {
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach(tab => {
+    const stageId = tab.getAttribute('data-stage');
+    if (availableStages.includes(stageId)) {
+      tab.classList.remove('disabled');
+    } else {
+      tab.classList.add('disabled');
+    }
+  });
+}
+
+// Utility function to set the node info in the right panel
+const setNodeInfo = (code, plan, plot_code, plot_plan, metrics = null, exc_type = '', exc_info = '',
+    exc_stack = [], plots = [], plot_analyses = [], vlm_feedback_summary = '',
+    datasets_successfully_tested = [], exec_time_feedback = '', exec_time = '') => {
+  const codeElm = document.getElementById("code");
+  if (codeElm) {
+    if (code) {
+      codeElm.innerHTML = hljs.highlight(code, { language: "python" }).value;
+    } else {
+      codeElm.innerHTML = '<p>No code available</p>';
+    }
+  }
+
+  const planElm = document.getElementById("plan");
+  if (planElm) {
+    if (plan) {
+      planElm.innerHTML = hljs.highlight(plan, { language: "plaintext" }).value;
+    } else {
+      planElm.innerHTML = '<p>No plan available</p>';
+    }
+  }
+
+  const plot_codeElm = document.getElementById("plot_code");
+  if (plot_codeElm) {
+    if (plot_code) {
+      plot_codeElm.innerHTML = hljs.highlight(plot_code, { language: "python" }).value;
+    } else {
+      plot_codeElm.innerHTML = '<p>No plot code available</p>';
+    }
+  }
+
+  const plot_planElm = document.getElementById("plot_plan");
+  if (plot_planElm) {
+    if (plot_plan) {
+      plot_planElm.innerHTML = hljs.highlight(plot_plan, { language: "plaintext" }).value;
+    } else {
+      plot_planElm.innerHTML = '<p>No plot plan available</p>';
+    }
+  }
+
+  const metricsElm = document.getElementById("metrics");
+  if (metricsElm) {
+      let metricsContent = `<h3>Metrics:</h3>`;
+      if (metrics && metrics.metric_names) {
+          for (const metric of metrics.metric_names) {
+              metricsContent += `<div class="metric-group">`;
+              metricsContent += `<h4>${metric.metric_name}</h4>`;
+              metricsContent += `<p><strong>Description:</strong> ${metric.description || 'N/A'}</p>`;
+              metricsContent += `<p><strong>Optimization:</strong> ${metric.lower_is_better ? 'Minimize' : 'Maximize'}</p>`;
+
+              // Create table for dataset values
+              metricsContent += `<table class="metric-table">
+                  <tr>
+                      <th>Dataset</th>
+                      <th>Final Value</th>
+                      <th>Best Value</th>
+                  </tr>`;
+
+              for (const dataPoint of metric.data) {
+                  metricsContent += `<tr>
+                      <td>${dataPoint.dataset_name}</td>
+                      <td>${dataPoint.final_value?.toFixed(4) || 'N/A'}</td>
+                      <td>${dataPoint.best_value?.toFixed(4) || 'N/A'}</td>
+                  </tr>`;
+              }
+
+              metricsContent += `</table></div>`;
+          }
+      } else if (metrics === null) {
+          metricsContent += `<p>No metrics available</p>`;
+      }
+      metricsElm.innerHTML = metricsContent;
+  }
+
+  // Add plots display
+  const plotsElm = document.getElementById("plots");
+  if (plotsElm) {
+      if (plots && plots.length > 0) {
+          let plotsContent = '';
+          plots.forEach(plotPath => {
+              plotsContent += `
+                  <div class="plot-item">
+                      <img src="${plotPath}" alt="Experiment Plot" onerror="console.error('Failed to load plot:', this.src)"/>
+                  </div>`;
+          });
+          plotsElm.innerHTML = plotsContent;
+      } else {
+          plotsElm.innerHTML = '';
+      }
+  }
+
+  // Add error info display
+  const errorElm = document.getElementById("exc_info");
+  if (errorElm) {
+    if (exc_type) {
+      let errorContent = `<h3 style="color: #ff5555">Exception Information:</h3>
+                          <p><strong>Type:</strong> ${exc_type}</p>`;
+
+      if (exc_info) {
+        errorContent += `<p><strong>Details:</strong> <pre>${JSON.stringify(exc_info, null, 2)}</pre></p>`;
+      }
+
+      if (exc_stack) {
+        errorContent += `<p><strong>Stack Trace:</strong> <pre>${exc_stack.join('\n')}</pre></p>`;
+      }
+
+      errorElm.innerHTML = errorContent;
+    } else {
+      errorElm.innerHTML = "No exception info available";
+    }
+  }
+
+  const exec_timeElm = document.getElementById("exec_time");
+  if (exec_timeElm) {
+    let exec_timeContent = '<div id="exec_time"><h3>Execution Time (in seconds):</h3><p>' + exec_time + '</p></div>';
+    exec_timeElm.innerHTML = exec_timeContent;
+  }
+
+  const exec_time_feedbackElm = document.getElementById("exec_time_feedback");
+  if (exec_time_feedbackElm) {
+    let exec_time_feedbackContent = '<div id="exec_time_feedback_content">'
+    exec_time_feedbackContent += '<h3>Execution Time Feedback:</h3>'
+    exec_time_feedbackContent += '<p>' + exec_time_feedback + '</p>'
+    exec_time_feedbackContent += '</div>';
+    exec_time_feedbackElm.innerHTML = exec_time_feedbackContent;
+  }
+
+  const vlm_feedbackElm = document.getElementById("vlm_feedback");
+  if (vlm_feedbackElm) {
+      let vlm_feedbackContent = '';
+
+      if (plot_analyses && plot_analyses.length > 0) {
+          vlm_feedbackContent += `<h3>Plot Analysis:</h3>`;
+          plot_analyses.forEach(analysis => {
+              if (analysis && analysis.plot_path) {  // Add null check
+                  vlm_feedbackContent += `
+                      <div class="plot-analysis">
+                          <h4>Analysis for ${analysis.plot_path.split('/').pop()}</h4>
+                          <p>${analysis.analysis || 'No analysis available'}</p>
+                          <ul class="key-findings">
+                              ${(analysis.key_findings || []).map(finding => `<li>${finding}</li>`).join('')}
+                          </ul>
+                      </div>`;
+              } else {
+                  console.warn('Received invalid plot analysis:', analysis);
+                  vlm_feedbackContent += `
+                      <div class="plot-analysis">
+                          <p>Invalid plot analysis data received</p>
+                      </div>`;
+              }
+          });
+      }
+
+      // Add actionable insights if available
+      if (vlm_feedback_summary && typeof vlm_feedback_summary === 'string') {
+          vlm_feedbackContent += `
+              <div class="vlm_feedback">
+                  <h3>VLM Feedback Summary:</h3>
+                  <p>${vlm_feedback_summary}</p>
+              </div>`;
+      }
+
+      console.log("Datasets successfully tested:", datasets_successfully_tested);
+      if (datasets_successfully_tested && datasets_successfully_tested.length > 0) {
+          vlm_feedbackContent += `
+              <div id="datasets_successfully_tested">
+                  <h3>Datasets Successfully Tested:</h3>
+                  <p>${datasets_successfully_tested.join(', ')}</p>
+              </div>`;
+      }
+
+      if (!vlm_feedbackContent) {
+          vlm_feedbackContent = '<p>No insights available for this experiment.</p>';
+      }
+
+      vlm_feedbackElm.innerHTML = vlm_feedbackContent;
+  }
+
+  const datasets_successfully_testedElm = document.getElementById("datasets_successfully_tested");
+  if (datasets_successfully_testedElm) {
+      let datasets_successfully_testedContent = '';
+      if (datasets_successfully_tested && datasets_successfully_tested.length > 0) {
+          datasets_successfully_testedContent = `<h3>Datasets Successfully Tested:</h3><ul>`;
+          datasets_successfully_tested.forEach(dataset => {
+              datasets_successfully_testedContent += `<li>${dataset}</li>`;
+          });
+          datasets_successfully_testedContent += `</ul>`;
+      } else {
+          datasets_successfully_testedContent = '<p>No datasets tested yet</p>';
+      }
+      datasets_successfully_testedElm.innerHTML = datasets_successfully_testedContent;
+  }
+};
+
+// Initialize with the provided tree data
+const treeStructData = {"edges": [], "layout": [[0.0, 0.0], [0.3333333333333333, 0.0], [0.6666666666666666, 0.0], [1.0, 0.0]], "plan": ["We'll implement a simple baseline for analyzing fairness generalization by\ncreating a synthetic dataset with sensitive attributes, training a model with\nfairness constraints, and measuring the fairness generalization gap. The\nimplementation will include: 1) generating synthetic data with two classes and a\nsensitive attribute, 2) defining a simple neural network model, 3) implementing\ndemographic parity as a fairness metric, 4) training while tracking fairness\nmetrics on both train and validation sets, and 5) computing the fairness\ngeneralization gap. This provides the foundation for later information-theoretic\nanalysis.", "We'll implement a simple experiment to study fairness overfitting by creating a\nsynthetic dataset with sensitive attributes, training a model with fairness\nconstraints, and measuring the fairness generalization gap. The key steps are:\n(1) Generate synthetic data with two classes and a sensitive attribute, (2)\nSplit into train/val sets, (3) Train a simple neural network with fairness\nregularization, (4) Track fairness metrics on both sets, and (5) Compute the\nfairness generalization gap. We'll use demographic parity as our fairness metric\nand analyze how it differs between training and validation data.", "Here's a concise implementation that analyzes fairness overfitting through\ninformation-theoretic bounds, using a simple synthetic dataset with sensitive\nattributes. The code includes training a model while tracking fairness metrics\non both training and validation sets to compute the generalization gap.", "Here's a concise implementation that demonstrates fairness overfitting using a\nsimple neural network on synthetic data with sensitive attributes. The code\ncalculates and tracks the fairness generalization gap between training and\nvalidation sets."], "code": ["import os\nimport numpy as np\nimport torch\nimport torch.nn as nn\nimport torch.optim as optim\nfrom sklearn.metrics import accuracy_score\n\ndevice = torch.device(\"cuda\" if torch.cuda.is_available() else \"cpu\")\nprint(f\"Using device: {device}\")\nworking_dir = os.path.join(os.getcwd(), \"working\")\nos.makedirs(working_dir, exist_ok=True)\n\n# Generate synthetic data with sensitive attribute\nnp.random.seed(0)\nn_samples = 1000\nX = np.random.randn(n_samples, 2)\nsensitive = np.random.randint(0, 2, size=n_samples)  # Binary sensitive attribute\ny = ((X[:, 0] > 0) & (X[:, 1] > 0)).astype(int)  # Simple decision boundary\n\n# Split into train/val\ntrain_idx = np.random.choice(n_samples, int(0.8 * n_samples), replace=False)\nval_idx = np.array([i for i in range(n_samples) if i not in train_idx])\nX_train, X_val = X[train_idx], X[val_idx]\ny_train, y_val = y[train_idx], y[val_idx]\ns_train, s_val = sensitive[train_idx], sensitive[val_idx]\n\n# Convert to tensors and move to device\nX_train = torch.FloatTensor(X_train).to(device)\ny_train = torch.LongTensor(y_train).to(device)\ns_train = torch.LongTensor(s_train).to(device)\nX_val = torch.FloatTensor(X_val).to(device)\ny_val = torch.LongTensor(y_val).to(device)\ns_val = torch.LongTensor(s_val).to(device)\n\n# Define model\nmodel = nn.Sequential(nn.Linear(2, 16), nn.ReLU(), nn.Linear(16, 2)).to(device)\n\n\n# Define fairness metric (demographic parity difference)\ndef demographic_parity(logits, sensitive):\n    preds = logits.argmax(dim=1)\n    group0 = sensitive == 0\n    group1 = sensitive == 1\n    prob0 = preds[group0].float().mean()\n    prob1 = preds[group1].float().mean()\n    return torch.abs(prob0 - prob1)\n\n\n# Training setup\noptimizer = optim.Adam(model.parameters(), lr=0.01)\ncriterion = nn.CrossEntropyLoss()\n\n# Track metrics\nexperiment_data = {\n    \"synthetic_fairness\": {\n        \"losses\": {\"train\": [], \"val\": []},\n        \"metrics\": {\"train\": [], \"val\": []},\n        \"fairness\": {\"train\": [], \"val\": []},\n        \"fairness_gap\": [],\n    }\n}\n\n# Training loop\nn_epochs = 20\nbatch_size = 32\nfor epoch in range(n_epochs):\n    model.train()\n    train_loss = 0\n    for i in range(0, len(X_train), batch_size):\n        xb = X_train[i : i + batch_size]\n        yb = y_train[i : i + batch_size]\n        sb = s_train[i : i + batch_size]\n\n        optimizer.zero_grad()\n        logits = model(xb)\n        loss = criterion(logits, yb)\n        loss.backward()\n        optimizer.step()\n        train_loss += loss.item()\n\n    # Eval on train and val\n    model.eval()\n    with torch.no_grad():\n        # Train metrics\n        train_logits = model(X_train)\n        train_loss = criterion(train_logits, y_train).item()\n        train_acc = (train_logits.argmax(dim=1) == y_train).float().mean().item()\n        train_fairness = demographic_parity(train_logits, s_train).item()\n\n        # Val metrics\n        val_logits = model(X_val)\n        val_loss = criterion(val_logits, y_val).item()\n        val_acc = (val_logits.argmax(dim=1) == y_val).float().mean().item()\n        val_fairness = demographic_parity(val_logits, s_val).item()\n\n        # Fairness gap\n        fairness_gap = abs(train_fairness - val_fairness)\n\n        # Store metrics\n        experiment_data[\"synthetic_fairness\"][\"losses\"][\"train\"].append(train_loss)\n        experiment_data[\"synthetic_fairness\"][\"losses\"][\"val\"].append(val_loss)\n        experiment_data[\"synthetic_fairness\"][\"metrics\"][\"train\"].append(train_acc)\n        experiment_data[\"synthetic_fairness\"][\"metrics\"][\"val\"].append(val_acc)\n        experiment_data[\"synthetic_fairness\"][\"fairness\"][\"train\"].append(\n            train_fairness\n        )\n        experiment_data[\"synthetic_fairness\"][\"fairness\"][\"val\"].append(val_fairness)\n        experiment_data[\"synthetic_fairness\"][\"fairness_gap\"].append(fairness_gap)\n\n        print(f\"Epoch {epoch}: Train Loss={train_loss:.4f}, Val Loss={val_loss:.4f}\")\n        print(\n            f\"Train Fairness={train_fairness:.4f}, Val Fairness={val_fairness:.4f}, Gap={fairness_gap:.4f}\"\n        )\n\n# Save results\nnp.save(os.path.join(working_dir, \"experiment_data.npy\"), experiment_data)\n\n# Print final metrics\nfinal_metrics = {\n    \"final_train_fairness\": experiment_data[\"synthetic_fairness\"][\"fairness\"][\"train\"][\n        -1\n    ],\n    \"final_val_fairness\": experiment_data[\"synthetic_fairness\"][\"fairness\"][\"val\"][-1],\n    \"final_fairness_gap\": experiment_data[\"synthetic_fairness\"][\"fairness_gap\"][-1],\n    \"final_val_accuracy\": experiment_data[\"synthetic_fairness\"][\"metrics\"][\"val\"][-1],\n}\nprint(\"\\nFinal Metrics:\")\nfor k, v in final_metrics.items():\n    print(f\"{k}: {v:.4f}\")\n", "import os\nimport numpy as np\nimport torch\nimport torch.nn as nn\nimport torch.optim as optim\nfrom sklearn.metrics import accuracy_score\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\nos.makedirs(working_dir, exist_ok=True)\ndevice = torch.device(\"cuda\" if torch.cuda.is_available() else \"cpu\")\nprint(f\"Using device: {device}\")\n\n# Generate synthetic data with sensitive attribute\nnp.random.seed(0)\nn_samples = 1000\nX = np.random.randn(n_samples, 2) * 1.5\nsensitive = np.random.binomial(1, 0.5, n_samples)  # Binary sensitive attribute\ny = ((X[:, 0] + X[:, 1] + 0.5 * sensitive) > 0).astype(\n    int\n)  # Label depends slightly on sensitive attribute\n\n# Split into train/val (80/20)\nsplit = int(0.8 * n_samples)\nX_train, X_val = X[:split], X[split:]\ny_train, y_val = y[:split], y[split:]\ns_train, s_val = sensitive[:split], sensitive[split:]\n\n# Convert to tensors and move to device\nX_train = torch.FloatTensor(X_train).to(device)\ny_train = torch.LongTensor(y_train).to(device)\ns_train = torch.FloatTensor(s_train).to(device)\nX_val = torch.FloatTensor(X_val).to(device)\ny_val = torch.LongTensor(y_val).to(device)\ns_val = torch.FloatTensor(s_val).to(device)\n\n# Define model\nmodel = nn.Sequential(nn.Linear(2, 16), nn.ReLU(), nn.Linear(16, 2)).to(device)\n\n\n# Define fairness metric (demographic parity difference)\ndef demographic_parity(logits, sensitive):\n    preds = logits.argmax(dim=1).float()\n    dp_diff = torch.abs(preds[sensitive == 1].mean() - preds[sensitive == 0].mean())\n    return dp_diff\n\n\n# Training setup\noptimizer = optim.Adam(model.parameters(), lr=0.01)\ncriterion = nn.CrossEntropyLoss()\nfairness_lambda = 0.1  # Fairness regularization strength\n\n# Training loop\nn_epochs = 20\nexperiment_data = {\n    \"synthetic_fairness\": {\n        \"metrics\": {\"train_acc\": [], \"val_acc\": [], \"train_fair\": [], \"val_fair\": []},\n        \"losses\": {\"train\": [], \"val\": []},\n        \"fairness_gap\": [],\n    }\n}\n\nfor epoch in range(n_epochs):\n    model.train()\n    optimizer.zero_grad()\n    logits = model(X_train)\n    loss = criterion(logits, y_train)\n    fair_loss = demographic_parity(logits, s_train)\n    total_loss = loss + fairness_lambda * fair_loss\n    total_loss.backward()\n    optimizer.step()\n\n    # Evaluate on training set\n    with torch.no_grad():\n        train_logits = model(X_train)\n        train_acc = accuracy_score(y_train.cpu(), train_logits.argmax(dim=1).cpu())\n        train_fair = demographic_parity(train_logits, s_train).item()\n\n        # Evaluate on validation set\n        val_logits = model(X_val)\n        val_loss = criterion(val_logits, y_val).item()\n        val_acc = accuracy_score(y_val.cpu(), val_logits.argmax(dim=1).cpu())\n        val_fair = demographic_parity(val_logits, s_val).item()\n\n        fairness_gap = abs(train_fair - val_fair)\n\n        experiment_data[\"synthetic_fairness\"][\"metrics\"][\"train_acc\"].append(train_acc)\n        experiment_data[\"synthetic_fairness\"][\"metrics\"][\"val_acc\"].append(val_acc)\n        experiment_data[\"synthetic_fairness\"][\"metrics\"][\"train_fair\"].append(\n            train_fair\n        )\n        experiment_data[\"synthetic_fairness\"][\"metrics\"][\"val_fair\"].append(val_fair)\n        experiment_data[\"synthetic_fairness\"][\"losses\"][\"train\"].append(loss.item())\n        experiment_data[\"synthetic_fairness\"][\"losses\"][\"val\"].append(val_loss)\n        experiment_data[\"synthetic_fairness\"][\"fairness_gap\"].append(fairness_gap)\n\n        print(\n            f\"Epoch {epoch}: val_loss={val_loss:.4f}, train_fair={train_fair:.4f}, val_fair={val_fair:.4f}, fairness_gap={fairness_gap:.4f}\"\n        )\n\nnp.save(os.path.join(working_dir, \"experiment_data.npy\"), experiment_data)\n", "import numpy as np\nimport torch\nimport torch.nn as nn\nimport torch.optim as optim\nimport matplotlib.pyplot as plt\nimport os\n\ndevice = torch.device(\"cuda\" if torch.cuda.is_available() else \"cpu\")\nprint(f\"Using device: {device}\")\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\nos.makedirs(working_dir, exist_ok=True)\n\n# Synthetic data with sensitive attribute (s) and labels (y)\nn_train, n_val = 1000, 300\ntorch.manual_seed(0)\n\n# Group 0 (s=0)\nX0 = torch.cat(\n    [\n        torch.randn(n_train // 4, 2) * 0.5 + torch.tensor([-1, -1]),\n        torch.randn(n_train // 4, 2) * 0.5 + torch.tensor([2, 2]),\n    ]\n)\ny0 = torch.cat([torch.zeros(n_train // 4), torch.ones(n_train // 4)]).long()\ns0 = torch.zeros(n_train // 2)\n\n# Group 1 (s=1)\nX1 = torch.randn(n_train // 2, 2) * 0.7 + torch.tensor([0, 0])\ny1 = (torch.rand(n_train // 2) > 0.7).long()\ns1 = torch.ones(n_train // 2)\n\nX_train = torch.cat([X0, X1]).to(device)\ny_train = torch.cat([y0, y1]).to(device)\ns_train = torch.cat([s0, s1]).to(device)\n\n# Validation data\nX0_val = torch.cat(\n    [\n        torch.randn(n_val // 4, 2) * 0.5 + torch.tensor([-1, -1]),\n        torch.randn(n_val // 4, 2) * 0.5 + torch.tensor([2, 2]),\n    ]\n)\ny0_val = torch.cat([torch.zeros(n_val // 4), torch.ones(n_val // 4)]).long()\ns0_val = torch.zeros(n_val // 2)\n\nX1_val = torch.randn(n_val // 2, 2) * 0.7 + torch.tensor([0, 0])\ny1_val = (torch.rand(n_val // 2) > 0.7).long()\ns1_val = torch.ones(n_val // 2)\n\nX_val = torch.cat([X0_val, X1_val]).to(device)\ny_val = torch.cat([y0_val, y1_val]).to(device)\ns_val = torch.cat([s0_val, s1_val]).to(device)\n\n# Model\nmodel = nn.Sequential(nn.Linear(2, 16), nn.ReLU(), nn.Linear(16, 2)).to(device)\noptimizer = optim.Adam(model.parameters(), lr=0.01)\ncriterion = nn.CrossEntropyLoss()\n\n\ndef compute_dp_diff(y_pred, s):\n    group0 = s == 0\n    group1 = s == 1\n    p0 = y_pred[group0].mean()\n    p1 = y_pred[group1].mean()\n    return abs(p0 - p1).item()\n\n\ntrain_dps, val_dps, losses = [], [], []\nfor epoch in range(50):\n    model.train()\n    logits = model(X_train)\n    loss = criterion(logits, y_train)\n    optimizer.zero_grad()\n    loss.backward()\n    optimizer.step()\n\n    with torch.no_grad():\n        y_pred_train = (logits.argmax(1)).float()\n        train_dp = compute_dp_diff(y_pred_train, s_train)\n        train_dps.append(train_dp)\n\n        logits_val = model(X_val)\n        y_pred_val = (logits_val.argmax(1)).float()\n        val_dp = compute_dp_diff(y_pred_val, s_val)\n        val_dps.append(val_dp)\n\n        losses.append(loss.item())\n\n    print(\n        f\"Epoch {epoch}: loss={loss.item():.4f}, Train DP gap={train_dp:.4f}, Val DP gap={val_dp:.4f}\"\n    )\n\ngeneralization_gap = np.abs(np.array(train_dps) - np.array(val_dps))\nplt.figure(figsize=(10, 4))\nplt.subplot(1, 2, 1)\nplt.plot(train_dps, label=\"Train DP gap\")\nplt.plot(val_dps, label=\"Val DP gap\")\nplt.legend()\nplt.subplot(1, 2, 2)\nplt.plot(generalization_gap, label=\"Generalization gap\")\nplt.legend()\nplt.savefig(os.path.join(working_dir, \"fairness_generalization.png\"))\n\nexperiment_data = {\n    \"synthetic_fairness\": {\n        \"losses\": losses,\n        \"train_dp\": train_dps,\n        \"val_dp\": val_dps,\n        \"generalization_gap\": generalization_gap.tolist(),\n    }\n}\nnp.save(os.path.join(working_dir, \"experiment_data.npy\"), experiment_data)\n", "import os\nimport numpy as np\nimport torch\nimport torch.nn as nn\nimport torch.optim as optim\n\ndevice = torch.device(\"cuda\" if torch.cuda.is_available() else \"cpu\")\nprint(f\"Using device: {device}\")\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\nos.makedirs(working_dir, exist_ok=True)\n\n# Generate synthetic data with sensitive attribute\nn_train, n_val = 1000, 200\nnp.random.seed(0)\nX_train = np.random.randn(n_train, 10).astype(np.float32)\ns_train = np.random.randint(0, 2, size=n_train)  # sensitive attribute\ny_train = ((X_train[:, 0] > 0) ^ (s_train == 1)).astype(np.float32)  # XOR relationship\n\nX_val = np.random.randn(n_val, 10).astype(np.float32)\ns_val = np.random.randint(0, 2, size=n_val)\ny_val = ((X_val[:, 0] > 0) ^ (s_val == 1)).astype(np.float32)\n\nX_train, s_train, y_train = (\n    torch.tensor(X_train).to(device),\n    torch.tensor(s_train).to(device),\n    torch.tensor(y_train).to(device),\n)\nX_val, s_val, y_val = (\n    torch.tensor(X_val).to(device),\n    torch.tensor(s_val).to(device),\n    torch.tensor(y_val).to(device),\n)\n\n# Define model and fairness metrics\nmodel = nn.Sequential(nn.Linear(10, 20), nn.ReLU(), nn.Linear(20, 1), nn.Sigmoid()).to(\n    device\n)\noptimizer = optim.Adam(model.parameters(), lr=0.01)\ncriterion = nn.BCELoss()\n\n\ndef demographic_parity(output, sensitive):\n    protected = sensitive == 1\n    return torch.abs(output[protected].mean() - output[~protected].mean())\n\n\nexperiment_data = {\n    \"synthetic_data\": {\n        \"losses\": {\"train\": [], \"val\": []},\n        \"metrics\": {\"train\": [], \"val\": []},\n        \"fairness_gap\": [],\n    }\n}\n\n# Training loop\nfor epoch in range(30):\n    model.train()\n    train_output = model(X_train).squeeze()\n    train_loss = criterion(train_output, y_train)\n    train_dp = demographic_parity(train_output, s_train)\n\n    optimizer.zero_grad()\n    train_loss.backward()\n    optimizer.step()\n\n    model.eval()\n    with torch.no_grad():\n        val_output = model(X_val).squeeze()\n        val_loss = criterion(val_output, y_val)\n        val_dp = demographic_parity(val_output, s_val)\n\n    experiment_data[\"synthetic_data\"][\"losses\"][\"train\"].append(train_loss.item())\n    experiment_data[\"synthetic_data\"][\"losses\"][\"val\"].append(val_loss.item())\n    experiment_data[\"synthetic_data\"][\"metrics\"][\"train\"].append(train_dp.item())\n    experiment_data[\"synthetic_data\"][\"metrics\"][\"val\"].append(val_dp.item())\n    fairness_gap = abs(train_dp.item() - val_dp.item())\n    experiment_data[\"synthetic_data\"][\"fairness_gap\"].append(fairness_gap)\n\n    print(\n        f\"Epoch {epoch}: train_loss={train_loss:.4f}, val_loss={val_loss:.4f}, \"\n        f\"train_dp={train_dp:.4f}, val_dp={val_dp:.4f}, fairness_gap={fairness_gap:.4f}\"\n    )\n\nnp.save(os.path.join(working_dir, \"experiment_data.npy\"), experiment_data)\n"], "term_out": ["['Using device: cuda', '\\n', 'Epoch 0: Train Loss=0.3354, Val Loss=0.3279',\n'\\n', 'Train Fairness=0.0206, Val Fairness=0.0275, Gap=0.0069', '\\n', 'Epoch 1:\nTrain Loss=0.1735, Val Loss=0.1761', '\\n', 'Train Fairness=0.0295, Val\nFairness=0.0301, Gap=0.0006', '\\n', 'Epoch 2: Train Loss=0.1199, Val\nLoss=0.1181', '\\n', 'Train Fairness=0.0139, Val Fairness=0.0514, Gap=0.0375',\n'\\n', 'Epoch 3: Train Loss=0.0944, Val Loss=0.0902', '\\n', 'Train\nFairness=0.0319, Val Fairness=0.0514, Gap=0.0195', '\\n', 'Epoch 4: Train\nLoss=0.0795, Val Loss=0.0734', '\\n', 'Train Fairness=0.0346, Val\nFairness=0.0514, Gap=0.0168', '\\n', 'Epoch 5: Train Loss=0.0691, Val\nLoss=0.0618', '\\n', 'Train Fairness=0.0346, Val Fairness=0.0420, Gap=0.0073',\n'\\n', 'Epoch 6: Train Loss=0.0616, Val Loss=0.0533', '\\n', 'Train\nFairness=0.0322, Val Fairness=0.0313, Gap=0.0009', '\\n', 'Epoch 7: Train\nLoss=0.0557, Val Loss=0.0466', '\\n', 'Train Fairness=0.0322, Val\nFairness=0.0207, Gap=0.0115', '\\n', 'Epoch 8: Train Loss=0.0510, Val\nLoss=0.0414', '\\n', 'Train Fairness=0.0322, Val Fairness=0.0207, Gap=0.0115',\n'\\n', 'Epoch 9: Train Loss=0.0472, Val Loss=0.0371', '\\n', 'Train\nFairness=0.0322, Val Fairness=0.0207, Gap=0.0115', '\\n', 'Epoch 10: Train\nLoss=0.0439, Val Loss=0.0336', '\\n', 'Train Fairness=0.0322, Val\nFairness=0.0207, Gap=0.0115', '\\n', 'Epoch 11: Train Loss=0.0411, Val\nLoss=0.0306', '\\n', 'Train Fairness=0.0322, Val Fairness=0.0207, Gap=0.0115',\n'\\n', 'Epoch 12: Train Loss=0.0387, Val Loss=0.0281', '\\n', 'Train\nFairness=0.0322, Val Fairness=0.0207, Gap=0.0115', '\\n', 'Epoch 13: Train\nLoss=0.0366, Val Loss=0.0259', '\\n', 'Train Fairness=0.0296, Val\nFairness=0.0207, Gap=0.0089', '\\n', 'Epoch 14: Train Loss=0.0348, Val\nLoss=0.0240', '\\n', 'Train Fairness=0.0272, Val Fairness=0.0207, Gap=0.0065',\n'\\n', 'Epoch 15: Train Loss=0.0331, Val Loss=0.0224', '\\n', 'Train\nFairness=0.0272, Val Fairness=0.0207, Gap=0.0065', '\\n', 'Epoch 16: Train\nLoss=0.0316, Val Loss=0.0209', '\\n', 'Train Fairness=0.0272, Val\nFairness=0.0207, Gap=0.0065', '\\n', 'Epoch 17: Train Loss=0.0302, Val\nLoss=0.0196', '\\n', 'Train Fairness=0.0272, Val Fairness=0.0207, Gap=0.0065',\n'\\n', 'Epoch 18: Train Loss=0.0288, Val Loss=0.0183', '\\n', 'Train\nFairness=0.0272, Val Fairness=0.0207, Gap=0.0065', '\\n', 'Epoch 19: Train\nLoss=0.0278, Val Loss=0.0174', '\\n', 'Train Fairness=0.0272, Val\nFairness=0.0207, Gap=0.0065', '\\n', '\\nFinal Metrics:', '\\n',\n'final_train_fairness: 0.0272', '\\n', 'final_val_fairness: 0.0207', '\\n',\n'final_fairness_gap: 0.0065', '\\n', 'final_val_accuracy: 0.9950', '\\n',\n'Execution time: 5 seconds seconds (time limit is 20 minutes).']", "['Using device: cuda', '\\n', 'Epoch 0: val_loss=0.8108, train_fair=0.0458,\nval_fair=0.0672, fairness_gap=0.0214', '\\n', 'Epoch 1: val_loss=0.7586,\ntrain_fair=0.0346, val_fair=0.0815, fairness_gap=0.0469', '\\n', 'Epoch 2:\nval_loss=0.7104, train_fair=0.0449, val_fair=0.0424, fairness_gap=0.0025', '\\n',\n'Epoch 3: val_loss=0.6661, train_fair=0.0006, val_fair=0.0391,\nfairness_gap=0.0386', '\\n', 'Epoch 4: val_loss=0.6253, train_fair=0.0063,\nval_fair=0.0695, fairness_gap=0.0631', '\\n', 'Epoch 5: val_loss=0.5879,\ntrain_fair=0.0168, val_fair=0.0895, fairness_gap=0.0727', '\\n', 'Epoch 6:\nval_loss=0.5535, train_fair=0.0049, val_fair=0.0695, fairness_gap=0.0646', '\\n',\n'Epoch 7: val_loss=0.5220, train_fair=0.0077, val_fair=0.0576,\nfairness_gap=0.0499', '\\n', 'Epoch 8: val_loss=0.4930, train_fair=0.0078,\nval_fair=0.0670, fairness_gap=0.0592', '\\n', 'Epoch 9: val_loss=0.4663,\ntrain_fair=0.0055, val_fair=0.0682, fairness_gap=0.0628', '\\n', 'Epoch 10:\nval_loss=0.4417, train_fair=0.0078, val_fair=0.0789, fairness_gap=0.0711', '\\n',\n'Epoch 11: val_loss=0.4189, train_fair=0.0077, val_fair=0.0789,\nfairness_gap=0.0712', '\\n', 'Epoch 12: val_loss=0.3979, train_fair=0.0103,\nval_fair=0.0789, fairness_gap=0.0686', '\\n', 'Epoch 13: val_loss=0.3785,\ntrain_fair=0.0152, val_fair=0.0895, fairness_gap=0.0744', '\\n', 'Epoch 14:\nval_loss=0.3603, train_fair=0.0150, val_fair=0.0907, fairness_gap=0.0758', '\\n',\n'Epoch 15: val_loss=0.3434, train_fair=0.0123, val_fair=0.0813,\nfairness_gap=0.0690', '\\n', 'Epoch 16: val_loss=0.3277, train_fair=0.0121,\nval_fair=0.0813, fairness_gap=0.0692', '\\n', 'Epoch 17: val_loss=0.3132,\ntrain_fair=0.0170, val_fair=0.0813, fairness_gap=0.0643', '\\n', 'Epoch 18:\nval_loss=0.2996, train_fair=0.0170, val_fair=0.0919, fairness_gap=0.0749', '\\n',\n'Epoch 19: val_loss=0.2870, train_fair=0.0169, val_fair=0.0825,\nfairness_gap=0.0656', '\\n', 'Execution time: 5 seconds seconds (time limit is 20\nminutes).']", "['Using device: cuda', '\\n', 'Epoch 0: loss=0.7241, Train DP gap=0.6040, Val DP\ngap=0.2400', '\\n', 'Epoch 1: loss=0.6806, Train DP gap=0.2920, Val DP\ngap=0.0333', '\\n', 'Epoch 2: loss=0.6414, Train DP gap=0.0660, Val DP\ngap=0.2000', '\\n', 'Epoch 3: loss=0.6065, Train DP gap=0.1980, Val DP\ngap=0.2733', '\\n', 'Epoch 4: loss=0.5754, Train DP gap=0.2700, Val DP\ngap=0.3067', '\\n', 'Epoch 5: loss=0.5479, Train DP gap=0.3120, Val DP\ngap=0.3400', '\\n', 'Epoch 6: loss=0.5236, Train DP gap=0.3240, Val DP\ngap=0.3467', '\\n', 'Epoch 7: loss=0.5020, Train DP gap=0.3300, Val DP\ngap=0.3533', '\\n', 'Epoch 8: loss=0.4830, Train DP gap=0.3320, Val DP\ngap=0.3667', '\\n', 'Epoch 9: loss=0.4662, Train DP gap=0.3320, Val DP\ngap=0.3667', '\\n', 'Epoch 10: loss=0.4514, Train DP gap=0.3340, Val DP\ngap=0.3667', '\\n', 'Epoch 11: loss=0.4385, Train DP gap=0.3340, Val DP\ngap=0.3667', '\\n', 'Epoch 12: loss=0.4273, Train DP gap=0.3320, Val DP\ngap=0.3667', '\\n', 'Epoch 13: loss=0.4176, Train DP gap=0.3300, Val DP\ngap=0.3600', '\\n', 'Epoch 14: loss=0.4095, Train DP gap=0.3200, Val DP\ngap=0.3600', '\\n', 'Epoch 15: loss=0.4029, Train DP gap=0.3160, Val DP\ngap=0.3533', '\\n', 'Epoch 16: loss=0.3975, Train DP gap=0.3100, Val DP\ngap=0.3533', '\\n', 'Epoch 17: loss=0.3932, Train DP gap=0.3060, Val DP\ngap=0.3533', '\\n', 'Epoch 18: loss=0.3899, Train DP gap=0.3040, Val DP\ngap=0.3533', '\\n', 'Epoch 19: loss=0.3874, Train DP gap=0.3040, Val DP\ngap=0.3533', '\\n', 'Epoch 20: loss=0.3856, Train DP gap=0.3040, Val DP\ngap=0.3533', '\\n', 'Epoch 21: loss=0.3843, Train DP gap=0.3060, Val DP\ngap=0.3533', '\\n', 'Epoch 22: loss=0.3833, Train DP gap=0.3100, Val DP\ngap=0.3600', '\\n', 'Epoch 23: loss=0.3825, Train DP gap=0.3120, Val DP\ngap=0.3667', '\\n', 'Epoch 24: loss=0.3818, Train DP gap=0.3160, Val DP\ngap=0.3667', '\\n', 'Epoch 25: loss=0.3811, Train DP gap=0.3200, Val DP\ngap=0.3667', '\\n', 'Epoch 26: loss=0.3803, Train DP gap=0.3240, Val DP\ngap=0.3733', '\\n', 'Epoch 27: loss=0.3794, Train DP gap=0.3240, Val DP\ngap=0.3733', '\\n', 'Epoch 28: loss=0.3784, Train DP gap=0.3240, Val DP\ngap=0.3733', '\\n', 'Epoch 29: loss=0.3773, Train DP gap=0.3280, Val DP\ngap=0.3800', '\\n', 'Epoch 30: loss=0.3761, Train DP gap=0.3300, Val DP\ngap=0.3867', '\\n', 'Epoch 31: loss=0.3748, Train DP gap=0.3340, Val DP\ngap=0.3933', '\\n', 'Epoch 32: loss=0.3734, Train DP gap=0.3380, Val DP\ngap=0.4000', '\\n', 'Epoch 33: loss=0.3719, Train DP gap=0.3420, Val DP\ngap=0.4067', '\\n', 'Epoch 34: loss=0.3704, Train DP gap=0.3460, Val DP\ngap=0.4067', '\\n', 'Epoch 35: loss=0.3688, Train DP gap=0.3620, Val DP\ngap=0.4267', '\\n', 'Epoch 36: loss=0.3672, Train DP gap=0.3700, Val DP\ngap=0.4267', '\\n', 'Epoch 37: loss=0.3657, Train DP gap=0.3820, Val DP\ngap=0.4333', '\\n', 'Epoch 38: loss=0.3642, Train DP gap=0.3880, Val DP\ngap=0.4333', '\\n', 'Epoch 39: loss=0.3628, Train DP gap=0.3920, Val DP\ngap=0.4333', '\\n', 'Epoch 40: loss=0.3615, Train DP gap=0.3920, Val DP\ngap=0.4400', '\\n', 'Epoch 41: loss=0.3602, Train DP gap=0.3980, Val DP\ngap=0.4400', '\\n', 'Epoch 42: loss=0.3589, Train DP gap=0.4020, Val DP\ngap=0.4400', '\\n', 'Epoch 43: loss=0.3578, Train DP gap=0.4040, Val DP\ngap=0.4400', '\\n', 'Epoch 44: loss=0.3567, Train DP gap=0.4060, Val DP\ngap=0.4400', '\\n', 'Epoch 45: loss=0.3558, Train DP gap=0.4100, Val DP\ngap=0.4400', '\\n', 'Epoch 46: loss=0.3549, Train DP gap=0.4120, Val DP\ngap=0.4400', '\\n', 'Epoch 47: loss=0.3542, Train DP gap=0.4140, Val DP\ngap=0.4467', '\\n', 'Epoch 48: loss=0.3535, Train DP gap=0.4140, Val DP\ngap=0.4467', '\\n', 'Epoch 49: loss=0.3529, Train DP gap=0.4160, Val DP\ngap=0.4467', '\\n', 'Execution time: 4 seconds seconds (time limit is 20\nminutes).']", "['Using device: cuda', '\\n', 'Epoch 0: train_loss=0.7095, val_loss=0.7029,\ntrain_dp=0.0010, val_dp=0.0014, fairness_gap=0.0004', '\\n', 'Epoch 1:\ntrain_loss=0.7033, val_loss=0.7000, train_dp=0.0012, val_dp=0.0026,\nfairness_gap=0.0013', '\\n', 'Epoch 2: train_loss=0.6990, val_loss=0.6987,\ntrain_dp=0.0014, val_dp=0.0037, fairness_gap=0.0023', '\\n', 'Epoch 3:\ntrain_loss=0.6962, val_loss=0.6985, train_dp=0.0016, val_dp=0.0050,\nfairness_gap=0.0034', '\\n', 'Epoch 4: train_loss=0.6943, val_loss=0.6987,\ntrain_dp=0.0016, val_dp=0.0064, fairness_gap=0.0048', '\\n', 'Epoch 5:\ntrain_loss=0.6929, val_loss=0.6990, train_dp=0.0014, val_dp=0.0076,\nfairness_gap=0.0062', '\\n', 'Epoch 6: train_loss=0.6916, val_loss=0.6992,\ntrain_dp=0.0013, val_dp=0.0087, fairness_gap=0.0074', '\\n', 'Epoch 7:\ntrain_loss=0.6904, val_loss=0.6993, train_dp=0.0010, val_dp=0.0096,\nfairness_gap=0.0086', '\\n', 'Epoch 8: train_loss=0.6893, val_loss=0.6996,\ntrain_dp=0.0007, val_dp=0.0104, fairness_gap=0.0097', '\\n', 'Epoch 9:\ntrain_loss=0.6883, val_loss=0.6999, train_dp=0.0004, val_dp=0.0112,\nfairness_gap=0.0108', '\\n', 'Epoch 10: train_loss=0.6874, val_loss=0.7003,\ntrain_dp=0.0002, val_dp=0.0118, fairness_gap=0.0116', '\\n', 'Epoch 11:\ntrain_loss=0.6866, val_loss=0.7007, train_dp=0.0000, val_dp=0.0124,\nfairness_gap=0.0124', '\\n', 'Epoch 12: train_loss=0.6858, val_loss=0.7011,\ntrain_dp=0.0001, val_dp=0.0129, fairness_gap=0.0128', '\\n', 'Epoch 13:\ntrain_loss=0.6850, val_loss=0.7015, train_dp=0.0001, val_dp=0.0135,\nfairness_gap=0.0133', '\\n', 'Epoch 14: train_loss=0.6841, val_loss=0.7016,\ntrain_dp=0.0001, val_dp=0.0140, fairness_gap=0.0138', '\\n', 'Epoch 15:\ntrain_loss=0.6832, val_loss=0.7017, train_dp=0.0001, val_dp=0.0145,\nfairness_gap=0.0144', '\\n', 'Epoch 16: train_loss=0.6823, val_loss=0.7017,\ntrain_dp=0.0001, val_dp=0.0150, fairness_gap=0.0149', '\\n', 'Epoch 17:\ntrain_loss=0.6813, val_loss=0.7016, train_dp=0.0000, val_dp=0.0155,\nfairness_gap=0.0154', '\\n', 'Epoch 18: train_loss=0.6803, val_loss=0.7015,\ntrain_dp=0.0001, val_dp=0.0159, fairness_gap=0.0158', '\\n', 'Epoch 19:\ntrain_loss=0.6794, val_loss=0.7011, train_dp=0.0001, val_dp=0.0162,\nfairness_gap=0.0161', '\\n', 'Epoch 20: train_loss=0.6785, val_loss=0.7007,\ntrain_dp=0.0002, val_dp=0.0166, fairness_gap=0.0164', '\\n', 'Epoch 21:\ntrain_loss=0.6776, val_loss=0.7002, train_dp=0.0003, val_dp=0.0171,\nfairness_gap=0.0168', '\\n', 'Epoch 22: train_loss=0.6767, val_loss=0.6998,\ntrain_dp=0.0004, val_dp=0.0175, fairness_gap=0.0171', '\\n', 'Epoch 23:\ntrain_loss=0.6758, val_loss=0.6994, train_dp=0.0005, val_dp=0.0179,\nfairness_gap=0.0174', '\\n', 'Epoch 24: train_loss=0.6749, val_loss=0.6991,\ntrain_dp=0.0006, val_dp=0.0182, fairness_gap=0.0175', '\\n', 'Epoch 25:\ntrain_loss=0.6739, val_loss=0.6990, train_dp=0.0008, val_dp=0.0185,\nfairness_gap=0.0177', '\\n', 'Epoch 26: train_loss=0.6730, val_loss=0.6990,\ntrain_dp=0.0009, val_dp=0.0188, fairness_gap=0.0179', '\\n', 'Epoch 27:\ntrain_loss=0.6720, val_loss=0.6991, train_dp=0.0010, val_dp=0.0192,\nfairness_gap=0.0182', '\\n', 'Epoch 28: train_loss=0.6710, val_loss=0.6994,\ntrain_dp=0.0011, val_dp=0.0195, fairness_gap=0.0183', '\\n', 'Epoch 29:\ntrain_loss=0.6700, val_loss=0.6999, train_dp=0.0013, val_dp=0.0197,\nfairness_gap=0.0184', '\\n', 'Execution time: 4 seconds seconds (time limit is 20\nminutes).']"], "analysis": ["", "", "", ""], "exc_type": [null, null, null, null], "exc_info": [null, null, null, null], "exc_stack": [null, null, null, null], "exp_name": "0-run", "metrics": [{"metric_names": [{"data": [{"best_value": 0.995, "dataset_name": "Synthetic Fairness", "final_value": 0.995}], "description": "Accuracy on the training dataset", "lower_is_better": false, "metric_name": "train accuracy"}, {"data": [{"best_value": 0.995, "dataset_name": "Synthetic Fairness", "final_value": 0.995}], "description": "Accuracy on the validation dataset", "lower_is_better": false, "metric_name": "validation accuracy"}, {"data": [{"best_value": 0.0278, "dataset_name": "Synthetic Fairness", "final_value": 0.0278}], "description": "Loss on the training dataset", "lower_is_better": true, "metric_name": "train loss"}, {"data": [{"best_value": 0.0174, "dataset_name": "Synthetic Fairness", "final_value": 0.0174}], "description": "Loss on the validation dataset", "lower_is_better": true, "metric_name": "validation loss"}, {"data": [{"best_value": 0.0272, "dataset_name": "Synthetic Fairness", "final_value": 0.0272}], "description": "Fairness on the training dataset", "lower_is_better": true, "metric_name": "train fairness"}, {"data": [{"best_value": 0.0207, "dataset_name": "Synthetic Fairness", "final_value": 0.0207}], "description": "Fairness on the validation dataset", "lower_is_better": true, "metric_name": "validation fairness"}, {"data": [{"best_value": 0.0065, "dataset_name": "Synthetic Fairness", "final_value": 0.0065}], "description": "Fairness gap between training and validation datasets", "lower_is_better": true, "metric_name": "fairness gap"}]}, {"metric_names": [{"data": [{"best_value": 0.955, "dataset_name": "synthetic_fairness", "final_value": 0.955}], "description": "Accuracy on the training dataset", "lower_is_better": false, "metric_name": "training accuracy"}, {"data": [{"best_value": 0.94, "dataset_name": "synthetic_fairness", "final_value": 0.94}], "description": "Accuracy on the validation dataset", "lower_is_better": false, "metric_name": "validation accuracy"}, {"data": [{"best_value": 0.0169, "dataset_name": "synthetic_fairness", "final_value": 0.0169}], "description": "Fairness (DP difference) on the training dataset", "lower_is_better": true, "metric_name": "training fairness (DP difference)"}, {"data": [{"best_value": 0.0825, "dataset_name": "synthetic_fairness", "final_value": 0.0825}], "description": "Fairness (DP difference) on the validation dataset", "lower_is_better": true, "metric_name": "validation fairness (DP difference)"}, {"data": [{"best_value": 0.2777, "dataset_name": "synthetic_fairness", "final_value": 0.2777}], "description": "Loss on the training dataset", "lower_is_better": true, "metric_name": "training loss"}, {"data": [{"best_value": 0.287, "dataset_name": "synthetic_fairness", "final_value": 0.287}], "description": "Loss on the validation dataset", "lower_is_better": true, "metric_name": "validation loss"}, {"data": [{"best_value": 0.0656, "dataset_name": "synthetic_fairness", "final_value": 0.0656}], "description": "Fairness gap between training and validation datasets", "lower_is_better": true, "metric_name": "fairness gap"}]}, {"metric_names": [{"data": [{"best_value": 0.3529, "dataset_name": "synthetic_fairness", "final_value": 0.3529}], "description": "The loss value during training.", "lower_is_better": true, "metric_name": "training loss"}, {"data": [{"best_value": 0.416, "dataset_name": "synthetic_fairness", "final_value": 0.416}], "description": "The demographic parity gap during training.", "lower_is_better": true, "metric_name": "training demographic parity gap"}, {"data": [{"best_value": 0.4467, "dataset_name": "synthetic_fairness", "final_value": 0.4467}], "description": "The demographic parity gap during validation.", "lower_is_better": true, "metric_name": "validation demographic parity gap"}, {"data": [{"best_value": 0.0307, "dataset_name": "synthetic_fairness", "final_value": 0.0307}], "description": "The generalization gap between training and validation.", "lower_is_better": true, "metric_name": "generalization gap"}]}, {"metric_names": [{"data": [{"best_value": 0.67, "dataset_name": "synthetic_data", "final_value": 0.67}], "description": "Training loss", "lower_is_better": true, "metric_name": "training loss"}, {"data": [{"best_value": 0.6999, "dataset_name": "synthetic_data", "final_value": 0.6999}], "description": "Validation loss", "lower_is_better": true, "metric_name": "validation loss"}, {"data": [{"best_value": 0.0013, "dataset_name": "synthetic_data", "final_value": 0.0013}], "description": "Training demographic parity", "lower_is_better": true, "metric_name": "training demographic parity"}, {"data": [{"best_value": 0.0197, "dataset_name": "synthetic_data", "final_value": 0.0197}], "description": "Validation demographic parity", "lower_is_better": true, "metric_name": "validation demographic parity"}, {"data": [{"best_value": 0.0184, "dataset_name": "synthetic_data", "final_value": 0.0184}], "description": "Fairness gap", "lower_is_better": true, "metric_name": "fairness gap"}]}], "is_best_node": [false, false, false, false], "plots": [["../../logs/0-run/experiment_results/experiment_41349fabf28b4d6090ded5adb25c7fe5_proc_3383163/synthetic_fairness_accuracy_curves.png", "../../logs/0-run/experiment_results/experiment_41349fabf28b4d6090ded5adb25c7fe5_proc_3383163/synthetic_fairness_fairness_gap.png", "../../logs/0-run/experiment_results/experiment_41349fabf28b4d6090ded5adb25c7fe5_proc_3383163/synthetic_fairness_fairness_metrics.png", "../../logs/0-run/experiment_results/experiment_41349fabf28b4d6090ded5adb25c7fe5_proc_3383163/synthetic_fairness_loss_curves.png"], ["../../logs/0-run/experiment_results/experiment_b229da82414845df94d4412f24c6015f_proc_3383163/synthetic_fairness_fairness_gap.png", "../../logs/0-run/experiment_results/experiment_b229da82414845df94d4412f24c6015f_proc_3383163/synthetic_fairness_accuracy.png", "../../logs/0-run/experiment_results/experiment_b229da82414845df94d4412f24c6015f_proc_3383163/synthetic_fairness_loss.png"], ["../../logs/0-run/experiment_results/experiment_4d6587ecd3ee4340a59a4aae8f9b7647_proc_3383163/fairness_generalization.png", "../../logs/0-run/experiment_results/experiment_4d6587ecd3ee4340a59a4aae8f9b7647_proc_3383163/synthetic_fairness_dp_gaps.png", "../../logs/0-run/experiment_results/experiment_4d6587ecd3ee4340a59a4aae8f9b7647_proc_3383163/synthetic_fairness_generalization_gap.png", "../../logs/0-run/experiment_results/experiment_4d6587ecd3ee4340a59a4aae8f9b7647_proc_3383163/synthetic_fairness_loss.png"], ["../../logs/0-run/experiment_results/experiment_60b0caa772e14edd9edf10bc8629cd6b_proc_3383163/synthetic_data_fairness_gap.png", "../../logs/0-run/experiment_results/experiment_60b0caa772e14edd9edf10bc8629cd6b_proc_3383163/synthetic_data_dp_metrics.png", "../../logs/0-run/experiment_results/experiment_60b0caa772e14edd9edf10bc8629cd6b_proc_3383163/synthetic_data_loss_curves.png"]], "plot_paths": [["runs/ideation_exp/founder_1/cycle_1/logs/0-run/experiment_results/experiment_41349fabf28b4d6090ded5adb25c7fe5_proc_3383163/synthetic_fairness_accuracy_curves.png", "runs/ideation_exp/founder_1/cycle_1/logs/0-run/experiment_results/experiment_41349fabf28b4d6090ded5adb25c7fe5_proc_3383163/synthetic_fairness_fairness_gap.png", "runs/ideation_exp/founder_1/cycle_1/logs/0-run/experiment_results/experiment_41349fabf28b4d6090ded5adb25c7fe5_proc_3383163/synthetic_fairness_fairness_metrics.png", "runs/ideation_exp/founder_1/cycle_1/logs/0-run/experiment_results/experiment_41349fabf28b4d6090ded5adb25c7fe5_proc_3383163/synthetic_fairness_loss_curves.png"], ["runs/ideation_exp/founder_1/cycle_1/logs/0-run/experiment_results/experiment_b229da82414845df94d4412f24c6015f_proc_3383163/synthetic_fairness_fairness_gap.png", "runs/ideation_exp/founder_1/cycle_1/logs/0-run/experiment_results/experiment_b229da82414845df94d4412f24c6015f_proc_3383163/synthetic_fairness_accuracy.png", "runs/ideation_exp/founder_1/cycle_1/logs/0-run/experiment_results/experiment_b229da82414845df94d4412f24c6015f_proc_3383163/synthetic_fairness_loss.png"], ["runs/ideation_exp/founder_1/cycle_1/logs/0-run/experiment_results/experiment_4d6587ecd3ee4340a59a4aae8f9b7647_proc_3383163/fairness_generalization.png", "runs/ideation_exp/founder_1/cycle_1/logs/0-run/experiment_results/experiment_4d6587ecd3ee4340a59a4aae8f9b7647_proc_3383163/synthetic_fairness_dp_gaps.png", "runs/ideation_exp/founder_1/cycle_1/logs/0-run/experiment_results/experiment_4d6587ecd3ee4340a59a4aae8f9b7647_proc_3383163/synthetic_fairness_generalization_gap.png", "runs/ideation_exp/founder_1/cycle_1/logs/0-run/experiment_results/experiment_4d6587ecd3ee4340a59a4aae8f9b7647_proc_3383163/synthetic_fairness_loss.png"], ["runs/ideation_exp/founder_1/cycle_1/logs/0-run/experiment_results/experiment_60b0caa772e14edd9edf10bc8629cd6b_proc_3383163/synthetic_data_fairness_gap.png", "runs/ideation_exp/founder_1/cycle_1/logs/0-run/experiment_results/experiment_60b0caa772e14edd9edf10bc8629cd6b_proc_3383163/synthetic_data_dp_metrics.png", "runs/ideation_exp/founder_1/cycle_1/logs/0-run/experiment_results/experiment_60b0caa772e14edd9edf10bc8629cd6b_proc_3383163/synthetic_data_loss_curves.png"]], "plot_analyses": [[], [], [], []], "vlm_feedback_summary": ["[]", "[]", "[]", "[]"], "exec_time": [5.097315549850464, 5.5665435791015625, 4.719317674636841, 4.083145380020142], "exec_time_feedback": ["", "", "", ""], "datasets_successfully_tested": [[], [], [], []], "plot_code": ["import matplotlib.pyplot as plt\nimport numpy as np\nimport os\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\n\ntry:\n    experiment_data = np.load(\n        os.path.join(working_dir, \"experiment_data.npy\"), allow_pickle=True\n    ).item()\n    data = experiment_data[\"synthetic_fairness\"]\n    epochs = range(1, len(data[\"losses\"][\"train\"]) + 1)\n\n    # Loss curves\n    try:\n        plt.figure()\n        plt.plot(epochs, data[\"losses\"][\"train\"], label=\"Train Loss\")\n        plt.plot(epochs, data[\"losses\"][\"val\"], label=\"Validation Loss\")\n        plt.title(\"Training and Validation Loss\\nSynthetic Fairness Dataset\")\n        plt.xlabel(\"Epoch\")\n        plt.ylabel(\"Loss\")\n        plt.legend()\n        plt.savefig(os.path.join(working_dir, \"synthetic_fairness_loss_curves.png\"))\n        plt.close()\n    except Exception as e:\n        print(f\"Error creating loss plot: {e}\")\n        plt.close()\n\n    # Accuracy curves\n    try:\n        plt.figure()\n        plt.plot(epochs, data[\"metrics\"][\"train\"], label=\"Train Accuracy\")\n        plt.plot(epochs, data[\"metrics\"][\"val\"], label=\"Validation Accuracy\")\n        plt.title(\"Training and Validation Accuracy\\nSynthetic Fairness Dataset\")\n        plt.xlabel(\"Epoch\")\n        plt.ylabel(\"Accuracy\")\n        plt.legend()\n        plt.savefig(os.path.join(working_dir, \"synthetic_fairness_accuracy_curves.png\"))\n        plt.close()\n    except Exception as e:\n        print(f\"Error creating accuracy plot: {e}\")\n        plt.close()\n\n    # Fairness metrics\n    try:\n        plt.figure()\n        plt.plot(epochs, data[\"fairness\"][\"train\"], label=\"Train Fairness\")\n        plt.plot(epochs, data[\"fairness\"][\"val\"], label=\"Validation Fairness\")\n        plt.title(\"Demographic Parity Difference\\nSynthetic Fairness Dataset\")\n        plt.xlabel(\"Epoch\")\n        plt.ylabel(\"Fairness Metric\")\n        plt.legend()\n        plt.savefig(\n            os.path.join(working_dir, \"synthetic_fairness_fairness_metrics.png\")\n        )\n        plt.close()\n    except Exception as e:\n        print(f\"Error creating fairness plot: {e}\")\n        plt.close()\n\n    # Fairness gap\n    try:\n        plt.figure()\n        plt.plot(epochs, data[\"fairness_gap\"], label=\"Fairness Gap\")\n        plt.title(\"Train-Validation Fairness Gap\\nSynthetic Fairness Dataset\")\n        plt.xlabel(\"Epoch\")\n        plt.ylabel(\"Fairness Gap\")\n        plt.legend()\n        plt.savefig(os.path.join(working_dir, \"synthetic_fairness_fairness_gap.png\"))\n        plt.close()\n    except Exception as e:\n        print(f\"Error creating fairness gap plot: {e}\")\n        plt.close()\n\nexcept Exception as e:\n    print(f\"Error loading experiment data: {e}\")\n", "import matplotlib.pyplot as plt\nimport numpy as np\nimport os\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\nos.makedirs(working_dir, exist_ok=True)\n\ntry:\n    experiment_data = np.load(\n        os.path.join(working_dir, \"experiment_data.npy\"), allow_pickle=True\n    ).item()\n    data = experiment_data[\"synthetic_fairness\"]\nexcept Exception as e:\n    print(f\"Error loading experiment data: {e}\")\n\ntry:\n    # Accuracy plot\n    plt.figure(figsize=(10, 5))\n    plt.plot(data[\"metrics\"][\"train_acc\"], label=\"Train Accuracy\")\n    plt.plot(data[\"metrics\"][\"val_acc\"], label=\"Validation Accuracy\")\n    plt.title(\"Synthetic Fairness: Accuracy Over Epochs\")\n    plt.xlabel(\"Epoch\")\n    plt.ylabel(\"Accuracy\")\n    plt.legend()\n    plt.savefig(os.path.join(working_dir, \"synthetic_fairness_accuracy.png\"))\n    plt.close()\nexcept Exception as e:\n    print(f\"Error creating accuracy plot: {e}\")\n    plt.close()\n\ntry:\n    # Fairness metrics plot\n    plt.figure(figsize=(10, 5))\n    plt.plot(data[\"metrics\"][\"train_fair\"], label=\"Train Fairness Gap\")\n    plt.plot(data[\"metrics\"][\"val_fair\"], label=\"Validation Fairness Gap\")\n    plt.title(\"Synthetic Fairness: Demographic Parity Gap Over Epochs\")\n    plt.xlabel(\"Epoch\")\n    plt.ylabel(\"Fairness Gap\")\n    plt.legend()\n    plt.savefig(os.path.join(working_dir, \"synthetic_fairness_fairness_gap.png\"))\n    plt.close()\nexcept Exception as e:\n    print(f\"Error creating fairness plot: {e}\")\n    plt.close()\n\ntry:\n    # Loss plot\n    plt.figure(figsize=(10, 5))\n    plt.plot(data[\"losses\"][\"train\"], label=\"Train Loss\")\n    plt.plot(data[\"losses\"][\"val\"], label=\"Validation Loss\")\n    plt.title(\"Synthetic Fairness: Loss Over Epochs\")\n    plt.xlabel(\"Epoch\")\n    plt.ylabel(\"Loss\")\n    plt.legend()\n    plt.savefig(os.path.join(working_dir, \"synthetic_fairness_loss.png\"))\n    plt.close()\nexcept Exception as e:\n    print(f\"Error creating loss plot: {e}\")\n    plt.close()\n", "import matplotlib.pyplot as plt\nimport numpy as np\nimport os\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\n\ntry:\n    experiment_data = np.load(\n        os.path.join(working_dir, \"experiment_data.npy\"), allow_pickle=True\n    ).item()\n    data = experiment_data[\"synthetic_fairness\"]\n\n    # Plot training loss\n    try:\n        plt.figure()\n        plt.plot(data[\"losses\"])\n        plt.title(\"Training Loss Curve\\nSynthetic Fairness Dataset\")\n        plt.xlabel(\"Epoch\")\n        plt.ylabel(\"Cross Entropy Loss\")\n        plt.savefig(os.path.join(working_dir, \"synthetic_fairness_loss.png\"))\n        plt.close()\n    except Exception as e:\n        print(f\"Error creating loss plot: {e}\")\n        plt.close()\n\n    # Plot DP gaps\n    try:\n        plt.figure()\n        plt.plot(data[\"train_dp\"], label=\"Train DP Gap\")\n        plt.plot(data[\"val_dp\"], label=\"Validation DP Gap\")\n        plt.title(\"Demographic Parity Gap\\nSynthetic Fairness Dataset\")\n        plt.xlabel(\"Epoch\")\n        plt.ylabel(\"DP Gap\")\n        plt.legend()\n        plt.savefig(os.path.join(working_dir, \"synthetic_fairness_dp_gaps.png\"))\n        plt.close()\n    except Exception as e:\n        print(f\"Error creating DP gap plot: {e}\")\n        plt.close()\n\n    # Plot generalization gap\n    try:\n        plt.figure()\n        plt.plot(data[\"generalization_gap\"])\n        plt.title(\"Generalization Gap (Train vs Val DP)\\nSynthetic Fairness Dataset\")\n        plt.xlabel(\"Epoch\")\n        plt.ylabel(\"Generalization Gap\")\n        plt.savefig(\n            os.path.join(working_dir, \"synthetic_fairness_generalization_gap.png\")\n        )\n        plt.close()\n    except Exception as e:\n        print(f\"Error creating generalization gap plot: {e}\")\n        plt.close()\n\nexcept Exception as e:\n    print(f\"Error loading experiment data: {e}\")\n", "import matplotlib.pyplot as plt\nimport numpy as np\nimport os\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\n\ntry:\n    experiment_data = np.load(\n        os.path.join(working_dir, \"experiment_data.npy\"), allow_pickle=True\n    ).item()\n    synthetic_data = experiment_data[\"synthetic_data\"]\nexcept Exception as e:\n    print(f\"Error loading experiment data: {e}\")\n\ntry:\n    plt.figure()\n    plt.plot(synthetic_data[\"losses\"][\"train\"], label=\"Train Loss\")\n    plt.plot(synthetic_data[\"losses\"][\"val\"], label=\"Validation Loss\")\n    plt.title(\"Training and Validation Loss Curves\")\n    plt.xlabel(\"Epoch\")\n    plt.ylabel(\"Loss\")\n    plt.legend()\n    plt.savefig(os.path.join(working_dir, \"synthetic_data_loss_curves.png\"))\n    plt.close()\nexcept Exception as e:\n    print(f\"Error creating loss plot: {e}\")\n    plt.close()\n\ntry:\n    plt.figure()\n    plt.plot(synthetic_data[\"metrics\"][\"train\"], label=\"Train DP\")\n    plt.plot(synthetic_data[\"metrics\"][\"val\"], label=\"Validation DP\")\n    plt.title(\"Demographic Parity Metric Over Epochs\")\n    plt.xlabel(\"Epoch\")\n    plt.ylabel(\"Demographic Parity\")\n    plt.legend()\n    plt.savefig(os.path.join(working_dir, \"synthetic_data_dp_metrics.png\"))\n    plt.close()\nexcept Exception as e:\n    print(f\"Error creating DP plot: {e}\")\n    plt.close()\n\ntry:\n    plt.figure()\n    plt.plot(synthetic_data[\"fairness_gap\"])\n    plt.title(\"Fairness Gap Over Epochs\")\n    plt.xlabel(\"Epoch\")\n    plt.ylabel(\"Fairness Gap\")\n    plt.savefig(os.path.join(working_dir, \"synthetic_data_fairness_gap.png\"))\n    plt.close()\nexcept Exception as e:\n    print(f\"Error creating fairness gap plot: {e}\")\n    plt.close()\n"], "plot_plan": ["I'll create visualizations for the synthetic fairness experiment, focusing on the training/validation curves for loss, accuracy, and fairness metrics. The plots will show the evolution of these metrics across epochs, helping assess model performance and fairness trade-offs. We'll plot the loss curves, accuracy curves, fairness metrics, and fairness gap separately to clearly visualize different aspects of the training process.", "I'll create visualizations for the synthetic fairness experiment, including training/validation accuracy curves, fairness metrics over epochs, and the fairness gap. The plots will show how model performance and fairness evolve during training.", "Here's the outline for visualizing the experiment results:\n1. Plot training loss curve showing convergence over epochs\n2. Plot train vs validation demographic parity (DP) gap to show fairness metrics\n3. Plot generalization gap (difference between train and val DP gaps)\n4. Each plot will be saved separately with descriptive titles and filenames\n5. Use basic matplotlib styling without custom configurations\n6. Include clear axis labels and legends for interpretation\n7. Save all plots to the working directory", "We will create visualizations for the training and validation losses, demographic parity metrics, and fairness gap over epochs. All plots will be saved to the working directory with descriptive titles. We'll use basic matplotlib styles and ensure each plot is in a separate try-except block for error handling. The training/validation curves will be plotted together with appropriate legends to compare their trends."], "ablation_name": [null, null, null, null], "hyperparam_name": [null, null, null, null], "is_seed_node": [false, false, false, false], "is_seed_agg_node": [false, false, false, false], "parse_metrics_plan": ["Here's how we'll analyze the experiment data: We'll load the numpy file, extract\nthe final metrics for both training and validation sets, and print them with\nclear labels showing accuracy, loss, and fairness metrics. We'll focus on the\nlast epoch's values since they represent the final model performance.", "I'll load the experiment data and extract the final metrics for the synthetic\nfairness dataset. The code will print the dataset name followed by each metric's\nfinal value (last epoch) with clear labels, including training accuracy,\nvalidation accuracy, training fairness, validation fairness, training loss,\nvalidation loss, and fairness gap.", "I'll create a script that loads the experiment data from the numpy file and\nprints the final metrics for the synthetic fairness experiment. The code will\nextract the loss values, training and validation demographic parity gaps, and\ngeneralization gap from the stored data, then print only the final values for\neach metric with clear labels. The script will execute immediately when run\nwithout any main block.", "I'll create a script that loads the experiment data from the numpy file and\nprints the final metrics for each dataset. The script will extract the last\nvalues from the training/validation loss, demographic parity metrics, and\nfairness gap, then print them with clear labels. The code will follow the\nstructure of the original experiment data and avoid any plotting functionality."], "parse_metrics_code": ["import os\nimport numpy as np\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\nexperiment_data = np.load(\n    os.path.join(working_dir, \"experiment_data.npy\"), allow_pickle=True\n).item()\n\ndata = experiment_data[\"synthetic_fairness\"]\nprint(\"Synthetic Fairness Dataset Metrics:\")\nprint(f\"Final train accuracy: {data['metrics']['train'][-1]:.4f}\")\nprint(f\"Final validation accuracy: {data['metrics']['val'][-1]:.4f}\")\nprint(f\"Final train loss: {data['losses']['train'][-1]:.4f}\")\nprint(f\"Final validation loss: {data['losses']['val'][-1]:.4f}\")\nprint(f\"Final train fairness: {data['fairness']['train'][-1]:.4f}\")\nprint(f\"Final validation fairness: {data['fairness']['val'][-1]:.4f}\")\nprint(f\"Final fairness gap: {data['fairness_gap'][-1]:.4f}\")\n", "import os\nimport numpy as np\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\nexperiment_data = np.load(\n    os.path.join(working_dir, \"experiment_data.npy\"), allow_pickle=True\n).item()\n\ndataset_name = \"synthetic_fairness\"\nprint(f\"Dataset: {dataset_name}\")\n\nmetrics = experiment_data[dataset_name][\"metrics\"]\nlosses = experiment_data[dataset_name][\"losses\"]\nfairness_gap = experiment_data[dataset_name][\"fairness_gap\"][-1]\n\nprint(f\"Final training accuracy: {metrics['train_acc'][-1]:.4f}\")\nprint(f\"Final validation accuracy: {metrics['val_acc'][-1]:.4f}\")\nprint(f\"Final training fairness (DP difference): {metrics['train_fair'][-1]:.4f}\")\nprint(f\"Final validation fairness (DP difference): {metrics['val_fair'][-1]:.4f}\")\nprint(f\"Final training loss: {losses['train'][-1]:.4f}\")\nprint(f\"Final validation loss: {losses['val'][-1]:.4f}\")\nprint(f\"Final fairness gap: {fairness_gap:.4f}\")\n", "import numpy as np\nimport os\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\nexperiment_data = np.load(\n    os.path.join(working_dir, \"experiment_data.npy\"), allow_pickle=True\n).item()\n\nfor dataset_name, metrics in experiment_data.items():\n    print(f\"\\nDataset: {dataset_name}\")\n    print(f\"Final training loss: {metrics['losses'][-1]:.4f}\")\n    print(f\"Final training demographic parity gap: {metrics['train_dp'][-1]:.4f}\")\n    print(f\"Final validation demographic parity gap: {metrics['val_dp'][-1]:.4f}\")\n    print(f\"Final generalization gap: {metrics['generalization_gap'][-1]:.4f}\")\n", "import os\nimport numpy as np\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\nexperiment_data = np.load(\n    os.path.join(working_dir, \"experiment_data.npy\"), allow_pickle=True\n).item()\n\nfor dataset_name, dataset_data in experiment_data.items():\n    print(f\"\\nDataset: {dataset_name}\")\n\n    train_losses = dataset_data[\"losses\"][\"train\"]\n    val_losses = dataset_data[\"losses\"][\"val\"]\n    train_dp = dataset_data[\"metrics\"][\"train\"]\n    val_dp = dataset_data[\"metrics\"][\"val\"]\n    fairness_gap = dataset_data[\"fairness_gap\"]\n\n    print(f\"Final training loss: {train_losses[-1]:.4f}\")\n    print(f\"Final validation loss: {val_losses[-1]:.4f}\")\n    print(f\"Final training demographic parity: {train_dp[-1]:.4f}\")\n    print(f\"Final validation demographic parity: {val_dp[-1]:.4f}\")\n    print(f\"Final fairness gap: {fairness_gap[-1]:.4f}\")\n"], "parse_term_out": ["['Synthetic Fairness Dataset Metrics:', '\\n', 'Final train accuracy: 0.9950',\n'\\n', 'Final validation accuracy: 0.9950', '\\n', 'Final train loss: 0.0278',\n'\\n', 'Final validation loss: 0.0174', '\\n', 'Final train fairness: 0.0272',\n'\\n', 'Final validation fairness: 0.0207', '\\n', 'Final fairness gap: 0.0065',\n'\\n', 'Execution time: a moment seconds (time limit is 20 minutes).']", "['Dataset: synthetic_fairness', '\\n', 'Final training accuracy: 0.9550', '\\n',\n'Final validation accuracy: 0.9400', '\\n', 'Final training fairness (DP\ndifference): 0.0169', '\\n', 'Final validation fairness (DP difference): 0.0825',\n'\\n', 'Final training loss: 0.2777', '\\n', 'Final validation loss: 0.2870',\n'\\n', 'Final fairness gap: 0.0656', '\\n', 'Execution time: a moment seconds\n(time limit is 20 minutes).']", "['\\nDataset: synthetic_fairness', '\\n', 'Final training loss: 0.3529', '\\n',\n'Final training demographic parity gap: 0.4160', '\\n', 'Final validation\ndemographic parity gap: 0.4467', '\\n', 'Final generalization gap: 0.0307', '\\n',\n'Execution time: a moment seconds (time limit is 20 minutes).']", "['\\nDataset: synthetic_data', '\\n', 'Final training loss: 0.6700', '\\n', 'Final\nvalidation loss: 0.6999', '\\n', 'Final training demographic parity: 0.0013',\n'\\n', 'Final validation demographic parity: 0.0197', '\\n', 'Final fairness gap:\n0.0184', '\\n', 'Execution time: a moment seconds (time limit is 20 minutes).']"], "parse_exc_type": [null, null, null, null], "parse_exc_info": [null, null, null, null], "parse_exc_stack": [null, null, null, null], "completed_stages": ["Stage_1"]};
+
+// Add log directory path and stage info to the tree data
+treeStructData.log_dir_path = window.location.pathname.split('/').slice(0, -1).join('/');
+treeStructData.current_stage = window.location.pathname.includes('stage_')
+  ? window.location.pathname.split('stage_')[1].split('/')[0]
+  : 'Stage_1';
+
+// Initialize background color
+window.bgColCurrent = bgCol;
+
+// Function to set background color that can be called from the console
+function setBackgroundColor(color) {
+  // Update the global color
+  updateBackgroundColor(color);
+
+  // Refresh the current sketch to apply the new background color
+  if (currentStage) {
+    startSketch(currentStage);
+  }
+}
+
+// Load all stage data and initialize the visualization
+loadAllStageData(treeStructData);
+
+    </script>
+    <title>AI Scientist-v2 Visualization</title>
+    <style>
+      body,
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background-color: #ffffff;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+      #canvas-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 40vw;
+        height: 100vh;
+        background-color: inherit;
+        padding-top: 40px;
+      }
+      canvas {
+        float: left;
+        height: 100vh;
+        width: 100vw;
+      }
+      #text-container {
+        float: right;
+        height: 100vh;
+        width: 50vw;
+        background-color: #282c34;
+        overflow: auto;
+      }
+      #plan {
+        /* border-left: 2px solid #282c34; */
+        background-color: #282c34;
+        color: #f2f0e7;
+        min-height: 5rem;
+        padding: 1em 0 1em 1em;
+      }
+      #plot_plan {
+        background-color: #282c34;
+        color: #f2f0e7;
+        min-height: 5rem;
+        padding: 1em 0 1em 1em;
+        white-space: pre-wrap;
+      }
+      #exec_time_feedback {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #282c34;
+        border-left: 3px solid #ff5555;
+        color: #f2f0e7;
+      }
+      #exec_time {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #282c34;
+        border-left: 3px solid #ff5555;
+        color: #f2f0e7;
+      }
+      #exc_info {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #2c1f1f;
+        border-left: 3px solid #ff5555;
+        color: #f2f0e7;
+      }
+      #metrics {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #282c34;
+        color: #f2f0e7;
+      }
+      #vlm_feedback {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #1f2c2f;
+        color: #f2f0e7;
+        border-left: 3px solid #55ff55;
+      }
+      #vlm_feedback p {
+        margin: 0.5em 0;
+        white-space: pre-wrap;
+      }
+      .datasets_successfully_tested {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #282c34;
+        color: #f2f0e7;
+        border-left: 3px solid #55ff55;
+      }
+      .plots-container {
+        float: right;
+        width: 50vw;
+        padding: 1rem;
+        background-color: #282c34;
+        margin-top: 1rem;
+      }
+
+      .plot-item {
+        flex: 1 1 300px;
+        max-width: 100%;
+        margin-bottom: 1rem;
+        white-space: pre-wrap;
+      }
+
+      .plot-item img {
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        display: block;
+      }
+
+      .metric-group {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      .metric-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+
+      .metric-table th,
+      .metric-table td {
+        padding: 8px;
+        text-align: left;
+        border: 1px solid #ddd;
+      }
+
+      .metric-table th {
+        background-color: #363b44;
+      }
+
+      /* Styles for tabs */
+      .tabs-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 49vw;
+        background-color: #000000;
+        z-index: 10;
+        display: flex;
+        padding: 0;
+      }
+
+      .tab {
+        cursor: pointer;
+        padding: 10px 15px;
+        background-color: #333;
+        color: #f2f0e7;
+        border: none;
+        outline: none;
+        transition: background-color 0.3s;
+        flex: 1;
+        text-align: center;
+      }
+
+      .tab:hover {
+        background-color: #444;
+      }
+
+      .tab.active {
+        background-color: #4c76af;
+        font-weight: bold;
+      }
+
+      .tab.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background-color: #282c34;
+      }
+
+      .tab-content {
+        display: none;
+        padding-top: 40px; /* Space for tabs */
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .stage-info {
+        padding: 10px;
+        background-color: #282c34;
+        color: #f2f0e7;
+        margin-bottom: 10px;
+        font-size: 0.9em;
+      }
+
+      .stage-status {
+        display: inline-block;
+        padding: 3px 6px;
+        border-radius: 3px;
+        margin-left: 8px;
+        font-size: 0.8em;
+      }
+
+      .stage-status.completed {
+        background-color: #4caf50;
+      }
+
+      .stage-status.in-progress {
+        background-color: #2196f3;
+      }
+
+      .stage-status.not-started {
+        background-color: #9e9e9e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="tabs-container" id="stage-tabs">
+      <button class="tab" data-stage="Stage_1" onclick="selectStage('Stage_1')">Stage 1</button>
+      <button class="tab" data-stage="Stage_2" onclick="selectStage('Stage_2')">Stage 2</button>
+      <button class="tab" data-stage="Stage_3" onclick="selectStage('Stage_3')">Stage 3</button>
+      <button class="tab" data-stage="Stage_4" onclick="selectStage('Stage_4')">Stage 4</button>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <pre id="text-container">
+        <div id="stage-info" class="stage-info"></div>
+        <div id="plan"></div>
+        <hr>
+        <div id="exc_info"></div>
+        <hr>
+        <div id="exec_time"></div>
+        <hr>
+        <div id="exec_time_feedback"></div>
+        <hr>
+        <div id="metrics"></div>
+        <hr>
+        <div id="plot_plan"></div>
+        <hr>
+        <div class="plots-container" id="plots"></div>
+        <hr>
+        <div id="vlm_feedback"></div>
+        <hr>
+        <div id="datasets_successfully_tested"></div>
+        <hr>
+        <code id="code" class="language-python"></code>
+        <hr>
+        <code id="plot_code" class="language-python"></code>
+    </pre>
+  </body>
+</html>

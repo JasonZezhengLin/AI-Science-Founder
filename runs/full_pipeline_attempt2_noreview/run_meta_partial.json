@@ -1,0 +1,79 @@
+{
+  "config": "A",
+  "model": "deepseek/deepseek-chat",
+  "cap_usd": 9.0,
+  "started": "2026-07-05T18:50:09.994617",
+  "cumulative_before_run_usd": 0.07792646,
+  "founders": [
+    {
+      "founder_id": "founder_1",
+      "config": "A",
+      "stages": {
+        "ideation": {
+          "cost_usd": 0.00194788,
+          "started": "2026-07-05T18:50:09.999373",
+          "ended": "2026-07-05T18:50:27.765988",
+          "status": "completed",
+          "idea_title": "Interpretable Adversarial Defense: Leveraging Explainability to Enhance Model Robustness"
+        },
+        "experiment": {
+          "cost_usd": 0.01961096,
+          "started": "2026-07-05T18:50:27.774099",
+          "ended": "2026-07-05T18:53:46.958672",
+          "status": "completed",
+          "best_metric": 0.0,
+          "cycle_dir": "/home/zezhenglin/founder/runs/full_pipeline/founder_1/cycle_1"
+        },
+        "writeup_pdf": {
+          "cost_usd": 0.02735646,
+          "started": "2026-07-05T18:53:46.963038",
+          "ended": "2026-07-05T18:57:49.442849",
+          "status": "failed",
+          "pdf_path": null,
+          "text_path": null
+        }
+      },
+      "artifacts": {
+        "idea_json": "/home/zezhenglin/founder/runs/full_pipeline/founder_1/cycle_1/idea.json",
+        "experiment_result_json": "/home/zezhenglin/founder/runs/full_pipeline/founder_1/cycle_1/experiment_result.json"
+      },
+      "status": "failed_writeup",
+      "round_total_usd": 0.0489153
+    },
+    {
+      "founder_id": "founder_2",
+      "config": "A",
+      "stages": {
+        "ideation": {
+          "cost_usd": 0.00221488,
+          "started": "2026-07-05T18:57:49.450641",
+          "ended": "2026-07-05T18:58:11.451020",
+          "status": "completed",
+          "idea_title": "Sparsity as a Unifying Principle: Enhancing Adversarial Robustness and Interpretability in Neural Networks"
+        },
+        "experiment": {
+          "cost_usd": 0.02407516,
+          "started": "2026-07-05T18:58:11.457352",
+          "ended": "2026-07-05T19:03:42.639020",
+          "status": "completed",
+          "best_metric": 0.0,
+          "cycle_dir": "/home/zezhenglin/founder/runs/full_pipeline/founder_2/cycle_1"
+        },
+        "writeup_pdf": {
+          "cost_usd": 0.02752949,
+          "started": "2026-07-05T19:03:42.642550",
+          "ended": "2026-07-05T19:09:04.969830",
+          "status": "failed",
+          "pdf_path": null,
+          "text_path": null
+        }
+      },
+      "artifacts": {
+        "idea_json": "/home/zezhenglin/founder/runs/full_pipeline/founder_2/cycle_1/idea.json",
+        "experiment_result_json": "/home/zezhenglin/founder/runs/full_pipeline/founder_2/cycle_1/experiment_result.json"
+      },
+      "status": "failed_writeup",
+      "round_total_usd": 0.05381953
+    }
+  ]
+}

@@ -1,0 +1,993 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Check if we're running under Live Server
+      if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
+          let lastModified = '';
+
+          // Check for file changes every second
+          setInterval(async () => {
+              try {
+                  const response = await fetch(window.location.href, { method: 'HEAD' });
+                  // get a timestamp that shows when the file was last changed
+                  const currentModified = response.headers.get('last-modified');
+
+                  if (lastModified && lastModified !== currentModified) {
+                      window.location.reload();
+                  }
+
+                  lastModified = currentModified;
+              } catch (e) {
+                  console.error('Error checking for updates:', e);
+              }
+          }, 1000);
+      }
+  </script>
+    <script
+      id="p5scripttag"
+      src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"
+      integrity="sha512-uaz5GpnQoE6t5echKlX8P52czvsIGgLPcvlzfvRubLZ1Hp8JemUDnbUiAahbVtPb+jUVrNETuXvAhDDF/N3M4w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+
+    <script>
+      const bgCol = "#FFFFFF";
+const accentCol = "#1a439e";
+
+hljs.initHighlightingOnLoad();
+
+// Function to update background color globally
+function updateBackgroundColor(color) {
+  // Update the JS variable
+  window.bgColCurrent = color;
+
+  // Update body background
+  document.body.style.backgroundColor = color;
+
+  // Update canvas container background
+  const canvasContainer = document.getElementById('canvas-container');
+  if (canvasContainer) {
+    canvasContainer.style.backgroundColor = color;
+  }
+}
+
+// Store tree data for each stage
+const stageData = {
+  Stage_1: null,
+  Stage_2: null,
+  Stage_3: null,
+  Stage_4: null
+};
+
+// Keep track of current selected stage
+let currentStage = null;
+let currentSketch = null;
+let availableStages = [];
+
+// Class definitions for nodes and edges
+class Node {
+  constructor(x, y, id, isRoot = false) {
+    this.x = x;
+    this.y = y;
+    this.id = id;
+    this.visible = isRoot; // Only root nodes are visible initially
+    this.appearProgress = 0;
+    this.popEffect = 0;
+    this.selected = false;
+    this.isRootNode = isRoot;
+  }
+
+  update() {
+    if (this.visible) {
+      // Handle the main appearance animation
+      if (this.appearProgress < 1) {
+        this.appearProgress += 0.06;
+
+        // When we reach full size, trigger the pop effect
+        if (this.appearProgress >= 1) {
+          this.appearProgress = 1; // Cap at 1
+          this.popEffect = 1; // Start the pop effect
+        }
+      }
+
+      // Handle the pop effect animation
+      if (this.popEffect > 0) {
+        this.popEffect -= 0.15; // Control how quickly it shrinks back
+        if (this.popEffect < 0) this.popEffect = 0; // Don't go negative
+      }
+    }
+  }
+
+  startAnimation() {
+    this.visible = true;
+  }
+
+  color() {
+    if (this.selected) {
+      return accentCol; // Use the global accent color variable for selected node
+    }
+    return '#4263eb'; // Default blue color
+  }
+
+  render(p5) {
+    if (this.visible) {
+      const popBonus = this.popEffect * 0.1;
+      const nodeScale = p5.map(this.appearProgress, 0, 1, 0, 1) + popBonus;
+      const alpha = p5.map(this.appearProgress, 0, 1, 0, 255);
+
+      p5.push();
+      p5.translate(this.x, this.y);
+
+      // Shadow effect
+      p5.noStroke();
+      p5.rectMode(p5.CENTER);
+
+      for (let i = 1; i <= 4; i++) {
+        p5.fill(0, 0, 0, alpha * 0.06);
+        p5.rect(i, i, 30 * nodeScale, 30 * nodeScale, 10);
+      }
+
+      // Main square - use node's color with alpha
+      let nodeColor = p5.color(this.color());
+      nodeColor.setAlpha(alpha);
+      p5.fill(nodeColor);
+      p5.rect(0, 0, 30 * nodeScale, 30 * nodeScale, 10);
+
+      // Draw checkmark icon if the node is selected
+      if (this.selected && this.appearProgress >= 1) {
+        p5.stroke(255);
+        p5.strokeWeight(2 * nodeScale);
+        p5.noFill();
+        // Draw checkmark
+        p5.beginShape();
+        p5.vertex(-8, 0);
+        p5.vertex(-3, 5);
+        p5.vertex(8, -6);
+        p5.endShape();
+      }
+
+      p5.pop();
+    }
+  }
+
+  isMouseOver(p5) {
+    return this.visible &&
+           p5.mouseX > this.x - 15 &&
+           p5.mouseX < this.x + 15 &&
+           p5.mouseY > this.y - 15 &&
+           p5.mouseY < this.y + 15;
+  }
+
+  // Connect this node to a child node
+  child(childNode) {
+    // Create an edge from this node to the child
+    let isLeft = childNode.x < this.x;
+    let isRight = childNode.x > this.x;
+    let edge = new Edge(this, childNode, isLeft, isRight);
+    return edge;
+  }
+}
+
+class Edge {
+  constructor(parent, child, isLeft, isRight) {
+    this.parent = parent;
+    this.child = child;
+    this.isLeft = isLeft;
+    this.isRight = isRight;
+    this.progress = 0;
+
+    // Calculate the midpoint where branching occurs
+    this.midY = parent.y + (child.y - parent.y) * 0.6;
+
+    // Use the actual child x-coordinate
+    // This ensures the edge will connect directly to the child node
+    this.branchX = child.x;
+  }
+
+  update() {
+    if (this.parent.visible && this.progress < 1) {
+      this.progress += 0.01; // Adjust animation speed
+    }
+    if (this.progress >= 1) {
+      this.child.visible = true;
+    }
+  }
+
+  color() {
+    return this.child.color();
+  }
+
+  render(p5) {
+    if (!this.parent.visible) return;
+
+    // Calculate path lengths
+    const verticalDist1 = this.midY - this.parent.y;
+    const horizontalDist = Math.abs(this.branchX - this.parent.x);
+    const verticalDist2 = this.child.y - this.midY;
+    const totalLength = verticalDist1 + horizontalDist + verticalDist2;
+
+    // Calculate how much of each segment to draw
+    const currentLength = totalLength * this.progress;
+
+    p5.stroke(180, 190, 205);
+    p5.strokeWeight(1.5);
+    p5.noFill();
+
+    // Always draw the first vertical segment from parent
+    if (currentLength > 0) {
+      const firstSegmentLength = Math.min(currentLength, verticalDist1);
+      const currentMidY = p5.lerp(this.parent.y, this.midY, firstSegmentLength / verticalDist1);
+      p5.line(this.parent.x, this.parent.y, this.parent.x, currentMidY);
+    }
+
+    if (currentLength > verticalDist1) {
+      // Draw second segment (horizontal)
+      const secondSegmentLength = Math.min(currentLength - verticalDist1, horizontalDist);
+      const currentBranchX = p5.lerp(this.parent.x, this.branchX, secondSegmentLength / horizontalDist);
+      p5.line(this.parent.x, this.midY, currentBranchX, this.midY);
+
+      if (currentLength > verticalDist1 + horizontalDist) {
+        // Draw third segment (vertical to child)
+        const thirdSegmentLength = currentLength - verticalDist1 - horizontalDist;
+        const currentChildY = p5.lerp(this.midY, this.child.y, thirdSegmentLength / verticalDist2);
+        p5.line(this.branchX, this.midY, this.branchX, currentChildY);
+      }
+    }
+  }
+}
+
+// Create a modified sketch for each stage
+function createTreeSketch(stageId) {
+  return function(p5) {
+    let nodes = [];
+    let edges = [];
+    let treeData = stageData[stageId];
+
+    p5.setup = function() {
+      const canvas = p5.createCanvas(p5.windowWidth * 0.4, p5.windowHeight);
+      canvas.parent('canvas-container');
+      p5.smooth();
+      p5.frameRate(60);
+
+      if (treeData) {
+        createTreeFromData(treeData);
+      }
+    };
+
+    p5.windowResized = function() {
+      p5.resizeCanvas(p5.windowWidth * 0.4, p5.windowHeight);
+    };
+
+    function createTreeFromData(data) {
+      // Clear existing nodes and edges
+      nodes = [];
+      edges = [];
+
+      // Add defensive checks to prevent errors
+      if (!data || !data.layout || !Array.isArray(data.layout) || !data.edges || !Array.isArray(data.edges)) {
+        console.error("Invalid tree data format:", data);
+        return; // Exit if data structure is invalid
+      }
+
+      // Find all parent nodes in edges
+      const parentNodes = new Set();
+      for (const [parentId, childId] of data.edges) {
+        parentNodes.add(parentId);
+      }
+
+      // Create nodes
+      for (let i = 0; i < data.layout.length; i++) {
+        const [nx, ny] = data.layout[i];
+        // A node is a root if it's a parent and not a child in any edge
+        const isRoot = parentNodes.has(i) && data.edges.every(edge => edge[1] !== i);
+
+        const node = new Node(
+          nx * p5.width * 0.8 + p5.width * 0.1,
+          ny * p5.height * 0.8 + p5.height * 0.1,
+          i,
+          isRoot
+        );
+        nodes.push(node);
+      }
+
+      // If no root was found, make the first parent node visible
+      if (!nodes.some(node => node.visible) && parentNodes.size > 0) {
+        // Get the first parent node
+        const firstParentId = [...parentNodes][0];
+        if (nodes[firstParentId]) {
+          nodes[firstParentId].visible = true;
+        }
+      }
+
+      // Create edges
+      for (const [parentId, childId] of data.edges) {
+        const parent = nodes[parentId];
+        const child = nodes[childId];
+        if (parent && child) { // Verify both nodes exist
+          const isLeft = child.x < parent.x;
+          const isRight = child.x > parent.x;
+          edges.push(new Edge(parent, child, isLeft, isRight));
+        }
+      }
+
+      // Select the first node by default
+      if (nodes.length > 0) {
+        nodes[0].selected = true;
+        updateNodeInfo(0);
+      }
+    }
+
+    p5.draw = function() {
+      // Use the global background color if available, otherwise use the default bgCol
+      const currentBgColor = window.bgColCurrent || bgCol;
+      p5.background(currentBgColor);
+
+      // Update and render edges
+      for (const edge of edges) {
+        edge.update();
+        edge.render(p5);
+      }
+
+      // Update and render nodes
+      for (const node of nodes) {
+        node.update();
+        node.render(p5);
+      }
+
+      // Handle mouse hover
+      p5.cursor(p5.ARROW);
+      for (const node of nodes) {
+        if (node.isMouseOver(p5)) {
+          p5.cursor(p5.HAND);
+        }
+      }
+    };
+
+    p5.mousePressed = function() {
+      // Check if any node was clicked
+      for (let i = 0; i < nodes.length; i++) {
+        if (nodes[i].visible && nodes[i].isMouseOver(p5)) {
+          // Deselect all nodes
+          nodes.forEach(n => n.selected = false);
+          // Select the clicked node
+          nodes[i].selected = true;
+          // Update the right panel with node info
+          updateNodeInfo(i);
+          break;
+        }
+      }
+    };
+
+    function updateNodeInfo(nodeIndex) {
+      if (treeData) {
+        setNodeInfo(
+          treeData.code[nodeIndex],
+          treeData.plan[nodeIndex],
+          treeData.plot_code?.[nodeIndex],
+          treeData.plot_plan?.[nodeIndex],
+          treeData.metrics?.[nodeIndex],
+          treeData.exc_type?.[nodeIndex] || '',
+          treeData.exc_info?.[nodeIndex]?.args?.[0] || '',
+          treeData.exc_stack?.[nodeIndex] || [],
+          treeData.plots?.[nodeIndex] || [],
+          treeData.plot_analyses?.[nodeIndex] || [],
+          treeData.vlm_feedback_summary?.[nodeIndex] || '',
+          treeData.datasets_successfully_tested?.[nodeIndex] || [],
+          treeData.exec_time_feedback?.[nodeIndex] || '',
+          treeData.exec_time?.[nodeIndex] || ''
+        );
+      }
+    }
+  };
+}
+
+// Start a new p5 sketch for the given stage
+function startSketch(stageId) {
+  if (currentSketch) {
+    currentSketch.remove();
+  }
+
+  if (stageData[stageId]) {
+    currentSketch = new p5(createTreeSketch(stageId));
+
+    // Update stage info
+    const stageNumber = stageId.split('_')[1];
+    let stageDesc = '';
+    switch(stageId) {
+      case 'Stage_1': stageDesc = 'Preliminary Investigation'; break;
+      case 'Stage_2': stageDesc = 'Baseline Tuning'; break;
+      case 'Stage_3': stageDesc = 'Research Agenda Execution'; break;
+      case 'Stage_4': stageDesc = 'Ablation Studies'; break;
+    }
+
+    document.getElementById('stage-info').innerHTML =
+      `<strong>Current Stage: ${stageNumber} - ${stageDesc}</strong>`;
+  }
+}
+
+// Handle tab selection
+function selectStage(stageId) {
+  if (!stageData[stageId] || !availableStages.includes(stageId)) {
+    return; // Don't allow selection of unavailable stages
+  }
+
+  // Update active tab styles
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  document.querySelector(`.tab[data-stage="${stageId}"]`).classList.add('active');
+
+  // Start the new sketch
+  currentStage = stageId;
+  startSketch(stageId);
+}
+
+// Function to load the tree data for all stages
+async function loadAllStageData(baseTreeData) {
+  console.log("Loading stage data with base data:", baseTreeData);
+
+  // The base tree data is for the current stage
+  const currentStageId = baseTreeData.current_stage || 'Stage_1';
+
+  // Ensure base tree data is valid and has required properties
+  if (baseTreeData && baseTreeData.layout && baseTreeData.edges) {
+    stageData[currentStageId] = baseTreeData;
+    availableStages.push(currentStageId);
+    console.log(`Added current stage ${currentStageId} to available stages`);
+  } else {
+    console.warn(`Current stage ${currentStageId} data is invalid:`, baseTreeData);
+  }
+
+  // Use relative path to load other stage trees
+  const logDirPath = baseTreeData.log_dir_path || '.';
+  console.log("Log directory path:", logDirPath);
+
+  // Load data for each stage if available
+  const stageNames = ['Stage_1', 'Stage_2', 'Stage_3', 'Stage_4'];
+  const stageNames2actualNames = {
+    'Stage_1': 'stage_1_initial_implementation_1_preliminary',
+    'Stage_2': 'stage_2_baseline_tuning_1_first_attempt',
+    'Stage_3': 'stage_3_creative_research_1_first_attempt',
+    'Stage_4': 'stage_4_ablation_studies_1_first_attempt'
+    }
+
+  for (const stage of stageNames) {
+
+    if (baseTreeData.completed_stages && baseTreeData.completed_stages.includes(stage)) {
+      try {
+        console.log(`Attempting to load data for ${stage} from ${logDirPath}/${stageNames2actualNames[stage]}/tree_data.json`);
+        const response = await fetch(`${logDirPath}/${stageNames2actualNames[stage]}/tree_data.json`);
+
+        if (response.ok) {
+          const data = await response.json();
+
+          // Validate the loaded data
+          if (data && data.layout && data.edges) {
+            stageData[stage] = data;
+            availableStages.push(stage);
+            console.log(`Successfully loaded and validated data for ${stage}`);
+          } else {
+            console.warn(`Loaded data for ${stage} is invalid:`, data);
+          }
+        } else {
+          console.warn(`Failed to load data for ${stage} - HTTP status ${response.status}`);
+        }
+      } catch (error) {
+        console.error(`Error loading data for ${stage}:`, error);
+      }
+    } else {
+      console.log(`Skipping stage ${stage} - not in completed stages list:`, baseTreeData.completed_stages);
+    }
+  }
+
+  // Update tab visibility based on available stages
+  updateTabVisibility();
+
+  // Start with the first available stage
+  if (availableStages.length > 0) {
+    selectStage(availableStages[0]);
+  } else {
+    console.warn("No stages available to display");
+    // Display a message in the canvas area
+    document.getElementById('canvas-container').innerHTML =
+      '<div style="padding: 20px; color: #333; text-align: center;"><h3>No valid tree data available to display</h3></div>';
+  }
+}
+
+// Update tab visibility based on available stages
+function updateTabVisibility() {
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach(tab => {
+    const stageId = tab.getAttribute('data-stage');
+    if (availableStages.includes(stageId)) {
+      tab.classList.remove('disabled');
+    } else {
+      tab.classList.add('disabled');
+    }
+  });
+}
+
+// Utility function to set the node info in the right panel
+const setNodeInfo = (code, plan, plot_code, plot_plan, metrics = null, exc_type = '', exc_info = '',
+    exc_stack = [], plots = [], plot_analyses = [], vlm_feedback_summary = '',
+    datasets_successfully_tested = [], exec_time_feedback = '', exec_time = '') => {
+  const codeElm = document.getElementById("code");
+  if (codeElm) {
+    if (code) {
+      codeElm.innerHTML = hljs.highlight(code, { language: "python" }).value;
+    } else {
+      codeElm.innerHTML = '<p>No code available</p>';
+    }
+  }
+
+  const planElm = document.getElementById("plan");
+  if (planElm) {
+    if (plan) {
+      planElm.innerHTML = hljs.highlight(plan, { language: "plaintext" }).value;
+    } else {
+      planElm.innerHTML = '<p>No plan available</p>';
+    }
+  }
+
+  const plot_codeElm = document.getElementById("plot_code");
+  if (plot_codeElm) {
+    if (plot_code) {
+      plot_codeElm.innerHTML = hljs.highlight(plot_code, { language: "python" }).value;
+    } else {
+      plot_codeElm.innerHTML = '<p>No plot code available</p>';
+    }
+  }
+
+  const plot_planElm = document.getElementById("plot_plan");
+  if (plot_planElm) {
+    if (plot_plan) {
+      plot_planElm.innerHTML = hljs.highlight(plot_plan, { language: "plaintext" }).value;
+    } else {
+      plot_planElm.innerHTML = '<p>No plot plan available</p>';
+    }
+  }
+
+  const metricsElm = document.getElementById("metrics");
+  if (metricsElm) {
+      let metricsContent = `<h3>Metrics:</h3>`;
+      if (metrics && metrics.metric_names) {
+          for (const metric of metrics.metric_names) {
+              metricsContent += `<div class="metric-group">`;
+              metricsContent += `<h4>${metric.metric_name}</h4>`;
+              metricsContent += `<p><strong>Description:</strong> ${metric.description || 'N/A'}</p>`;
+              metricsContent += `<p><strong>Optimization:</strong> ${metric.lower_is_better ? 'Minimize' : 'Maximize'}</p>`;
+
+              // Create table for dataset values
+              metricsContent += `<table class="metric-table">
+                  <tr>
+                      <th>Dataset</th>
+                      <th>Final Value</th>
+                      <th>Best Value</th>
+                  </tr>`;
+
+              for (const dataPoint of metric.data) {
+                  metricsContent += `<tr>
+                      <td>${dataPoint.dataset_name}</td>
+                      <td>${dataPoint.final_value?.toFixed(4) || 'N/A'}</td>
+                      <td>${dataPoint.best_value?.toFixed(4) || 'N/A'}</td>
+                  </tr>`;
+              }
+
+              metricsContent += `</table></div>`;
+          }
+      } else if (metrics === null) {
+          metricsContent += `<p>No metrics available</p>`;
+      }
+      metricsElm.innerHTML = metricsContent;
+  }
+
+  // Add plots display
+  const plotsElm = document.getElementById("plots");
+  if (plotsElm) {
+      if (plots && plots.length > 0) {
+          let plotsContent = '';
+          plots.forEach(plotPath => {
+              plotsContent += `
+                  <div class="plot-item">
+                      <img src="${plotPath}" alt="Experiment Plot" onerror="console.error('Failed to load plot:', this.src)"/>
+                  </div>`;
+          });
+          plotsElm.innerHTML = plotsContent;
+      } else {
+          plotsElm.innerHTML = '';
+      }
+  }
+
+  // Add error info display
+  const errorElm = document.getElementById("exc_info");
+  if (errorElm) {
+    if (exc_type) {
+      let errorContent = `<h3 style="color: #ff5555">Exception Information:</h3>
+                          <p><strong>Type:</strong> ${exc_type}</p>`;
+
+      if (exc_info) {
+        errorContent += `<p><strong>Details:</strong> <pre>${JSON.stringify(exc_info, null, 2)}</pre></p>`;
+      }
+
+      if (exc_stack) {
+        errorContent += `<p><strong>Stack Trace:</strong> <pre>${exc_stack.join('\n')}</pre></p>`;
+      }
+
+      errorElm.innerHTML = errorContent;
+    } else {
+      errorElm.innerHTML = "No exception info available";
+    }
+  }
+
+  const exec_timeElm = document.getElementById("exec_time");
+  if (exec_timeElm) {
+    let exec_timeContent = '<div id="exec_time"><h3>Execution Time (in seconds):</h3><p>' + exec_time + '</p></div>';
+    exec_timeElm.innerHTML = exec_timeContent;
+  }
+
+  const exec_time_feedbackElm = document.getElementById("exec_time_feedback");
+  if (exec_time_feedbackElm) {
+    let exec_time_feedbackContent = '<div id="exec_time_feedback_content">'
+    exec_time_feedbackContent += '<h3>Execution Time Feedback:</h3>'
+    exec_time_feedbackContent += '<p>' + exec_time_feedback + '</p>'
+    exec_time_feedbackContent += '</div>';
+    exec_time_feedbackElm.innerHTML = exec_time_feedbackContent;
+  }
+
+  const vlm_feedbackElm = document.getElementById("vlm_feedback");
+  if (vlm_feedbackElm) {
+      let vlm_feedbackContent = '';
+
+      if (plot_analyses && plot_analyses.length > 0) {
+          vlm_feedbackContent += `<h3>Plot Analysis:</h3>`;
+          plot_analyses.forEach(analysis => {
+              if (analysis && analysis.plot_path) {  // Add null check
+                  vlm_feedbackContent += `
+                      <div class="plot-analysis">
+                          <h4>Analysis for ${analysis.plot_path.split('/').pop()}</h4>
+                          <p>${analysis.analysis || 'No analysis available'}</p>
+                          <ul class="key-findings">
+                              ${(analysis.key_findings || []).map(finding => `<li>${finding}</li>`).join('')}
+                          </ul>
+                      </div>`;
+              } else {
+                  console.warn('Received invalid plot analysis:', analysis);
+                  vlm_feedbackContent += `
+                      <div class="plot-analysis">
+                          <p>Invalid plot analysis data received</p>
+                      </div>`;
+              }
+          });
+      }
+
+      // Add actionable insights if available
+      if (vlm_feedback_summary && typeof vlm_feedback_summary === 'string') {
+          vlm_feedbackContent += `
+              <div class="vlm_feedback">
+                  <h3>VLM Feedback Summary:</h3>
+                  <p>${vlm_feedback_summary}</p>
+              </div>`;
+      }
+
+      console.log("Datasets successfully tested:", datasets_successfully_tested);
+      if (datasets_successfully_tested && datasets_successfully_tested.length > 0) {
+          vlm_feedbackContent += `
+              <div id="datasets_successfully_tested">
+                  <h3>Datasets Successfully Tested:</h3>
+                  <p>${datasets_successfully_tested.join(', ')}</p>
+              </div>`;
+      }
+
+      if (!vlm_feedbackContent) {
+          vlm_feedbackContent = '<p>No insights available for this experiment.</p>';
+      }
+
+      vlm_feedbackElm.innerHTML = vlm_feedbackContent;
+  }
+
+  const datasets_successfully_testedElm = document.getElementById("datasets_successfully_tested");
+  if (datasets_successfully_testedElm) {
+      let datasets_successfully_testedContent = '';
+      if (datasets_successfully_tested && datasets_successfully_tested.length > 0) {
+          datasets_successfully_testedContent = `<h3>Datasets Successfully Tested:</h3><ul>`;
+          datasets_successfully_tested.forEach(dataset => {
+              datasets_successfully_testedContent += `<li>${dataset}</li>`;
+          });
+          datasets_successfully_testedContent += `</ul>`;
+      } else {
+          datasets_successfully_testedContent = '<p>No datasets tested yet</p>';
+      }
+      datasets_successfully_testedElm.innerHTML = datasets_successfully_testedContent;
+  }
+};
+
+// Initialize with the provided tree data
+const treeStructData = {"edges": [], "layout": [[0.0, 0.0], [0.3333333333333333, 0.0], [0.6666666666666666, 0.0], [1.0, 0.0]], "plan": ["We'll implement a simple baseline to test the hypothesis that sparsity improves\nadversarial robustness. The approach will: 1) Create a synthetic dataset for\nbinary classification, 2) Implement a basic neural network with and without\nsparsity regularization, 3) Evaluate both models on clean and adversarial\nexamples using FGSM attacks, and 4) Compare robustness metrics. The sparsity\nwill be induced via L1 regularization on weights during training.", "To investigate how sparsity enhances both adversarial robustness and\ninterpretability in neural networks, we'll implement a simple baseline\nexperiment. We'll train two models on synthetic data - one dense and one with\ngradient sparsity regularization. We'll evaluate their performance on clean and\nadversarial test data, while also measuring feature importance consistency as an\ninterpretability metric. The key components will be: 1) synthetic data\ngeneration, 2) model architecture with sparsity regularization, 3) adversarial\nattack generation, 4) evaluation metrics for both robustness and\ninterpretability. We'll visualize the decision boundaries and feature importance\npatterns to qualitatively assess interpretability.", "We'll implement a simple baseline to test the hypothesis that sparsity improves\nadversarial robustness and interpretability. We'll create a synthetic 2D dataset\nfor binary classification, train both dense and sparse models, then evaluate\ntheir performance on clean and adversarial examples. The sparse model will use\nL1 regularization to induce sparsity. We'll compare accuracy on clean data and\nrobustness against FGSM attacks, while also visualizing decision boundaries to\nassess interpretability.", "We'll implement a simple baseline to test the hypothesis that sparsity improves\nadversarial robustness. The experiment will compare a dense network with a\nsparse network (using L1 regularization) on a synthetic dataset, evaluating both\nclean accuracy and adversarial robustness. We'll use FGSM attacks to measure\nrobustness and visualize the decision boundaries to assess interpretability. The\nsparse network should show better robustness while maintaining comparable\naccuracy."], "code": ["import os\nimport numpy as np\nimport torch\nimport torch.nn as nn\nimport torch.optim as optim\nimport matplotlib.pyplot as plt\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\nos.makedirs(working_dir, exist_ok=True)\ndevice = torch.device(\"cuda\" if torch.cuda.is_available() else \"cpu\")\nprint(f\"Using device: {device}\")\n\n# Synthetic dataset\nn_samples = 1000\nX = torch.randn(n_samples, 2).to(device)\ny = ((X[:, 0] > 0) & (X[:, 1] > 0)).long().to(device)\nX_train, X_test = X[:800], X[800:]\ny_train, y_test = y[:800], y[800:]\n\n\n# Model definition\nclass Net(nn.Module):\n    def __init__(self):\n        super().__init__()\n        self.fc1 = nn.Linear(2, 16)\n        self.fc2 = nn.Linear(16, 2)\n\n    def forward(self, x):\n        x = torch.relu(self.fc1(x))\n        return self.fc2(x)\n\n\n# Training function with sparsity regularization\ndef train_model(sparsity_weight=0.0):\n    model = Net().to(device)\n    optimizer = optim.Adam(model.parameters(), lr=0.01)\n    criterion = nn.CrossEntropyLoss()\n\n    for epoch in range(100):\n        model.train()\n        optimizer.zero_grad()\n        outputs = model(X_train)\n        loss = criterion(outputs, y_train)\n\n        # Add L1 regularization for sparsity\n        l1_reg = torch.tensor(0.0).to(device)\n        for param in model.parameters():\n            l1_reg += torch.norm(param, 1)\n        loss += sparsity_weight * l1_reg\n\n        loss.backward()\n        optimizer.step()\n\n        if epoch % 20 == 0:\n            model.eval()\n            with torch.no_grad():\n                preds = model(X_test).argmax(1)\n                acc = (preds == y_test).float().mean().item()\n            print(f\"Epoch {epoch}: Test Acc = {acc:.4f}\")\n\n    return model\n\n\n# FGSM attack function\ndef fgsm_attack(model, X, y, epsilon=0.1):\n    X.requires_grad = True\n    outputs = model(X)\n    loss = nn.CrossEntropyLoss()(outputs, y)\n    loss.backward()\n\n    attack = X + epsilon * X.grad.sign()\n    return attack.detach()\n\n\n# Evaluate models\ndef evaluate(model, X, y):\n    model.eval()\n    with torch.no_grad():\n        preds = model(X).argmax(1)\n        return (preds == y).float().mean().item()\n\n\n# Train dense and sparse models\ndense_model = train_model(sparsity_weight=0.0)\nsparse_model = train_model(sparsity_weight=0.01)\n\n# Generate adversarial examples\nX_adv = fgsm_attack(dense_model, X_test.clone(), y_test)\n\n# Evaluate robustness\ndense_clean_acc = evaluate(dense_model, X_test, y_test)\ndense_adv_acc = evaluate(dense_model, X_adv, y_test)\nsparse_clean_acc = evaluate(sparse_model, X_test, y_test)\nsparse_adv_acc = evaluate(sparse_model, X_adv, y_test)\n\n# Save results\nresults = {\n    \"dense\": {\n        \"clean_acc\": dense_clean_acc,\n        \"adv_acc\": dense_adv_acc,\n        \"robustness_drop\": dense_clean_acc - dense_adv_acc,\n    },\n    \"sparse\": {\n        \"clean_acc\": sparse_clean_acc,\n        \"adv_acc\": sparse_adv_acc,\n        \"robustness_drop\": sparse_clean_acc - sparse_adv_acc,\n    },\n}\n\nprint(\"\\nResults:\")\nprint(\n    f\"Dense Model - Clean Acc: {dense_clean_acc:.4f}, Adv Acc: {dense_adv_acc:.4f}, Drop: {dense_clean_acc - dense_adv_acc:.4f}\"\n)\nprint(\n    f\"Sparse Model - Clean Acc: {sparse_clean_acc:.4f}, Adv Acc: {sparse_adv_acc:.4f}, Drop: {sparse_clean_acc - sparse_adv_acc:.4f}\"\n)\n\n# Visualization\nplt.figure(figsize=(10, 4))\nplt.subplot(1, 2, 1)\nplt.scatter(X_test[:, 0].cpu(), X_test[:, 1].cpu(), c=y_test.cpu())\nplt.title(\"Original Data\")\nplt.subplot(1, 2, 2)\nplt.scatter(X_adv[:, 0].cpu(), X_adv[:, 1].cpu(), c=y_test.cpu())\nplt.title(\"Adversarial Examples\")\nplt.savefig(os.path.join(working_dir, \"data_visualization.png\"))\nplt.close()\n\n# Save experiment data\nexperiment_data = {\n    \"synthetic_binary\": {\n        \"metrics\": results,\n        \"models\": {\"dense\": str(dense_model), \"sparse\": str(sparse_model)},\n    }\n}\nnp.save(os.path.join(working_dir, \"experiment_data.npy\"), experiment_data)\n", "import os\nimport numpy as np\nimport torch\nimport torch.nn as nn\nimport torch.optim as optim\nimport matplotlib.pyplot as plt\nfrom torch.autograd import grad\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\nos.makedirs(working_dir, exist_ok=True)\ndevice = torch.device(\"cuda\" if torch.cuda.is_available() else \"cpu\")\nprint(f\"Using device: {device}\")\n\n# Synthetic data generation\nn_samples = 1000\nX = np.random.randn(n_samples, 2).astype(np.float32)\ny = ((X[:, 0] > 0) & (X[:, 1] > 0)).astype(np.int64)\nX_train, y_train = torch.tensor(X[:800]).to(device), torch.tensor(y[:800]).to(device)\nX_test, y_test = torch.tensor(X[800:]).to(device), torch.tensor(y[800:]).to(device)\n\n\n# Model with sparsity regularization\nclass SparseModel(nn.Module):\n    def __init__(self):\n        super().__init__()\n        self.fc1 = nn.Linear(2, 32)\n        self.fc2 = nn.Linear(32, 2)\n        self.relu = nn.ReLU()\n\n    def forward(self, x):\n        x = self.relu(self.fc1(x))\n        return self.fc2(x)\n\n    def sparsity_loss(self):\n        return sum(torch.norm(p, 1) for p in self.parameters())\n\n\n# Training function\ndef train_model(sparse=False):\n    model = SparseModel().to(device)\n    optimizer = optim.Adam(model.parameters(), lr=0.01)\n    criterion = nn.CrossEntropyLoss()\n\n    for epoch in range(100):\n        model.train()\n        optimizer.zero_grad()\n        outputs = model(X_train)\n        loss = criterion(outputs, y_train)\n        if sparse:\n            loss += 0.01 * model.sparsity_loss()\n        loss.backward()\n        optimizer.step()\n\n        with torch.no_grad():\n            test_outputs = model(X_test)\n            test_acc = (test_outputs.argmax(1) == y_test).float().mean()\n\n        if epoch % 10 == 0:\n            print(f\"Epoch {epoch}: loss={loss.item():.4f}, test_acc={test_acc:.4f}\")\n\n    return model\n\n\n# Adversarial attack\ndef fgsm_attack(model, X, y, epsilon=0.1):\n    X.requires_grad = True\n    outputs = model(X)\n    loss = nn.CrossEntropyLoss()(outputs, y)\n    loss.backward()\n    perturbation = epsilon * X.grad.sign()\n    return torch.clamp(X + perturbation, -3, 3)\n\n\n# Feature importance\ndef compute_feature_importance(model, X):\n    X.requires_grad = True\n    outputs = model(X)\n    grads = grad(outputs.sum(), X)[0]\n    return torch.abs(grads).mean(0)\n\n\n# Train and evaluate models\ndense_model = train_model(sparse=False)\nsparse_model = train_model(sparse=True)\n\n# Adversarial evaluation\nX_test_adv = fgsm_attack(dense_model, X_test.clone(), y_test)\ndense_adv_acc = (dense_model(X_test_adv).argmax(1) == y_test).float().mean()\nsparse_adv_acc = (sparse_model(X_test_adv).argmax(1) == y_test).float().mean()\n\n# Feature importance consistency\ndense_imp = compute_feature_importance(dense_model, X_test)\nsparse_imp = compute_feature_importance(sparse_model, X_test)\n\n# Save results\nexperiment_data = {\n    \"synthetic_data\": {\n        \"metrics\": {\n            \"dense_clean_acc\": (dense_model(X_test).argmax(1) == y_test)\n            .float()\n            .mean()\n            .item(),\n            \"sparse_clean_acc\": (sparse_model(X_test).argmax(1) == y_test)\n            .float()\n            .mean()\n            .item(),\n            \"dense_adv_acc\": dense_adv_acc.item(),\n            \"sparse_adv_acc\": sparse_adv_acc.item(),\n        },\n        \"feature_importance\": {\n            \"dense\": dense_imp.cpu().numpy(),\n            \"sparse\": sparse_imp.cpu().numpy(),\n        },\n    }\n}\nnp.save(os.path.join(working_dir, \"experiment_data.npy\"), experiment_data)\n\n# Visualization\nplt.figure(figsize=(12, 4))\nplt.subplot(1, 3, 1)\nplt.bar(\n    [\"Dense\", \"Sparse\"],\n    [\n        experiment_data[\"synthetic_data\"][\"metrics\"][\"dense_clean_acc\"],\n        experiment_data[\"synthetic_data\"][\"metrics\"][\"sparse_clean_acc\"],\n    ],\n)\nplt.title(\"Clean Accuracy\")\n\nplt.subplot(1, 3, 2)\nplt.bar(\n    [\"Dense\", \"Sparse\"],\n    [\n        experiment_data[\"synthetic_data\"][\"metrics\"][\"dense_adv_acc\"],\n        experiment_data[\"synthetic_data\"][\"metrics\"][\"sparse_adv_acc\"],\n    ],\n)\nplt.title(\"Adversarial Accuracy\")\n\nplt.subplot(1, 3, 3)\nplt.bar(\n    [\"Feature 1\", \"Feature 2\"],\n    experiment_data[\"synthetic_data\"][\"feature_importance\"][\"dense\"],\n    alpha=0.5,\n    label=\"Dense\",\n)\nplt.bar(\n    [\"Feature 1\", \"Feature 2\"],\n    experiment_data[\"synthetic_data\"][\"feature_importance\"][\"sparse\"],\n    alpha=0.5,\n    label=\"Sparse\",\n)\nplt.legend()\nplt.title(\"Feature Importance\")\nplt.tight_layout()\nplt.savefig(os.path.join(working_dir, \"results.png\"))\nplt.close()\n\nprint(\n    f\"Adversarial Robustness Accuracy - Dense: {dense_adv_acc:.4f}, Sparse: {sparse_adv_acc:.4f}\"\n)\n", "import os\nimport numpy as np\nimport torch\nimport torch.nn as nn\nimport torch.optim as optim\nimport matplotlib.pyplot as plt\nfrom torch.autograd import grad\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\nos.makedirs(working_dir, exist_ok=True)\ndevice = torch.device(\"cuda\" if torch.cuda.is_available() else \"cpu\")\nprint(f\"Using device: {device}\")\n\n# Create synthetic dataset\nnp.random.seed(0)\nX = np.random.randn(1000, 2) * 1.5\ny = (X[:, 0] * X[:, 1] > 0).astype(int)\nX = X.astype(np.float32)\nX_train, y_train = torch.tensor(X[:800]).to(device), torch.tensor(y[:800]).to(device)\nX_test, y_test = torch.tensor(X[800:]).to(device), torch.tensor(y[800:]).to(device)\n\n\n# Define models\nclass Model(nn.Module):\n    def __init__(self, sparse=False):\n        super().__init__()\n        self.fc1 = nn.Linear(2, 32)\n        self.fc2 = nn.Linear(32, 2)\n        self.sparse = sparse\n\n    def forward(self, x):\n        x = torch.relu(self.fc1(x))\n        return self.fc2(x)\n\n\n# Training function\ndef train_model(sparse=False, l1_lambda=0.01):\n    model = Model(sparse).to(device)\n    optimizer = optim.Adam(model.parameters(), lr=0.01)\n    criterion = nn.CrossEntropyLoss()\n\n    for epoch in range(100):\n        model.train()\n        optimizer.zero_grad()\n        outputs = model(X_train)\n        loss = criterion(outputs, y_train)\n        if sparse:\n            l1_norm = sum(p.abs().sum() for p in model.parameters())\n            loss = loss + l1_lambda * l1_norm\n        loss.backward()\n        optimizer.step()\n\n    return model\n\n\n# FGSM attack\ndef fgsm_attack(model, X, y, epsilon=0.1):\n    X.requires_grad = True\n    outputs = model(X)\n    loss = nn.CrossEntropyLoss()(outputs, y)\n    model.zero_grad()\n    loss.backward()\n    perturbed_X = X + epsilon * X.grad.sign()\n    return perturbed_X.detach()\n\n\n# Train and evaluate models\ndense_model = train_model(sparse=False)\nsparse_model = train_model(sparse=True)\n\n# Evaluate clean accuracy\nwith torch.no_grad():\n    dense_acc = (dense_model(X_test).argmax(1) == y_test).float().mean()\n    sparse_acc = (sparse_model(X_test).argmax(1) == y_test).float().mean()\n\n# Evaluate adversarial robustness\nX_adv = fgsm_attack(dense_model, X_test, y_test)\nwith torch.no_grad():\n    dense_robust_acc = (dense_model(X_adv).argmax(1) == y_test).float().mean()\n    sparse_robust_acc = (sparse_model(X_adv).argmax(1) == y_test).float().mean()\n\n# Save results\nexperiment_data = {\n    \"synthetic_2d\": {\n        \"metrics\": {\n            \"clean\": {\"dense\": dense_acc.item(), \"sparse\": sparse_acc.item()},\n            \"adversarial\": {\n                \"dense\": dense_robust_acc.item(),\n                \"sparse\": sparse_robust_acc.item(),\n            },\n        },\n        \"sparsity\": {\n            \"dense\": sum(\n                (p.abs() > 1e-3).sum().item() for p in dense_model.parameters()\n            ),\n            \"sparse\": sum(\n                (p.abs() > 1e-3).sum().item() for p in sparse_model.parameters()\n            ),\n        },\n    }\n}\nnp.save(os.path.join(working_dir, \"experiment_data.npy\"), experiment_data)\n\n# Plot decision boundaries\nxx, yy = np.meshgrid(np.linspace(-5, 5, 100), np.linspace(-5, 5, 100))\ngrid = torch.tensor(np.c_[xx.ravel(), yy.ravel()], dtype=torch.float32).to(device)\n\nwith torch.no_grad():\n    Z_dense = dense_model(grid).argmax(1).cpu().numpy()\n    Z_sparse = sparse_model(grid).argmax(1).cpu().numpy()\n\nplt.figure(figsize=(12, 5))\nplt.subplot(1, 2, 1)\nplt.contourf(xx, yy, Z_dense.reshape(xx.shape), alpha=0.3)\nplt.scatter(X[:, 0], X[:, 1], c=y, edgecolors=\"k\")\nplt.title(\"Dense Model Decision Boundary\")\nplt.subplot(1, 2, 2)\nplt.contourf(xx, yy, Z_sparse.reshape(xx.shape), alpha=0.3)\nplt.scatter(X[:, 0], X[:, 1], c=y, edgecolors=\"k\")\nplt.title(\"Sparse Model Decision Boundary\")\nplt.savefig(os.path.join(working_dir, \"decision_boundaries.png\"))\nplt.close()\n\nprint(f\"Clean Accuracy - Dense: {dense_acc:.4f}, Sparse: {sparse_acc:.4f}\")\nprint(\n    f\"Robust Accuracy - Dense: {dense_robust_acc:.4f}, Sparse: {sparse_robust_acc:.4f}\"\n)\nprint(\n    f\"Non-zero Parameters - Dense: {experiment_data['synthetic_2d']['sparsity']['dense']}, Sparse: {experiment_data['synthetic_2d']['sparsity']['sparse']}\"\n)\n", "import os\nimport numpy as np\nimport torch\nimport torch.nn as nn\nimport torch.optim as optim\nimport matplotlib.pyplot as plt\nfrom torch.utils.data import TensorDataset, DataLoader\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\nos.makedirs(working_dir, exist_ok=True)\ndevice = torch.device(\"cuda\" if torch.cuda.is_available() else \"cpu\")\nprint(f\"Using device: {device}\")\n\n# Generate synthetic data\nn_samples = 1000\nX = np.random.randn(n_samples, 2) * 1.5\ny = (X[:, 0] * X[:, 1] > 0).astype(int)  # XOR-like pattern\nX_train, y_train = torch.FloatTensor(X[:800]).to(device), torch.LongTensor(y[:800]).to(\n    device\n)\nX_test, y_test = torch.FloatTensor(X[800:]).to(device), torch.LongTensor(y[800:]).to(\n    device\n)\n\n\n# Define models\nclass Net(nn.Module):\n    def __init__(self, sparse=False):\n        super().__init__()\n        self.fc1 = nn.Linear(2, 32)\n        self.fc2 = nn.Linear(32, 2)\n        self.sparse = sparse\n\n    def forward(self, x):\n        x = torch.relu(self.fc1(x))\n        if self.sparse:\n            x = x * (torch.abs(x) > 0.1).float()  # Simple thresholding\n        return self.fc2(x)\n\n\n# Training function with adversarial evaluation\ndef train_model(sparse=False):\n    model = Net(sparse=sparse).to(device)\n    optimizer = optim.Adam(\n        model.parameters(), lr=0.01, weight_decay=0.01 if sparse else 0\n    )\n    criterion = nn.CrossEntropyLoss()\n\n    train_loader = DataLoader(\n        TensorDataset(X_train, y_train), batch_size=32, shuffle=True\n    )\n\n    for epoch in range(50):\n        model.train()\n        for x, y in train_loader:\n            optimizer.zero_grad()\n            outputs = model(x)\n            loss = criterion(outputs, y)\n            if sparse:\n                l1_reg = torch.sum(torch.abs(model.fc1.weight)) + torch.sum(\n                    torch.abs(model.fc2.weight)\n                )\n                loss += 0.01 * l1_reg\n            loss.backward()\n            optimizer.step()\n\n        # Evaluate\n        model.eval()\n        with torch.no_grad():\n            # Clean accuracy\n            outputs = model(X_test)\n            clean_acc = (outputs.argmax(1) == y_test).float().mean()\n\n            # Adversarial accuracy (FGSM attack)\n            epsilon = 0.1\n            X_test.requires_grad = True\n            outputs = model(X_test)\n            loss = criterion(outputs, y_test)\n            loss.backward()\n            X_adv = X_test + epsilon * X_test.grad.sign()\n            X_adv = torch.clamp(X_adv, -3, 3)\n            adv_acc = (model(X_adv).argmax(1) == y_test).float().mean()\n\n        print(f\"Epoch {epoch}: clean_acc={clean_acc:.4f}, adv_acc={adv_acc:.4f}\")\n\n    return model, clean_acc.item(), adv_acc.item()\n\n\n# Train and compare models\ndense_model, dense_clean, dense_adv = train_model(sparse=False)\nsparse_model, sparse_clean, sparse_adv = train_model(sparse=True)\n\n# Save results\nexperiment_data = {\n    \"synthetic_xor\": {\n        \"metrics\": {\n            \"dense\": {\"clean_acc\": dense_clean, \"adv_acc\": dense_adv},\n            \"sparse\": {\"clean_acc\": sparse_clean, \"adv_acc\": sparse_adv},\n        }\n    }\n}\nnp.save(os.path.join(working_dir, \"experiment_data.npy\"), experiment_data)\n\n\n# Visualize decision boundaries\ndef plot_decision_boundary(model, title):\n    x_min, x_max = -3, 3\n    y_min, y_max = -3, 3\n    xx, yy = np.meshgrid(np.linspace(x_min, x_max, 100), np.linspace(y_min, y_max, 100))\n    grid = torch.FloatTensor(np.c_[xx.ravel(), yy.ravel()]).to(device)\n    with torch.no_grad():\n        Z = model(grid).argmax(1).cpu().numpy()\n    Z = Z.reshape(xx.shape)\n    plt.contourf(xx, yy, Z, alpha=0.8)\n    plt.scatter(X_test.cpu()[:, 0], X_test.cpu()[:, 1], c=y_test.cpu(), edgecolors=\"k\")\n    plt.title(title)\n    plt.savefig(\n        os.path.join(\n            working_dir, f'decision_boundary_{title.lower().replace(\" \", \"_\")}.png'\n        )\n    )\n    plt.close()\n\n\nplot_decision_boundary(dense_model, \"Dense Network\")\nplot_decision_boundary(sparse_model, \"Sparse Network\")\n\nprint(f\"Dense: Clean Acc={dense_clean:.4f}, Adv Acc={dense_adv:.4f}\")\nprint(f\"Sparse: Clean Acc={sparse_clean:.4f}, Adv Acc={sparse_adv:.4f}\")\n"], "term_out": ["['Using device: cuda', '\\n', 'Epoch 0: Test Acc = 0.1850', '\\n', 'Epoch 20: Test\nAcc = 0.7900', '\\n', 'Epoch 40: Test Acc = 0.9200', '\\n', 'Epoch 60: Test Acc =\n0.9600', '\\n', 'Epoch 80: Test Acc = 0.9900', '\\n', 'Epoch 0: Test Acc =\n0.6300', '\\n', 'Epoch 20: Test Acc = 0.8350', '\\n', 'Epoch 40: Test Acc =\n0.8800', '\\n', 'Epoch 60: Test Acc = 0.9100', '\\n', 'Epoch 80: Test Acc =\n0.9200', '\\n', '\\nResults:', '\\n', 'Dense Model - Clean Acc: 0.9900, Adv Acc:\n0.9300, Drop: 0.0600', '\\n', 'Sparse Model - Clean Acc: 0.9450, Adv Acc: 0.9100,\nDrop: 0.0350', '\\n', 'Execution time: 10 seconds seconds (time limit is 20\nminutes).']", "['Using device: cuda', '\\n', 'Epoch 0: loss=0.6194, test_acc=0.7450', '\\n',\n'Epoch 10: loss=0.2832, test_acc=0.9150', '\\n', 'Epoch 20: loss=0.1876,\ntest_acc=0.9150', '\\n', 'Epoch 30: loss=0.1460, test_acc=0.9450', '\\n', 'Epoch\n40: loss=0.1145, test_acc=0.9800', '\\n', 'Epoch 50: loss=0.0941,\ntest_acc=0.9900', '\\n', 'Epoch 60: loss=0.0809, test_acc=0.9900', '\\n', 'Epoch\n70: loss=0.0709, test_acc=0.9900', '\\n', 'Epoch 80: loss=0.0633,\ntest_acc=0.9900', '\\n', 'Epoch 90: loss=0.0574, test_acc=0.9900', '\\n', 'Epoch\n0: loss=1.0004, test_acc=0.6650', '\\n', 'Epoch 10: loss=0.6602,\ntest_acc=0.8650', '\\n', 'Epoch 20: loss=0.5549, test_acc=0.9200', '\\n', 'Epoch\n30: loss=0.4980, test_acc=0.9200', '\\n', 'Epoch 40: loss=0.4560,\ntest_acc=0.9350', '\\n', 'Epoch 50: loss=0.4200, test_acc=0.9500', '\\n', 'Epoch\n60: loss=0.3880, test_acc=0.9600', '\\n', 'Epoch 70: loss=0.3635,\ntest_acc=0.9650', '\\n', 'Epoch 80: loss=0.3420, test_acc=0.9700', '\\n', 'Epoch\n90: loss=0.3262, test_acc=0.9850', '\\n', 'Adversarial Robustness Accuracy -\nDense: 0.9150, Sparse: 0.8850', '\\n', 'Execution time: 9 seconds seconds (time\nlimit is 20 minutes).']", "['Using device: cuda', '\\n', 'Clean Accuracy - Dense: 0.9900, Sparse: 0.9900',\n'\\n', 'Robust Accuracy - Dense: 0.8400, Sparse: 0.8450', '\\n', 'Non-zero\nParameters - Dense: 161, Sparse: 134', '\\n', 'Execution time: 9 seconds seconds\n(time limit is 20 minutes).']", "['Using device: cuda', '\\n', 'Traceback (most recent call last):\\n  File\n\"runfile.py\", line 90, in <module>\\n    dense_model, dense_clean, dense_adv =\ntrain_model(sparse=False)\\n  File \"runfile.py\", line 79, in train_model\\n\nloss.backward()\\n  File\n\"/home/zezhenglin/.conda/envs/founder/lib/python3.10/site-\npackages/torch/_tensor.py\", line 631, in backward\\n\ntorch.autograd.backward(\\n  File\n\"/home/zezhenglin/.conda/envs/founder/lib/python3.10/site-\npackages/torch/autograd/__init__.py\", line 379, in backward\\n\n_engine_run_backward(\\n  File\n\"/home/zezhenglin/.conda/envs/founder/lib/python3.10/site-\npackages/torch/autograd/graph.py\", line 882, in _engine_run_backward\\n    return\nVariable._execution_engine.run_backward(  # Calls into the C++ engine to run the\nbackward pass\\nRuntimeError: element 0 of tensors does not require grad and does\nnot have a grad_fn\\n', 'Execution time: 7 seconds seconds (time limit is 20\nminutes).']"], "analysis": ["", "", "", "The execution failed with a `RuntimeError` indicating that the tensor does not\nrequire gradient computation (`grad_fn`). This occurs because the `X_test`\ntensor is not set to require gradients (`requires_grad=True`) before performing\nthe adversarial attack. To fix this, ensure `X_test.requires_grad = True` is set\nbefore computing the adversarial examples."], "exc_type": [null, null, null, "RuntimeError"], "exc_info": [null, null, null, {"args": ["element 0 of tensors does not require grad and does not have a grad_fn"]}], "exc_stack": [null, null, null, [["/home/zezhenglin/founder/ai_scientist/treesearch/interpreter.py", 144, "_run_session", "exec(compile(code, self.agent_file_name, \"exec\"), global_scope)"], ["runfile.py", 90, "<module>", "dense_model, dense_clean, dense_adv = train_model(sparse=False)"], ["runfile.py", 79, "train_model", "loss.backward()"], ["/home/zezhenglin/.conda/envs/founder/lib/python3.10/site-packages/torch/_tensor.py", 631, "backward", "torch.autograd.backward("], ["/home/zezhenglin/.conda/envs/founder/lib/python3.10/site-packages/torch/autograd/__init__.py", 379, "backward", "_engine_run_backward("], ["/home/zezhenglin/.conda/envs/founder/lib/python3.10/site-packages/torch/autograd/graph.py", 882, "_engine_run_backward", "return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass"]]], "exp_name": "0-run", "metrics": [{"metric_names": [{"data": [{"best_value": 0.99, "dataset_name": "synthetic_binary", "final_value": 0.99}], "description": "Clean accuracy of the dense model", "lower_is_better": false, "metric_name": "Dense Model - Clean Accuracy"}, {"data": [{"best_value": 0.93, "dataset_name": "synthetic_binary", "final_value": 0.93}], "description": "Adversarial accuracy of the dense model", "lower_is_better": false, "metric_name": "Dense Model - Adversarial Accuracy"}, {"data": [{"best_value": 0.06, "dataset_name": "synthetic_binary", "final_value": 0.06}], "description": "Robustness drop of the dense model", "lower_is_better": true, "metric_name": "Dense Model - Robustness Drop"}, {"data": [{"best_value": 0.945, "dataset_name": "synthetic_binary", "final_value": 0.945}], "description": "Clean accuracy of the sparse model", "lower_is_better": false, "metric_name": "Sparse Model - Clean Accuracy"}, {"data": [{"best_value": 0.91, "dataset_name": "synthetic_binary", "final_value": 0.91}], "description": "Adversarial accuracy of the sparse model", "lower_is_better": false, "metric_name": "Sparse Model - Adversarial Accuracy"}, {"data": [{"best_value": 0.035, "dataset_name": "synthetic_binary", "final_value": 0.035}], "description": "Robustness drop of the sparse model", "lower_is_better": true, "metric_name": "Sparse Model - Robustness Drop"}]}, {"metric_names": [{"data": [{"best_value": 0.995, "dataset_name": "synthetic_data", "final_value": 0.995}], "description": "Accuracy of the dense model on clean data", "lower_is_better": false, "metric_name": "Dense model clean accuracy"}, {"data": [{"best_value": 0.985, "dataset_name": "synthetic_data", "final_value": 0.985}], "description": "Accuracy of the sparse model on clean data", "lower_is_better": false, "metric_name": "Sparse model clean accuracy"}, {"data": [{"best_value": 0.915, "dataset_name": "synthetic_data", "final_value": 0.915}], "description": "Accuracy of the dense model on adversarial data", "lower_is_better": false, "metric_name": "Dense model adversarial accuracy"}, {"data": [{"best_value": 0.885, "dataset_name": "synthetic_data", "final_value": 0.885}], "description": "Accuracy of the sparse model on adversarial data", "lower_is_better": false, "metric_name": "Sparse model adversarial accuracy"}, {"data": [{"best_value": 0.2305, "dataset_name": "synthetic_data", "final_value": 0.2305}], "description": "Feature importance of Feature 1 for the dense model", "lower_is_better": false, "metric_name": "Dense model feature importance Feature 1"}, {"data": [{"best_value": 0.4101, "dataset_name": "synthetic_data", "final_value": 0.4101}], "description": "Feature importance of Feature 2 for the dense model", "lower_is_better": false, "metric_name": "Dense model feature importance Feature 2"}, {"data": [{"best_value": 0.0956, "dataset_name": "synthetic_data", "final_value": 0.0956}], "description": "Feature importance of Feature 1 for the sparse model", "lower_is_better": false, "metric_name": "Sparse model feature importance Feature 1"}, {"data": [{"best_value": 0.2455, "dataset_name": "synthetic_data", "final_value": 0.2455}], "description": "Feature importance of Feature 2 for the sparse model", "lower_is_better": false, "metric_name": "Sparse model feature importance Feature 2"}]}, {"metric_names": [{"data": [{"best_value": 0.99, "dataset_name": "synthetic_2d", "final_value": 0.99}], "description": "Accuracy of the model on clean data", "lower_is_better": false, "metric_name": "Clean Accuracy"}, {"data": [{"best_value": 0.84, "dataset_name": "synthetic_2d", "final_value": 0.84}], "description": "Accuracy of the model on adversarial data", "lower_is_better": false, "metric_name": "Adversarial Accuracy"}, {"data": [{"best_value": 161.0, "dataset_name": "synthetic_2d", "final_value": 161.0}], "description": "Number of non-zero parameters in the dense model", "lower_is_better": true, "metric_name": "Non-zero Parameters (Dense)"}, {"data": [{"best_value": 134.0, "dataset_name": "synthetic_2d", "final_value": 134.0}], "description": "Number of non-zero parameters in the sparse model", "lower_is_better": true, "metric_name": "Non-zero Parameters (Sparse)"}]}, {"metric_names": [{"metric_name": "value", "lower_is_better": true, "description": "", "data": [{"dataset_name": "default", "final_value": null, "best_value": null}]}]}], "is_best_node": [false, false, false, false], "plots": [["../../logs/0-run/experiment_results/experiment_443079eea7d043c688147cd09968fd93_proc_442949/data_visualization.png", "../../logs/0-run/experiment_results/experiment_443079eea7d043c688147cd09968fd93_proc_442949/robustness_drop.png", "../../logs/0-run/experiment_results/experiment_443079eea7d043c688147cd09968fd93_proc_442949/accuracy_comparison.png"], ["../../logs/0-run/experiment_results/experiment_fa46f236134e4045a55a72ff76beaed3_proc_442949/synthetic_adversarial_accuracy.png", "../../logs/0-run/experiment_results/experiment_fa46f236134e4045a55a72ff76beaed3_proc_442949/synthetic_clean_accuracy.png", "../../logs/0-run/experiment_results/experiment_fa46f236134e4045a55a72ff76beaed3_proc_442949/results.png", "../../logs/0-run/experiment_results/experiment_fa46f236134e4045a55a72ff76beaed3_proc_442949/synthetic_feature_importance.png"], ["../../logs/0-run/experiment_results/experiment_519231a8a6b041ec9a26eeb4ab1c145a_proc_442949/decision_boundaries.png", "../../logs/0-run/experiment_results/experiment_519231a8a6b041ec9a26eeb4ab1c145a_proc_442949/sparsity_comparison.png", "../../logs/0-run/experiment_results/experiment_519231a8a6b041ec9a26eeb4ab1c145a_proc_442949/accuracy_comparison.png"], []], "plot_paths": [["runs/full_pipeline/founder_2/cycle_1/logs/0-run/experiment_results/experiment_443079eea7d043c688147cd09968fd93_proc_442949/data_visualization.png", "runs/full_pipeline/founder_2/cycle_1/logs/0-run/experiment_results/experiment_443079eea7d043c688147cd09968fd93_proc_442949/robustness_drop.png", "runs/full_pipeline/founder_2/cycle_1/logs/0-run/experiment_results/experiment_443079eea7d043c688147cd09968fd93_proc_442949/accuracy_comparison.png"], ["runs/full_pipeline/founder_2/cycle_1/logs/0-run/experiment_results/experiment_fa46f236134e4045a55a72ff76beaed3_proc_442949/synthetic_adversarial_accuracy.png", "runs/full_pipeline/founder_2/cycle_1/logs/0-run/experiment_results/experiment_fa46f236134e4045a55a72ff76beaed3_proc_442949/synthetic_clean_accuracy.png", "runs/full_pipeline/founder_2/cycle_1/logs/0-run/experiment_results/experiment_fa46f236134e4045a55a72ff76beaed3_proc_442949/results.png", "runs/full_pipeline/founder_2/cycle_1/logs/0-run/experiment_results/experiment_fa46f236134e4045a55a72ff76beaed3_proc_442949/synthetic_feature_importance.png"], ["runs/full_pipeline/founder_2/cycle_1/logs/0-run/experiment_results/experiment_519231a8a6b041ec9a26eeb4ab1c145a_proc_442949/decision_boundaries.png", "runs/full_pipeline/founder_2/cycle_1/logs/0-run/experiment_results/experiment_519231a8a6b041ec9a26eeb4ab1c145a_proc_442949/sparsity_comparison.png", "runs/full_pipeline/founder_2/cycle_1/logs/0-run/experiment_results/experiment_519231a8a6b041ec9a26eeb4ab1c145a_proc_442949/accuracy_comparison.png"], []], "plot_analyses": [[], [], [], []], "vlm_feedback_summary": ["[]", "[]", "[]", "[]"], "exec_time": [10.222642183303833, 9.17880368232727, 9.363321542739868, 7.595078229904175], "exec_time_feedback": ["", "", "", ""], "datasets_successfully_tested": [[], [], [], []], "plot_code": ["import matplotlib.pyplot as plt\nimport numpy as np\nimport os\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\n\ntry:\n    experiment_data = np.load(\n        os.path.join(working_dir, \"experiment_data.npy\"), allow_pickle=True\n    ).item()\n\n    # Extract metrics\n    dense_metrics = experiment_data[\"synthetic_binary\"][\"metrics\"][\"dense\"]\n    sparse_metrics = experiment_data[\"synthetic_binary\"][\"metrics\"][\"sparse\"]\n\n    # Plot 1: Clean vs Adversarial Accuracy\n    plt.figure()\n    labels = [\"Dense Model\", \"Sparse Model\"]\n    clean_acc = [dense_metrics[\"clean_acc\"], sparse_metrics[\"clean_acc\"]]\n    adv_acc = [dense_metrics[\"adv_acc\"], sparse_metrics[\"adv_acc\"]]\n\n    x = np.arange(len(labels))\n    width = 0.35\n\n    plt.bar(x - width / 2, clean_acc, width, label=\"Clean Accuracy\")\n    plt.bar(x + width / 2, adv_acc, width, label=\"Adversarial Accuracy\")\n    plt.xticks(x, labels)\n    plt.ylabel(\"Accuracy\")\n    plt.title(\"Clean vs Adversarial Accuracy\")\n    plt.legend()\n    plt.savefig(os.path.join(working_dir, \"accuracy_comparison.png\"))\n    plt.close()\n\n    # Plot 2: Robustness Drop\n    plt.figure()\n    robustness_drop = [\n        dense_metrics[\"robustness_drop\"],\n        sparse_metrics[\"robustness_drop\"],\n    ]\n    plt.plot(labels, robustness_drop, marker=\"o\")\n    plt.ylabel(\"Robustness Drop\")\n    plt.title(\"Robustness Drop Comparison\")\n    plt.savefig(os.path.join(working_dir, \"robustness_drop.png\"))\n    plt.close()\n\nexcept Exception as e:\n    print(f\"Error creating plots: {e}\")\n    plt.close()\n", "import matplotlib.pyplot as plt\nimport numpy as np\nimport os\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\n\ntry:\n    experiment_data = np.load(\n        os.path.join(working_dir, \"experiment_data.npy\"), allow_pickle=True\n    ).item()\nexcept Exception as e:\n    print(f\"Error loading experiment data: {e}\")\n\ntry:\n    plt.figure()\n    plt.bar(\n        [\"Dense\", \"Sparse\"],\n        [\n            experiment_data[\"synthetic_data\"][\"metrics\"][\"dense_clean_acc\"],\n            experiment_data[\"synthetic_data\"][\"metrics\"][\"sparse_clean_acc\"],\n        ],\n    )\n    plt.title(\"Synthetic Data: Clean Accuracy Comparison\")\n    plt.ylabel(\"Accuracy\")\n    plt.savefig(os.path.join(working_dir, \"synthetic_clean_accuracy.png\"))\n    plt.close()\nexcept Exception as e:\n    print(f\"Error creating clean accuracy plot: {e}\")\n    plt.close()\n\ntry:\n    plt.figure()\n    plt.bar(\n        [\"Dense\", \"Sparse\"],\n        [\n            experiment_data[\"synthetic_data\"][\"metrics\"][\"dense_adv_acc\"],\n            experiment_data[\"synthetic_data\"][\"metrics\"][\"sparse_adv_acc\"],\n        ],\n    )\n    plt.title(\"Synthetic Data: Adversarial Accuracy Comparison\")\n    plt.ylabel(\"Accuracy\")\n    plt.savefig(os.path.join(working_dir, \"synthetic_adversarial_accuracy.png\"))\n    plt.close()\nexcept Exception as e:\n    print(f\"Error creating adversarial accuracy plot: {e}\")\n    plt.close()\n\ntry:\n    plt.figure()\n    plt.bar(\n        [\"Feature 1\", \"Feature 2\"],\n        experiment_data[\"synthetic_data\"][\"feature_importance\"][\"dense\"],\n        alpha=0.5,\n        label=\"Dense\",\n    )\n    plt.bar(\n        [\"Feature 1\", \"Feature 2\"],\n        experiment_data[\"synthetic_data\"][\"feature_importance\"][\"sparse\"],\n        alpha=0.5,\n        label=\"Sparse\",\n    )\n    plt.title(\"Synthetic Data: Feature Importance Comparison\")\n    plt.ylabel(\"Importance Score\")\n    plt.legend()\n    plt.savefig(os.path.join(working_dir, \"synthetic_feature_importance.png\"))\n    plt.close()\nexcept Exception as e:\n    print(f\"Error creating feature importance plot: {e}\")\n    plt.close()\n", "import matplotlib.pyplot as plt\nimport numpy as np\nimport os\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\nos.makedirs(working_dir, exist_ok=True)\n\ntry:\n    experiment_data = np.load(\n        os.path.join(working_dir, \"experiment_data.npy\"), allow_pickle=True\n    ).item()\nexcept Exception as e:\n    print(f\"Error loading experiment data: {e}\")\n\ntry:\n    # Accuracy comparison plot\n    metrics = experiment_data[\"synthetic_2d\"][\"metrics\"]\n    fig, ax = plt.subplots(figsize=(8, 5))\n    x = np.arange(2)\n    width = 0.35\n    ax.bar(\n        x - width / 2,\n        [metrics[\"clean\"][\"dense\"], metrics[\"adversarial\"][\"dense\"]],\n        width,\n        label=\"Dense\",\n    )\n    ax.bar(\n        x + width / 2,\n        [metrics[\"clean\"][\"sparse\"], metrics[\"adversarial\"][\"sparse\"]],\n        width,\n        label=\"Sparse\",\n    )\n    ax.set_xticks(x)\n    ax.set_xticklabels([\"Clean Accuracy\", \"Adversarial Accuracy\"])\n    ax.set_ylabel(\"Accuracy\")\n    ax.set_title(\"Model Performance Comparison on Synthetic 2D Dataset\")\n    ax.legend()\n    plt.savefig(os.path.join(working_dir, \"accuracy_comparison.png\"))\n    plt.close()\nexcept Exception as e:\n    print(f\"Error creating accuracy plot: {e}\")\n    plt.close()\n\ntry:\n    # Sparsity comparison plot\n    sparsity = experiment_data[\"synthetic_2d\"][\"sparsity\"]\n    fig, ax = plt.subplots(figsize=(6, 5))\n    ax.bar([\"Dense\", \"Sparse\"], [sparsity[\"dense\"], sparsity[\"sparse\"]])\n    ax.set_ylabel(\"Number of Non-zero Parameters\")\n    ax.set_title(\"Model Sparsity Comparison on Synthetic 2D Dataset\")\n    plt.savefig(os.path.join(working_dir, \"sparsity_comparison.png\"))\n    plt.close()\nexcept Exception as e:\n    print(f\"Error creating sparsity plot: {e}\")\n    plt.close()\n", null], "plot_plan": ["To visualize the experiment results, we'll create two plots: one comparing the clean and adversarial accuracy of dense and sparse models, and another showing the robustness drop for both models. The first plot will be a bar chart, while the second will be a line plot. Both plots will be saved to the working directory.", "Here's a proposed solution to visualize the experiment results from the synthetic data experiment. We'll create three plots: 1) Clean accuracy comparison between dense and sparse models, 2) Adversarial accuracy comparison, and 3) Feature importance comparison. Each plot will be saved separately with descriptive names.", "I'll create visualizations comparing the dense and sparse models' performance and characteristics. The plots will show: 1) Clean vs adversarial accuracy comparison, 2) Model sparsity comparison, and 3) Decision boundaries (already provided in the code). Each plot will be in a separate try-except block with proper titles and labels.", null], "ablation_name": [null, null, null, null], "hyperparam_name": [null, null, null, null], "is_seed_node": [false, false, false, false], "is_seed_agg_node": [false, false, false, false], "parse_metrics_plan": ["I will load the experiment_data.npy file and extract the metrics for the\nsynthetic_binary dataset. Then, I will print the clean accuracy, adversarial\naccuracy, and robustness drop for both dense and sparse models. Each metric will\nbe clearly labeled and preceded by the dataset name for clarity.", "I'll create a script that loads the experiment data from the numpy file and\nprints out the metrics in a clear, structured way. The script will extract and\ndisplay the clean accuracy, adversarial accuracy, and feature importance values\nfor both dense and sparse models from the synthetic dataset, following the\nspecified formatting requirements.", "I'll write code to load the experiment data and print the metrics in a clear,\nstructured way. The code will extract the dataset name, then print each metric\nwith descriptive labels (clean accuracy, adversarial accuracy, and sparsity) for\nboth dense and sparse models. All values will be formatted to 4 decimal places\nfor consistency.", ""], "parse_metrics_code": ["import os\nimport numpy as np\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\nexperiment_data = np.load(\n    os.path.join(working_dir, \"experiment_data.npy\"), allow_pickle=True\n).item()\n\ndataset_name = \"synthetic_binary\"\nmetrics = experiment_data[dataset_name][\"metrics\"]\n\nprint(f\"Dataset: {dataset_name}\")\nprint(f\"Dense Model - Clean Accuracy: {metrics['dense']['clean_acc']:.4f}\")\nprint(f\"Dense Model - Adversarial Accuracy: {metrics['dense']['adv_acc']:.4f}\")\nprint(f\"Dense Model - Robustness Drop: {metrics['dense']['robustness_drop']:.4f}\")\nprint(f\"Sparse Model - Clean Accuracy: {metrics['sparse']['clean_acc']:.4f}\")\nprint(f\"Sparse Model - Adversarial Accuracy: {metrics['sparse']['adv_acc']:.4f}\")\nprint(f\"Sparse Model - Robustness Drop: {metrics['sparse']['robustness_drop']:.4f}\")\n", "import os\nimport numpy as np\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\nexperiment_data = np.load(\n    os.path.join(working_dir, \"experiment_data.npy\"), allow_pickle=True\n).item()\n\nprint(\"Dataset: synthetic_data\")\nprint(\n    f\"Dense model clean accuracy: {experiment_data['synthetic_data']['metrics']['dense_clean_acc']:.4f}\"\n)\nprint(\n    f\"Sparse model clean accuracy: {experiment_data['synthetic_data']['metrics']['sparse_clean_acc']:.4f}\"\n)\nprint(\n    f\"Dense model adversarial accuracy: {experiment_data['synthetic_data']['metrics']['dense_adv_acc']:.4f}\"\n)\nprint(\n    f\"Sparse model adversarial accuracy: {experiment_data['synthetic_data']['metrics']['sparse_adv_acc']:.4f}\"\n)\nprint(\"Dense model feature importance:\")\nprint(\n    f\"Feature 1: {experiment_data['synthetic_data']['feature_importance']['dense'][0]:.4f}\"\n)\nprint(\n    f\"Feature 2: {experiment_data['synthetic_data']['feature_importance']['dense'][1]:.4f}\"\n)\nprint(\"Sparse model feature importance:\")\nprint(\n    f\"Feature 1: {experiment_data['synthetic_data']['feature_importance']['sparse'][0]:.4f}\"\n)\nprint(\n    f\"Feature 2: {experiment_data['synthetic_data']['feature_importance']['sparse'][1]:.4f}\"\n)\n", "import os\nimport numpy as np\n\nworking_dir = os.path.join(os.getcwd(), \"working\")\nexperiment_data = np.load(\n    os.path.join(working_dir, \"experiment_data.npy\"), allow_pickle=True\n).item()\n\nfor dataset_name, dataset_data in experiment_data.items():\n    print(f\"\\nDataset: {dataset_name}\")\n    metrics = dataset_data[\"metrics\"]\n    sparsity = dataset_data[\"sparsity\"]\n\n    print(\"Clean Accuracy:\")\n    print(f\"  Dense: {metrics['clean']['dense']:.4f}\")\n    print(f\"  Sparse: {metrics['clean']['sparse']:.4f}\")\n\n    print(\"Adversarial Accuracy:\")\n    print(f\"  Dense: {metrics['adversarial']['dense']:.4f}\")\n    print(f\"  Sparse: {metrics['adversarial']['sparse']:.4f}\")\n\n    print(\"Non-zero Parameters:\")\n    print(f\"  Dense: {sparsity['dense']}\")\n    print(f\"  Sparse: {sparsity['sparse']}\")\n", ""], "parse_term_out": ["['Dataset: synthetic_binary', '\\n', 'Dense Model - Clean Accuracy: 0.9900',\n'\\n', 'Dense Model - Adversarial Accuracy: 0.9300', '\\n', 'Dense Model -\nRobustness Drop: 0.0600', '\\n', 'Sparse Model - Clean Accuracy: 0.9450', '\\n',\n'Sparse Model - Adversarial Accuracy: 0.9100', '\\n', 'Sparse Model - Robustness\nDrop: 0.0350', '\\n', 'Execution time: a moment seconds (time limit is 20\nminutes).']", "['Dataset: synthetic_data', '\\n', 'Dense model clean accuracy: 0.9950', '\\n',\n'Sparse model clean accuracy: 0.9850', '\\n', 'Dense model adversarial accuracy:\n0.9150', '\\n', 'Sparse model adversarial accuracy: 0.8850', '\\n', 'Dense model\nfeature importance:', '\\n', 'Feature 1: 0.2305', '\\n', 'Feature 2: 0.4101',\n'\\n', 'Sparse model feature importance:', '\\n', 'Feature 1: 0.0956', '\\n',\n'Feature 2: 0.2455', '\\n', 'Execution time: a moment seconds (time limit is 20\nminutes).']", "['\\nDataset: synthetic_2d', '\\n', 'Clean Accuracy:', '\\n', '  Dense: 0.9900',\n'\\n', '  Sparse: 0.9900', '\\n', 'Adversarial Accuracy:', '\\n', '  Dense:\n0.8400', '\\n', '  Sparse: 0.8450', '\\n', 'Non-zero Parameters:', '\\n', '  Dense:\n161', '\\n', '  Sparse: 134', '\\n', 'Execution time: a moment seconds (time limit\nis 20 minutes).']", ""], "parse_exc_type": [null, null, null, null], "parse_exc_info": [null, null, null, null], "parse_exc_stack": [null, null, null, null], "completed_stages": ["Stage_1"]};
+
+// Add log directory path and stage info to the tree data
+treeStructData.log_dir_path = window.location.pathname.split('/').slice(0, -1).join('/');
+treeStructData.current_stage = window.location.pathname.includes('stage_')
+  ? window.location.pathname.split('stage_')[1].split('/')[0]
+  : 'Stage_1';
+
+// Initialize background color
+window.bgColCurrent = bgCol;
+
+// Function to set background color that can be called from the console
+function setBackgroundColor(color) {
+  // Update the global color
+  updateBackgroundColor(color);
+
+  // Refresh the current sketch to apply the new background color
+  if (currentStage) {
+    startSketch(currentStage);
+  }
+}
+
+// Load all stage data and initialize the visualization
+loadAllStageData(treeStructData);
+
+    </script>
+    <title>AI Scientist-v2 Visualization</title>
+    <style>
+      body,
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background-color: #ffffff;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+      #canvas-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 40vw;
+        height: 100vh;
+        background-color: inherit;
+        padding-top: 40px;
+      }
+      canvas {
+        float: left;
+        height: 100vh;
+        width: 100vw;
+      }
+      #text-container {
+        float: right;
+        height: 100vh;
+        width: 50vw;
+        background-color: #282c34;
+        overflow: auto;
+      }
+      #plan {
+        /* border-left: 2px solid #282c34; */
+        background-color: #282c34;
+        color: #f2f0e7;
+        min-height: 5rem;
+        padding: 1em 0 1em 1em;
+      }
+      #plot_plan {
+        background-color: #282c34;
+        color: #f2f0e7;
+        min-height: 5rem;
+        padding: 1em 0 1em 1em;
+        white-space: pre-wrap;
+      }
+      #exec_time_feedback {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #282c34;
+        border-left: 3px solid #ff5555;
+        color: #f2f0e7;
+      }
+      #exec_time {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #282c34;
+        border-left: 3px solid #ff5555;
+        color: #f2f0e7;
+      }
+      #exc_info {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #2c1f1f;
+        border-left: 3px solid #ff5555;
+        color: #f2f0e7;
+      }
+      #metrics {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #282c34;
+        color: #f2f0e7;
+      }
+      #vlm_feedback {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #1f2c2f;
+        color: #f2f0e7;
+        border-left: 3px solid #55ff55;
+      }
+      #vlm_feedback p {
+        margin: 0.5em 0;
+        white-space: pre-wrap;
+      }
+      .datasets_successfully_tested {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #282c34;
+        color: #f2f0e7;
+        border-left: 3px solid #55ff55;
+      }
+      .plots-container {
+        float: right;
+        width: 50vw;
+        padding: 1rem;
+        background-color: #282c34;
+        margin-top: 1rem;
+      }
+
+      .plot-item {
+        flex: 1 1 300px;
+        max-width: 100%;
+        margin-bottom: 1rem;
+        white-space: pre-wrap;
+      }
+
+      .plot-item img {
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        display: block;
+      }
+
+      .metric-group {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      .metric-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+
+      .metric-table th,
+      .metric-table td {
+        padding: 8px;
+        text-align: left;
+        border: 1px solid #ddd;
+      }
+
+      .metric-table th {
+        background-color: #363b44;
+      }
+
+      /* Styles for tabs */
+      .tabs-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 49vw;
+        background-color: #000000;
+        z-index: 10;
+        display: flex;
+        padding: 0;
+      }
+
+      .tab {
+        cursor: pointer;
+        padding: 10px 15px;
+        background-color: #333;
+        color: #f2f0e7;
+        border: none;
+        outline: none;
+        transition: background-color 0.3s;
+        flex: 1;
+        text-align: center;
+      }
+
+      .tab:hover {
+        background-color: #444;
+      }
+
+      .tab.active {
+        background-color: #4c76af;
+        font-weight: bold;
+      }
+
+      .tab.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background-color: #282c34;
+      }
+
+      .tab-content {
+        display: none;
+        padding-top: 40px; /* Space for tabs */
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .stage-info {
+        padding: 10px;
+        background-color: #282c34;
+        color: #f2f0e7;
+        margin-bottom: 10px;
+        font-size: 0.9em;
+      }
+
+      .stage-status {
+        display: inline-block;
+        padding: 3px 6px;
+        border-radius: 3px;
+        margin-left: 8px;
+        font-size: 0.8em;
+      }
+
+      .stage-status.completed {
+        background-color: #4caf50;
+      }
+
+      .stage-status.in-progress {
+        background-color: #2196f3;
+      }
+
+      .stage-status.not-started {
+        background-color: #9e9e9e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="tabs-container" id="stage-tabs">
+      <button class="tab" data-stage="Stage_1" onclick="selectStage('Stage_1')">Stage 1</button>
+      <button class="tab" data-stage="Stage_2" onclick="selectStage('Stage_2')">Stage 2</button>
+      <button class="tab" data-stage="Stage_3" onclick="selectStage('Stage_3')">Stage 3</button>
+      <button class="tab" data-stage="Stage_4" onclick="selectStage('Stage_4')">Stage 4</button>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <pre id="text-container">
+        <div id="stage-info" class="stage-info"></div>
+        <div id="plan"></div>
+        <hr>
+        <div id="exc_info"></div>
+        <hr>
+        <div id="exec_time"></div>
+        <hr>
+        <div id="exec_time_feedback"></div>
+        <hr>
+        <div id="metrics"></div>
+        <hr>
+        <div id="plot_plan"></div>
+        <hr>
+        <div class="plots-container" id="plots"></div>
+        <hr>
+        <div id="vlm_feedback"></div>
+        <hr>
+        <div id="datasets_successfully_tested"></div>
+        <hr>
+        <code id="code" class="language-python"></code>
+        <hr>
+        <code id="plot_code" class="language-python"></code>
+    </pre>
+  </body>
+</html>
